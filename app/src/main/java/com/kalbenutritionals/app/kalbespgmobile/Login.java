@@ -11,6 +11,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -139,19 +141,19 @@ public class Login extends clsMainActivity {
 
         AsyncCallAppVesion task1 = new AsyncCallAppVesion();
         task1.execute();
-//        txtLoginPassword.setOnTouchListener(new RightDrawableClickListener(txtLoginPassword) {
-//            public boolean onDrawableClick() {
-//                if (intSet == 1) {
-//                    txtLoginPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-//                    intSet = 0;
-//                } else {
-//                    txtLoginPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-//                    intSet = 1;
-//                }
-//
-//                return true;
-//            }
-//        });
+        txtLoginPassword.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(txtLoginPassword) {
+            public boolean onDrawableClick() {
+                if (intSet == 1) {
+                    txtLoginPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    intSet = 0;
+                } else {
+                    txtLoginPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    intSet = 1;
+                }
+
+                return true;
+            }
+       });
         txtVersionLogin = (TextView) findViewById(R.id.txtVersionLogin);
         txtVersionLogin.setText(pInfo.versionName);
         spnRole=(Spinner)findViewById(R.id.spnType);
