@@ -1,0 +1,42 @@
+[
+    {
+        "merged": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\ic_launcher.png",
+        "source": "D:\\works\\kalbespgmobile\\salesForceLibrary\\src\\main\\res\\drawable-xhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\ic_view.png",
+        "source": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\drawable-xhdpi-v4\\ic_view.png"
+    },
+    {
+        "merged": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\ic_delete.png",
+        "source": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\drawable-xhdpi-v4\\ic_delete.png"
+    },
+    {
+        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\ic_edit.png",
+        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\drawable-xhdpi-v4\\ic_edit.png"
+    },
+    {
+        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\ic_delete.png",
+        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\drawable-xhdpi-v4\\ic_delete.png"
+    },
+    {
+        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\ic_launcher.png",
+        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\src\\main\\res\\drawable-xhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\ic_edit.png",
+        "source": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\drawable-xhdpi-v4\\ic_edit.png"
+    },
+    {
+        "merged": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\ic_notif.png",
+        "source": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\drawable-xhdpi-v4\\ic_notif.png"
+    },
+    {
+        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\ic_notif.png",
+        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\drawable-xhdpi-v4\\ic_notif.png"
+    },
+    {
+        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\ic_view.png",
+        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\drawable-xhdpi-v4\\ic_view.png"
+    }
+]
