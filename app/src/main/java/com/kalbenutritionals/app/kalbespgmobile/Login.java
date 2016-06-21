@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,8 +45,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import bl.clsHelperBL;
 import bl.mCounterNumberBL;
@@ -78,12 +77,17 @@ public class Login extends clsMainActivity {
     private HashMap<String, String> HMBranchCode = new HashMap<String, String>();
     private Spinner spnRole, spnOutlet;
     private int intSet = 1;
+    private String selectedRole;
+    private String selectedOutlet;
+    private String txtEmail;
+    private String txtEmail1;
+    private String txtPassword1;
+    private String txtPassword;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-
     @Override
     public void onBackPressed() {
         finish();
@@ -94,8 +98,12 @@ public class Login extends clsMainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.activity_login);
+//        setTitleForm("Login");
+//        RelativeLayout contents = (RelativeLayout) findViewById(R.id.rlContent);
+//        getLayoutInflater().inflate(R.layout.activity_login, contents);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+//        setContentView(R.layout.activity_login);
 
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -104,32 +112,36 @@ public class Login extends clsMainActivity {
             e2.printStackTrace();
         }
 
-        Timer RunSplash = new Timer();
-
-        // Note: declare ProgressDialog progress as a field in your class.
-
-        progress = ProgressDialog.show(this, "",
-                "Checking Version!!!", true);
-
-        TimerTask ShowSplash = new TimerTask() {
-            @Override
-            public void run() {
-                //Intent myIntent = new Intent(Login.this, Login.class);
-                // do the thing that takes a long time
-                progress.dismiss();
-                //finish();
-                //startActivity(myIntent);
-            }
-        };
-
-        RunSplash.schedule(ShowSplash, Delay);
+//        Timer RunSplash = new Timer();
+//
+//        // Note: declare ProgressDialog progress as a field in your class.
+//
+//        progress = ProgressDialog.show(this, "",
+//                "Checking Version!!!", true);
+//
+//        TimerTask ShowSplash = new TimerTask() {
+//            @Override
+//            public void run() {
+//                //Intent myIntent = new Intent(Login.this, Login.class);
+//                // do the thing that takes a long time
+//                progress.dismiss();
+//                //finish();
+//                //startActivity(myIntent);
+//            }
+//        };
+//
+//        RunSplash.schedule(ShowSplash, Delay);
+        new tDeviceInfoUserBL().SaveInfoDevice("","");
         txtLoginEmail = (EditText) findViewById(R.id.txtLoginEmail);
+        txtLoginPassword = (EditText) findViewById(R.id.editTextPass);
         txtLoginEmail.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // If the event is a key-down event on the "enter" button
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     intProcesscancel = 0;
+                    txtEmail1 = txtLoginEmail.getText().toString();
+                    txtPassword1 = txtLoginPassword.getText().toString();
                     AsyncCallRole task = new AsyncCallRole();
                     task.execute();
                     return true;
@@ -137,10 +149,10 @@ public class Login extends clsMainActivity {
                 return false;
             }
         });
-        txtLoginPassword = (EditText) findViewById(R.id.editTextPass);
 
-        AsyncCallAppVesion task1 = new AsyncCallAppVesion();
-        task1.execute();
+
+        //AsyncCallAppVesion task1 = new AsyncCallAppVesion();
+        //task1.execute();
         txtLoginPassword.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(txtLoginPassword) {
             public boolean onDrawableClick() {
                 if (intSet == 1) {
@@ -157,15 +169,47 @@ public class Login extends clsMainActivity {
         txtVersionLogin = (TextView) findViewById(R.id.txtVersionLogin);
         txtVersionLogin.setText(pInfo.versionName);
         spnRole=(Spinner)findViewById(R.id.spnType);
+
+        spnRole.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                selectedRole = spnRole.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
+
         spnOutlet=(Spinner)findViewById(R.id.spnOutlet);
+
+        spnOutlet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                selectedOutlet = spnOutlet.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
         btnLogin=(Button)findViewById(R.id.buttonLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 intProcesscancel=0;
                 if(spnRole.getCount()==0){
+                    txtEmail1 = txtLoginEmail.getText().toString();
                     AsyncCallRole task = new AsyncCallRole();
                     task.execute();
                 }else{
+                    txtEmail1 = txtLoginEmail.getText().toString();
+                    txtPassword1 = txtLoginPassword.getText().toString();
                     AsyncCallLogin task = new AsyncCallLogin();
                     task.execute();
                 }
@@ -175,18 +219,31 @@ public class Login extends clsMainActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        Button btnExit = (Button) findViewById(R.id.buttonExit);
+        btnExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        Button btnPing = (Button) findViewById(R.id.buttonPing);
+        btnPing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     int intProcesscancel = 0;
     private class AsyncCallLogin extends AsyncTask<JSONArray, Void, JSONArray> {
-        @SuppressWarnings("WrongThread")
         @Override
         protected JSONArray doInBackground(JSONArray... params) {
             JSONArray Json=null;
-            String nameRole = spnRole.getSelectedItem().toString();
-            String nameOutlet = spnOutlet.getSelectedItem().toString();
+            String nameRole = selectedRole;
+            String nameOutlet = selectedOutlet;
             try {
-                Json= new tUserLoginBL().LoginNew(txtLoginEmail.getText().toString(), txtLoginPassword.getText().toString(), HMRole.get(nameRole), HMOutletCode.get(nameOutlet), HMOutletName.get(nameOutlet), HMBranchCode.get(nameOutlet), pInfo.versionName);
+                Json= new tUserLoginBL().LoginNew(String.valueOf(txtEmail1), String.valueOf(txtPassword1), HMRole.get(nameRole), HMOutletCode.get(nameOutlet), HMOutletName.get(nameOutlet), HMBranchCode.get(nameOutlet), pInfo.versionName);
             } catch (ParseException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -257,7 +314,7 @@ public class Login extends clsMainActivity {
                         new mMenuBL().SaveData(listData);
                         startService(new Intent(getApplicationContext(), MyServiceNative.class));
                         finish();
-                        Intent myIntent = new Intent(getApplicationContext(), ProgressBarActivity.class);
+                        Intent myIntent = new Intent(getApplicationContext(), Home.class);
                         startActivity(myIntent);
                     }else{
                         Toast toast = Toast.makeText(Login.this,
@@ -349,13 +406,12 @@ public class Login extends clsMainActivity {
 //    }
 
     private class AsyncCallRole extends AsyncTask<List<mUserRoleData>, Void, List<mUserRoleData>> {
-
         @Override
         protected List<mUserRoleData> doInBackground(List<mUserRoleData>... params) {
             List<mUserRoleData> roledata = new ArrayList<mUserRoleData>();
             try {
                 //EditText txt = (EditText) findViewById(R.id.txtLoginEmail);
-                roledata = new mUserRoleBL().getRoleAndOutlet(txtLoginEmail.getText().toString(), pInfo.versionName);
+                roledata = new mUserRoleBL().getRoleAndOutlet(txtEmail1, pInfo.versionName);
 
             } catch (ParseException e) {
                 // TODO Auto-generated catch block
@@ -467,7 +523,7 @@ public class Login extends clsMainActivity {
             sub.setVisibility(View.GONE);
             //sub.setText(mydata2[position]);
             //label.setTextColor(new Color().parseColor("#FFFFF"));
-            row.setBackgroundColor(new Color().parseColor("#007F92"));
+            row.setBackgroundColor(new Color().TRANSPARENT);
             return row;
         }
 
@@ -500,7 +556,7 @@ public class Login extends clsMainActivity {
             sub.setVisibility(View.GONE);
             //sub.setText(mydata2[position]);
             //label.setTextColor(new Color().parseColor("#FFFFF"));
-            row.setBackgroundColor(new Color().parseColor("#007F92"));
+            row.setBackgroundColor(new Color().TRANSPARENT);
             return row;
         }
 

@@ -1,34 +1,18 @@
 [
     {
-        "merged": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\layout\\xlistview_footer.xml",
-        "source": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\xlistview_footer.xml"
-    },
-    {
-        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\layout\\item_list_app.xml",
-        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\item_list_app.xml"
-    },
-    {
-        "merged": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\layout\\xlistview_header.xml",
-        "source": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\xlistview_header.xml"
-    },
-    {
-        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\layout\\xlistview_footer.xml",
-        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\xlistview_footer.xml"
+        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\layout\\xlistview_header.xml",
+        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\xlistview_header.xml"
     },
     {
         "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\layout\\item_list_app2.xml",
         "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\item_list_app2.xml"
     },
     {
-        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\layout\\xlistview_header.xml",
-        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\xlistview_header.xml"
+        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\layout\\xlistview_footer.xml",
+        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\xlistview_footer.xml"
     },
     {
-        "merged": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\layout\\item_list_app.xml",
-        "source": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\item_list_app.xml"
-    },
-    {
-        "merged": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\layout\\item_list_app2.xml",
-        "source": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\item_list_app2.xml"
+        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\layout\\item_list_app.xml",
+        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\item_list_app.xml"
     }
 ]

@@ -1,0 +1,180 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+        android:layout_gravity="top"
+     android:gravity="top|center"
+    android:orientation="vertical"
+    tools:context="com.kalbenutritionals.app.kalbespgmobile.Absen" >
+
+
+
+    <ScrollView
+        android:id="@+id/scrollViewABsen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvBranch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Branch :"
+            android:textColor="#000" />
+        <TextView
+            android:id="@+id/txtHDId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="txthdId"
+            android:visibility="gone" />
+        <Spinner
+            android:id="@+id/spnBranch"
+            android:layout_below="@+id/tvBranch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/bg_edtext"/>
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/spnBranch"
+                android:layout_marginTop="10dp"
+                android:background="#bfbfbf" />
+            <TextView
+                android:id="@+id/tvOutlet"
+                android:layout_below="@+id/view1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Outlet :"
+                android:textColor="#000"/>
+            <Spinner
+                android:id="@+id/spnOutlet"
+                android:layout_below="@+id/tvOutlet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/bg_edtext" />
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/spnOutlet"
+                android:layout_marginTop="10dp"
+                android:background="#bfbfbf" />
+            <TableLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/tlAbesen"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/view2"
+                android:shrinkColumns="*"
+                android:stretchColumns="*"
+                android:background="#ffffff">
+                <!-- Row 1 with single column -->
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:gravity="center_horizontal">
+                    <TextView
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:textSize="18dp" android:text="Position"  android:layout_span="3"
+                        android:padding="10dp" android:background="#b0b0b0"
+                        android:textColor="#000"/>
+                </TableRow>
+                <!-- Row 3 with 2 columns -->
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/tvRow2a" android:text="Long"
+                        android:layout_weight="1"
+                        android:background="#b0b0b0"
+                    android:textColor="#000000"
+                    android:padding="18dip" android:gravity="left"/>
+
+                    <TextView
+                        android:id="@+id/tvRow2b" android:text=""
+                        android:layout_weight="2" android:background="#a09f9f"
+                        android:textColor="#000000" android:layout_span="1"
+                        android:padding="18dip" android:gravity="center"/>
+                </TableRow>
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/tvRow3a" android:text="Lat"
+                        android:width="20dp"
+                        android:height="50dp"
+                        android:layout_weight="1"
+                        android:background="#b0b0b0"
+                        android:textColor="#000000"
+                        android:padding="18dip" android:gravity="left"/>
+
+                    <TextView
+                        android:id="@+id/tvRow3b" android:text=""
+                        android:height="50dp"
+                        android:layout_weight="2" android:background="#a09f9f"
+                        android:textColor="#000000" android:layout_span="1"
+                        android:padding="18dip" android:gravity="center"/>
+                </TableRow>
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/tvRow4a" android:text="Acc"
+                        android:width="20dp"
+                        android:height="50dp"
+                        android:layout_weight="1"
+                        android:background="#b0b0b0"
+                        android:textColor="#000000"
+                        android:padding="18dip" android:gravity="left"/>
+
+                    <TextView
+                        android:id="@+id/tvRow4b" android:text=""
+                        android:height="50dp"
+                        android:layout_weight="2" android:background="#a09f9f"
+                        android:textColor="#000000" android:layout_span="1"
+                        android:padding="18dip" android:gravity="center"/>
+                </TableRow>
+                <TableRow
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:gravity="center_horizontal">
+                    <TextView
+                        android:id="@+id/tvRow5a" android:text="Acc"
+                        android:layout_weight="1"
+                        android:background="#b0b0b0"
+                        android:textColor="#000000"
+                        android:padding="18dip" android:gravity="left"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_span="1"
+                        android:gravity="center"
+                        android:padding="18dip">
+
+                    </LinearLayout>
+                </TableRow>
+            </TableLayout>
+
+    </RelativeLayout>
+
+
+
+        </ScrollView>
+</RelativeLayout>

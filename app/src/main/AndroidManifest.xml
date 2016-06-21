@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kalbenutritionals.app.kalbespgmobile"
     android:versionCode="1"
-    android:versionName="@string/tv_version"
+    android:versionName="1.0"
     tools:overrideLibrary="com.google.android.gms.appindexing">
 
 
@@ -55,11 +55,22 @@
         tools:overrideLibrary="com.google.android.gms.appindexing"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <receiver android:name="service.MyRebootReceiver"
+        <receiver
+            android:name="service.MyRebootReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
         </receiver>
-        <activity android:name="com.kalbenutritionals.app.kalbespgmobile.ProgressBarActivity">
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyB7SCsW5IEn5jpRPlHEj16Srm8_oo62XhQ" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <activity android:name=".ProgressBarActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -67,10 +78,36 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".MainActivity"
+            android:label="@string/accept" >
+        </activity>
+        <activity
+            android:name=".Home"
+            android:label="@string/accept" >
+        </activity>
+        <service android:name="service.MyServiceNative" >
+            <intent-filter>
+                <action android:name="service.MyServiceNative" />
+            </intent-filter>
+        </service>
+        <service android:name="service.MyNotificationService" >
+            <intent-filter>
+                <action android:name="service.MyNotificationService" />
+            </intent-filter>
+        </service>
+        <activity
             android:name="com.kalbenutritionals.app.kalbespgmobile.Login"
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <activity
+            android:name=".LNotifi"
+            android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name=".TableNotif"
+            android:label="@string/title_activity_login" >
+        </activity>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

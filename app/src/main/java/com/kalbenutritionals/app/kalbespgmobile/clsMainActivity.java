@@ -45,7 +45,9 @@ import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.bean.SwipeMenuIt
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnSwipeListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.SwipeMenuCreator;
 import library.salesforce.common.AppAdapter;
+import library.salesforce.common.AppAdapterNotif;
 import library.salesforce.common.clsHelper;
+import library.salesforce.common.clsRowItem;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.mCounterNumberData;
 import library.salesforce.common.tDeviceInfoUserData;
@@ -449,42 +451,44 @@ public class clsMainActivity extends Activity {
 		return listener;
 		
 	}
-//	public static AppAdapterNotif setListA(Context context, List<clsRowItem> items){
-//	    final AppAdapterNotif mAdapter;
-//	    PullToRefreshSwipeMenuListView mListView;
-//	    Handler mHandler;
-//
-//	    List<clsRowItem> mAppList = new ArrayList<clsRowItem>();
-//
-//	    for(int i = 0; i < items.size(); i++){
-//	    	clsRowItem getswipeList = items.get(i);
-//	    	mAppList.add(i, getswipeList);
-//	    }
-//
-//        mAdapter = new AppAdapterNotif(context, items);
-//
-//        return mAdapter;
-//	}
-	
-//	public edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener mmenuSwipeListener(final Context _ctx, final String action, final Map<String, HashMap> mapMenu, final List<clsRowItem> swipeList){
-//		edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener listener = new edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener(){
-//
-//			@SuppressWarnings("unchecked")
-//			@Override
-//			public void onMenuItemClick(int position, SwipeMenu menu, int index) {
-//				HashMap<String, String> selectedMenu = mapMenu.get(String.valueOf(index));
-//
-//				clsRowItem getswipeList = swipeList.get(position);
-//				if (action =="LNotifi"){
-//					String uuid = getswipeList.get_txtId();
-//					Intent intent = new Intent(getApplicationContext(),TableNotif.class);
-//					intent.putExtra("From", "Notif");
-//					intent.putExtra(TAG_UUID, String.valueOf(uuid));
-//					startActivity(intent);
-//				}
-//			}
-//
-//		};
-//		return listener;
-//	}
+	public static AppAdapterNotif setListA(Context context, List<clsRowItem> items){
+	    final AppAdapterNotif mAdapter;
+	    PullToRefreshSwipeMenuListView mListView;
+	    Handler mHandler;
+
+	    List<clsRowItem> mAppList = new ArrayList<clsRowItem>();
+
+	    for(int i = 0; i < items.size(); i++){
+	    	clsRowItem getswipeList = items.get(i);
+	    	mAppList.add(i, getswipeList);
+	    }
+
+        mAdapter = new AppAdapterNotif(context, items);
+
+        return mAdapter;
 	}
+	
+
+
+	public edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener mmenuSwipeListener(final Context _ctx, final String action, final Map<String, HashMap> mapMenu, final List<clsRowItem> swipeList){
+	edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener listener = new edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener(){
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public void onMenuItemClick(int position, SwipeMenu menu, int index) {
+			HashMap<String, String> selectedMenu = mapMenu.get(String.valueOf(index));
+
+			clsRowItem getswipeList = swipeList.get(position);
+			if (action =="LNotifi"){
+				String uuid = getswipeList.get_txtId();
+				Intent intent = new Intent(getApplicationContext(),TableNotif.class);
+				intent.putExtra("From", "Notif");
+				intent.putExtra(TAG_UUID, String.valueOf(uuid));
+				startActivity(intent);
+			}
+		}
+
+	};
+	return listener;
+ }
+}

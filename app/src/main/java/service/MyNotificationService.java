@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.kalbenutritionals.app.kalbespgmobile.R;
+import com.kalbenutritionals.app.kalbespgmobile.TableNotif;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,13 +64,13 @@ public class MyNotificationService extends Service{
 		    				} catch (ClassNotFoundException e) {
 		    					e.printStackTrace();
 		    				}
-		     				Intent i = new Intent(getApplicationContext(), myClass);
+		     				Intent i = new Intent(getApplicationContext(), TableNotif.class);
 		     				i.putExtra("From", "Notif");
 		    				i.putExtra(TAG_UUID, String.valueOf(dttNotificationData.get_guiID()));
 		     				int idn = Integer.parseInt(index);
 		     				
 							PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),idn, i, PendingIntent.FLAG_ONE_SHOT);
-							int icon = R.mipmap.ic_kalbe_spgmobile;
+							int icon = R.drawable.camera;
 							String tickerText = dttNotificationData.get_txtTitle();
 							long when = System.currentTimeMillis();
 							Notification tnotification = new Notification.Builder(MyNotificationService.this)

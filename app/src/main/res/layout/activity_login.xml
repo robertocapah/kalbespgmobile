@@ -93,14 +93,14 @@
                             android:textStyle="normal"/>
                         <Spinner
                             android:layout_width="match_parent"
-                            android:layout_height="35dp"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:id="@+id/spnType"
                             android:background="@drawable/bg_edtext"/>
                         <Spinner
                             android:id="@+id/spnOutlet"
                             android:layout_width="match_parent"
-                            android:layout_height="35dp"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:background="@drawable/bg_edtext" />
                         <View

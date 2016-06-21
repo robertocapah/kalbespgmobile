@@ -25,7 +25,7 @@ public class tUserLoginDA {
 	public tUserLoginDA(SQLiteDatabase db) {
 		tUserLoginData dt=new tUserLoginData();
 		String CREATE_CONTACTS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CONTACTS + "("
-				+ dt.Property_intId + " INTEGER PRIMARY KEY," 
+				+ dt.Property_intId + " INTEGER PRIMARY KEY,"
 				+ dt.Property_txtUserId + " TEXT NULL,"
 				+ dt.Property_txtRoleId + " TEXT NULL,"
 				+ dt.Property_txtRoleName + " TEXT NULL,"
@@ -41,7 +41,10 @@ public class tUserLoginDA {
 				+ dt.Property_DtCheckOut + " TEXT NULL,"
 				+ dt.Property_DtLogOut + " TEXT NULL,"
 				+ dt.Property_TxtCab + " TEXT NULL,"
-				+ dt.Property_txtDataId + " TEXT NULL"
+				+ dt.Property_txtDataId + " TEXT NULL,"
+				+ dt.Property_txtOutletCode + " TEXT NULL,"
+				+ dt.Property_txtOutletName + " TEXT NULL,"
+				+ dt.Property_txtBranchCode + " TEXT NULL"
 				+ ")";
 		db.execSQL(CREATE_CONTACTS_TABLE);
 	}
@@ -82,8 +85,11 @@ public class tUserLoginDA {
 				+dt.Property_TxtDeviceId+","
 				+dt.Property_TxtCab+","
 				+dt.Property_txtDataId+","
+				+dt.Property_txtOutletCode+","
+				+dt.Property_txtOutletName+","
+				+dt.Property_txtBranchCode+","
 				+dt.Property_txtUserId+") "+
-			"values("	+ strVal +",'"
+				"values("	+ strVal +",'"
 				+String.valueOf(data.get_txtPassword())+"','"
 				+String.valueOf(data.get_txtUserName())+"','"
 				+String.valueOf(data.get_txtName())+"','"
@@ -99,6 +105,9 @@ public class tUserLoginDA {
 				+String.valueOf(data.get_txtDeviceId())+"','"
 				+String.valueOf(data.get_txtCab())+"','"
 				+String.valueOf(data.get_txtDataId())+"','"
+				+String.valueOf(data.get_txtOutletCode())+"','"
+				+String.valueOf(data.get_txtOutletName())+"','"
+				+String.valueOf(data.get_txtBranchCode())+"','"
 				+String.valueOf(data.get_txtUserId())+"')");
 	}
 
@@ -142,7 +151,7 @@ public class tUserLoginDA {
 		cursor.close();
 		return contact;
 	}
-	
+
 	// Getting All Contacts
 	public List<tUserLoginData> getAllData(SQLiteDatabase db) {
 		List<tUserLoginData> contactList = null;
@@ -203,8 +212,8 @@ public class tUserLoginDA {
 				}
 			} while (cursor.moveToNext());
 		}
-		
-		
+
+
 		cursor.close();
 		// return contact list
 		return result;
@@ -241,6 +250,9 @@ public class tUserLoginDA {
 				contact.set_dtLogOut((cursor.getString(14)));
 				contact.set_txtCab((cursor.getString(15)));
 				contact.set_txtDataId((cursor.getString(16)));
+				contact.set_txtOutletCode((cursor.getString(17)));
+				contact.set_txtOutletName((cursor.getString(18)));
+				contact.set_txtBranchCode((cursor.getString(19)));
 				// Adding contact to list
 				contactList.add(contact);
 			} while (cursor.moveToNext());

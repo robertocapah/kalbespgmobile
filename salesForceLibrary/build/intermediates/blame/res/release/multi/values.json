@@ -206,10 +206,10 @@
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 191,
+                        "startOffset": 192,
                         "endLine": 12,
                         "endColumn": 12,
-                        "endOffset": 481
+                        "endOffset": 484
                     }
                 }
             },
@@ -227,10 +227,10 @@
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
-                        "startOffset": 522,
+                        "startOffset": 525,
                         "endLine": 17,
                         "endColumn": 12,
-                        "endOffset": 679
+                        "endOffset": 682
                     }
                 }
             },
@@ -248,10 +248,10 @@
                     "position": {
                         "startLine": 29,
                         "startColumn": 5,
-                        "startOffset": 1204,
+                        "startOffset": 1207,
                         "endLine": 39,
                         "endColumn": 12,
-                        "endOffset": 1777
+                        "endOffset": 1780
                     }
                 }
             },
@@ -269,289 +269,10 @@
                     "position": {
                         "startLine": 18,
                         "startColumn": 1,
-                        "startOffset": 682,
+                        "startOffset": 685,
                         "endLine": 27,
                         "endColumn": 12,
-                        "endOffset": 1191
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\release\\values\\values.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 57,
-                    "endOffset": 108
-                },
-                "from": {
-                    "file": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 4,
-                        "startOffset": 55,
-                        "endColumn": 57,
-                        "endOffset": 108
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 3,
-                    "startColumn": 4,
-                    "startOffset": 113,
-                    "endColumn": 55,
-                    "endOffset": 164
-                },
-                "from": {
-                    "file": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 3,
-                        "startColumn": 4,
-                        "startOffset": 113,
-                        "endColumn": 55,
-                        "endOffset": 164
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 4,
-                    "startColumn": 4,
-                    "startOffset": 169,
-                    "endColumn": 54,
-                    "endOffset": 219
-                },
-                "from": {
-                    "file": "D:\\works\\kalbespgmobile\\salesForceLibrary\\src\\main\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 4,
-                        "startOffset": 19,
-                        "endColumn": 54,
-                        "endOffset": 69
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 5,
-                    "startColumn": 4,
-                    "startOffset": 224,
-                    "endColumn": 52,
-                    "endOffset": 272
-                },
-                "from": {
-                    "file": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 5,
-                        "startColumn": 4,
-                        "startOffset": 243,
-                        "endColumn": 52,
-                        "endOffset": 291
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 6,
-                    "startColumn": 4,
-                    "startOffset": 277,
-                    "endColumn": 58,
-                    "endOffset": 331
-                },
-                "from": {
-                    "file": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 6,
-                        "startColumn": 4,
-                        "startOffset": 296,
-                        "endColumn": 58,
-                        "endOffset": 350
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 7,
-                    "startColumn": 4,
-                    "startOffset": 336,
-                    "endColumn": 57,
-                    "endOffset": 389
-                },
-                "from": {
-                    "file": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 7,
-                        "startColumn": 4,
-                        "startOffset": 355,
-                        "endColumn": 57,
-                        "endOffset": 408
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 8,
-                    "startColumn": 4,
-                    "startOffset": 394,
-                    "endColumn": 59,
-                    "endOffset": 449
-                },
-                "from": {
-                    "file": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 8,
-                        "startColumn": 4,
-                        "startOffset": 413,
-                        "endColumn": 59,
-                        "endOffset": 468
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 9,
-                    "startColumn": 4,
-                    "startOffset": 454,
-                    "endColumn": 58,
-                    "endOffset": 508
-                },
-                "from": {
-                    "file": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 9,
-                        "startColumn": 4,
-                        "startOffset": 473,
-                        "endColumn": 58,
-                        "endOffset": 527
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 10,
-                    "startColumn": 4,
-                    "startOffset": 513,
-                    "endColumn": 57,
-                    "endOffset": 566
-                },
-                "from": {
-                    "file": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 10,
-                        "startColumn": 4,
-                        "startOffset": 532,
-                        "endColumn": 57,
-                        "endOffset": 585
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 11,
-                    "startColumn": 4,
-                    "startOffset": 571,
-                    "endColumn": 56,
-                    "endOffset": 623
-                },
-                "from": {
-                    "file": "D:\\works\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 11,
-                        "startColumn": 4,
-                        "startOffset": 590,
-                        "endColumn": 56,
-                        "endOffset": 642
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 12,
-                    "startColumn": 4,
-                    "startOffset": 628,
-                    "endLine": 18,
-                    "endColumn": 12,
-                    "endOffset": 914
-                },
-                "from": {
-                    "file": "D:\\works\\kalbespgmobile\\salesForceLibrary\\src\\main\\res\\values\\styles.xml",
-                    "position": {
-                        "startLine": 6,
-                        "startColumn": 4,
-                        "startOffset": 191,
-                        "endLine": 12,
-                        "endColumn": 12,
-                        "endOffset": 481
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 19,
-                    "startColumn": 4,
-                    "startOffset": 919,
-                    "endLine": 21,
-                    "endColumn": 12,
-                    "endOffset": 1074
-                },
-                "from": {
-                    "file": "D:\\works\\kalbespgmobile\\salesForceLibrary\\src\\main\\res\\values\\styles.xml",
-                    "position": {
-                        "startLine": 15,
-                        "startColumn": 4,
-                        "startOffset": 522,
-                        "endLine": 17,
-                        "endColumn": 12,
-                        "endOffset": 679
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 22,
-                    "startColumn": 4,
-                    "startOffset": 1079,
-                    "endLine": 32,
-                    "endColumn": 12,
-                    "endOffset": 1642
-                },
-                "from": {
-                    "file": "D:\\works\\kalbespgmobile\\salesForceLibrary\\src\\main\\res\\values\\styles.xml",
-                    "position": {
-                        "startLine": 29,
-                        "startColumn": 5,
-                        "startOffset": 1204,
-                        "endLine": 39,
-                        "endColumn": 12,
-                        "endOffset": 1777
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 33,
-                    "startColumn": 4,
-                    "startOffset": 1647,
-                    "endLine": 42,
-                    "endColumn": 12,
-                    "endOffset": 2147
-                },
-                "from": {
-                    "file": "D:\\works\\kalbespgmobile\\salesForceLibrary\\src\\main\\res\\values\\styles.xml",
-                    "position": {
-                        "startLine": 18,
-                        "startColumn": 1,
-                        "startOffset": 682,
-                        "endLine": 27,
-                        "endColumn": 12,
-                        "endOffset": 1191
+                        "endOffset": 1194
                     }
                 }
             }

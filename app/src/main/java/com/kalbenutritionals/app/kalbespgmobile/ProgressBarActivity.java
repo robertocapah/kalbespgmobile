@@ -19,6 +19,7 @@ import bl.clsMainBL;
 import library.salesforce.common.clsHelper;
 import library.salesforce.common.clsStatusMenuStart;
 import library.salesforce.dal.enumStatusMenuStart;
+import service.MyServiceNative;
 
 public class ProgressBarActivity extends AppCompatActivity {
     private  int progressStatus = 0;
@@ -47,9 +48,10 @@ public class ProgressBarActivity extends AppCompatActivity {
                     if(_clsStatusMenuStart.get_intStatus()== enumStatusMenuStart.FormLogin){
                         myIntent = new Intent(ProgressBarActivity.this, Login.class);
                     }else if(_clsStatusMenuStart.get_intStatus()== enumStatusMenuStart.PushDataSPGMobile){
-                        myIntent = new Intent(ProgressBarActivity.this, Login.class);
+                        myIntent = new Intent(ProgressBarActivity.this, PushData.class);
                     } else if(_clsStatusMenuStart.get_intStatus()== enumStatusMenuStart.UserActiveLogin){
-                        myIntent = new Intent(ProgressBarActivity.this, Login.class);
+                        myIntent = new Intent(ProgressBarActivity.this, Home.class);
+                        startService(new Intent(getApplicationContext(), MyServiceNative.class));
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();

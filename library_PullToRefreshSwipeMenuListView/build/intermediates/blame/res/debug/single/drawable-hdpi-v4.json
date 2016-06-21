@@ -4,23 +4,11 @@
         "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\src\\main\\res\\drawable-hdpi\\xlistview_arrow.png"
     },
     {
-        "merged": "D:\\works\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\xlistview_arrow.png",
-        "source": "D:\\works\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\src\\main\\res\\drawable-hdpi\\xlistview_arrow.png"
-    },
-    {
-        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_launcher.png",
-        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
-    },
-    {
         "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_notif.png",
         "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\src\\main\\res\\drawable-hdpi\\ic_notif.png"
     },
     {
-        "merged": "D:\\works\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_notif.png",
-        "source": "D:\\works\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\src\\main\\res\\drawable-hdpi\\ic_notif.png"
-    },
-    {
-        "merged": "D:\\works\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_launcher.png",
-        "source": "D:\\works\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
     }
 ]
