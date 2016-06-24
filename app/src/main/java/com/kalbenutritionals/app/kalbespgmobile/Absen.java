@@ -1,16 +1,18 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,18 +43,20 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +67,7 @@ import bl.mEmployeeBranchBL;
 import bl.mMenuBL;
 import bl.tAbsenUserBL;
 import bl.tDeviceInfoUserBL;
+import bl.tUserLoginBL;
 import library.salesforce.common.mEmployeeAreaData;
 import library.salesforce.common.mEmployeeBranchData;
 import library.salesforce.common.mMenuData;
@@ -110,8 +116,11 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 	private tAbsenUserBL _tAbsenUserBL;
 	Options options;
 	private tAbsenUserData dttAbsenUserData;
-	private Button btnRefreshMap;
+	private Button btnRefreshMaps;
+	private Button btnCheckIn;
 	private String MenuID;
+	private String[] arrdefaultBranch = new String[]{"Branch"};
+	private String[] arrdefaultOutlet = new String[]{"Outlet"};
 
 
 	private String nameBranch;
@@ -248,19 +257,21 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_absen);
+		setContentView(R.layout.activity_masterpage);
 //		setTitleForm("Absen");
-//		RelativeLayout scrollable_contents = (RelativeLayout) findViewById(R.id.rlContent);
-//		getLayoutInflater().inflate(R.layout.activity_absen, scrollable_contents);
+		LinearLayout scrollable_contents = (LinearLayout) findViewById(R.id.llContent);
+		getLayoutInflater().inflate(R.layout.activity_absen, scrollable_contents);
 		txtHDId = (TextView) findViewById(R.id.txtHDId);
 //		btnRefreshMap = (Button) findViewById(R.id.btnRefreshMap);
+		btnRefreshMaps = (Button) findViewById(R.id.btnRefreshMaps);
+		btnCheckIn = (Button) findViewById(R.id.buttonCheckIn);
 		spnOutlet = (Spinner) findViewById(R.id.spnOutlet);
 		spnBranch = (Spinner) findViewById(R.id.spnBranch);
-//		imgPrevNoImg1 = (ImageView) findViewById(R.id.imageViewCamera1);
-//		imgPrevNoImg2 = (ImageView) findViewById(R.id.imageViewCamera2);
-//		lblLong = (TextView) findViewById(R.id.tvLong);
-//		lblLang = (TextView) findViewById(R.id.tvLang);
-//		lblAcc = (TextView) findViewById(R.id.tvAcc);
+		imgPrevNoImg1 = (ImageView) findViewById(R.id.imageViewCamera1);
+		imgPrevNoImg2 = (ImageView) findViewById(R.id.imageViewCamera2);
+		lblLong = (TextView) findViewById(R.id.tvLong);
+		lblLang = (TextView) findViewById(R.id.tvLat);
+		lblAcc = (TextView) findViewById(R.id.tvAcc);
 		options = new Options();
 		options.inSampleSize = 2;
 		_tAbsenUserBL = new tAbsenUserBL();
@@ -273,12 +284,19 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 
 		final mMenuData dtmenuData = new mMenuBL().getMenuDataByMenuName(MenuID);
 		//TableLayout TableLayout1 = (TableLayout)findViewById(R.id.TableLayout1);
-		btnRefreshMap.setOnClickListener(new OnClickListener() {
-			//int intProcesscancel=0;
+//		btnRefreshMap.setOnClickListener(new OnClickListener() {
+//			//int intProcesscancel=0;
+//			@Override
+//			public void onClick(View v) {
+//				displayLocation();
+//				showToast(getApplicationContext(), "Location Founded");
+//			}
+//		});
+		btnRefreshMaps.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				displayLocation();
-				//showToast(getApplicationContext(), "Location Founded");
+				showToast(getApplicationContext(), "Location Updated");
 			}
 		});
 
@@ -293,7 +311,8 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 		imgPrevNoImg1.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String nameBranch = spnBranch.getSelectedItem().toString();
+				String nameBranch = "tes";
+						//spnBranch.getSelectedItem().toString();
 				String nameOutlet = spnOutlet.getSelectedItem().toString();
 				String branchCode = HMbranch.get(nameBranch);
 				String outletCode = HMoutlet.get(nameOutlet);
@@ -327,7 +346,8 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 
 			@Override
 			public void onClick(View v) {
-				String nameBranch = spnBranch.getSelectedItem().toString();
+				String nameBranch = "tes2";
+						//spnBranch.getSelectedItem().toString();
 				String nameOutlet = spnOutlet.getSelectedItem().toString();
 				String branchCode = HMbranch.get(nameBranch);
 				String outletCode = HMoutlet.get(nameOutlet);
@@ -453,7 +473,8 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 		if (dttAbsenUserData != null) {
 			if (dttAbsenUserData.get_intSubmit().equals("1")) {
 				// Kalau ada langsung ke Main Menu
-				String nameBranch = spnBranch.getSelectedItem().toString();
+				String nameBranch = "123";
+						//spnBranch.getSelectedItem().toString();
 				String nameOutlet = spnOutlet.getSelectedItem().toString();
 
 				String branchCode = HMbranch.get(nameBranch);
@@ -486,6 +507,122 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 		// ATTENTION: This was auto-generated to implement the App Indexing API.
 		// See https://g.co/AppIndexing/AndroidStudio for more information.
 		client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+		btnCheckIn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				myClass="com.kalbenutritionals.app.kalbespgmobile.Home"; ;
+				MenuID="mnCheckinKBN";
+				clazz = null;
+
+				myClass= "com.kalbenutritionals.app.kalbespgmobile.Home";
+				MenuID = "mnCheckinKBN";
+				nameBranch = "1";
+						//spnBranch.getSelectedItem().toString();
+				nameOutlet = spnOutlet.getSelectedItem().toString();
+				branchCode = HMbranch.get(nameBranch);
+				outletCode = HMoutlet.get(nameOutlet);
+                    LayoutInflater layoutInflater = LayoutInflater.from(Absen.this);
+                    final View promptView = layoutInflater.inflate(R.layout.confirm_data, null);
+
+                    final TextView _tvConfirm=(TextView) promptView.findViewById(R.id.tvTitle);
+                    final TextView _tvDesc=(TextView) promptView.findViewById(R.id.tvDesc);
+                    _tvDesc.setVisibility(View.INVISIBLE);
+                    _tvConfirm.setText("Check In Data ?");
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Absen.this);
+                    alertDialogBuilder.setView(promptView);
+                    alertDialogBuilder
+                            .setCancelable(false)
+                            .setPositiveButton("OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,	int id) {
+                                            Boolean pRes= true;
+                                            if(dttAbsenUserData == null){
+                                                pRes=false;
+                                            }else{
+                                                if((dttAbsenUserData.get_txtImg1().equals("")|| dttAbsenUserData.get_txtImg1().equals("null"))
+                                                        && (dttAbsenUserData.get_txtImg2().equals("")|| dttAbsenUserData.get_txtImg2().equals("null"))){
+                                                    pRes=false;
+                                                }
+                                            }
+                                            if(pRes){
+                                                nameBranch = "aaa";
+														//spnBranch.getSelectedItem().toString();
+                                                nameOutlet = spnOutlet.getSelectedItem().toString();
+                                                branchCode = HMbranch.get(nameBranch);
+                                                outletCode = HMoutlet.get(nameOutlet);
+                                                if(dttAbsenUserData == null){
+                                                    dttAbsenUserData=new tAbsenUserData();
+                                                }
+                                                tAbsenUserData datatAbsenUserData = dttAbsenUserData;
+                                                tUserLoginData dataUserActive = new tUserLoginBL().getUserActive();
+                                                String idUserActive = String.valueOf(dataUserActive.get_txtUserId());
+                                                List<tDeviceInfoUserData> dataDeviceInfoUser = new tDeviceInfoUserBL().getData(1);
+                                                String deviceInfo = String.valueOf(dataDeviceInfoUser.get(0).get_txtDeviceId());
+                                                List<tAbsenUserData> absenUserDatas = new ArrayList<tAbsenUserData>();
+                                                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                                Calendar cal = Calendar.getInstance();
+                                                datatAbsenUserData.set_dtDateCheckIn(dateFormat.format(cal.getTime()));
+                                                datatAbsenUserData.set_intId(txtHDId.getText().toString());
+                                                datatAbsenUserData.set_intSubmit("1");
+                                                datatAbsenUserData.set_intSync("0");
+                                                datatAbsenUserData.set_txtAbsen("0");//
+                                                datatAbsenUserData.set_txtBranchCode(branchCode);
+                                                datatAbsenUserData.set_txtBranchName(nameBranch);
+                                                datatAbsenUserData.set_txtAccuracy(lblAcc.getText().toString());
+                                                datatAbsenUserData.set_txtLatitude(lblLang.getText().toString());
+                                                datatAbsenUserData.set_txtLongitude(lblLong.getText().toString());
+                                                datatAbsenUserData.set_txtOutletCode(outletCode);
+                                                datatAbsenUserData.set_txtOutletName(nameOutlet);
+                                                datatAbsenUserData.set_txtDeviceId(deviceInfo);
+                                                datatAbsenUserData.set_txtUserId(idUserActive); //
+                                                absenUserDatas.add(datatAbsenUserData);
+                                                new tAbsenUserBL().saveData(absenUserDatas);
+                                                showToast(getApplicationContext(), "Save Data Check-in");
+                                                spnBranch.setEnabled(false);
+                                                spnOutlet.setEnabled(false);
+                                                imgPrevNoImg1.setClickable(false);
+                                                imgPrevNoImg2.setClickable(false);
+                                                btnRefreshMaps.setClickable(false);
+                                                btnRefreshMaps.setVisibility(View.GONE);
+
+                                                try {
+                                                    clazz = Class.forName(myClass);
+                                                    Intent myIntent = new Intent(getApplicationContext(), clazz);
+                                                    myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
+                                                    myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
+                                                    myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);
+                                                    finish();
+                                                    startActivity(myIntent);
+                                                } catch (ClassNotFoundException e) {
+                                                    // TODO Auto-generated catch block
+                                                    e.printStackTrace();
+                                                }
+                                            }else{
+                                                showToast(getApplicationContext(), "Please Photo at least 1 photo..");
+                                            }
+                                        }
+                                    })
+                            .setNegativeButton("Cancel",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,	int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                    final AlertDialog alertD = alertDialogBuilder.create();
+                    alertD.show();
+                }
+//					else{
+//						clazz = Class.forName(myClass);
+//						Intent myIntent = new Intent(getApplicationContext(), clazz);
+//						myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
+//						myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
+//						myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);
+//						finish();
+//						startActivity(myIntent);
+//					}
+
+		});
 	}
 
 //	private void ShowMenu(final mMenuData dtmenuData) {
@@ -955,6 +1092,9 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 
 				// Changing map type
 				mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+				mMap.getUiSettings().setZoomControlsEnabled(true);
+				mMap.getUiSettings().setMyLocationButtonEnabled(true);
+				mMap.getUiSettings().setMapToolbarEnabled(true);
 				//mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
 			} catch (Exception e) {
@@ -962,13 +1102,14 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 			}
 
 			MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Updating Location!");
-			marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+			marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+			//marker.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_kalbe_spgmobile));
 			// adding marker
 			mMap.clear();
 			//Toast.makeText(getApplicationContext(),"Location Updated", Toast.LENGTH_LONG).show();
 			mMap.addMarker(marker);
 			//OnLocationChanged(location);
-			CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(latitude, longitude)).zoom(19).build();
+			CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(latitude, longitude)).zoom(16).build();
 			mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 			//togglePeriodicLocationUpdates();
 		}
@@ -1007,7 +1148,7 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 	private void initilizeMap() {
 		// TODO Auto-generated method stub
 		if (mMap == null) {
-//			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
 
 			// check if map is created successfully or not
@@ -1058,9 +1199,9 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 	}
 
 	protected void captureImage2() {
-		Intent intentCamera1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		Intent intentCamera2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		//uriImage = getOutputMediaFileUri();
-		startActivityForResult(intentCamera1, CAMERA_CAPTURE_IMAGE2_REQUEST_CODE);
+		startActivityForResult(intentCamera2, CAMERA_CAPTURE_IMAGE2_REQUEST_CODE);
 	}
 
 	private Uri getOutputMediaFileUri() {
@@ -1092,12 +1233,11 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// if the result is capturing Image
+		//super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == CAMERA_CAPTURE_IMAGE1_REQUEST_CODE) {
 			if (resultCode == RESULT_OK && (data.getExtras().get("data") != null || data.getData() != null)) {
-				// successfully captured the image
-				// display it in image view
 				Bitmap photo = null;
-				if (data.getData() != null) {
+				if (data.getExtras().get("data") != null) {
 					photo = (Bitmap) data.getExtras().get("data");
 				} else {
 					try {
@@ -1112,11 +1252,9 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 				}
 				previewCapturedImage1(photo);
 			} else if (resultCode == RESULT_CANCELED) {
-				// user cancelled Image capture
 				showToast(getApplicationContext(), "User cancelled image capture");
 			} else {
 				showToast(getApplicationContext(), "Sorry! Failed to capture image");
-				// failed to capture image
 			}
 		} else if (requestCode == CAMERA_CAPTURE_IMAGE2_REQUEST_CODE) {
 			if (resultCode == RESULT_OK && (data.getExtras().get("data") != null || data.getData() != null)) {
@@ -1145,13 +1283,13 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 	}
 
 
-	//private String getRealPathFromURI(Uri uri) {
-	// TODO Auto-generated method stub
-	//Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-	// cursor.moveToFirst();
-	// int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-	// return cursor.getString(idx);
-	//}
+	private String getRealPathFromURI(Uri uri) {
+	 //TODO Auto-generated method stub
+	Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+	 cursor.moveToFirst();
+	 int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+	 return cursor.getString(idx);
+	}
 	private void previewCapturedImage1(Bitmap photo) {
 		try {
 			dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
@@ -1174,65 +1312,6 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 			}
 			//Bitmap bitmap1 =resizeBitMapImage1(uriImage.getPath().toString(),40,40);
 			Bitmap bitmap1 = Bitmap.createScaledBitmap(photo, 150, 150, false);
-			imgPrevNoImg1.setImageBitmap(bitmap1);
-			String uriForSave = String.valueOf(uriImage.getPath());
-			//Toast.makeText(getApplicationContext(), uriForSave, Toast.LENGTH_SHORT).show();
-			uriImageSaveDB1 = String.valueOf(uriForSave);
-
-			if (dttAbsenUserData != null) {
-				dttAbsenUserData.set_txtImg1(uriImageSaveDB1);
-			} else {
-				dttAbsenUserData.set_txtImg1(uriImageSaveDB1);
-				dttAbsenUserData.set_txtImg2("");
-				dttAbsenUserData.set_intId(txtHDId.getText().toString());
-			}
-			dttAbsenUserData.set_intSubmit("0");
-			dttAbsenUserData.set_intSync("0");
-			dttAbsenUserData.set_txtAbsen("0");//
-			List<tAbsenUserData> Listdata = new ArrayList<tAbsenUserData>();
-			Listdata.add(dttAbsenUserData);
-			_tAbsenUserBL.saveData(Listdata);
-
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void previewCapturedImage1() {
-		try {
-			dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
-			imgPrevNoImg1.setVisibility(View.VISIBLE);
-
-			//uriImage = getOutputMediaFileUri();
-			// bimatp factory
-			Options options = new Options();
-			// downsizing image as it throws OutOfMemory Exception for larger
-			// images
-			options.inSampleSize = 2;
-			//Bitmap bitmap1 = BitmapFactory.decodeFile(uriImage.getPath(),options);
-			Bitmap bitmap1 = resizeBitMapImage1(uriImage.getPath().toString(), 40, 40);
-			bitmap1 = Bitmap.createScaledBitmap(bitmap1, 150, 150, false);
-			ExifInterface ei;
-			int orientation = 0;
-			try {
-				ei = new ExifInterface(uriImage.getPath());
-				orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			switch (orientation) {
-				case ExifInterface.ORIENTATION_ROTATE_90:
-					bitmap1 = rotateImage(bitmap1, 90);
-					break;
-				case ExifInterface.ORIENTATION_ROTATE_180:
-					bitmap1 = rotateImage(bitmap1, 180);
-					break;
-				// etc.
-			}
-
-			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-			bitmap1.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
 			imgPrevNoImg1.setImageBitmap(bitmap1);
 			String uriForSave = String.valueOf(uriImage.getPath());
 			//Toast.makeText(getApplicationContext(), uriForSave, Toast.LENGTH_SHORT).show();
@@ -1300,60 +1379,7 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 		}
 	}
 
-	private void previewCapturedImage2() {
-		try {
-			dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
-			imgPrevNoImg2.setVisibility(View.VISIBLE);
-			//uriImage = getOutputMediaFileUri();
-			// bimatp factory
-			Options options = new Options();
-			// downsizing image as it throws OutOfMemory Exception for larger
-			// images
-			options.inSampleSize = 2;
-			Bitmap bitmap1 = resizeBitMapImage1(uriImage.getPath().toString(), 40, 40);
-			//Bitmap bitmap1 = BitmapFactory.decodeFile(uriImage.getPath(),options);
-			bitmap1 = Bitmap.createScaledBitmap(bitmap1, 150, 150, false);
-			ExifInterface ei;
-			int orientation = 0;
-			try {
-				ei = new ExifInterface(uriImage.getPath());
-				orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			switch (orientation) {
-				case ExifInterface.ORIENTATION_ROTATE_90:
-					bitmap1 = rotateImage(bitmap1, 90);
-					break;
-				case ExifInterface.ORIENTATION_ROTATE_180:
-					bitmap1 = rotateImage(bitmap1, 180);
-					break;
-				// etc.
-			}
-			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-			bitmap1.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-			imgPrevNoImg2.setImageBitmap(bitmap1);
-			String uriForSave = String.valueOf(uriImage.getPath());
-			//Toast.makeText(getApplicationContext(), uriForSave, Toast.LENGTH_SHORT).show();
-			uriImageSaveDB2 = String.valueOf(uriForSave);
-			if (dttAbsenUserData != null) {
-				dttAbsenUserData.set_txtImg2(uriImageSaveDB2);
-			} else {
-				dttAbsenUserData.set_txtImg1("");
-				dttAbsenUserData.set_txtImg2(uriImageSaveDB2);
-				dttAbsenUserData.set_intId(txtHDId.getText().toString());
-			}
-			dttAbsenUserData.set_intSubmit("0");
-			dttAbsenUserData.set_intSync("0");
-			dttAbsenUserData.set_txtAbsen("0");//
-			List<tAbsenUserData> Listdata = new ArrayList<tAbsenUserData>();
-			Listdata.add(dttAbsenUserData);
-			_tAbsenUserBL.saveData(Listdata);
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
-	}
+
 
 
 	@Override

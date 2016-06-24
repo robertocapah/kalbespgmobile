@@ -1,4 +1,4 @@
-package library.salesforce.common;
+package com.kalbenutritionals.app.kalbespgmobile;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,8 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import edu.swu.pulltorefreshswipemenulistview.library.R;
-
-//import library.salesforce.common.AppAdapterNotif.ViewHolder;
+import library.salesforce.common.clsRowItem;
 
 public class AppAdapterNotif extends BaseAdapter {
 

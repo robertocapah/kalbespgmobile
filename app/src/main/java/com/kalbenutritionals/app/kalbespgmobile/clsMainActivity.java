@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -45,7 +46,6 @@ import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.bean.SwipeMenuIt
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnSwipeListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.SwipeMenuCreator;
 import library.salesforce.common.AppAdapter;
-import library.salesforce.common.AppAdapterNotif;
 import library.salesforce.common.clsHelper;
 import library.salesforce.common.clsRowItem;
 import library.salesforce.common.clsSwipeList;
@@ -491,4 +491,9 @@ public class clsMainActivity extends Activity {
 	};
 	return listener;
  }
+	public void setHeaderFull(){
+		ImageView imgV = (ImageView) findViewById(R.id.imageView1);
+		imgV.setAdjustViewBounds(true);
+		imgV.setScaleType(ImageView.ScaleType.CENTER_CROP);
+	}
 }

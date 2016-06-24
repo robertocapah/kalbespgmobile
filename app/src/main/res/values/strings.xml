@@ -21,4 +21,5 @@
     <string name="tv_version">Android.20160322.001</string>
     <string name="tv_role">Role</string>
     <string name="title_activity_home">Home</string>
+    <string name="copyright">Copyright \u00a9 KN IT</string>
 </resources>

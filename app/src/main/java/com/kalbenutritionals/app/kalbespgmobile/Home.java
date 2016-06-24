@@ -1,4 +1,5 @@
 package com.kalbenutritionals.app.kalbespgmobile;
+
 import android.app.ActionBar.LayoutParams;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
@@ -19,7 +20,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,7 +73,7 @@ public class Home extends clsMainActivity {
 		setContentView(R.layout.activity_masterpage);
 		//setTitleForm("HOME");
 		//setTitleGreeting(getDataLoginActive().get_txtName());
-		RelativeLayout contents = (RelativeLayout) findViewById(R.id.rlContent);
+		LinearLayout contents = (LinearLayout) findViewById(R.id.llContent);
 		getLayoutInflater().inflate(R.layout.activity_home, contents);
 		pInfo = getPinfo();
 

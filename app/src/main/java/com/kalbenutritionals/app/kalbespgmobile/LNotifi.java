@@ -22,7 +22,6 @@ import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.I
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.SwipeMenuCreator;
 import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
 import library.salesforce.common.AppAdapter;
-import library.salesforce.common.AppAdapterNotif;
 import library.salesforce.common.clsRowItem;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tNotificationData;

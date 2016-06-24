@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,6 +84,8 @@ public class Login extends clsMainActivity {
     private String txtEmail1;
     private String txtPassword1;
     private String txtPassword;
+    private String[] arrdefaultBranch = new String[]{"-"};
+    private String[] arrdefaultOutlet = new String[]{"-"};
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -132,6 +135,9 @@ public class Login extends clsMainActivity {
 //
 //        RunSplash.schedule(ShowSplash, Delay);
         new tDeviceInfoUserBL().SaveInfoDevice("","");
+        ImageView imgBanner = (ImageView) findViewById(R.id.ivBannerLogin) ;
+        imgBanner.setAdjustViewBounds(true);
+        imgBanner.setScaleType(ImageView.ScaleType.CENTER_CROP);
         txtLoginEmail = (EditText) findViewById(R.id.txtLoginEmail);
         txtLoginPassword = (EditText) findViewById(R.id.editTextPass);
         txtLoginEmail.setOnKeyListener(new View.OnKeyListener() {
@@ -233,6 +239,14 @@ public class Login extends clsMainActivity {
 
             }
         });
+        ArrayAdapter<String> adapterspnBranch = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, arrdefaultBranch);
+        spnRole.setAdapter(adapterspnBranch);
+        spnRole.setEnabled(false);
+        ArrayAdapter<String> adapterspnOutlet = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, arrdefaultOutlet);
+        spnOutlet.setAdapter(adapterspnOutlet);
+        spnOutlet.setEnabled(false);
     }
 
     int intProcesscancel = 0;
@@ -441,6 +455,7 @@ public class Login extends clsMainActivity {
                     HMRole.put(dt.get_txtRoleName(), dt.get_intRoleId());
                 }
                 spnRole.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrrole));
+                spnRole.setEnabled(true);
 
                 List<mEmployeeAreaData> dataOutlet = new mEmployeeAreaBL().GetAllData();
 
@@ -453,6 +468,7 @@ public class Login extends clsMainActivity {
                 }
 
                 spnOutlet.setAdapter(new MyAdapter2(getApplicationContext(), R.layout.custom_spinner, arroutlet));
+                spnOutlet.setEnabled(true);
             } else {
                 if (intProcesscancel == 1) {
                     onCancelled();

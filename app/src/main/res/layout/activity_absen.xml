@@ -2,47 +2,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-        android:layout_gravity="top"
-     android:gravity="top|center"
+    android:layout_gravity="top"
+    android:gravity="center_vertical|center_horizontal"
     android:orientation="vertical"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     tools:context="com.kalbenutritionals.app.kalbespgmobile.Absen" >
 
 
 
     <ScrollView
         android:id="@+id/scrollViewABsen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvBranch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:text="Branch :"
-            android:textColor="#000" />
-        <TextView
-            android:id="@+id/txtHDId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="txthdId"
-            android:visibility="gone" />
-        <Spinner
-            android:id="@+id/spnBranch"
-            android:layout_below="@+id/tvBranch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/bg_edtext"/>
+            <TextView
+                android:id="@+id/tvBranch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Branch :"
+                android:textColor="#000" />
+            <TextView
+                android:id="@+id/txtHDId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="txthdId"
+                android:visibility="gone" />
+            <Spinner
+                android:id="@+id/spnBranch"
+                android:layout_below="@+id/tvBranch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/bg_edtext"/>
             <View
                 android:id="@+id/view1"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="1dp"
                 android:layout_below="@+id/spnBranch"
                 android:layout_marginTop="10dp"
                 android:background="#bfbfbf" />
@@ -65,7 +71,7 @@
             <View
                 android:id="@+id/view2"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="1dp"
                 android:layout_below="@+id/spnOutlet"
                 android:layout_marginTop="10dp"
                 android:background="#bfbfbf" />
@@ -76,105 +82,157 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/view2"
-                android:shrinkColumns="*"
-                android:stretchColumns="*"
-                android:background="#ffffff">
-                <!-- Row 1 with single column -->
+                android:background="@drawable/bg_rounded_normal">
+
                 <TableRow
-                    android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
+                    android:background="#8bd9ff"
+                    android:padding="5dp"
                     android:gravity="center_horizontal">
                     <TextView
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                        android:textSize="18dp" android:text="Position"  android:layout_span="3"
-                        android:padding="10dp" android:background="#b0b0b0"
-                        android:textColor="#000"/>
-                </TableRow>
-                <!-- Row 3 with 2 columns -->
-                <TableRow
-                    android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
-                    android:gravity="center_horizontal">
-
-                    <TextView
-                        android:id="@+id/tvRow2a" android:text="Long"
-                        android:layout_weight="1"
-                        android:background="#b0b0b0"
-                    android:textColor="#000000"
-                    android:padding="18dip" android:gravity="left"/>
-
-                    <TextView
-                        android:id="@+id/tvRow2b" android:text=""
-                        android:layout_weight="2" android:background="#a09f9f"
-                        android:textColor="#000000" android:layout_span="1"
-                        android:padding="18dip" android:gravity="center"/>
-                </TableRow>
-                <TableRow
-                    android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
-                    android:gravity="center_horizontal">
-
-                    <TextView
-                        android:id="@+id/tvRow3a" android:text="Lat"
-                        android:width="20dp"
-                        android:height="50dp"
-                        android:layout_weight="1"
-                        android:background="#b0b0b0"
-                        android:textColor="#000000"
-                        android:padding="18dip" android:gravity="left"/>
-
-                    <TextView
-                        android:id="@+id/tvRow3b" android:text=""
-                        android:height="50dp"
-                        android:layout_weight="2" android:background="#a09f9f"
-                        android:textColor="#000000" android:layout_span="1"
-                        android:padding="18dip" android:gravity="center"/>
-                </TableRow>
-                <TableRow
-                    android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
-                    android:gravity="center_horizontal">
-
-                    <TextView
-                        android:id="@+id/tvRow4a" android:text="Acc"
-                        android:width="20dp"
-                        android:height="50dp"
-                        android:layout_weight="1"
-                        android:background="#b0b0b0"
-                        android:textColor="#000000"
-                        android:padding="18dip" android:gravity="left"/>
-
-                    <TextView
-                        android:id="@+id/tvRow4b" android:text=""
-                        android:height="50dp"
-                        android:layout_weight="2" android:background="#a09f9f"
-                        android:textColor="#000000" android:layout_span="1"
-                        android:padding="18dip" android:gravity="center"/>
-                </TableRow>
-                <TableRow
-                    android:layout_height="match_parent"
-                    android:layout_width="wrap_content"
-                    android:gravity="center_horizontal">
-                    <TextView
-                        android:id="@+id/tvRow5a" android:text="Acc"
-                        android:layout_weight="1"
-                        android:background="#b0b0b0"
-                        android:textColor="#000000"
-                        android:padding="18dip" android:gravity="left"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_span="1"
-                        android:gravity="center"
-                        android:padding="18dip">
+                        android:text="Position"
+                        />
+                </TableRow>
 
-                    </LinearLayout>
+                <TableRow
+                    android:background="#ffffff"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Long" />
+                    <TextView
+                        android:id="@+id/tvLong"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="" />
+                </TableRow>
+                <TableRow
+                    android:background="#ffffff"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Lat" />
+                    <TextView
+                        android:id="@+id/tvLat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="" />
+                </TableRow>
+                <TableRow
+                    android:background="#ffffff"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Acc" />
+                    <TextView
+                        android:id="@+id/tvAcc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="" />
                 </TableRow>
             </TableLayout>
 
-    </RelativeLayout>
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tlAbesen"
+                android:layout_marginTop="10dp"
+                android:background="#bfbfbf" />
 
+            <LinearLayout android:background="@drawable/bg_rounded_normal" android:layout_marginTop="10dp" android:gravity="center" android:id="@+id/llimgview" android:layout_below="@+id/view3" android:weightSum="3" android:layout_height="match_parent" android:layout_width="wrap_content" android:orientation="horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Image"/>
+                <ImageView
+                    android:id="@+id/imageViewCamera1"
+                    android:background="@mipmap/ic_maps_local_see"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <ImageView
+                    android:id="@+id/imageViewCamera2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/ic_maps_local_see"
+                    android:layout_weight="1" />
+            </LinearLayout>
 
-
-        </ScrollView>
+            <RelativeLayout
+                android:id="@+id/rlmapfragment"
+                android:layout_below="@+id/llimgview"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_rounded_normal">
+                <com.kalbenutritionals.app.kalbespgmobile.MyMapFragmentContainer
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="50dp"
+                        android:gravity="center_horizontal" >
+                        <fragment
+                            android:id="@+id/map"
+                            android:name="com.google.android.gms.maps.MapFragment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="500dp"
+                            android:apiKey="AIzaSyC8ZaU1H_c2JN7wRHbCbSeCU9XGTDYwL6A"
+                            android:clickable="true"
+                            android:enabled="true"/>
+                        <Button
+                            android:id="@+id/btnRefreshMaps"
+                            android:layout_width="90dp"
+                            android:layout_height="25dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="5dp"
+                            android:text="Refresh Map"
+                            android:textColor="#FFF"
+                            android:background="#258207" />
+                    </RelativeLayout>
+                </com.kalbenutritionals.app.kalbespgmobile.MyMapFragmentContainer>
+            </RelativeLayout>
+            <Button
+                android:id="@+id/buttonCheckIn"
+                android:layout_below="@+id/rlmapfragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Check In"
+                android:background="@drawable/btn_on_click"
+                android:layout_marginBottom="20dp"/>
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

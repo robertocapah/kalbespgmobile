@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -29,12 +28,12 @@ import library.salesforce.common.tNotificationData;
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_masterpage);
+		setContentView(R.layout.activity_detail_notification);
 		//setTitleForm("Notification Detail");
-		ScrollView scrollable_contents = (ScrollView) findViewById(R.id.scrollableContents);
-		getLayoutInflater().inflate(R.layout.activity_detail_notification, scrollable_contents);	
-		txtTitle = (TextView) findViewById(R.id.textViewDetailN1);
-		txtDesc = (TextView) findViewById(R.id.textViewDetailN2);
+		//ScrollView scrollable_contents = (ScrollView) findViewById(R.id.scrollableContents);
+		//getLayoutInflater().inflate(R.layout.activity_detail_notification, scrollable_contents);
+		txtTitle = (TextView) findViewById(R.id.tv_detail_title);
+		txtDesc = (TextView) findViewById(R.id.tv_detail_desc);
 		txtImg = (ImageView) findViewById(R.id.imageViewDetailN);
 		
 		Intent i= getIntent();
