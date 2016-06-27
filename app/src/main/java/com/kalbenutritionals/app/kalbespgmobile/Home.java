@@ -76,7 +76,7 @@ public class Home extends clsMainActivity {
 		LinearLayout contents = (LinearLayout) findViewById(R.id.llContent);
 		getLayoutInflater().inflate(R.layout.activity_home, contents);
 		pInfo = getPinfo();
-
+		setHeaderFull();
 		//ImageButton _btnHomeMaster=(ImageButton) this.findViewById(R.id.btnHomeMaster);
 		//_btnHomeMaster.setVisibility(View.INVISIBLE);
 
@@ -167,7 +167,7 @@ public class Home extends clsMainActivity {
 				jumLinearLayout += 1;
 
 				if (positionRow == 0) {
-					for (int k = 0; k < 3; k++) {
+					for (int k = 0; k < 8; k++) {
 						if (positionRow < listMenu.size()) {
 							datMenu = listMenu.get(positionRow);
 							final String strLink = datMenu.get_TxtLink();
@@ -206,7 +206,13 @@ public class Home extends clsMainActivity {
 									try {
 										if (myClass.equals("#") && MenuID.toString().contains("Logout")) {
 											funcLogOut();
-										} else {
+										} else if (MenuID.toString().contains("mnDownloadData")) {
+                                            Intent myIntent = new Intent(getApplicationContext(), DownloadData.class);
+                                            myIntent.putExtra("MenuID", MenuID);
+                                            finish();
+                                            startActivity(myIntent);
+										}
+										else{
 											clazz = Class.forName(myClass);
 											Intent myIntent = new Intent(getApplicationContext(), clazz);
 											myIntent.putExtra("MenuID", MenuID);

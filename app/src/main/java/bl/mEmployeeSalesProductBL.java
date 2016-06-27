@@ -1,8 +1,12 @@
 package bl;
 
-import java.util.Iterator;
-
 import android.database.sqlite.SQLiteDatabase;
+
+import org.json.simple.JSONArray;
+
+import java.util.Iterator;
+import java.util.List;
+
 import library.salesforce.common.APIData;
 import library.salesforce.common.clsHelper;
 import library.salesforce.common.linkAPI;
@@ -19,7 +23,7 @@ import library.salesforce.dal.mconfigDA;
 import library.salesforce.dal.tUserLoginDA;
 
 public class mEmployeeSalesProductBL extends clsMainBL{
-	public void DownloadEmployeeSalesProduct(String versionName) throws Exception{
+	public JSONArray DownloadEmployeeSalesProduct(String versionName) throws Exception{
 		//ambil linkapi Database sqllite
 		SQLiteDatabase _db=getDb();
 		tUserLoginDA _tUserLoginDA=new tUserLoginDA(_db);
@@ -101,5 +105,14 @@ public class mEmployeeSalesProductBL extends clsMainBL{
 			}
 		}
 		_db.close();
+		return JsonArray;
+	}
+
+	public List<mEmployeeSalesProductData> GetAllData(){
+		SQLiteDatabase db=getDb();
+		mEmployeeSalesProductDA _mEmployeeSalesProductDA= new mEmployeeSalesProductDA(db);
+		List<mEmployeeSalesProductData>ListData=_mEmployeeSalesProductDA.getAllData(db);
+		db.close();
+		return ListData;
 	}
 }

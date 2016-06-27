@@ -1,10 +1,11 @@
 package bl;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import android.database.sqlite.SQLiteDatabase;
 import library.salesforce.common.APIData;
 import library.salesforce.common.clsHelper;
 import library.salesforce.common.linkAPI;
@@ -126,10 +127,10 @@ public class mProductBarcodeBL extends clsMainBL {
 			strVal2 = dataAPI.get_txtDefaultValue();
 		}
 		//ambil version dari webservices
-		tUserLoginData _dataUserLogin = _tUserLoginDA.getData(_db, 1);
+		tUserLoginData _dataUserLogin = _tUserLoginDA.getData(db, 1);
 		clsHelper _help =new clsHelper();
 		linkAPI dtlinkAPI=new linkAPI();
-		String txtMethod="GetDatavw_SalesInsentive_EmployeeSalesProductDetailWithBarcode";
+		String txtMethod="GetDatavw_SalesInsentive_EmployeeSalesProductDetail";
 		dtlinkAPI.set_txtMethod(txtMethod);
 		dtlinkAPI.set_txtParam(_dataUserLogin.get_TxtEmpId()+"|||");
 		dtlinkAPI.set_txtToken(new clsHardCode().txtTokenAPI);
@@ -137,6 +138,7 @@ public class mProductBarcodeBL extends clsMainBL {
 		String strLinkAPI= dtlinkAPI.QueryString(strVal2);
 		String JsonData= _help.ResultJsonData(_help.getHTML(strLinkAPI));
 		org.json.simple.JSONArray JsonArray= _help.ResultJsonArray(JsonData);
+
 		return JsonArray;
 	}
 }
