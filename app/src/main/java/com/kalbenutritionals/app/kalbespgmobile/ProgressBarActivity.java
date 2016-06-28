@@ -1,15 +1,18 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
-//import  com.aanjunian.app.
-
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import java.text.ParseException;
 import java.util.Timer;
@@ -22,34 +25,83 @@ import library.salesforce.dal.enumStatusMenuStart;
 import service.MyServiceNative;
 
 public class ProgressBarActivity extends AppCompatActivity {
-    private  int progressStatus = 0;
-    private Handler handler = new Handler();
-    long delay = 3000;
+    long delay = 5000;
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress_bar);
+            final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+            progressBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
 
-        //ActionBar actionBar = getActionBar();
-        //actionBar.hide();
+        Intent myIntent = new Intent(ProgressBarActivity.this, ProgressBarActivity.class);
+        int hasWriteContactsPermission = ContextCompat.checkSelfPermission(ProgressBarActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int hasReadContactsPermission = ContextCompat.checkSelfPermission(ProgressBarActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (Build.VERSION.SDK_INT >= 23&&hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+            checkPermission();
 
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        final TextView tv2 = (TextView) findViewById(R.id.textView2);
-        progressBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+        } else if (Build.VERSION.SDK_INT >= 23&&hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED){
+            doProcess();
+
+        } else {
+            doProcess();
+        }
+    }
+
+    private void checkPermission() {
+
+        int hasWriteContactsPermission = ContextCompat.checkSelfPermission(ProgressBarActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int hasReadContactsPermission = ContextCompat.checkSelfPermission(ProgressBarActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(ProgressBarActivity.this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                showMessageOKCancel("You need to allow access. . .",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(ProgressBarActivity.this,
+                                        new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                                        REQUEST_CODE_ASK_PERMISSIONS);
+                                doProcess();
+                            }
+                        });
+                return;
+
+            }
+            ActivityCompat.requestPermissions(ProgressBarActivity.this,
+                    new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},
+                    REQUEST_CODE_ASK_PERMISSIONS);
+        return;
+
+    }
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(ProgressBarActivity.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
+    private void doProcess() {
+
         Timer runProgress = new Timer();
         TimerTask viewTask = new TimerTask() {
 
             public void run() {
                 Intent myIntent = new Intent(ProgressBarActivity.this, Login.class);
-                 clsHelper _clsHelper = new clsHelper();
+                clsHelper _clsHelper = new clsHelper();
                 _clsHelper.createFolderApp();
                 try {
-                    clsStatusMenuStart _clsStatusMenuStart= new clsMainBL().checkUserActive();
-                    if(_clsStatusMenuStart.get_intStatus()== enumStatusMenuStart.FormLogin){
+                    clsStatusMenuStart _clsStatusMenuStart = new clsMainBL().checkUserActive();
+                    if (_clsStatusMenuStart.get_intStatus() == enumStatusMenuStart.FormLogin) {
                         myIntent = new Intent(ProgressBarActivity.this, Login.class);
-                    }else if(_clsStatusMenuStart.get_intStatus()== enumStatusMenuStart.PushDataSPGMobile){
+                    } else if (_clsStatusMenuStart.get_intStatus() == enumStatusMenuStart.PushDataSPGMobile) {
                         myIntent = new Intent(ProgressBarActivity.this, PushData.class);
-                    } else if(_clsStatusMenuStart.get_intStatus()== enumStatusMenuStart.UserActiveLogin){
+                    } else if (_clsStatusMenuStart.get_intStatus() == enumStatusMenuStart.UserActiveLogin) {
                         myIntent = new Intent(ProgressBarActivity.this, Home.class);
                         startService(new Intent(getApplicationContext(), MyServiceNative.class));
                     }
@@ -61,6 +113,6 @@ public class ProgressBarActivity extends AppCompatActivity {
             }
         };
         runProgress.schedule(viewTask, delay);
-
+        }
     }
-}
+
