@@ -13,4 +13,7 @@
     <color name="title_background">#007F92</color>
     <color name="title_separator">#40ffffff</color>
     <color name="title_text">#ffffffff</color>
+
+    <!--<color name="PrimaryColor">#2196F3</color>-->
+    <color name="PrimaryColor">#035e00</color>
 </resources>

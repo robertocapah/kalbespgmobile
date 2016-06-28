@@ -1,7 +1,8 @@
 package bl;
 
-import java.util.List;
+import android.database.sqlite.SQLiteDatabase;
 
+import java.util.List;
 
 import library.salesforce.common.clsHelper;
 import library.salesforce.common.linkAPI;
@@ -13,7 +14,6 @@ import library.salesforce.dal.enumConfigData;
 import library.salesforce.dal.mTypeLeaveMobileDA;
 import library.salesforce.dal.mconfigDA;
 import library.salesforce.dal.tUserLoginDA;
-import android.database.sqlite.SQLiteDatabase;
 
 public class mTypeLeaveBL extends clsMainBL{
 

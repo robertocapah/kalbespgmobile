@@ -33,6 +33,7 @@ import bl.mEmployeeSalesProductBL;
 import bl.mItemSalesPack_stockBL;
 import bl.mPriceInOutletBL;
 import bl.mProductBarcodeBL;
+import bl.mProductBrandHeaderBL;
 import bl.mReason_mobileBL;
 import bl.mStatusDocumentBL;
 import bl.mTypeLeaveBL;
@@ -53,6 +54,7 @@ import library.salesforce.common.mEmployeeSalesProductData;
 import library.salesforce.common.mItemSalesPack_StockData;
 import library.salesforce.common.mPriceInOutletData;
 import library.salesforce.common.mProductBarcodeData;
+import library.salesforce.common.mProductBrandHeaderData;
 import library.salesforce.common.mReasonData;
 import library.salesforce.common.mStatusDocumentData;
 import library.salesforce.common.mStockAwalData;
@@ -74,28 +76,9 @@ public class DownloadData extends clsMainActivity {
     private Spinner spnOutlet;
     private Button btnProduct;
     private Spinner spnProduct;
-    private Spinner spnSalesOrder;
-    private Spinner spnTrLeave;
-    private Spinner spnGRN;
-    private Spinner spnStockOpname;
-    private Spinner spnPO;
-    private Spinner spnPengeluaran;
-    private Spinner spnAbsen;
-    private Spinner spnPriceHJD;
-    private Button btnPriceHJD;
     private Button btnAllDownload;
     private Spinner spnLeave;
-    private Spinner spnStock;
-    private Button btnStock;
     private Button btnLeave;
-    private Spinner spnTypeStatus;
-    private Button btnTypeStatus;
-    private Spinner spnTypeDocument;
-    private Button btnTypeDocument;
-    private Spinner spnStockAwal;
-    private Button btnStockAwal;
-    private Spinner spnReason;
-    private Button btnReason;
     private Spinner spnBrand;
     private Button btnBrand;
 
@@ -114,6 +97,7 @@ public class DownloadData extends clsMainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_masterpage);
+        setHeaderFull();
         Intent i = getIntent();
         MenuID=getMenuID(i);
         LinearLayout lnContent = (LinearLayout) findViewById(R.id.llContent);
@@ -121,83 +105,21 @@ public class DownloadData extends clsMainActivity {
         btnAllDownload = (Button) findViewById(R.id.btnAllDownload);
         btnBranch = (Button) findViewById(R.id.btnBranch);
         spnBranch = (Spinner) findViewById(R.id.spnBranch);
-        btnStock = (Button) findViewById(R.id.btnStock);
-        spnStock = (Spinner) findViewById(R.id.spnStock);
         btnOutlet = (Button) findViewById(R.id.btnOutlet);
         spnOutlet = (Spinner) findViewById(R.id.spnOutlet);
         btnProduct = (Button) findViewById(R.id.btnProduct);
         spnProduct = (Spinner) findViewById(R.id.spnProduct);
-        spnTrLeave=(Spinner) findViewById(R.id.spnTrLeave);
-        spnSalesOrder = (Spinner) findViewById(R.id.spnSalesOrder);
-        spnGRN = (Spinner) findViewById(R.id.spnGRN);
-        spnStockOpname = (Spinner) findViewById(R.id.spnStockOpname);
         btnLeave = (Button) findViewById(R.id.btnLeave);
         spnLeave = (Spinner) findViewById(R.id.spnLeave);
-        btnTypeStatus = (Button) findViewById(R.id.btnTypeStatus);
-        spnTypeStatus = (Spinner) findViewById(R.id.spnTypeStatus);
-        btnTypeDocument = (Button) findViewById(R.id.btnTypeDocument);
-        spnTypeDocument = (Spinner) findViewById(R.id.spnTypeDocument);
-        btnStockAwal = (Button) findViewById(R.id.btnStockAwal);
-        spnStockAwal = (Spinner) findViewById(R.id.spnStockAwal);
-        spnPO = (Spinner) findViewById(R.id.spnPO);
-        spnGRN = (Spinner) findViewById(R.id.spnGRN);
-        spnPengeluaran = (Spinner) findViewById(R.id.spnPengeluaran);
-        btnReason = (Button) findViewById(R.id.btnReason);
-        spnReason = (Spinner) findViewById(R.id.spnReason);
-        spnAbsen = (Spinner) findViewById(R.id.spnAbsen);
-        spnPriceHJD = (Spinner) findViewById(R.id.spnPriceHJD);
-        btnPriceHJD = (Button) findViewById(R.id.btnPriceHJD);
         spnBrand = (Spinner) findViewById(R.id.spnBrand);
         btnBrand = (Button) findViewById(R.id.btnDlBrand);
 
         pInfo=getPinfo();
         loadData();
-        btnStockAwal.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                intProcesscancel = 0;
-                AsyncCallStockAwal task = new AsyncCallStockAwal();
-                task.execute();
-            }
-        });
-        btnReason.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                intProcesscancel = 0;
-                AsyncCallmReason task = new AsyncCallmReason();
-                task.execute();
-            }
-        });
         btnAllDownload.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 intProcesscancel = 0;
                 AsyncCallDownloadAll task = new AsyncCallDownloadAll();
-                task.execute();
-            }
-        });
-        btnTypeStatus.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                intProcesscancel = 0;
-                AsyncCallStatusDocument task = new AsyncCallStatusDocument();
-                task.execute();
-            }
-        });
-        btnTypeDocument.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                intProcesscancel = 0;
-                AsyncCallTypePenguaran task = new AsyncCallTypePenguaran();
-                task.execute();
-            }
-        });
-        btnPriceHJD.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                intProcesscancel = 0;
-                AsyncCallPriceProduct task = new AsyncCallPriceProduct();
-                task.execute();
-            }
-        });
-        btnStock.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                intProcesscancel = 0;
-                AsyncCallStock task = new AsyncCallStock();
                 task.execute();
             }
         });
@@ -257,97 +179,8 @@ public class DownloadData extends clsMainActivity {
         List<tSalesOrderHeader_MobileData> listtSalesOrderHeader_MobileData=new tSalesOrderHeader_MobileBL().getData("");
         List<tLeaveMobileData> listtLeaveMobileData=new tLeaveMobileBL().getData("");
         List<tAbsenUserData> listtAbsenUserData=new tAbsenUserBL().GetData("");
-        arrData=new ArrayList<String>();
-        if(listtAbsenUserData!= null){
-            for(tAbsenUserData dt :listtAbsenUserData ){
-                arrData.add(dt.get_dtDateCheckIn() +" - "+dt.get_txtOutletName()  +" - " + dt.get_dtDateCheckIn()+" - "+dt.get_dtDateCheckOut());
-            }
-            spnAbsen.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
-        }
-        arrData=new ArrayList<String>();
-        if(listtLeaveMobileData!= null){
-            for(tLeaveMobileData dt :listtLeaveMobileData ){
-                arrData.add(dt.get_dtLeave() +" - "+dt.get_txtAlasan());
-            }
-            spnTrLeave.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
-        }
-        arrData=new ArrayList<String>();
-        if(listmPriceInOutletData!= null){
-            for(mPriceInOutletData dt :listmPriceInOutletData ){
-                arrData.add(dt.get_txtProductName() +" - Rp."+dt.get_decPriceHJD());
-            }
-            spnPriceHJD.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
-        }
-        arrData=new ArrayList<String>();
-        if(listtPOHeader_mobileBL!= null){
-            for(tPOHeader_mobileData dt :listtPOHeader_mobileBL ){
-                arrData.add(dt.get_txtOutletName()+" - "+ dt.get_txtNoPO());
-            }
-            spnPO.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
-        }
-        arrData=new ArrayList<String>();
-        if(listtGRNHeader_mobileBL!= null){
-            for(tGRNHeader_mobileData dt :listtGRNHeader_mobileBL ){
-                arrData.add(dt.get_txtOutletName()+" - "+ dt.get_txtNoGRN());
-            }
-            spnGRN.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
-        }
-        arrData=new ArrayList<String>();
-        if(listtPenguaranHeader_MobileData!= null){
-            for(tPenguaranHeader_MobileData dt :listtPenguaranHeader_MobileData ){
-                arrData.add(dt.get_txtOutletName()+" - "+ dt.get_txtNoPenguaran());
-            }
-            spnPengeluaran.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
-        }
-        arrData=new ArrayList<String>();
-        if(listtStockOpnameHeader_mobileData!= null){
-            for(tStockOpnameHeader_mobileData dt :listtStockOpnameHeader_mobileData ){
-                arrData.add(dt.get_txtOutletName()+" - "+ dt.get_txtNoAdj());
-            }
-            spnStockOpname.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
-        }
-        arrData=new ArrayList<String>();
-        if(listtSalesOrderHeader_MobileData!= null){
-            for(tSalesOrderHeader_MobileData dt :listtSalesOrderHeader_MobileData ){
-                arrData.add(dt.get_txtOutletName()+" - "+ dt.get_txtNoSalesOrder());
-            }
-            spnSalesOrder.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
-        }
-        arrData=new ArrayList<String>();
-        if(listmReasonData!= null){
-            for(mReasonData dt :listmReasonData ){
-                arrData.add(dt.get_txtType()+" - "+ dt.get_txtReason());
-            }
-            spnReason.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
-        }
-        arrData=new ArrayList<String>();
-        if(listmStockAwalData!= null){
-            for(mStockAwalData dt :listmStockAwalData ){
-                arrData.add(dt.get_txtOutletCode()+" - "+ dt.get_txtOutletName() +" : "+dt.get_intQty());
-            }
-            spnStockAwal.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
-        }
-        arrData=new ArrayList<String>();
-        if(listDataStock.size()>0){
-            for(mItemSalesPack_StockData dt :listDataStock ){
-                arrData.add(dt.get_txtOutletCode()+" - "+ dt.get_txtOutletName()+" : "+dt.get_intQtyAvailable());
-            }
-            spnStock.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
-        }
-        arrData=new ArrayList<String>();
-        if(listDatamTypePenguaranMobileData.size()>0){
-            for(mTypePenguaranMobileData dt :listDatamTypePenguaranMobileData ){
-                arrData.add(dt.get_txtNamaPenguaran());
-            }
-            spnTypeDocument.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
-        }
-        arrData=new ArrayList<String>();
-        if(listmStatusDocumentData.size()>0){
-            for(mStatusDocumentData dt :listmStatusDocumentData ){
-                arrData.add(dt.get_txtStatus());
-            }
-            spnTypeStatus.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
-        }
+        List<mProductBrandHeaderData> listmProductBrandData = new mProductBrandHeaderBL().getData("");
+
         arrData=new ArrayList<String>();
         if(listDataBranch.size()>0){
             for(mEmployeeBranchData dt :listDataBranch ){
@@ -375,6 +208,13 @@ public class DownloadData extends clsMainActivity {
                 arrData.add(dt.get_txtProductBrandDetailGramName());
             }
             spnProduct.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
+        }
+        arrData=new ArrayList<String>();
+        if(listmProductBrandData.size()>0){
+            for(mProductBrandHeaderData dt :listmProductBrandData ){
+                arrData.add(dt.get_txtProductBrandName());
+            }
+            spnBrand.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
         }
     }
     private List<String> SaveDatamItemSalesPack_StockData(JSONArray JData){
@@ -579,7 +419,7 @@ public class DownloadData extends clsMainActivity {
         protected JSONArray doInBackground(JSONArray... params) {
             JSONArray Json = null;
             try {
-                Json = new mEmployeeSalesProductBL().DownloadEmployeeSalesProduct(pInfo.versionName);
+                Json = new mProductBrandHeaderBL().DownloadBrandHeader(pInfo.versionName);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

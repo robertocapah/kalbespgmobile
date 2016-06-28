@@ -6,7 +6,7 @@
     android:gravity="top|center"
     android:orientation="vertical"
     android:background="#0000"
-    tools:context="com.kalbe.salesforce.DownloadData" >
+    tools:context="com.kalbenutritionals.app.kalbespgmobile.DownloadData" >
 
             <TextView
                 android:id="@+id/txtBranch"
@@ -71,7 +71,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
                 android:background="#007F92" />
-			
+
             <Spinner
                 android:id="@+id/spnProduct"
                 android:layout_width="match_parent"
@@ -84,44 +84,31 @@
                     android:layout_height="wrap_content"
                     android:text="Download Product" />
 
-	<Spinner
+	<TextView
 		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Brand"
+		android:id="@+id/textView7"
+		android:layout_gravity="center_horizontal"
+		android:textColor="#000" />
+	<View
+		android:id="@+id/view9"
+		android:layout_width="fill_parent"
+		android:layout_height="2dp"
+		android:background="#007F92" />
+	<Spinner
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:id="@+id/spnBrand" />
 
 	<Button
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="DOWNLOAD BRAND"
+		android:text="Download Brand"
 		android:id="@+id/btnDlBrand" />
 
+
 	<TextView
-                android:id="@+id/txtVw5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Stock"
-                android:textColor="#000" />
-			<View
-                android:id="@+id/view4"
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#007F92" />
-            <Spinner
-                android:id="@+id/spnStock"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-			
-			<Button
-                    android:id="@+id/btnStock"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Download Stock" />
-			
-			
-			
-			
-            <TextView
                 android:id="@+id/txtVwLeave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -143,213 +130,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Download Leave" />
-			
-			<TextView
-                android:id="@+id/txtVwTypeDocument"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Type Document"
-                android:textColor="#000" />
-			<View
-                android:id="@+id/view6"
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#007F92" />
-            <Spinner
-                android:id="@+id/spnTypeDocument"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-			
-			<Button
-                    android:id="@+id/btnTypeDocument"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Download Type Document" />
-			
-			<TextView
-                android:id="@+id/txtVwTypeStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Type Status"
-                android:textColor="#000" />
-			<View
-                android:id="@+id/view7"
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#007F92" />
-            <Spinner
-                android:id="@+id/spnTypeStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-			
-			<Button
-                    android:id="@+id/btnTypeStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Download Type Status" />
-			
-			<TextView
-                android:id="@+id/txtVwPriceHJD"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Price HJD"
-                android:textColor="#000" />
-			<View
-                android:id="@+id/view8"
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#007F92" />
-            <Spinner
-                android:id="@+id/spnPriceHJD"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-			
-			<Button
-                    android:id="@+id/btnPriceHJD"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Download Price Product" />
-			
-			 <TextView
-                android:id="@+id/txtmStockAwal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Stock Awal"
-                android:textColor="#000" />
- 			<View
-                android:id="@+id/view10"
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#007F92" />
 
- 			 <Spinner
- 			     android:id="@+id/spnStockAwal"
- 			     android:layout_width="match_parent"
- 			     android:layout_height="wrap_content"
- 			     />
-			
-			<Button
-                    android:id="@+id/btnStockAwal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Download Stock Awal" />
-			
-			<TextView
-                android:id="@+id/txtmReason"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Reason"
-                android:textColor="#000" />
- 			<View
-                android:id="@+id/view11"
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#007F92" />
-
- 			 <Spinner
- 			     android:id="@+id/spnReason"
- 			     android:layout_width="match_parent"
- 			     android:layout_height="wrap_content"
- 			     />
-			
-			<Button
-                    android:id="@+id/btnReason"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Download Reason" />
-			
-			<TextView
-                android:id="@+id/tvPO1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PO"
-                android:textColor="#000" />
-
-            <Spinner
-                android:id="@+id/spnPO"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-            
-			<TextView
-                android:id="@+id/tvGRN1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="GRN"
-                android:textColor="#000" />
-
-            <Spinner
-                android:id="@+id/spnGRN"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-            
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sales Order"
-                android:textColor="#000" />
-
-            <Spinner
-                android:id="@+id/spnSalesOrder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-            
-            <TextView
-                android:id="@+id/tvPengeluarab7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pengeluaran"
-                android:textColor="#000" />
-
-            <Spinner
-                android:id="@+id/spnPengeluaran"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-            
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Stock Opname"
-                android:textColor="#000" />
-
-            <Spinner
-                android:id="@+id/spnStockOpname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-			<TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Absen"
-                android:textColor="#000" />
-
-            <Spinner
-                android:id="@+id/spnAbsen"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-             <TextView
-                android:id="@+id/textView10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Leave"
-                android:textColor="#000" />
-
-            <Spinner
-                android:id="@+id/spnTrLeave"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-			<Button
+	<Button
                     android:id="@+id/btnAllDownload"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
