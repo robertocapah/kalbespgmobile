@@ -82,6 +82,10 @@
             android:label="" >
         </activity>
         <activity
+            android:name=".MainMenu"
+            android:label="" >
+        </activity>
+        <activity
             android:name=".DownloadData"
             android:label="" >
         </activity>

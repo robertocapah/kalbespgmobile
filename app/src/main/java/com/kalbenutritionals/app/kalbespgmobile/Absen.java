@@ -483,7 +483,7 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 
 				try {
 					clazz = Class.forName(myClass);
-					Intent myIntent = new Intent(getApplicationContext(), clazz);
+					Intent myIntent = new Intent(getApplicationContext(), MainMenu.class);
 					myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
 					myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
 					myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);
