@@ -9,33 +9,59 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import bl.tUserLoginBL;
+import library.salesforce.common.tUserLoginData;
+
+public class MainMenu extends AppCompatActivity {
 
     //Defining Variables
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
 
+    private TextView tvUsername, tvEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
-        // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Home");
         setSupportActionBar(toolbar);
 
-        //Initializing NavigationView
+        tUserLoginData dt=new tUserLoginBL().getUserActive();
+
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        Menu m = navigationView.getMenu();
-        m.add(Menu.NONE, 0, 0, "test");
-        MenuItem nav_camara = m.findItem(0);
-        nav_camara.setIcon(R.drawable.ic_delete_black);
+        View vwHeader = navigationView.getHeaderView(0);
+
+        tvUsername = (TextView) vwHeader.findViewById(R.id.username);
+        tvEmail = (TextView) vwHeader.findViewById(R.id.email);
+        tvUsername.setText("Welcome, " + dt.get_txtName());
+        tvEmail.setText(dt.get_TxtEmail());
+
+        Menu header = navigationView.getMenu();
+//        header.add(Menu.NONE, 0, 0, "Reso");
+//        header.add(Menu.NONE, 1, 1, "Activity");
+//        header.add(Menu.NONE, 2, 2, "Customer Base");
+//
+//        MenuItem menuItemReso = header.findItem(0);
+//        MenuItem menuItemActivity = header.findItem(1);
+//        final MenuItem menuCustomerBase = header.findItem(2);
+//
+//        menuItemReso.setIcon(R.drawable.ic_send_black);
+//        menuItemReso.setChecked(false);
+//        menuItemActivity.setIcon(R.drawable.ic_home_black);
+//        menuItemActivity.setChecked(false);
+//        menuCustomerBase.setIcon(R.drawable.ic_star_black);
+//        menuCustomerBase.setChecked(false);
 
 
-
-        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
+//Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             // This method will trigger on item Click of navigation menu
@@ -47,48 +73,42 @@ public class MainActivity extends AppCompatActivity {
                 if(menuItem.isChecked()) menuItem.setChecked(false);
                 else menuItem.setChecked(true);
 
-                //Closing drawer on item click
                 drawerLayout.closeDrawers();
 
-                //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.getItemId()){
-
-
-                    //Replacing the main content with ContentFragment Which is our Inbox View;
-//                    case R.id.inbox:
-//                        Toast.makeText(getApplicationContext(),"Inbox Selected",Toast.LENGTH_SHORT).show();
+                    case R.id.add_reso:
+                        Toast.makeText(getApplicationContext(),"Add reso",Toast.LENGTH_SHORT).show();
+                        toolbar.setTitle(menuItem.getTitle().toString() + " Reso");
 //                        ContentFragment fragment = new ContentFragment();
 //                        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //                        fragmentTransaction.replace(R.id.frame,fragment);
 //                        fragmentTransaction.commit();
-//                        return true;
-//
-//                    // For rest of the options we just show a toast on click
-//
-//                    case R.id.starred:
-//                        Toast.makeText(getApplicationContext(),"Stared Selected",Toast.LENGTH_SHORT).show();
-//                        return true;
-//                    case R.id.sent_mail:
-//                        Toast.makeText(getApplicationContext(),"Send Selected",Toast.LENGTH_SHORT).show();
-//                        return true;
-//                    case R.id.drafts:
-//                        Toast.makeText(getApplicationContext(),"Drafts Selected",Toast.LENGTH_SHORT).show();
-//                        return true;
-//                    case R.id.allmail:
-//                        Toast.makeText(getApplicationContext(),"All Mail Selected",Toast.LENGTH_SHORT).show();
-//                        return true;
-//                    case R.id.trash:
-//                        Toast.makeText(getApplicationContext(),"Trash Selected",Toast.LENGTH_SHORT).show();
-//                        return true;
-//                    case R.id.spam:
-//                        Toast.makeText(getApplicationContext(),"Spam Selected",Toast.LENGTH_SHORT).show();
-//                        return true;
-//                    default:
-//                        Toast.makeText(getApplicationContext(),"Somethings Wrong",Toast.LENGTH_SHORT).show();
-//                        return true;
+                        return true;
+                    case R.id.view_reso:
+                        Toast.makeText(getApplicationContext(),"View reso",Toast.LENGTH_SHORT).show();
+                        toolbar.setTitle(menuItem.getTitle().toString() + " Reso");
+                        return true;
+                    case R.id.add_activity:
+                        Toast.makeText(getApplicationContext(),"Add activity",Toast.LENGTH_SHORT).show();
+                        toolbar.setTitle(menuItem.getTitle().toString() + " Activity");
+                        return true;
+                    case R.id.view_activity:
+                        Toast.makeText(getApplicationContext(),"View activity",Toast.LENGTH_SHORT).show();
+                        toolbar.setTitle(menuItem.getTitle().toString() + " Activity");
+                        return true;
+                    case R.id.add_customerbase:
+                        Toast.makeText(getApplicationContext(),"Add customer base",Toast.LENGTH_SHORT).show();
+                        toolbar.setTitle(menuItem.getTitle().toString() + " Customer Base");
+                        return true;
+                    case R.id.view_customerbase:
+                        Toast.makeText(getApplicationContext(),"View customer base",Toast.LENGTH_SHORT).show();
+                        toolbar.setTitle(menuItem.getTitle().toString() + " Customer Base");
+                        return true;
+                    default:
+                        Toast.makeText(getApplicationContext(),"Somethings Wrong",Toast.LENGTH_SHORT).show();
+                        return true;
 
                 }
-                return true;
             }
         });
 
@@ -115,9 +135,6 @@ public class MainActivity extends AppCompatActivity {
 
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
-
-
-
 
 
 
