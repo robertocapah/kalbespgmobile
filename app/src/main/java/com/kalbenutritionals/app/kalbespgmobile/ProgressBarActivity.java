@@ -64,7 +64,7 @@ public class ProgressBarActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 ActivityCompat.requestPermissions(ProgressBarActivity.this,
-                                        new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                                        new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA},
                                         REQUEST_CODE_ASK_PERMISSIONS);
                                 doProcess();
                             }
@@ -73,7 +73,7 @@ public class ProgressBarActivity extends AppCompatActivity {
 
             }
             ActivityCompat.requestPermissions(ProgressBarActivity.this,
-                    new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},
+                    new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA},
                     REQUEST_CODE_ASK_PERMISSIONS);
         return;
 

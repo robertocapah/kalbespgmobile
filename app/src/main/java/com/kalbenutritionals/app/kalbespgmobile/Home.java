@@ -207,10 +207,15 @@ public class Home extends clsMainActivity {
 										if (myClass.equals("#") && MenuID.toString().contains("Logout")) {
 											funcLogOut();
 										} else if (MenuID.toString().contains("mnDownloadData")) {
-                                            Intent myIntent = new Intent(getApplicationContext(), DownloadData.class);
-                                            myIntent.putExtra("MenuID", MenuID);
-                                            finish();
-                                            startActivity(myIntent);
+											Intent myIntent = new Intent(getApplicationContext(), DownloadData.class);
+											myIntent.putExtra("MenuID", MenuID);
+											finish();
+											startActivity(myIntent);
+										} else if (MenuID.toString().contains("mnAbsenKBN")) {
+											Intent myIntent = new Intent(getApplicationContext(), Absen.class);
+											myIntent.putExtra("MenuID", MenuID);
+											finish();
+											startActivity(myIntent);
 										}
 										else{
 											clazz = Class.forName(myClass);

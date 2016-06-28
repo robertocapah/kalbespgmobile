@@ -1,9 +1,10 @@
 package bl;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import android.database.sqlite.SQLiteDatabase;
 import library.salesforce.common.mMenuData;
 import library.salesforce.common.tLeaveMobileData;
 import library.salesforce.dal.mEmployeeAreaDA;
@@ -56,10 +57,10 @@ public class mMenuBL extends clsMainBL {
     			tLeaveMobileDA _tLeaveMobileDA=new tLeaveMobileDA(db);
     			//mEmployeeSalesProductDA _mEmployeeSalesProductDA=new mEmployeeSalesProductDA(db);
     			//if(_mEmployeeAreaDA.getContactsCount(db)>0 && _mEmployeeBranchDA.getContactsCount(db)>0 && _mEmployeeSalesProductDA.getContactsCount(db)>0){
-    			if(listDataLeave.size()==0 && _mEmployeeAreaDA.getContactsCount(db)>0 && _mEmployeeBranchDA.getContactsCount(db)>0 
-    					&& _mProductBarcodeDA.getContactsCount(db)>0 ){
+//    			if(listDataLeave.size()==0 && _mEmployeeAreaDA.getContactsCount(db)>0 && _mEmployeeBranchDA.getContactsCount(db)>0
+//    					&& _mProductBarcodeDA.getContactsCount(db)>0 ){
     				tmpData.add(data);
-    			}
+//    			}
     		}else if(data.get_TxtDescription().contains("mnLeave")){
     			mTypeLeaveMobileDA _mTypeLeaveMobileDA=new mTypeLeaveMobileDA(db);
     			tAbsenUserDA _tAbsenUserDA=new tAbsenUserDA(db);

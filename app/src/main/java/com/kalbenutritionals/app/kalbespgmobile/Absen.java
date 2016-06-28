@@ -138,7 +138,7 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 	@Override
 	public void onBackPressed() {
 		finish();
-		Intent nextScreen = new Intent(getApplicationContext(), Absen.class);
+		Intent nextScreen = new Intent(getApplicationContext(), Home.class);
 		nextScreen.putExtra(clsParameterPutExtra.MenuID, MenuID);
 		startActivity(nextScreen);
 	}
@@ -311,8 +311,7 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 		imgPrevNoImg1.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String nameBranch = "tes";
-						//spnBranch.getSelectedItem().toString();
+				String nameBranch = spnBranch.getSelectedItem().toString();
 				String nameOutlet = spnOutlet.getSelectedItem().toString();
 				String branchCode = HMbranch.get(nameBranch);
 				String outletCode = HMoutlet.get(nameOutlet);
@@ -346,8 +345,7 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 
 			@Override
 			public void onClick(View v) {
-				String nameBranch = "tes2";
-						//spnBranch.getSelectedItem().toString();
+				String nameBranch = spnBranch.getSelectedItem().toString();
 				String nameOutlet = spnOutlet.getSelectedItem().toString();
 				String branchCode = HMbranch.get(nameBranch);
 				String outletCode = HMoutlet.get(nameOutlet);
@@ -473,8 +471,7 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 		if (dttAbsenUserData != null) {
 			if (dttAbsenUserData.get_intSubmit().equals("1")) {
 				// Kalau ada langsung ke Main Menu
-				String nameBranch = "123";
-						//spnBranch.getSelectedItem().toString();
+				String nameBranch = spnBranch.getSelectedItem().toString();
 				String nameOutlet = spnOutlet.getSelectedItem().toString();
 
 				String branchCode = HMbranch.get(nameBranch);
@@ -516,8 +513,7 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 
 				myClass= "com.kalbenutritionals.app.kalbespgmobile.Home";
 				MenuID = "mnCheckinKBN";
-				nameBranch = "1";
-						//spnBranch.getSelectedItem().toString();
+				nameBranch = spnBranch.getSelectedItem().toString();
 				nameOutlet = spnOutlet.getSelectedItem().toString();
 				branchCode = HMbranch.get(nameBranch);
 				outletCode = HMoutlet.get(nameOutlet);
@@ -546,8 +542,7 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
                                                 }
                                             }
                                             if(pRes){
-                                                nameBranch = "aaa";
-														//spnBranch.getSelectedItem().toString();
+                                                nameBranch = spnBranch.getSelectedItem().toString();
                                                 nameOutlet = spnOutlet.getSelectedItem().toString();
                                                 branchCode = HMbranch.get(nameBranch);
                                                 outletCode = HMoutlet.get(nameOutlet);

@@ -86,7 +86,11 @@
             android:label="" >
         </activity>
         <activity
-            android:name=".Home"
+        android:name=".Home"
+        android:label="" >
+    </activity>
+        <activity
+            android:name=".Absen"
             android:label="" >
         </activity>
         <service android:name="service.MyServiceNative" >
