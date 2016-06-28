@@ -165,14 +165,16 @@
                 android:layout_marginTop="10dp"
                 android:background="#bfbfbf" />
 
-            <LinearLayout android:background="@drawable/bg_rounded_normal" android:layout_marginTop="10dp" android:gravity="center" android:id="@+id/llimgview" android:layout_below="@+id/view3" android:weightSum="3" android:layout_height="match_parent" android:layout_width="wrap_content" android:orientation="horizontal">
+            <LinearLayout android:background="@drawable/bg_rounded_normal" android:layout_marginTop="10dp" android:gravity="center" android:id="@+id/llimgview" android:layout_below="@+id/view3" android:weightSum="3" android:layout_height="wrap_content" android:layout_width="wrap_content" android:orientation="horizontal">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:text="Image"/>
                 <ImageView
                     android:id="@+id/imageViewCamera1"
+                    android:layout_marginLeft="5dp"
                     android:background="@mipmap/ic_maps_local_see"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -181,6 +183,7 @@
                     android:id="@+id/imageViewCamera2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:background="@mipmap/ic_maps_local_see"
                     android:layout_weight="1" />
             </LinearLayout>
@@ -214,13 +217,13 @@
                         <Button
                             android:id="@+id/btnRefreshMaps"
                             android:layout_width="90dp"
-                            android:layout_height="25dp"
+                            android:layout_height="30dp"
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="5dp"
                             android:text="Refresh Map"
                             android:textColor="#FFF"
-                            android:background="#258207" />
+                            android:background="@drawable/btn_download_all" />
                     </RelativeLayout>
                 </com.kalbenutritionals.app.kalbespgmobile.MyMapFragmentContainer>
             </RelativeLayout>

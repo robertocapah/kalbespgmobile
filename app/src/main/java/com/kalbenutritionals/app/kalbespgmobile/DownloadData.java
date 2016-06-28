@@ -86,6 +86,7 @@ public class DownloadData extends clsMainActivity {
     private PackageInfo pInfo = null;
     private List<String> arrData;
     private String MenuID;
+    private String[] strip = new String[]{"-"};
     @Override
     public void onBackPressed() {
         finish();
@@ -159,6 +160,18 @@ public class DownloadData extends clsMainActivity {
                 task.execute();
             }
         });
+//        ArrayAdapter<String> adapterspn = new ArrayAdapter<String>(this,
+//                android.R.layout.simple_spinner_item, strip);
+//        spnBranch.setAdapter(adapterspn);
+//        spnBranch.setEnabled(false);
+//        spnOutlet.setAdapter(adapterspn);
+//        spnOutlet.setEnabled(false);
+//        spnProduct.setAdapter(adapterspn);
+//        spnProduct.setEnabled(false);
+//        spnLeave.setAdapter(adapterspn);
+//        spnLeave.setEnabled(false);
+//        spnBrand.setAdapter(adapterspn);
+//        spnBrand.setEnabled(false);
     }
     private void loadData(){
         pInfo=getPinfo();
@@ -187,6 +200,12 @@ public class DownloadData extends clsMainActivity {
                 arrData.add(dt.get_txtBranchCode()+" - "+ dt.get_txtBranchName());
             }
             spnBranch.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
+            spnBranch.setEnabled(true);
+        } else if (listDataBranch.size()==0){
+            ArrayAdapter<String> adapterspn = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, strip);
+            spnBranch.setAdapter(adapterspn);
+            spnBranch.setEnabled(false);
         }
         arrData=new ArrayList<String>();
         if(listDataLeave!=null){
@@ -194,6 +213,12 @@ public class DownloadData extends clsMainActivity {
                 arrData.add(dt.get_intTipeLeave()+" - "+ dt.get_txtTipeLeaveName());
             }
             spnLeave.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
+            spnLeave.setEnabled(true);
+        }else if (listDataLeave==null){
+            ArrayAdapter<String> adapterspn = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, strip);
+            spnLeave.setAdapter(adapterspn);
+            spnLeave.setEnabled(false);
         }
         arrData=new ArrayList<String>();
         if(listDataArea.size()>0){
@@ -201,6 +226,12 @@ public class DownloadData extends clsMainActivity {
                 arrData.add(dt.get_txtOutletCode()+" - "+dt.get_txtOutletName());
             }
             spnOutlet.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
+            spnOutlet.setEnabled(true);
+        } else if (listDataArea.size()==0){
+            ArrayAdapter<String> adapterspn = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, strip);
+            spnOutlet.setAdapter(adapterspn);
+            spnOutlet.setEnabled(false);
         }
         arrData=new ArrayList<String>();
         if(listDataProduct.size()>0){
@@ -208,6 +239,12 @@ public class DownloadData extends clsMainActivity {
                 arrData.add(dt.get_txtProductBrandDetailGramName());
             }
             spnProduct.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
+            spnProduct.setEnabled(true);
+        } else if (listDataProduct.size()==0){
+            ArrayAdapter<String> adapterspn = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, strip);
+            spnProduct.setAdapter(adapterspn);
+            spnProduct.setEnabled(false);
         }
         arrData=new ArrayList<String>();
         if(listmProductBrandData.size()>0){
@@ -215,6 +252,12 @@ public class DownloadData extends clsMainActivity {
                 arrData.add(dt.get_txtProductBrandName());
             }
             spnBrand.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
+            spnBrand.setEnabled(true);
+        } else if (listmProductBrandData.size()==0){
+            ArrayAdapter<String> adapterspn = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, strip);
+            spnBrand.setAdapter(adapterspn);
+            spnBrand.setEnabled(false);
         }
     }
     private List<String> SaveDatamItemSalesPack_StockData(JSONArray JData){

@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,10 +63,10 @@ public class LNotifi extends clsMainActivity implements IXListViewListener{
 		Intent i = getIntent();
 		MenuID=getMenuID(i);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_masterpage_swipelist);
+		setContentView(R.layout.activity_lnotifi);
 		//setTitleForm("List Notification");
-		RelativeLayout scrollable_contents = (RelativeLayout) findViewById(R.id.content);
-		getLayoutInflater().inflate(R.layout.activity_lnotifi, scrollable_contents);
+		//RelativeLayout scrollable_contents = (RelativeLayout) findViewById(R.id.content);
+		//getLayoutInflater().inflate(R.layout.activity_lnotifi, scrollable_contents);
 		listNotip = (ListView) findViewById(R.id.listViewNotifikasi);
 		mListView = (PullToRefreshSwipeMenuListView) findViewById(R.id.listView);
 		imgBdge = (ImageView) findViewById(R.id.iv_icon);

@@ -216,6 +216,11 @@ public class Home extends clsMainActivity {
 											myIntent.putExtra("MenuID", MenuID);
 											finish();
 											startActivity(myIntent);
+										} else if (MenuID.toString().contains("mnNotifikasiKBN")) {
+											Intent myIntent = new Intent(getApplicationContext(), LNotifi.class);
+											myIntent.putExtra("MenuID", MenuID);
+											finish();
+											startActivity(myIntent);
 										}
 										else{
 											clazz = Class.forName(myClass);
