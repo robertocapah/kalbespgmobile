@@ -481,18 +481,13 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 				String MenuID = "mnCheckinKBN";
 				Class<?> clazz = null;
 
-				try {
-					clazz = Class.forName(myClass);
-					Intent myIntent = new Intent(getApplicationContext(), MainMenu.class);
-					myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
-					myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
-					myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);
-					finish();
-					startActivity(myIntent);
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				clazz = Class.forName(myClass);
+				Intent myIntent = new Intent(getApplicationContext(), MainMenu.class);
+				myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
+				myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
+				myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);
+				finish();
+				startActivity(myIntent);
 			} else {
 				// Kalau ga ada harus check in dulu
 //				ShowMenu(dtmenuData);
@@ -583,7 +578,7 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 
                                                 try {
                                                     clazz = Class.forName(myClass);
-                                                    Intent myIntent = new Intent(getApplicationContext(), clazz);
+                                                    Intent myIntent = new Intent(getApplicationContext(), MainMenu.class);
                                                     myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
                                                     myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
                                                     myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);

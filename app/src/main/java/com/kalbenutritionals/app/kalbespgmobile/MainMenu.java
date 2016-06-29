@@ -79,30 +79,41 @@ public class MainMenu extends AppCompatActivity {
                     case R.id.add_reso:
                         Toast.makeText(getApplicationContext(),"Add reso",Toast.LENGTH_SHORT).show();
                         toolbar.setTitle(menuItem.getTitle().toString() + " Reso");
-//                        ContentFragment fragment = new ContentFragment();
-//                        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//                        fragmentTransaction.replace(R.id.frame,fragment);
-//                        fragmentTransaction.commit();
+                        ContentFragment fragment = new ContentFragment();
+                        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frame,fragment);
+                        fragmentTransaction.commit();
+
                         return true;
                     case R.id.view_reso:
                         Toast.makeText(getApplicationContext(),"View reso",Toast.LENGTH_SHORT).show();
                         toolbar.setTitle(menuItem.getTitle().toString() + " Reso");
+//                        tv.setText(menuItem.getTitle().toString() + " Reso");
+
                         return true;
                     case R.id.add_activity:
                         Toast.makeText(getApplicationContext(),"Add activity",Toast.LENGTH_SHORT).show();
                         toolbar.setTitle(menuItem.getTitle().toString() + " Activity");
+//                        tv.setText(menuItem.getTitle().toString() + " Activity");
+
                         return true;
                     case R.id.view_activity:
                         Toast.makeText(getApplicationContext(),"View activity",Toast.LENGTH_SHORT).show();
                         toolbar.setTitle(menuItem.getTitle().toString() + " Activity");
+//                        tv.setText(menuItem.getTitle().toString() + " Activity");
+
                         return true;
                     case R.id.add_customerbase:
                         Toast.makeText(getApplicationContext(),"Add customer base",Toast.LENGTH_SHORT).show();
                         toolbar.setTitle(menuItem.getTitle().toString() + " Customer Base");
+//                        tv.setText(menuItem.getTitle().toString() + " Customer Base");
+
                         return true;
                     case R.id.view_customerbase:
                         Toast.makeText(getApplicationContext(),"View customer base",Toast.LENGTH_SHORT).show();
                         toolbar.setTitle(menuItem.getTitle().toString() + " Customer Base");
+//                        tv.setText(menuItem.getTitle().toString() + " Customer Base");
+
                         return true;
                     default:
                         Toast.makeText(getApplicationContext(),"Somethings Wrong",Toast.LENGTH_SHORT).show();
