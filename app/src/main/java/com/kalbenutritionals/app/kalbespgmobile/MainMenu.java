@@ -105,8 +105,11 @@ public class MainMenu extends AppCompatActivity {
                         return true;
                     case R.id.add_customerbase:
                         Toast.makeText(getApplicationContext(),"Add customer base",Toast.LENGTH_SHORT).show();
-                        toolbar.setTitle(menuItem.getTitle().toString() + " Customer Base");
-//                        tv.setText(menuItem.getTitle().toString() + " Customer Base");
+                        toolbar.setTitle(menuItem.getTitle().toString() + " customer base");
+                        CustomerBaseFragment fragment2 = new CustomerBaseFragment();
+                        android.support.v4.app.FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction2.replace(R.id.frame,fragment2);
+                        fragmentTransaction2.commit();
 
                         return true;
                     case R.id.view_customerbase:

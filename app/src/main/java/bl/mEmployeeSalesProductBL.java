@@ -115,4 +115,12 @@ public class mEmployeeSalesProductBL extends clsMainBL{
 		db.close();
 		return ListData;
 	}
+
+	public List<mEmployeeSalesProductData> GetDataByProductName(String Name){
+		SQLiteDatabase db=getDb();
+		mEmployeeSalesProductDA _mEmployeeSalesProductDA= new mEmployeeSalesProductDA(db);
+		List<mEmployeeSalesProductData>ListData=_mEmployeeSalesProductDA.SearchData(db, "", Name);
+		db.close();
+		return ListData;
+	}
 }
