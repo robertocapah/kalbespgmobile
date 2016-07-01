@@ -79,7 +79,7 @@ public class MainMenu extends AppCompatActivity {
                     case R.id.add_reso:
                         Toast.makeText(getApplicationContext(),"Add reso",Toast.LENGTH_SHORT).show();
                         toolbar.setTitle(menuItem.getTitle().toString() + " Reso");
-                        ContentFragment fragment = new ContentFragment();
+                        Reso fragment = new Reso();
                         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.frame,fragment);
                         fragmentTransaction.commit();

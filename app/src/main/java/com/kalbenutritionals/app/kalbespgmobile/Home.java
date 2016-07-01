@@ -211,13 +211,19 @@ public class Home extends clsMainActivity {
 											myIntent.putExtra("MenuID", MenuID);
 											finish();
 											startActivity(myIntent);
-										} else if (MenuID.toString().contains("mnAbsenKBN")) {
+										}
+										else if (MenuID.toString().contains("mnAbsenKBN")) {
 											Intent myIntent = new Intent(getApplicationContext(), Absen.class);
 											myIntent.putExtra("MenuID", MenuID);
 											finish();
 											startActivity(myIntent);
 										} else if (MenuID.toString().contains("mnNotifikasiKBN")) {
 											Intent myIntent = new Intent(getApplicationContext(), LNotifi.class);
+											myIntent.putExtra("MenuID", MenuID);
+											finish();
+											startActivity(myIntent);
+										} else if (MenuID.toString().contains("mnNotifikasiKBN")) {
+											Intent myIntent = new Intent(getApplicationContext(), Reso.class);
 											myIntent.putExtra("MenuID", MenuID);
 											finish();
 											startActivity(myIntent);
