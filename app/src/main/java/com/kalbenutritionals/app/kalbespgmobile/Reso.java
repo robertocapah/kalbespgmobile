@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,6 +55,7 @@ public class Reso extends Fragment implements View.OnClickListener {
         tv_noso = (TextView) v.findViewById(R.id.txtNoreso);
         tv_date = (TextView) v.findViewById(R.id.txtviewDate);
         edketerangan = (EditText) v.findViewById(R.id.etKeterangan);
+        final EditText searchProduct = (EditText) v.findViewById(R.id.searchProduct);
         prvKet = "ddada";
                 //edketerangan.getText().toString();
         final String nosoNew = new mCounterNumberBL().getData(enumCounterData.NoDataSO);
@@ -74,7 +77,7 @@ public class Reso extends Fragment implements View.OnClickListener {
 
         if (employeeSalesProductDataList.size() > 0) {
             for (int i = 0; i < employeeSalesProductDataList.size(); i++) {
-                ModelListview dt = new ModelListview(employeeSalesProductDataList.get(i).get_txtProductBrandDetailGramName(), 0, false);
+                ModelListview dt = new ModelListview(employeeSalesProductDataList.get(i).get_txtBrandDetailGramCode() + "\n" + employeeSalesProductDataList.get(i).get_txtProductBrandDetailGramName(), 0, false);
                 modelItems.add(dt);
             }
         }
@@ -85,6 +88,18 @@ public class Reso extends Fragment implements View.OnClickListener {
         listView.setTextFilterEnabled(true);
 
         setListViewHeightBasedOnItems(listView);
+        searchProduct.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {}
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetDataByProductName(searchProduct.getText().toString());
+                dataAdapter.getFilter().filter(s.toString());
+
+            }
+        });
         return v;
     }
 
@@ -229,33 +244,41 @@ public class Reso extends Fragment implements View.OnClickListener {
 
                 convertView.setTag(holder);
 
-//                holder.name.setOnClickListener( new View.OnClickListener()
-//                {
-//                    public void onClick(View v)
-//                    {
-//                        EditText cb = (EditText) v;
-//                        ModelListview _state = (ModelListview) cb.getTag();
-//
-//                        //Toast.makeText(getActivity().getApplicationContext(), "Clicked on Checkbox: " + cb.getText() + " is " + cb.isChecked(),
-//                         //       Toast.LENGTH_LONG).show();
-//
-//                        //_state.setSelected(cb.isChecked());
-//                        //mOriginalValues.get(position).setSelected(cb.isChecked());
-//                    }
-//                });
+                final ViewHolder finalHolder = holder;
+                holder.code.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        EditText et = (EditText) finalHolder.code;
+                        if(s.length() != 0)
+                            et.getText().toString();
+//                        Toast.makeText(getActivity().getApplicationContext(), "Clicked on Checkbox: " + et.getText() + " is " + et.isFocusable(),
+//                                Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+
+                    }
+                });
 
             }
-//            else
-//            {
-//                holder = (ViewHolder) convertView.getTag();
-//            }
+            else
+            {
+                holder = (ViewHolder) convertView.getTag();
+            }
 
-//            ModelListview state = mDisplayedValues.get(position);
-//
-//            holder.name.setText(state.getName());
-//            //holder.name.setChecked(state.isSelected());
-//
-//            holder.name.setTag(state);
+            ModelListview state = mDisplayedValues.get(position);
+
+            holder.name.setText(state.getName());
+            //holder.name.setChecked(state.isSelected());
+
+            holder.name.setTag(state);
 
             return convertView;
         }
