@@ -77,7 +77,7 @@ public class Reso extends Fragment implements View.OnClickListener {
 
         if (employeeSalesProductDataList.size() > 0) {
             for (int i = 0; i < employeeSalesProductDataList.size(); i++) {
-                ModelListview dt = new ModelListview(employeeSalesProductDataList.get(i).get_txtBrandDetailGramCode() + "\n" + employeeSalesProductDataList.get(i).get_txtProductBrandDetailGramName(), 0, false);
+                ModelListview dt = new ModelListview(employeeSalesProductDataList.get(i).get_txtBrandDetailGramCode(), employeeSalesProductDataList.get(i).get_txtBrandDetailGramCode() + "\n" + employeeSalesProductDataList.get(i).get_txtProductBrandDetailGramName(), 0, false);
                 modelItems.add(dt);
             }
         }
@@ -320,7 +320,7 @@ public class Reso extends Fragment implements View.OnClickListener {
                         for (int i = 0; i < mOriginalValues.size(); i++) {
                             String data = mOriginalValues.get(i).getName();
                             if (data.toLowerCase().startsWith(constraint.toString())) {
-                                FilteredArrList.add(new ModelListview(mOriginalValues.get(i).getName(),mOriginalValues.get(i).getValue(), mOriginalValues.get(i).isSelected()));
+                                FilteredArrList.add(new ModelListview(mOriginalValues.get(i).getId(), mOriginalValues.get(i).getName(),mOriginalValues.get(i).getValue(), mOriginalValues.get(i).isSelected()));
                             }
                         }
                         // set the Filtered result to return

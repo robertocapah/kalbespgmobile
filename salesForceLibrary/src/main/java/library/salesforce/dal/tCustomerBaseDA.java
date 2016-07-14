@@ -1,10 +1,11 @@
 package library.salesforce.dal;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import library.salesforce.common.tCustomerBaseData;
 
 public class tCustomerBaseDA {
@@ -18,7 +19,7 @@ public class tCustomerBaseDA {
 		public tCustomerBaseDA(SQLiteDatabase db) {
 			tCustomerBaseData dt=new tCustomerBaseData();
 			String CREATE_CONTACTS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CONTACTS + "("
-					+ dt.Property_intCustomerId + " INTEGER PRIMARY KEY," 
+					+ dt.Property_intCustomerId + " TEXT PRIMARY KEY,"
 					+ dt.Property_intCustomerIdSync + " TEXT NULL,"
 					+ dt.Property_bitActive + " TEXT NULL,"
 					+ dt.Property_dtDate + " TEXT NULL,"
@@ -54,6 +55,23 @@ public class tCustomerBaseDA {
 			//values.put(dt.Property_txtRoleId, data.get_txtRoleId()); 
 			// Inserting Row
 			//db.insert(TABLE_CONTACTS, null, values);
+
+			String query = "INSERT OR REPLACE into "+TABLE_CONTACTS+" ("+dt.Property_ALL+") "+
+					"values('"	+String.valueOf(data.get_bitActive())+"','"
+					+String.valueOf(data.get_dtDate())+"','"
+					+String.valueOf(data.get_intCustomerId())+"','"
+					+String.valueOf(data.get_intCustomerIdSync())+"','"
+					+String.valueOf(data.get_intSubmit())+"','"
+					+String.valueOf(data.get_txtAlamat().replace("'", "`"))+"','"
+					+String.valueOf(data.get_txtBranchId())+"','"
+					+String.valueOf(data.get_txtNama().replace("'", "`"))+"','"
+					+String.valueOf(data.get_txtOutletId())+"','"
+					+String.valueOf(data.get_txtTelp())+"','"
+					+String.valueOf(data.get_txtUserId())+"','"
+					+String.valueOf(data.get_txtDeviceId())+"','"
+					+String.valueOf(data.get_txtSex())+"','"
+					+String.valueOf(data.get_txtProductBrandCode())+"')";
+
 			db.execSQL("INSERT OR REPLACE into "+TABLE_CONTACTS+" ("+dt.Property_ALL+") "+
 				"values('"	+String.valueOf(data.get_bitActive())+"','"
 					+String.valueOf(data.get_dtDate())+"','"
