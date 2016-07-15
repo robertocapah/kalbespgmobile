@@ -26,8 +26,8 @@ public View getView(int position, View convertView, ViewGroup parent) {
         convertView = inflater.inflate(R.layout.custom_listitem, parent, false);
         TextView name = (TextView) convertView.findViewById(R.id.textView1);
         CheckBox cb = (CheckBox) convertView.findViewById(R.id.checkBox1);
-        name.setText(modelItems[position].getName());
-        if(modelItems[position].getValue() == 1)
+        name.setText(modelItems[position].get_name());
+        if(modelItems[position].get_value() == 1)
         cb.setChecked(true);
         else
         cb.setChecked(false);

@@ -1,6 +1,8 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -83,7 +86,11 @@ public class CustomerBaseFragment extends Fragment implements View.OnClickListen
 
         if(data.size() > 0){
             for(int i = 0; i < data.size(); i++){
-                ModelListview dt = new ModelListview(data.get(i).get_txtBrandDetailGramCode(), data.get(i).get_txtProductBrandDetailGramName(), 0, false);
+                ModelListview dt = new ModelListview();
+                dt.set_id(data.get(i).get_txtBrandDetailGramCode());
+                dt.set_name(data.get(i).get_txtProductBrandDetailGramName());
+                dt.set_value(0);
+                dt.set_selected(false);
                 modelItems.add(dt);
             }
         }
@@ -116,55 +123,105 @@ public class CustomerBaseFragment extends Fragment implements View.OnClickListen
         switch(view.getId()){
             case R.id.btnPreview:
                 int a = listView.getCount();
-                int checked = 0;
+
+                LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+                final View promptView = layoutInflater.inflate(R.layout.activity_preview_customerbase, null);
 
                 int selectedId = rdSex.getCheckedRadioButtonId();
                 RadioButton radioSexButton = (RadioButton) v.findViewById(selectedId);
 
-                tCustomerBaseData dt = new tCustomerBaseData();
+                final TextView _tvSex = (TextView) promptView.findViewById(R.id.tvTypeSex);
+                final TextView _tvNama = (TextView) promptView.findViewById(R.id.tvNama);
+                final TextView _tvTelp = (TextView) promptView.findViewById(R.id.tvNoTelp);
+                final TextView _tvAlamat = (TextView) promptView.findViewById(R.id.tvAlamat);
+                final TextView _tvStatus = (TextView) promptView.findViewById(R.id.tvStatus);
+                final ListView _lvProduk = (ListView) promptView.findViewById(R.id.lvProduks);
 
-                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                Calendar cal = Calendar.getInstance();
+                _tvSex.setText(radioSexButton.getText().toString());
+                _tvNama.setText(etNama.getText().toString());
+                _tvTelp.setText(etTelpon.getText().toString());
+                _tvAlamat.setText(etAlamat.getText().toString());
+                _tvStatus.setText("Open");
 
-                clsMainActivity _clsMainActivity = new clsMainActivity();
-                tAbsenUserData absenUserData = new tAbsenUserBL().getDataCheckInActive();
-
-                dt.set_intCustomerId(_clsMainActivity.GenerateGuid());
-                dt.set_intCustomerIdSync("1");
-                dt.set_bitActive("1");
-                dt.set_dtDate(dateFormat.format(cal.getTime()));
-                dt.set_intSubmit("1");
-                dt.set_txtAlamat(etAlamat.getText().toString());
-                dt.set_txtBranchId(absenUserData.get_txtBranchCode());
-                dt.set_txtNama(etNama.getText().toString());
-                dt.set_txtOutletId(absenUserData.get_txtOutletCode());
-                dt.set_txtUserId(absenUserData.get_txtUserId());
-                dt.set_txtDeviceId(absenUserData.get_txtDeviceId());
-                dt.set_txtSex(radioSexButton.getText().toString());
-                dt.set_txtTelp(etTelpon.getText().toString());
-
-                new tCustomerBaseBL().saveData(dt);
-
-                clsMainBL _clsMainBL = new clsMainBL();
-
-                SQLiteDatabase _db=_clsMainBL.getDb();
+                List<String> item = new ArrayList<>();
 
                 for(int i = 0; i < a; i++){
                     if(modelItems.get(i).isSelected()){
-                        tCustomerBaseDetailData dtDetail = new tCustomerBaseDetailData();
-                        dtDetail.set_txtDataId(_clsMainActivity.GenerateGuid());
-                        dtDetail.set_intCustomerId(dt.get_intCustomerId());
-                        dtDetail.set_intQty("1");
-                        dtDetail.set_txtProductBrandCode(modelItems.get(i).getId());
-                        dtDetail.set_txtProductBrandName(modelItems.get(i).getName());
-
-                        new tCustomerBaseDetailDA(_db).SaveDatatCustomerBaseDetailData(_db, dtDetail);
+                        item.add(modelItems.get(i).get_name());
                     }
                 }
 
-                Toast.makeText(getActivity().getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+                _lvProduk.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, item));
+                setListViewHeightBasedOnItems(_lvProduk);
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                alertDialogBuilder.setView(promptView);
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                saveCustomerBase();
+                            }
+                        })
+                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                final AlertDialog alertD = alertDialogBuilder.create();
+                alertD.show();
                 break;
         }
+    }
+
+    private void saveCustomerBase(){
+        int a = listView.getCount();
+
+        int selectedId = rdSex.getCheckedRadioButtonId();
+        RadioButton radioSexButton = (RadioButton) v.findViewById(selectedId);
+
+        tCustomerBaseData dt = new tCustomerBaseData();
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Calendar cal = Calendar.getInstance();
+
+        clsMainActivity _clsMainActivity = new clsMainActivity();
+        tAbsenUserData absenUserData = new tAbsenUserBL().getDataCheckInActive();
+
+        dt.set_intCustomerId(_clsMainActivity.GenerateGuid());
+        dt.set_intCustomerIdSync("1");
+        dt.set_bitActive("1");
+        dt.set_dtDate(dateFormat.format(cal.getTime()));
+        dt.set_intSubmit("1");
+        dt.set_txtAlamat(etAlamat.getText().toString());
+        dt.set_txtBranchId(absenUserData.get_txtBranchCode());
+        dt.set_txtNama(etNama.getText().toString());
+        dt.set_txtOutletId(absenUserData.get_txtOutletCode());
+        dt.set_txtUserId(absenUserData.get_txtUserId());
+        dt.set_txtDeviceId(absenUserData.get_txtDeviceId());
+        dt.set_txtSex(radioSexButton.getText().toString());
+        dt.set_txtTelp(etTelpon.getText().toString());
+
+        new tCustomerBaseBL().saveData(dt);
+
+        clsMainBL _clsMainBL = new clsMainBL();
+
+        SQLiteDatabase _db=_clsMainBL.getDb();
+
+        for(int i = 0; i < a; i++){
+            if(modelItems.get(i).isSelected()){
+                tCustomerBaseDetailData dtDetail = new tCustomerBaseDetailData();
+                dtDetail.set_txtDataId(_clsMainActivity.GenerateGuid());
+                dtDetail.set_intCustomerId(dt.get_intCustomerId());
+                dtDetail.set_intQty("1");
+                dtDetail.set_txtProductBrandCode(modelItems.get(i).get_id());
+                dtDetail.set_txtProductBrandName(modelItems.get(i).get_name());
+
+                new tCustomerBaseDetailDA(_db).SaveDatatCustomerBaseDetailData(_db, dtDetail);
+            }
+        }
+
+        Toast.makeText(getActivity().getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
     }
 
     public static boolean setListViewHeightBasedOnItems(ListView listView) {
@@ -258,10 +315,10 @@ public class CustomerBaseFragment extends Fragment implements View.OnClickListen
                     {
                         CheckBox cb = (CheckBox) v;
                         ModelListview _state = (ModelListview) cb.getTag();
-                        _state.setSelected(cb.isChecked());
+                        _state.set_selected(cb.isChecked());
                         for(int i = 0; i < mOriginalValues.size(); i++){
-                            if(cb.getText().equals(mOriginalValues.get(i).getName())){
-                                mOriginalValues.get(i).setSelected(cb.isChecked());
+                            if(cb.getText().equals(mOriginalValues.get(i).get_name())){
+                                mOriginalValues.get(i).set_selected(cb.isChecked());
                                 break;
                             }
                         }
@@ -276,7 +333,7 @@ public class CustomerBaseFragment extends Fragment implements View.OnClickListen
 
             ModelListview state = mDisplayedValues.get(position);
 
-            holder.name.setText(state.getName());
+            holder.name.setText(state.get_name());
             holder.name.setChecked(state.isSelected());
 
             holder.name.setTag(state);
@@ -320,9 +377,14 @@ public class CustomerBaseFragment extends Fragment implements View.OnClickListen
                     } else {
                         constraint = constraint.toString().toLowerCase();
                         for (int i = 0; i < mOriginalValues.size(); i++) {
-                            String data = mOriginalValues.get(i).getName();
+                            String data = mOriginalValues.get(i).get_name();
                             if (data.toLowerCase().startsWith(constraint.toString())) {
-                                FilteredArrList.add(new ModelListview(mOriginalValues.get(i).getId(), mOriginalValues.get(i).getName(),mOriginalValues.get(i).getValue(), mOriginalValues.get(i).isSelected()));
+                                ModelListview dt = new ModelListview();
+                                dt.set_id(mOriginalValues.get(i).get_id());
+                                dt.set_name(mOriginalValues.get(i).get_name());
+                                dt.set_value(mOriginalValues.get(i).get_value());
+                                dt.set_selected(mOriginalValues.get(i).isSelected());
+                                FilteredArrList.add(dt);
                             }
                         }
                         // set the Filtered result to return
