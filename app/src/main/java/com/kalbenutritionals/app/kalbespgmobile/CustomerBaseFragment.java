@@ -152,7 +152,6 @@ public class CustomerBaseFragment extends Fragment implements View.OnClickListen
                 }
 
                 _lvProduk.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, item));
-                setListViewHeightBasedOnItems(_lvProduk);
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                 alertDialogBuilder.setView(promptView);
