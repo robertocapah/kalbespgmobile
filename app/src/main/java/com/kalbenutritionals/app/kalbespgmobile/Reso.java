@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,18 +24,28 @@ import android.widget.Filterable;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import bl.clsMainBL;
 import bl.mCounterNumberBL;
 import bl.mEmployeeSalesProductBL;
+import bl.tAbsenUserBL;
+import bl.tSalesProductHeaderBL;
 import library.salesforce.common.ModelListview;
 import library.salesforce.common.mEmployeeSalesProductData;
+import library.salesforce.common.tAbsenUserData;
+import library.salesforce.common.tSalesProductDetailData;
+import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.dal.enumCounterData;
+import library.salesforce.dal.tSalesProductDetailDA;
 
 public class Reso extends Fragment implements View.OnClickListener {
     TextView tv_date;
@@ -67,7 +78,62 @@ public class Reso extends Fragment implements View.OnClickListener {
         btn_preview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //showMyDialog(getContext());
+                int a = listView.getCount();
+                int checked = 0;
+
+                //int selectedId = rdSex.getCheckedRadioButtonId();
+                //RadioButton radioSexButton = (RadioButton) v.findViewById(selectedId);
+
+                tSalesProductHeaderData dt = new tSalesProductHeaderData();
+
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                Calendar cal = Calendar.getInstance();
+
+                clsMainActivity _clsMainActivity = new clsMainActivity();
+                mEmployeeSalesProductData _mEmployeeSalesProductData = new mEmployeeSalesProductData();
+                tAbsenUserData absenUserData = new tAbsenUserBL().getDataCheckInActive();
+
+                dt.set_intId(tv_noso.getText().toString());
+                dt.set_dtDate(dateFormat.format(cal.getTime()));
+                dt.set_OutletCode(absenUserData.get_txtOutletCode());
+                dt.set_OutletName(absenUserData.get_txtOutletName());
+                dt.set_txtKeterangan(edketerangan.getText().toString());
+                dt.set_intSumItem("1");
+                dt.set_intSumAmount("100000");
+                dt.set_UserId(absenUserData.get_txtUserId());
+                dt.set_intSubmit("1");
+                dt.set_intSync("0");
+                dt.set_txtBranchName(absenUserData.get_txtBranchName());
+                dt.set_intIdAbsenUser(absenUserData.get_intId());
+
+                new tSalesProductHeaderBL().SaveData(dt);
+
+                clsMainBL _clsMainBL = new clsMainBL();
+
+                SQLiteDatabase _db=_clsMainBL.getDb();
+
+                for(int i = 0; i < a; i++){
+                    if(modelItems.get(i).get_value()>=0){
+                        //tCustomerBaseDetailData dtDetail = new tCustomerBaseDetailData();
+                        tSalesProductDetailData dtDetail = new tSalesProductDetailData();
+                        dtDetail.set_intId(_clsMainActivity.GenerateGuid());
+                        dtDetail.set_dtDate(dateFormat.format(cal.getTime()));
+                        dtDetail.set_intPrice("100");
+                        dtDetail.set_intQty(String.valueOf(modelItems.get(i).get_value()));
+                        dtDetail.set_txtCodeProduct(_mEmployeeSalesProductData.get_txtBrandDetailGramCode());
+                        dtDetail.set_txtKeterangan(edketerangan.getText().toString());
+                        dtDetail.set_txtNameProduct(String.valueOf(modelItems.get(i).get_name()));
+                        dtDetail.set_intTotal("100");
+                        dtDetail.set_txtNoSo(tv_noso.getText().toString());
+                        dtDetail.set_intActive("1");
+                        dtDetail.set_txtNIK(_mEmployeeSalesProductData.get_txtNIK());
+
+                        //new tCustomerBaseDetailDA(_db).SaveDatatCustomerBaseDetailData(_db, dtDetail);
+                        new tSalesProductDetailDA(_db).SaveDatatSalesProductDetailData(_db, dtDetail);
+                    }
+                }
+
+                Toast.makeText(getActivity().getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
                 funcPreviewSO(getContext());
                 //Toast.makeText(getContext(), prvKet, Toast.LENGTH_SHORT).show();
             }
@@ -77,7 +143,11 @@ public class Reso extends Fragment implements View.OnClickListener {
 
         if (employeeSalesProductDataList.size() > 0) {
             for (int i = 0; i < employeeSalesProductDataList.size(); i++) {
-                ModelListview dt = new ModelListview(employeeSalesProductDataList.get(i).get_txtBrandDetailGramCode(), employeeSalesProductDataList.get(i).get_txtBrandDetailGramCode() + "\n" + employeeSalesProductDataList.get(i).get_txtProductBrandDetailGramName(), 0, false);
+                ModelListview dt = new ModelListview();
+                dt.set_id(employeeSalesProductDataList.get(i).get_txtBrandDetailGramCode());
+                dt.set_name(employeeSalesProductDataList.get(i).get_txtProductBrandDetailGramName());
+                dt.set_value(0);
+                dt.set_selected(false);
                 modelItems.add(dt);
             }
         }
@@ -253,9 +323,26 @@ public class Reso extends Fragment implements View.OnClickListener {
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        EditText et = (EditText) finalHolder.code;
-                        if(s.length() != 0)
-                            et.getText().toString();
+                        EditText et = finalHolder.code;
+                        for(int i = 0; i < mOriginalValues.size(); i++) {
+                            if(finalHolder.name.getText().equals(mOriginalValues.get(i).get_name())){
+                                if(s.length()==0){
+                                    mOriginalValues.get(i).set_value(0);
+                                    break;
+
+                                } else {
+                                    mOriginalValues.get(i).set_value(Integer.parseInt(et.getText().toString()));
+                                    //et.setText("12");
+                                    break;
+
+                                }
+                            }
+                           // if (s.length() != 0)
+//                            if(et.getText().length() !=0) {
+//                                et.getText().toString();
+//                            }
+                        }
+
 //                        Toast.makeText(getActivity().getApplicationContext(), "Clicked on Checkbox: " + et.getText() + " is " + et.isFocusable(),
 //                                Toast.LENGTH_LONG).show();
                     }
@@ -275,8 +362,8 @@ public class Reso extends Fragment implements View.OnClickListener {
 
             ModelListview state = mDisplayedValues.get(position);
 
-            holder.name.setText(state.getName());
-            //holder.name.setChecked(state.isSelected());
+            holder.name.setText(state.get_name());
+            holder.code.setText(String.valueOf(state.get_value()));
 
             holder.name.setTag(state);
 
@@ -318,10 +405,14 @@ public class Reso extends Fragment implements View.OnClickListener {
                     } else {
                         constraint = constraint.toString().toLowerCase();
                         for (int i = 0; i < mOriginalValues.size(); i++) {
-                            String data = mOriginalValues.get(i).getName();
+                            String data = mOriginalValues.get(i).get_name();
                             if (data.toLowerCase().startsWith(constraint.toString())) {
-                                FilteredArrList.add(new ModelListview(mOriginalValues.get(i).getId(), mOriginalValues.get(i).getName(),mOriginalValues.get(i).getValue(), mOriginalValues.get(i).isSelected()));
-                            }
+                                ModelListview dt = new ModelListview();
+                                dt.set_id(mOriginalValues.get(i).get_id());
+                                dt.set_name(mOriginalValues.get(i).get_name());
+                                dt.set_value(mOriginalValues.get(i).get_value());
+                                dt.set_selected(mOriginalValues.get(i).isSelected());
+                                FilteredArrList.add(dt);}
                         }
                         // set the Filtered result to return
                         results.count = FilteredArrList.size();

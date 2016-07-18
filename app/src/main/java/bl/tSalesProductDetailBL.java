@@ -1,11 +1,12 @@
 package bl;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Iterator;
 
-import android.database.sqlite.SQLiteDatabase;
 import library.salesforce.common.APIData;
 import library.salesforce.common.clsHelper;
 import library.salesforce.common.linkAPI;
@@ -89,7 +90,7 @@ public class tSalesProductDetailBL extends clsMainBL {
 					org.json.simple.JSONObject innerDetailObj = (org.json.simple.JSONObject) iDetail.next();
 					tSalesProductDetailData _data =new tSalesProductDetailData();
 					String intIdDetail =String.valueOf(intData);
-					_data.set_intId(Integer.valueOf(intIdDetail));
+					_data.set_intId(String.valueOf(intIdDetail));
 					_data.set_dtDate(dateFormat.format(cal.getTime()));
 					_data.set_intPrice((String) innerDetailObj.get("IntPrice"));
 					_data.set_intQty((String) innerDetailObj.get("IntQty"));

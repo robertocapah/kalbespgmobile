@@ -1,10 +1,10 @@
 package library.salesforce.dal;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import library.salesforce.common.tSalesProductDetailData;
 
@@ -94,7 +94,7 @@ public class tSalesProductDetailDA {
 						new String[] { String.valueOf(id) }, null, null, null, null);
 				if (cursor != null)
 					cursor.moveToFirst();
-				tSalesProductDetailData contact = new tSalesProductDetailData(Integer.valueOf(cursor.getString(0)),
+				tSalesProductDetailData contact = new tSalesProductDetailData(String.valueOf(cursor.getString(0)),
 						cursor.getString(1), cursor.getString(2),cursor.getString(3), cursor.getString(4), cursor.getString(5),
 						cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10));
 				// return contact
@@ -116,7 +116,7 @@ public class tSalesProductDetailDA {
 						contactList=new ArrayList<tSalesProductDetailData>();
 						do {
 							tSalesProductDetailData contact = new tSalesProductDetailData();
-							contact.set_intId(Integer.valueOf(cursor.getString(0)));
+							contact.set_intId(String.valueOf(cursor.getString(0)));
 							contact.set_dtDate(cursor.getString(1));
 							contact.set_intPrice(cursor.getString(2));
 							contact.set_intQty(cursor.getString(3));
@@ -149,7 +149,7 @@ public class tSalesProductDetailDA {
 				if (cursor.moveToFirst()) {
 					do {
 						tSalesProductDetailData contact = new tSalesProductDetailData();
-						contact.set_intId(Integer.valueOf(cursor.getString(1)));
+						contact.set_intId(String.valueOf(cursor.getString(1)));
 						contact.set_dtDate(cursor.getString(0));
 						contact.set_intPrice(cursor.getString(2));
 						contact.set_intQty(cursor.getString(3));
@@ -181,7 +181,7 @@ public class tSalesProductDetailDA {
 				if (cursor.moveToFirst()) {
 					do {
 						tSalesProductDetailData contact = new tSalesProductDetailData();
-						contact.set_intId(Integer.valueOf(cursor.getString(1)));
+						contact.set_intId(String.valueOf(cursor.getString(1)));
 						contact.set_dtDate(cursor.getString(0));
 						contact.set_intPrice(cursor.getString(2));
 						contact.set_intQty(cursor.getString(3));

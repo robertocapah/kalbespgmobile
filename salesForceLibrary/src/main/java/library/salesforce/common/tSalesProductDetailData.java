@@ -18,10 +18,10 @@ public class tSalesProductDetailData {
 	public synchronized void set_intTotal(String _intTotal) {
 		this._intTotal = _intTotal;
 	}
-	public synchronized Integer get_intId() {
+	public synchronized String get_intId() {
 		return _intId;
 	}
-	public synchronized void set_intId(Integer _intId) {
+	public synchronized void set_intId(String _intId) {
 		this._intId = _intId;
 	}
 	public synchronized String get_txtNIK() {
@@ -66,7 +66,7 @@ public class tSalesProductDetailData {
 	public synchronized void set_intPrice(String _intPrice) {
 		this._intPrice = _intPrice;
 	}
-	private Integer _intId;
+	private String _intId;
 	private String _txtNIK;
 	private String _txtKeterangan;
 	private String _dtDate;
@@ -107,7 +107,7 @@ public class tSalesProductDetailData {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public tSalesProductDetailData(Integer _intId, String _dtDate,
+	public tSalesProductDetailData(String _intId, String _dtDate,
 			String _intPrice, String _intQty, String _txtCodeProduct, String _txtKeterangan,
 			String _txtNameProduct, String _txtNIK, String _intTotal, String _txtNoSo,String _intActive) {
 		this._intId = _intId;
