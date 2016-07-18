@@ -7,17 +7,15 @@
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
     android:paddingTop="5dp"
-    tools:context="com.kalbenutritionals.app.kalbespgmobile.PreviewSO">
-    <ScrollView
-        android:id="@+id/scrollableContents"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+    tools:context="com.kalbenutritionals.app.kalbespgmobile.PreviewSO"
+    android:background="#fff">
         <LinearLayout
             android:id="@+id/ll1"
             android:gravity="center_vertical|center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="#fff">
 
             <TableLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -44,7 +42,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="Type Sex" />
                     <TextView
                         android:id="@+id/tvTypeSex"
@@ -52,11 +49,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="" />
                 </TableRow>
                 <TableRow
                     android:background="#ffffff"
@@ -64,7 +56,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="Nama" />
                     <TextView
                         android:id="@+id/tvNama"
@@ -72,11 +63,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="" />
                 </TableRow>
                 <TableRow
                     android:background="#ffffff"
@@ -84,7 +70,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="Telp" />
                     <TextView
                         android:id="@+id/tvNoTelp"
@@ -92,11 +77,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="" />
                 </TableRow>
                 <TableRow
                     android:background="#ffffff"
@@ -104,7 +84,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="Alamat" />
                     <TextView
                         android:id="@+id/tvAlamat"
@@ -112,11 +91,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="" />
                 </TableRow>
                 <TableRow
                     android:background="#ffffff"
@@ -124,15 +98,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="Status" />
                     <TextView
                         android:id="@+id/tvStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="" />
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -143,8 +111,8 @@
                 android:id="@+id/lvProduks"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></ListView>
+                android:layout_height="match_parent"
+                android:background="#fff"></ListView>
             </LinearLayout>
-        </ScrollView>
 
 </RelativeLayout>
