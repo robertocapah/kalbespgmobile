@@ -401,38 +401,22 @@ public class clsMainActivity extends Activity {
 		};
 		return listener;
 	}
-//	public static edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener menuSwipeListener(final Context _ctx, final String action, final Map<String, HashMap> mapMenu, final List<clsSwipeList> swipeList){
-//		edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener listener = new edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener(){
-//
-//			@SuppressWarnings("unchecked")
-//			@Override
-//			public void onMenuItemClick(int position, SwipeMenu menu, int index) {
-//				HashMap<String, String> selectedMenu = mapMenu.get(String.valueOf(index));
-//
-//				clsSwipeList getswipeList = swipeList.get(position);
-//				String id = getswipeList.get_txtId();
-//
-//				if(action == "InventoryInPO"){
-//					InventoryInPO.actionList(_ctx, selectedMenu.get(String.valueOf("name")), position, index, id);
-//				}
-//				else if(action == "InventoryInHeader"){
-//					InventoryInHeader.actionList(_ctx, selectedMenu.get(String.valueOf("name")), position, index, id);
-//				}
-//				else if(action == "InventoryIn"){
-//					InventoryIn.actionList(_ctx, selectedMenu.get(String.valueOf("name")), position, index, id);
-//				}
-//				else if(action == "PurchaseOrder"){
-//					PurchaseOrder.actionList(_ctx, selectedMenu.get(String.valueOf("name")), position, index, id);
-//				}
-//				else if(action == "PurchaseOrderHeader"){
-//					PurchaseOrderHeader.actionList(_ctx, selectedMenu.get(String.valueOf("name")), position, index, id);
-//				}
-//			}
-//
-//		};
-//		return listener;
-//	}
-//
+	public static edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener menuSwipeListener(final Context _ctx, final String action, final Map<String, HashMap> mapMenu, final List<clsSwipeList> swipeList){
+		edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener listener = new edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener(){
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public void onMenuItemClick(int position, SwipeMenu menu, int index) {
+				HashMap<String, String> selectedMenu = mapMenu.get(String.valueOf(index));
+
+				clsSwipeList getswipeList = swipeList.get(position);
+				String id = getswipeList.get_txtId();
+			}
+
+		};
+		return listener;
+	}
+
 	public OnSwipeListener swipeListener(){
 		OnSwipeListener listener = new OnSwipeListener() {
 			
@@ -470,7 +454,7 @@ public class clsMainActivity extends Activity {
 	
 
 
-	public edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener mmenuSwipeListener(final Context _ctx, final String action, final Map<String, HashMap> mapMenu, final List<clsRowItem> swipeList){
+	public edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener mmenuSwipeListener(final Context _ctx, final String action, final Map<String, HashMap> mapMenu, final List<clsSwipeList> swipeList){
 	edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener listener = new edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener(){
 
 		@SuppressWarnings("unchecked")
@@ -478,7 +462,7 @@ public class clsMainActivity extends Activity {
 		public void onMenuItemClick(int position, SwipeMenu menu, int index) {
 			HashMap<String, String> selectedMenu = mapMenu.get(String.valueOf(index));
 
-			clsRowItem getswipeList = swipeList.get(position);
+			clsSwipeList getswipeList = swipeList.get(position);
 			if (action =="LNotifi"){
 				String uuid = getswipeList.get_txtId();
 				Intent intent = new Intent(getApplicationContext(),TableNotif.class);

@@ -111,7 +111,7 @@ public class LNotifi extends clsMainActivity implements IXListViewListener{
 	        SwipeMenuCreator creator = setCreator(getApplicationContext(), mapMenu);
 	        mListView.setMenuCreator(creator);
 	        
-	        mListView.setOnMenuItemClickListener(mmenuSwipeListener(this, "LNotifi", mapMenu, rowItems));
+//	        mListView.setOnMenuItemClickListener(mmenuSwipeListener(this, "LNotifi", mapMenu, rowItems));
 		}
 	}
 

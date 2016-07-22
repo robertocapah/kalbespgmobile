@@ -2,6 +2,8 @@ package bl;
 
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.List;
+
 import library.salesforce.common.tCustomerBaseData;
 import library.salesforce.dal.tCustomerBaseDA;
 
@@ -16,5 +18,14 @@ public class tCustomerBaseBL extends clsMainBL{
         SQLiteDatabase _db=getDb();
         tCustomerBaseDA _tCustomerBaseDA = new tCustomerBaseDA(_db);
         _tCustomerBaseDA.SaveDatatCustomerBaseData(_db, dt);
+    }
+
+    public List<tCustomerBaseData> getAllCustomerBase(){
+        SQLiteDatabase _db=getDb();
+
+        tCustomerBaseDA _tCustomerBaseDA = new tCustomerBaseDA(_db);
+        List<tCustomerBaseData> dt = _tCustomerBaseDA.getAllData(_db);
+
+        return dt;
     }
 }

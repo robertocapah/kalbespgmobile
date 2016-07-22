@@ -665,14 +665,6 @@ public class DownloadData extends clsMainActivity {
         protected JSONArray doInBackground(JSONArray... params) {
             JSONArray Json = null;
             try {
-                new tSalesOrderHeader_MobileBL().GetDataNotSalesOrderHeader_Mobile(pInfo.versionName);
-                new tStockOpnameHeader_mobileBL().GetDataNotStockOpnameHeader_mobile(pInfo.versionName);
-                new tGRNHeader_mobileBL().GetDataNotGRNHeader_mobile(pInfo.versionName);
-                new mItemSalesPack_stockBL().GenerateDatepartNow(pInfo.versionName);
-                new mItemSalesPack_stockBL().GeneratePeriodeNow(pInfo.versionName);
-                new tPOHeader_mobileBL().GetDataNoPurchaseOrder(pInfo.versionName);
-                new tPenguaranHeader_MobileBL().GetDatamTypePenguaranMobile(pInfo.versionName);
-                new clsHelperBL().DownloadData(pInfo.versionName);
                 Json = new mEmployeeBranchBL().DownloadEmployeeBranch2(pInfo.versionName);
             } catch (Exception e) {
                 // TODO Auto-generated catch block

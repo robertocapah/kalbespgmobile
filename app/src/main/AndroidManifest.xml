@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kalbenutritionals.app.kalbespgmobile"
     android:versionCode="1"
-    android:versionName="1.0"
+    android:versionName="AND.2016.002"
     tools:overrideLibrary="com.google.android.gms.appindexing">
 
     <supports-screens
