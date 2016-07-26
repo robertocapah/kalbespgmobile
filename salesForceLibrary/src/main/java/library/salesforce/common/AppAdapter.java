@@ -2,8 +2,6 @@ package library.salesforce.common;
 
 import java.util.List;
 
-import edu.swu.pulltorefreshswipemenulistview.library.R;
-
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -13,23 +11,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.salesforcelibrary.R;
+
 public class AppAdapter extends BaseAdapter {
 
     private Context context;
-    //private PackageManager packageManager;
     private List<String> mAppList;
 
-    /*
-    public AppAdapter(Context context, PackageManager packageManager, List<String> mAppList) {
-        this.context = context;
-        this.packageManager = packageManager;
-        this.mAppList = mAppList;
-    }
-    */
-    
     public AppAdapter(Context context, List<String> mAppList) {
         this.context = context;
-        //this.packageManager = packageManager;
         this.mAppList = mAppList;
     }
 
@@ -54,9 +44,8 @@ public class AppAdapter extends BaseAdapter {
             convertView = View.inflate(context, R.layout.item_list_app, null);
             new ViewHolder(convertView);
         }
-        ViewHolder holder = (ViewHolder) convertView.getTag();
         String item = getItem(position);
-        //holder.iv_icon.setImageDrawable(item.loadIcon(packageManager));
+        ViewHolder holder = (ViewHolder) convertView.getTag();
         holder.tv_name.setText(item);
         return convertView;
     }
@@ -68,6 +57,8 @@ public class AppAdapter extends BaseAdapter {
         public ViewHolder(View view) {
             iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
             tv_name = (TextView) view.findViewById(R.id.tv_name);
+
+            iv_icon.setVisibility(View.GONE);
             view.setTag(this);
         }
     }
