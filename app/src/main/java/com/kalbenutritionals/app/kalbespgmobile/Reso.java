@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,10 +25,11 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,6 +41,7 @@ import bl.clsMainBL;
 import bl.mCounterNumberBL;
 import bl.mEmployeeSalesProductBL;
 import bl.tAbsenUserBL;
+import bl.tSalesProductDetailBL;
 import bl.tSalesProductHeaderBL;
 import library.salesforce.common.ModelListview;
 import library.salesforce.common.mEmployeeSalesProductData;
@@ -50,14 +54,18 @@ import library.salesforce.dal.tSalesProductDetailDA;
 public class Reso extends Fragment implements View.OnClickListener {
     TextView tv_date;
     TextView tv_noso;
-    Button btn_preview;
-    private EditText edketerangan;
+
+    //Button btn_preview;
+    private EditText edketerangan, searchProduct;
     private String prvKet;
     private List<String> arrdata;
     private ArrayList<ModelListview> modelItems;
+    private ArrayList<ModelListview> arrprview;
+    private ArrayList<ModelListview> arrdataPriv;
     private ArrayList<ModelListview> mDisplayedValues;
     MyAdapter dataAdapter;
-    ListView listView;
+    PreviewAdapter dtAdapter;
+    ListView listView, listView2, listView3;
 
     @Nullable
     @Override
@@ -66,7 +74,7 @@ public class Reso extends Fragment implements View.OnClickListener {
         tv_noso = (TextView) v.findViewById(R.id.txtNoreso);
         tv_date = (TextView) v.findViewById(R.id.txtviewDate);
         edketerangan = (EditText) v.findViewById(R.id.etKeterangan);
-        final EditText searchProduct = (EditText) v.findViewById(R.id.searchProduct);
+        searchProduct = (EditText) v.findViewById(R.id.searchProduct);
         prvKet = "ddada";
                 //edketerangan.getText().toString();
         final String nosoNew = new mCounterNumberBL().getData(enumCounterData.NoDataSO);
@@ -74,70 +82,114 @@ public class Reso extends Fragment implements View.OnClickListener {
         String timeStamp = new SimpleDateFormat("dd/MM/yyyy",
                 Locale.getDefault()).format(new Date());
         tv_date.setText(timeStamp);
-        btn_preview = (Button) v.findViewById(R.id.btnPreviewReso);
-        btn_preview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int a = listView.getCount();
-                int checked = 0;
+        Button btn_preview = (Button) v.findViewById(R.id.btnPreviewReso);
+        btn_preview.setOnClickListener(this);
+//            @Override
+//            public void onClick(View view){
+//            switch (view.getId()) {
+//                case R.id.btnPreviewReso:
+//                    int a = listView.getCount();
+//                    LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+//                    final View promptView = layoutInflater.inflate(R.layout.activity_preview_so, null);
+//
+//                    final TextView _tvNoSO = (TextView) promptView.findViewById(R.id.tvnoSOtbl);
+//                    final TextView _tvKet = (TextView) promptView.findViewById(R.id.tvkettbl);
+//                    final ListView _lvProduct = (ListView) promptView.findViewById(R.id.lvProduks);
+//                    _tvNoSO.setText(new mCounterNumberBL().getData(enumCounterData.NoDataSO));
+//                    _tvKet.setText(edketerangan.getText().toString());
+//                    List<String> item = new ArrayList<>();
+//                    arrdataPriv = new ArrayList<ModelListview>();
+//                    for (int i = 0; i < a; i++) {
+//                        if (modelItems.get(i).get_value() > 0) {
+//                            ModelListview data = new ModelListview();
+//                            data.set_id(modelItems.get(i).get_id());
+//                            data.set_name(modelItems.get(i).get_name());
+//                            data.set_value(modelItems.get(i).get_value());
+//                            arrdataPriv.add(data);
+//                        }
+//                    }
+//                    dataAdapter = new MyAdapter(getActivity().getApplicationContext(), arrdataPriv);
+//                    listView2 = (ListView) promptView.findViewById(R.id.lvProduks);
+//                    listView2.setAdapter(dataAdapter);
+//
+//
+//                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+//                    alertDialogBuilder.setView(promptView);
+//                    alertDialogBuilder
+//                            .setCancelable(false)
+//                            .setPositiveButton("Save",
+//                                    new DialogInterface.OnClickListener() {
+//                                        public void onClick(DialogInterface dialog, int id) {
+//
+//                                        }
+//                                    })
+//                            .setNegativeButton("Close",
+//                                    new DialogInterface.OnClickListener() {
+//                                        public void onClick(DialogInterface dialog, int id) {
+//                                            dialog.cancel();
+//                                        }
+//                                    });
+//                    final AlertDialog alertD = alertDialogBuilder.create();
+//                    alertD.show();
+                    //int selectedId = rdSex.getCheckedRadioButtonId();
+                    //RadioButton radioSexButton = (RadioButton) v.findViewById(selectedId);
 
-                //int selectedId = rdSex.getCheckedRadioButtonId();
-                //RadioButton radioSexButton = (RadioButton) v.findViewById(selectedId);
+//                tSalesProductHeaderData dt = new tSalesProductHeaderData();
+//
+//                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//                Calendar cal = Calendar.getInstance();
+//
+//                clsMainActivity _clsMainActivity = new clsMainActivity();
+//                mEmployeeSalesProductData _mEmployeeSalesProductData = new mEmployeeSalesProductData();
+//                tAbsenUserData absenUserData = new tAbsenUserBL().getDataCheckInActive();
+//
+//                dt.set_intId(tv_noso.getText().toString());
+//                dt.set_dtDate(dateFormat.format(cal.getTime()));
+//                dt.set_OutletCode(absenUserData.get_txtOutletCode());
+//                dt.set_OutletName(absenUserData.get_txtOutletName());
+//                dt.set_txtKeterangan(edketerangan.getText().toString());
+//                dt.set_intSumItem("1");
+//                dt.set_intSumAmount("100000");
+//                dt.set_UserId(absenUserData.get_txtUserId());
+//                dt.set_intSubmit("0");
+//                dt.set_intSync("0");
+//                dt.set_txtBranchName(absenUserData.get_txtBranchName());
+//                dt.set_intIdAbsenUser(absenUserData.get_intId());
+//
+////                new tSalesProductHeaderBL().SaveData(dt);
+//
+//                clsMainBL _clsMainBL = new clsMainBL();
+//
+//                SQLiteDatabase _db=_clsMainBL.getDb();
 
-                tSalesProductHeaderData dt = new tSalesProductHeaderData();
+//                for(int i = 0; i < a; i++){
+//
+//                    if(modelItems.get(i).get_value()>0){
+//                        //tCustomerBaseDetailData dtDetail = new tCustomerBaseDetailData();
+//                        double price = Double.parseDouble(modelItems.get(i).get_price());
+//                        int _price = (int) price;
+//                        int qty = modelItems.get(i).get_value();
+//                        tSalesProductDetailData dtDetail = new tSalesProductDetailData();
+//                        dtDetail.set_intId(_clsMainActivity.GenerateGuid());
+//                        dtDetail.set_dtDate(dateFormat.format(cal.getTime()));
+//                        dtDetail.set_intPrice(modelItems.get(i).get_price());
+//                        dtDetail.set_intQty(String.valueOf(modelItems.get(i).get_value()));
+//                        dtDetail.set_txtCodeProduct(modelItems.get(i).get_id());
+//                        dtDetail.set_txtKeterangan(edketerangan.getText().toString());
+//                        dtDetail.set_txtNameProduct(String.valueOf(modelItems.get(i).get_name()));
+//                        dtDetail.set_intTotal(String.valueOf(_price*qty));
+//                        dtDetail.set_txtNoSo(tv_noso.getText().toString());
+//                        dtDetail.set_intActive("1");
+//                        dtDetail.set_txtNIK(modelItems.get(i).get_NIK());
+//
+//                        //new tCustomerBaseDetailDA(_db).SaveDatatCustomerBaseDetailData(_db, dtDetail);
+//                        new tSalesProductDetailDA(_db).SaveDatatSalesProductDetailData(_db, dtDetail);
+//                    }
+//                }
 
-                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                Calendar cal = Calendar.getInstance();
-
-                clsMainActivity _clsMainActivity = new clsMainActivity();
-                mEmployeeSalesProductData _mEmployeeSalesProductData = new mEmployeeSalesProductData();
-                tAbsenUserData absenUserData = new tAbsenUserBL().getDataCheckInActive();
-
-                dt.set_intId(tv_noso.getText().toString());
-                dt.set_dtDate(dateFormat.format(cal.getTime()));
-                dt.set_OutletCode(absenUserData.get_txtOutletCode());
-                dt.set_OutletName(absenUserData.get_txtOutletName());
-                dt.set_txtKeterangan(edketerangan.getText().toString());
-                dt.set_intSumItem("1");
-                dt.set_intSumAmount("100000");
-                dt.set_UserId(absenUserData.get_txtUserId());
-                dt.set_intSubmit("1");
-                dt.set_intSync("0");
-                dt.set_txtBranchName(absenUserData.get_txtBranchName());
-                dt.set_intIdAbsenUser(absenUserData.get_intId());
-
-                new tSalesProductHeaderBL().SaveData(dt);
-
-                clsMainBL _clsMainBL = new clsMainBL();
-
-                SQLiteDatabase _db=_clsMainBL.getDb();
-
-                for(int i = 0; i < a; i++){
-                    if(modelItems.get(i).get_value()>=0){
-                        //tCustomerBaseDetailData dtDetail = new tCustomerBaseDetailData();
-                        tSalesProductDetailData dtDetail = new tSalesProductDetailData();
-                        dtDetail.set_intId(_clsMainActivity.GenerateGuid());
-                        dtDetail.set_dtDate(dateFormat.format(cal.getTime()));
-                        dtDetail.set_intPrice("100");
-                        dtDetail.set_intQty(String.valueOf(modelItems.get(i).get_value()));
-                        dtDetail.set_txtCodeProduct(_mEmployeeSalesProductData.get_txtBrandDetailGramCode());
-                        dtDetail.set_txtKeterangan(edketerangan.getText().toString());
-                        dtDetail.set_txtNameProduct(String.valueOf(modelItems.get(i).get_name()));
-                        dtDetail.set_intTotal("100");
-                        dtDetail.set_txtNoSo(tv_noso.getText().toString());
-                        dtDetail.set_intActive("1");
-                        dtDetail.set_txtNIK(_mEmployeeSalesProductData.get_txtNIK());
-
-                        //new tCustomerBaseDetailDA(_db).SaveDatatCustomerBaseDetailData(_db, dtDetail);
-                        new tSalesProductDetailDA(_db).SaveDatatSalesProductDetailData(_db, dtDetail);
-                    }
-                }
-
-                Toast.makeText(getActivity().getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
-                funcPreviewSO(getContext());
-                //Toast.makeText(getContext(), prvKet, Toast.LENGTH_SHORT).show();
-            }
-        });
+//                Toast.makeText(getActivity().getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+                    //funcPreviewSO(getContext());
+                    //Toast.makeText(getContext(), prvKet, Toast.LENGTH_SHORT).show();
         List<mEmployeeSalesProductData> employeeSalesProductDataList = new mEmployeeSalesProductBL().GetAllData();
         modelItems = new ArrayList<ModelListview>();
 
@@ -146,8 +198,10 @@ public class Reso extends Fragment implements View.OnClickListener {
                 ModelListview dt = new ModelListview();
                 dt.set_id(employeeSalesProductDataList.get(i).get_txtBrandDetailGramCode());
                 dt.set_name(employeeSalesProductDataList.get(i).get_txtProductBrandDetailGramName());
-                dt.set_value(0);
-                dt.set_selected(false);
+                //dt.set_value(12);
+                dt.set_price((employeeSalesProductDataList.get(i).get_decHJD()));
+                dt.set_NIK(employeeSalesProductDataList.get(i).get_txtNIK());
+                //dt.set_selected(false);
                 modelItems.add(dt);
             }
         }
@@ -175,8 +229,198 @@ public class Reso extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        switch ( v.getId()){
+            case R.id.btnPreviewReso:
+                searchProduct.setText("");
+                int a = listView.getCount();
+                LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+                final View promptView = layoutInflater.inflate(R.layout.activity_preview_so, null);
+
+                final TextView _tvNoSO = (TextView) promptView.findViewById(R.id.tvnoSOtbl);
+                final TextView _tvKet = (TextView) promptView.findViewById(R.id.tvkettbl);
+                final ListView _lvProduct = (ListView) promptView.findViewById(R.id.lvProduks);
+                _tvNoSO.setText(": " + new mCounterNumberBL().getData(enumCounterData.NoDataSO));
+                _tvKet.setText(": " + edketerangan.getText().toString());
+                arrdataPriv = new ArrayList<ModelListview>();
+                for (int i = 0; i < a; i++) {
+                    if (modelItems.get(i).get_value() > 0) {
+                        ModelListview data = new ModelListview();
+                        data.set_id(modelItems.get(i).get_id());
+                        data.set_price(modelItems.get(i).get_price());
+                        data.set_name(modelItems.get(i).get_name());
+                        data.set_value(modelItems.get(i).get_value());
+                        arrdataPriv.add(data);
+                    }
+                }
+//                dataAdapter = new MyAdapter(getActivity().getApplicationContext(), arrdataPriv);
+                //listView2 = (ListView) promptView.findViewById(R.id.lvProduks);
+//                listView2.setAdapter(dataAdapter);
+
+                TableLayout tl = new TableLayout(getContext());
+                double qtySum=0;
+                double qtyNum;
+                for (ModelListview dt : arrdataPriv) {
+                    TableRow tr = new TableRow(getContext());
+                    TableLayout.LayoutParams tableRowParams=
+                            new TableLayout.LayoutParams
+                                    (TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
+
+                    int leftMargin=10;
+                    int topMargin=2;
+                    int rightMargin=10;
+                    int bottomMargin=2;
+
+                    tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
+
+                    tr.setLayoutParams(tableRowParams);
+
+                    TextView product = new TextView(getContext());
+                    product.setTextSize(12);
+                    product.setWidth(300);
+                    product.setText(dt.get_name());
+                    tr.addView(product);
+
+                    TextView qty = new TextView(getContext());
+                    qty.setTextSize(12);
+                    qty.setPadding(15, 0, 0, 0);
+                    qty.setText(String.valueOf(dt.get_value()));
+                    tr.addView(qty);
+
+                    TextView price = new TextView(getContext());
+                    price.setTextColor(Color.GREEN);
+                    price.setTextSize(12);
+                    price.setPadding(15, 0, 0, 0);
+                    price.setText(dt.get_price());
+                    tr.addView(price);
+
+                    TextView amount = new TextView(getContext());
+                    amount.setTextColor(Color.RED);
+                    amount.setTextSize(12);
+                    amount.setPadding(15, 0, 0, 0);
+                    double prc = Double.valueOf(dt.get_price());
+                    double itm = Double.valueOf(dt.get_value());
+                    qtyNum = prc*itm;
+                    qtySum += qtyNum;
+                    amount.setText(String.valueOf(qtyNum));
+                    tr.addView(amount);
+
+                    tl.addView(tr, tableRowParams);
+                }
+
+                TableLayout tlb = (TableLayout) promptView.findViewById(R.id.tlProduct) ;
+                tlb.addView(tl);
+
+                final TextView tv_item = (TextView) promptView.findViewById(R.id.tvItemtbl);
+                tv_item.setTypeface(null, Typeface.BOLD);
+                int sumItem = arrdataPriv.size();
+                tv_item.setText(": " + String.valueOf(sumItem));
+
+                final  TextView tv_amount = (TextView) promptView.findViewById(R.id.tvSumAmount) ;
+                tv_amount.setTypeface(null, Typeface.BOLD);
+                tv_amount.setText(": " + String.valueOf(qtySum));
+
+                final  TextView tv_status = (TextView) promptView.findViewById(R.id.tvStatus);
+                tv_status.setTypeface(null, Typeface.BOLD);
+                tv_status.setText(": Open");
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                alertDialogBuilder.setView(promptView);
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("Save",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        saveReso();
+                                    }
+                                })
+                        .setNegativeButton("Close",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                final AlertDialog alertD = alertDialogBuilder.create();
+                alertD.show();
+                break;
+        }
 
     }
+
+    private void saveReso() {
+        int a = listView.getCount();
+        String nik = null;
+        List<String> item = new ArrayList<>();
+        arrdataPriv = new ArrayList<ModelListview>();
+        double qntySum=0;
+        double qntyNum;
+        for (int i = 0; i < a; i++) {
+            if (modelItems.get(i).get_value() > 0) {
+                            double prc = Double.valueOf(modelItems.get(i).get_price());
+                            double itm = Double.valueOf(modelItems.get(i).get_value());
+                            ModelListview data = new ModelListview();
+                            data.set_id(modelItems.get(i).get_id());
+                            data.set_name(modelItems.get(i).get_name());
+                            data.set_value(modelItems.get(i).get_value());
+                            nik = data.set_NIK(String.valueOf(modelItems.get(i).get_NIK()));
+                            qntyNum = prc*itm;
+                            qntySum += qntyNum;
+                            arrdataPriv.add(data);
+                        }
+                    }
+
+                tSalesProductHeaderData dt = new tSalesProductHeaderData();
+
+                java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                Calendar cal = Calendar.getInstance();
+
+                clsMainActivity _clsMainActivity = new clsMainActivity();
+                mEmployeeSalesProductData _mEmployeeSalesProductData = new mEmployeeSalesProductData();
+                tAbsenUserData absenUserData = new tAbsenUserBL().getDataCheckInActive();
+
+                dt.set_intId(tv_noso.getText().toString());
+                dt.set_dtDate(dateFormat.format(cal.getTime()));
+                dt.set_OutletCode(absenUserData.get_txtOutletCode());
+                dt.set_OutletName(absenUserData.get_txtOutletName());
+                dt.set_txtKeterangan(edketerangan.getText().toString());
+                dt.set_intSumItem(String.valueOf(arrdataPriv.size()));
+                dt.set_intSumAmount(String.valueOf(qntySum));
+                dt.set_UserId(absenUserData.get_txtUserId());
+                dt.set_intSubmit("1");
+                dt.set_intSync("0");
+                dt.set_txtBranchCode(absenUserData.get_txtBranchCode());
+                dt.set_txtBranchName(absenUserData.get_txtBranchName());
+                dt.set_intIdAbsenUser(absenUserData.get_intId());
+                dt.set_txtNIK(nik);
+
+                new tSalesProductHeaderBL().SaveData(dt);
+
+                clsMainBL _clsMainBL = new clsMainBL();
+
+                SQLiteDatabase _db=_clsMainBL.getDb();
+        for (int i = 0; i < a; i++) {
+            if (modelItems.get(i).get_value() > 0) {
+                double prc = Double.valueOf(modelItems.get(i).get_price());
+                double itm = Double.valueOf(modelItems.get(i).get_value());
+                tSalesProductDetailData dtDetail = new tSalesProductDetailData();
+                dtDetail.set_intId(_clsMainActivity.GenerateGuid());
+                dtDetail.set_dtDate(dateFormat.format(cal.getTime()));
+                dtDetail.set_intPrice(modelItems.get(i).get_price());
+                dtDetail.set_intQty(String.valueOf(modelItems.get(i).get_value()));
+                dtDetail.set_txtCodeProduct(modelItems.get(i).get_id());
+                dtDetail.set_txtKeterangan(edketerangan.getText().toString());
+                dtDetail.set_txtNameProduct(String.valueOf(modelItems.get(i).get_name()));
+                dtDetail.set_intTotal(String.valueOf(prc * itm));
+                dtDetail.set_txtNoSo(tv_noso.getText().toString());
+                dtDetail.set_intActive("1");
+                dtDetail.set_txtNIK(modelItems.get(i).get_NIK());
+                new tSalesProductDetailDA(_db).SaveDatatSalesProductDetailData(_db, dtDetail);
+            }
+
+        }
+
+        Toast.makeText(getActivity().getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+    }
+
     private void showMyDialog(Context context) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -216,11 +460,13 @@ public class Reso extends Fragment implements View.OnClickListener {
         dialog.show();
     }
     private void funcPreviewSO(Context context) {
+        int a = listView.getCount();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         final View promptView = layoutInflater.inflate(R.layout.activity_preview_so, null);
 
         final TextView _tvNoSO = (TextView) promptView.findViewById(R.id.tvnoSOtbl);
         final  TextView _tvKet = (TextView) promptView.findViewById(R.id.tvkettbl);
+        final ListView _lvProduct = (ListView) promptView.findViewById(R.id.lvProduks);
         _tvNoSO.setText(new mCounterNumberBL().getData(enumCounterData.NoDataSO));
         _tvKet.setText(edketerangan.getText().toString());
 
@@ -238,6 +484,30 @@ public class Reso extends Fragment implements View.OnClickListener {
 //        final TextView _tvDesc = (TextView) promptView.findViewById(R.id.tvDesc);
 //        _tvDesc.setVisibility(View.INVISIBLE);
 //        _tvConfirm.setText("");
+//        List<mEmployeeBranchData> listDataBranch = new mEmployeeBranchBL().GetAllData();
+        List<tSalesProductDetailData> _tSalesProductDetailData = new tSalesProductDetailBL().GetDataByNoSO(new mCounterNumberBL().getData(enumCounterData.NoDataSO));
+        List<String> item = new ArrayList<>();
+        arrprview = new ArrayList<ModelListview>();
+
+//        for(int i = 0; i < a; i++){
+            if(_tSalesProductDetailData.size()>0){
+                for(tSalesProductDetailData dt : _tSalesProductDetailData){
+                    //item.add(modelItems.get(i).get_name()+ modelItems.get(i).get_value());
+                    ModelListview dtt = new ModelListview();
+                    //dt.set_name(modelItems.get(i).get_name());
+                    //dt.set_value(modelItems.get(i).get_value());
+                    dtt.set_name(dt.get_txtNameProduct());
+                    dtt.set_value(Integer.parseInt(dt.get_intQty()));
+                    arrprview.add(dtt);
+                }
+
+            }
+//        }
+//        _lvProduct.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, item));
+//        setListViewHeightBasedOnItems(_lvProduct);
+        dataAdapter = new MyAdapter(getActivity().getApplicationContext(), arrprview);
+        listView = (ListView) promptView.findViewById(R.id.lvProduks);
+        listView.setAdapter(dataAdapter);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setView(promptView);
@@ -325,7 +595,7 @@ public class Reso extends Fragment implements View.OnClickListener {
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         EditText et = finalHolder.code;
                         for(int i = 0; i < mOriginalValues.size(); i++) {
-                            if(finalHolder.name.getText().equals(mOriginalValues.get(i).get_name())){
+                            if(finalHolder.name.getText().equals(mOriginalValues.get(i).get_id() + "\n" + mOriginalValues.get(i).get_name())){
                                 if(s.length()==0){
                                     mOriginalValues.get(i).set_value(0);
                                     break;
@@ -361,9 +631,14 @@ public class Reso extends Fragment implements View.OnClickListener {
             }
 
             ModelListview state = mDisplayedValues.get(position);
-
-            holder.name.setText(state.get_name());
-            holder.code.setText(String.valueOf(state.get_value()));
+//            if (state.get_id()==null){
+//                holder.name.setText(state.get_name());
+//                holder.code.setText(String.valueOf(state.get_value()));
+//                holder.code.setFocusable(false);
+//            } else {
+                holder.name.setText(state.get_id()+"\n"+state.get_name());
+                holder.code.setText(String.valueOf(state.get_value()));
+//            }
 
             holder.name.setTag(state);
 
@@ -457,5 +732,26 @@ public class Reso extends Fragment implements View.OnClickListener {
 
     }
 
+    private class PreviewAdapter extends BaseAdapter{
+        @Override
+        public int getCount() {
+            return 0;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return null;
+        }
+    }
 }
 

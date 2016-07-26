@@ -663,6 +663,7 @@ public class DownloadData extends clsMainActivity {
     private class AsyncCallBranch extends AsyncTask<JSONArray, Void, JSONArray> {
         @Override
         protected JSONArray doInBackground(JSONArray... params) {
+//            android.os.Debug.waitForDebugger();
             JSONArray Json = null;
             try {
                 Json = new mEmployeeBranchBL().DownloadEmployeeBranch2(pInfo.versionName);

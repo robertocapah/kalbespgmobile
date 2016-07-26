@@ -854,23 +854,23 @@ public class clsHelperBL extends clsMainBL{
 			
 			
 			FileUpload=new HashMap<String, String>();
-			if(ListOftAbsenUserData!= null){
-				dtPush.setListOftAbsenUserData(ListOftAbsenUserData);
-				for (tAbsenUserData dttAbsenUserData : ListOftAbsenUserData) {
-					if(dttAbsenUserData.get_txtImg1().equals("null")==false){
-						FileUpload.put("FUAbsen"+dttAbsenUserData.get_intId()+"-1", dttAbsenUserData.get_txtImg1());	
-					}
-					if(dttAbsenUserData.get_txtImg2().equals("null")==false){
-						FileUpload.put("FUAbsen"+dttAbsenUserData.get_intId()+"-2", dttAbsenUserData.get_txtImg2());	
-					}
-				}
-			}
+//			if(ListOftAbsenUserData!= null){
+//				dtPush.setListOftAbsenUserData(ListOftAbsenUserData);
+//				for (tAbsenUserData dttAbsenUserData : ListOftAbsenUserData) {
+//					if(dttAbsenUserData.get_txtImg1().equals("null")==false){
+//						FileUpload.put("FUAbsen"+dttAbsenUserData.get_intId()+"-1", String.valueOf(dttAbsenUserData.get_txtImg1()));
+//					}
+//					if(dttAbsenUserData.get_txtImg2().equals("null")==false){
+//						FileUpload.put("FUAbsen"+dttAbsenUserData.get_intId()+"-2", String.valueOf(dttAbsenUserData.get_txtImg2()));
+//					}
+//				}
+//			}
 			if(ListOftActivityData!=null){
 				dtPush.setListOftActivityData(ListOftActivityData);
 				for (tActivityData dttActivityData : ListOftActivityData) {
 					FileUpload.put("idUploadActivity", "FUAbsen"+dttActivityData.get_intId());
 					if(dttActivityData.get_txtImg1()!=null){
-						FileUpload.put("FUActivity"+dttActivityData.get_intId()+"-1", "file://"+dttActivityData.get_txtImg1());	
+						FileUpload.put("FUActivity"+dttActivityData.get_intId()+"-1", "file://"+dttActivityData.get_txtImg1());
 					}
 					if(dttActivityData.get_txtImg2()!=null){
 						FileUpload.put("FUActivity"+dttActivityData.get_intId()+"-2", "file://"+dttActivityData.get_txtImg2());	

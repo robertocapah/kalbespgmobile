@@ -1,26 +1,21 @@
 package bl;
 
-import java.util.Iterator;
-import java.util.List;
-
 import android.database.sqlite.SQLiteDatabase;
 
 import org.json.simple.JSONArray;
 
+import java.util.Iterator;
+import java.util.List;
+
 import library.salesforce.common.APIData;
 import library.salesforce.common.clsHelper;
 import library.salesforce.common.linkAPI;
-import library.salesforce.common.mCounterNumberData;
 import library.salesforce.common.mEmployeeBranchData;
-import library.salesforce.common.mEmployeeSalesProductData;
 import library.salesforce.common.mconfigData;
 import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 import library.salesforce.dal.enumConfigData;
-import library.salesforce.dal.enumCounterData;
-import library.salesforce.dal.mCounterNumberDA;
 import library.salesforce.dal.mEmployeeBranchDA;
-import library.salesforce.dal.mEmployeeSalesProductDA;
 import library.salesforce.dal.mconfigDA;
 import library.salesforce.dal.tUserLoginDA;
 
@@ -42,7 +37,6 @@ public class mEmployeeBranchBL extends clsMainBL {
 		return ListData;
 	}
 	public JSONArray DownloadEmployeeBranch2(String versionName) throws Exception{
-		//ambil linkapi Database sqllite
 		SQLiteDatabase _db=getDb();
 		tUserLoginDA _tUserLoginDA=new tUserLoginDA(_db);
 		mconfigDA _mconfigDA =new mconfigDA(_db);
@@ -65,6 +59,7 @@ public class mEmployeeBranchBL extends clsMainBL {
 		String strLinkAPI= dtlinkAPI.QueryString(strVal2);
 		String JsonData= _help.ResultJsonData(_help.getHTML(strLinkAPI));
 		org.json.simple.JSONArray JsonArray= _help.ResultJsonArray(JsonData);
+		APIData dtAPIDATA=new APIData();
 		return JsonArray;
 	}
 

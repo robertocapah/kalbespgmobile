@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 
 import library.salesforce.common.APIData;
 import library.salesforce.common.clsHelper;
@@ -22,6 +23,15 @@ import library.salesforce.dal.tSalesProductHeaderDA;
 import library.salesforce.dal.tUserLoginDA;
 
 public class tSalesProductDetailBL extends clsMainBL {
+	public List<tSalesProductDetailData> GetDataByNoSO(String Noso){
+		SQLiteDatabase db=getDb();
+		//mEmployeeSalesProductDA _mEmployeeSalesProductDA= new mEmployeeSalesProductDA(db);
+		tSalesProductDetailDA _tSalesProductDetailDA= new tSalesProductDetailDA(db);
+		//List<mEmployeeSalesProductData>ListData=_mEmployeeSalesProductDA.SearchData(db, "", Noso);
+		List<tSalesProductDetailData>ListData=_tSalesProductDetailDA.getDataByNoSO(db,Noso);
+		db.close();
+		return ListData;
+	}
 	public void DownloadEmployeeTransaction(String versionName) throws Exception{
 		//ambil linkapi Database sqllite
 		SQLiteDatabase _db=getDb();

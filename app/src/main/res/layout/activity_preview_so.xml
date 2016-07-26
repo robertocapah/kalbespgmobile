@@ -9,14 +9,19 @@
     android:paddingTop="5dp"
     tools:context="com.kalbenutritionals.app.kalbespgmobile.PreviewSO">
     <ScrollView
-        android:id="@+id/scrollableContents"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/ll0"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
         <LinearLayout
             android:id="@+id/ll1"
             android:gravity="center_vertical|center_horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TableLayout
@@ -139,13 +144,14 @@
                         android:text="" />
                 </TableRow>
             </TableLayout>
-            <ListView
-                android:id="@+id/lvProduks"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/btnPreviewReso"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"></ListView>
             </LinearLayout>
-        </ScrollView>
+    <TableLayout
+        android:id="@+id/tlProduct"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></TableLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

@@ -280,7 +280,7 @@ public class clsMainBL {
 				Json.setIntResult("1");
 				Json.setListOftAbsenUserData(tmplistDataAbsen);
 				//String Html= new clsHelper().pushtData(strLinkAPI,Json.txtJSON().toString(),Integer.valueOf(TimeOut));
-				String Html= new clsHelper().PushDataWithFile(strLinkAPI,Json.txtJSON().toString(),Integer.valueOf(TimeOut),dataAbsen.get_txtImg1(),dataAbsen.get_txtImg2());
+				String Html= new clsHelper().PushDataWithFile(strLinkAPI,Json.txtJSON().toString(),Integer.valueOf(TimeOut),String.valueOf(dataAbsen.get_txtImg1()),String.valueOf(dataAbsen.get_txtImg2()));
 				org.json.simple.JSONArray JsonArray= _help.ResultJsonArray(Html);
 				Iterator i = JsonArray.iterator();
 				while (i.hasNext()) {

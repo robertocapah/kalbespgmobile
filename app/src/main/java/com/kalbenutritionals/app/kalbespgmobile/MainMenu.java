@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import bl.tUserLoginBL;
 import library.salesforce.common.tUserLoginData;
 
@@ -24,9 +27,15 @@ public class MainMenu extends AppCompatActivity {
 
     private TextView tvUsername, tvEmail;
 
+    Map map = new HashMap();
+
+    int selectedId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        selectedId = 0;
 
         setContentView(R.layout.activity_main);
 
@@ -76,47 +85,52 @@ public class MainMenu extends AppCompatActivity {
                 drawerLayout.closeDrawers();
 
                 switch (menuItem.getItemId()){
-                    case R.id.add_reso:
-                        Toast.makeText(getApplicationContext(),"Add reso",Toast.LENGTH_SHORT).show();
-                        toolbar.setTitle(menuItem.getTitle().toString() + " Reso");
-                        Reso fragment = new Reso();
-                        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.frame,fragment);
-                        fragmentTransaction.commit();
-
-                        return true;
+//                    case R.id.add_reso:
+//                        Toast.makeText(getApplicationContext(),"Add reso",Toast.LENGTH_SHORT).show();
+//                        toolbar.setTitle(menuItem.getTitle().toString() + " Reso");
+//                        Reso resofragment = new Reso();
+//                        android.support.v4.app.FragmentTransaction fragmentTransactionreso = getSupportFragmentManager().beginTransaction();
+//                        fragmentTransactionreso.replace(R.id.frame,resofragment);
+//                        fragmentTransactionreso.commit();
+//
+//                        return true;
                     case R.id.view_reso:
                         Toast.makeText(getApplicationContext(),"View reso",Toast.LENGTH_SHORT).show();
-                        toolbar.setTitle(menuItem.getTitle().toString() + " Reso");
-//                        tv.setText(menuItem.getTitle().toString() + " Reso");
-
+                        toolbar.setTitle("View "+menuItem.getTitle().toString());
+                        ViewResoFragment viewresofragment = new ViewResoFragment();
+                        android.support.v4.app.FragmentTransaction fragmentTransactionviewreso = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactionviewreso.replace(R.id.frame,viewresofragment);
+                        fragmentTransactionviewreso.commit();
+                        selectedId=1;
                         return true;
-                    case R.id.add_activity:
-                        Toast.makeText(getApplicationContext(),"Add activity",Toast.LENGTH_SHORT).show();
-                        toolbar.setTitle(menuItem.getTitle().toString() + " Activity");
+//                    case R.id.add_activity:
+//                        Toast.makeText(getApplicationContext(),"Add activity",Toast.LENGTH_SHORT).show();
+//                        toolbar.setTitle(menuItem.getTitle().toString() + " Activity");
 //                        tv.setText(menuItem.getTitle().toString() + " Activity");
 
-                        return true;
+//                        return true;
                     case R.id.view_activity:
                         Toast.makeText(getApplicationContext(),"View activity",Toast.LENGTH_SHORT).show();
-                        toolbar.setTitle(menuItem.getTitle().toString() + " Activity");
+                        toolbar.setTitle("View "+menuItem.getTitle().toString());
+                        selectedId=2;
 //                        tv.setText(menuItem.getTitle().toString() + " Activity");
 
                         return true;
-                    case R.id.add_customerbase:
-                        toolbar.setTitle(menuItem.getTitle().toString() + " customer base");
-                        CustomerBaseFragment fragment2 = new CustomerBaseFragment();
-                        android.support.v4.app.FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction2.replace(R.id.frame,fragment2);
-                        fragmentTransaction2.commit();
-
-                        return true;
+//                    case R.id.add_customerbase:
+//                        toolbar.setTitle(menuItem.getTitle().toString() + " customer base");
+//                        CustomerBaseFragment fragment2 = new CustomerBaseFragment();
+//                        android.support.v4.app.FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
+//                        fragmentTransaction2.replace(R.id.frame,fragment2);
+//                        fragmentTransaction2.commit();
+//
+//                        return true;
                     case R.id.view_customerbase:
-                        toolbar.setTitle(menuItem.getTitle().toString() + " Customer Base");
+                        toolbar.setTitle("View "+menuItem.getTitle().toString());
                         ViewCustomerBaseFragment fragment3 = new ViewCustomerBaseFragment();
                         android.support.v4.app.FragmentTransaction fragmentTransaction3 = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction3.replace(R.id.frame,fragment3);
                         fragmentTransaction3.commit();
+                        selectedId=3;
 
                         return true;
                     default:
@@ -158,7 +172,14 @@ public class MainMenu extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
+//        MenuItem menuItem = null;
+//        if(menuItem.getItemId()==R.id.view_reso){
+//            menu.add(0, 1, Menu.CATEGORY_ALTERNATIVE, "Add Reso");
+//        }
+//        else {
+//            menu.add(0, 2, Menu.NONE, "Setting");
+//        }
         return true;
     }
 
@@ -170,10 +191,80 @@ public class MainMenu extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == 1) {
+            //MenuItem menuItem = null;
+            //toolbar.setTitle(menuItem.getTitle().toString() + " Reso");
+            toolbar.setTitle("Add Reso");
+            Reso resofragment = new Reso();
+            android.support.v4.app.FragmentTransaction fragmentTransactionreso = getSupportFragmentManager().beginTransaction();
+            fragmentTransactionreso.replace(R.id.frame,resofragment);
+            fragmentTransactionreso.commit();
+            selectedId=4;
+
+            return true;
+        }
+        if(id == 2){
+            toolbar.setTitle("Add Activity");
+            selectedId=5;
+
+            return true;
+        }
+        if(id == 3){
+            toolbar.setTitle("Add Customer Base");
+            CustomerBaseFragment fragment2 = new CustomerBaseFragment();
+            android.support.v4.app.FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction2.replace(R.id.frame,fragment2);
+            fragmentTransaction2.commit();
+            selectedId=6;
+
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+
+        menu.clear();
+
+        if(selectedId == 1) {
+
+            menu.add(0, 1, 0, "Add Reso");
+
+        } else if(selectedId == 2) {
+
+            menu.add(0, 2, 0, "Add Activity");
+
+        } else if(selectedId == 3){
+
+            menu.add(0, 3, 0, "Add Customer Base");
+
+        } else if (selectedId==4){
+
+            menu.add(1, 4, 0, "View Reso");
+            menu.setGroupEnabled(1,false);
+
+        } else if (selectedId==5){
+
+            menu.add(2, 5, 0, "View Activity");
+            menu.setGroupEnabled(2,false);
+
+        } else if (selectedId==6){
+
+            menu.add(3, 6, 0, "View Customer Base");
+            menu.setGroupEnabled(3,false);
+
+        }
+        else if(selectedId == 0){
+
+            menu.add(0,4,0, "default");
+        }
+
+        //Toast.makeText(this, String.valueOf(selectedId), Toast.LENGTH_LONG).show();
+        return super.onPrepareOptionsMenu(menu);
+
     }
 }

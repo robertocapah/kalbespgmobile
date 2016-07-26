@@ -1,90 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--<group-->
-        <!--android:checkableBehavior="single"-->
-        <!--android:id="@+id/groupListMenu">-->
-
-        <!--<item-->
-            <!--android:id="@+id/inbox"-->
-            <!--android:checked="false"-->
-            <!--android:icon="@drawable/ic_inbox_black"-->
-            <!--android:title="Reso" />-->
-
-        <!--<item-->
-            <!--android:id="@+id/starred"-->
-            <!--android:checked="false"-->
-            <!--android:icon="@drawable/ic_star_black"-->
-            <!--android:title="Activity" />-->
-
-        <!--<item-->
-            <!--android:id="@+id/sent_mail"-->
-            <!--android:checked="false"-->
-            <!--android:icon="@drawable/ic_send_black"-->
-            <!--android:title="Cusutomer Base" />-->
-
-    <!--</group>-->
-
-    <item android:title="Reso">
-        <menu>
-            <group android:checkableBehavior="single"
-                >
-                <item
-                    android:icon="@drawable/ic_add_black_48dp"
-                    android:title="Add"
-                    android:id="@+id/add_reso"/>
-                <item
-                    android:icon="@drawable/ic_folder_open_black_48dp"
-                    android:title="View"
-                    android:id="@+id/view_reso"/>
-            </group>
-        </menu>
-    </item>
-    <item android:title="Activity">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:icon="@drawable/ic_add_black_48dp"
-                    android:title="Add"
-                    android:id="@+id/add_activity"/>
-                <item
-                    android:icon="@drawable/ic_folder_open_black_48dp"
-                    android:title="View"
-                    android:id="@+id/view_activity"/>
-            </group>
-        </menu>
-    </item>
-    <item
-        android:title="Customer Base"
-        android:id="@+id/customerBase">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:icon="@drawable/ic_add_black_48dp"
-                    android:title="Add"
-                    android:id="@+id/add_customerbase"/>
-                <item
-                    android:icon="@drawable/ic_folder_open_black_48dp"
-                    android:title="View"
-                    android:id="@+id/view_customerbase"/>
-            </group>
-        </menu>
-    </item>
-
     <group
-    android:checkableBehavior="single"
-    android:id="@+id/groupListMenu">
+        android:checkableBehavior="single"
+        android:id="@+id/groupListMenu">
 
-    <item
-    android:id="@+id/inbox"
-    android:checked="false"
-    android:title="Checkout" />
+        <item
+            android:id="@+id/view_reso"
+            android:checked="false"
+            android:icon="@drawable/ic_inbox_black"
+            android:title="Reso" />
 
-    <item
-    android:id="@+id/starred"
-    android:checked="false"
-    android:title="Logout" />
+        <item
+            android:id="@+id/view_activity"
+            android:checked="false"
+            android:icon="@drawable/ic_star_black"
+            android:title="Activity" />
+
+        <item
+            android:id="@+id/view_customerbase"
+            android:checked="false"
+            android:icon="@drawable/ic_send_black"
+            android:title="Cusutomer Base" />
 
     </group>
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/groupListfooter">
+        <item
+            android:id="@+id/checkout"
+            android:checked="false"
+            android:title="Checkout" />
+
+        <item
+            android:id="@+id/logout"
+            android:checked="false"
+            android:title="Logout" />
+    </group>
+
+    <!--<item android:title="Reso">-->
+        <!--<menu>-->
+            <!--<group android:checkableBehavior="single"-->
+                <!--&gt;-->
+           <!--&lt;!&ndash;     <item-->
+                    <!--android:icon="@drawable/ic_add_black_48dp"-->
+                    <!--android:title="Add"-->
+                    <!--android:id="@+id/add_reso"/>&ndash;&gt;-->
+                <!--<item-->
+                    <!--android:icon="@drawable/ic_folder_open_black_48dp"-->
+                    <!--android:title="View"-->
+                    <!--android:id="@+id/view_reso"/>-->
+            <!--</group>-->
+        <!--</menu>-->
+    <!--</item>-->
+    <!--<item android:title="Activity">-->
+        <!--<menu>-->
+            <!--<group android:checkableBehavior="single">-->
+                <!--<item-->
+                    <!--android:icon="@drawable/ic_add_black_48dp"-->
+                    <!--android:title="Add"-->
+                    <!--android:id="@+id/add_activity"/>-->
+                <!--<item-->
+                    <!--android:icon="@drawable/ic_folder_open_black_48dp"-->
+                    <!--android:title="View"-->
+                    <!--android:id="@+id/view_activity"/>-->
+            <!--</group>-->
+        <!--</menu>-->
+    <!--</item>-->
+    <!--<item-->
+        <!--android:title="Customer Base"-->
+        <!--android:id="@+id/customerBase">-->
+        <!--<menu>-->
+            <!--<group android:checkableBehavior="single">-->
+                <!--<item-->
+                    <!--android:icon="@drawable/ic_add_black_48dp"-->
+                    <!--android:title="Add"-->
+                    <!--android:id="@+id/add_customerbase"/>-->
+                <!--<item-->
+                    <!--android:icon="@drawable/ic_folder_open_black_48dp"-->
+                    <!--android:title="View"-->
+                    <!--android:id="@+id/view_customerbase"/>-->
+            <!--</group>-->
+        <!--</menu>-->
+    <!--</item>-->
+
+    <!--<group-->
+    <!--android:checkableBehavior="single"-->
+    <!--android:id="@+id/groupListMenu">-->
+
+    <!--<item-->
+    <!--android:id="@+id/inbox"-->
+    <!--android:checked="false"-->
+    <!--android:title="Checkout" />-->
+
+    <!--<item-->
+    <!--android:id="@+id/starred"-->
+    <!--android:checked="false"-->
+    <!--android:title="Logout" />-->
+
+    <!--</group>-->
 
 </menu>

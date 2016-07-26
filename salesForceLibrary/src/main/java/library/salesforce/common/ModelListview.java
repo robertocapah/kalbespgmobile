@@ -7,7 +7,8 @@ public class ModelListview implements Serializable{
     private String _name;
     private int _value;
     private boolean _selected;
-    private int price;
+    private String _price;
+    private String _NIK;
 
     public String get_id() {
         return _id;
@@ -45,6 +46,17 @@ public class ModelListview implements Serializable{
     {
         return _selected;
     }
+
+    public String get_price(){return  _price;}
+    public long set_price(String _price){this._price = _price;
+        return 0;
+    }
+
+    public String get_NIK(){return  _NIK;}
+    public String set_NIK(String _NIK){this._NIK = _NIK;
+        return _NIK;
+    }
+
 
 //    public ModelListview(String id, String name, int value, boolean selected){
 //        this.id = id;

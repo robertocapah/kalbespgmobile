@@ -1,16 +1,16 @@
 package library.salesforce.common;
 
 public class tAbsenUserData {
-	public synchronized String get_txtImg1() {
+	public synchronized byte[] get_txtImg1() {
 		return _txtImg1;
 	}
-	public synchronized void set_txtImg1(String _txtImg1) {
+	public synchronized void set_txtImg1(byte[] _txtImg1) {
 		this._txtImg1 = _txtImg1;
 	}
-	public synchronized String get_txtImg2() {
+	public synchronized byte[] get_txtImg2() {
 		return _txtImg2;
 	}
-	public synchronized void set_txtImg2(String _txtImg2) {
+	public synchronized void set_txtImg2(byte[] _txtImg2) {
 		this._txtImg2 = _txtImg2;
 	}
 	public synchronized String get_dtDateCheckIn() {
@@ -79,7 +79,7 @@ public class tAbsenUserData {
 	public synchronized void set_txtOutletName(String _txtOutletName) {
 		this._txtOutletName = _txtOutletName;
 	}
-	
+
 	public synchronized String get_txtLongitude() {
 		return _txtLongitude;
 	}
@@ -119,9 +119,9 @@ public class tAbsenUserData {
 	private String _intSubmit;
 	private String _intSync;
 	private String _txtDeviceId;
-	private String _txtImg1;
-	private String _txtImg2;
-	
+	private byte[] _txtImg1;
+	private byte[] _txtImg2;
+
 	public String Property_txtImg1="txtImg1";
 	public String Property_txtImg2="txtImg2";
 	public String Property_intId="intId";
@@ -141,19 +141,19 @@ public class tAbsenUserData {
 	public String Property_intSync="Sync";
 	public String Property_ListOftAbsenUser="ListOftAbsenUser";
 	public String Property_All=Property_intId+","+Property_dtDateCheckIn+","+Property_intSubmit+","+Property_intSync+","+Property_txtAbsen+","+
-	Property_txtAccuracy+","+Property_txtBranchCode+","+Property_txtBranchName+","+Property_txtLatitude+","+Property_txtLongitude+","+
-	Property_txtOutletCode+","+Property_txtOutletName+","+Property_txtDeviceId+","+Property_txtUserId+","+Property_dtDateCheckOut
-	+","+Property_txtImg1+","+Property_txtImg2
-	;
+			Property_txtAccuracy+","+Property_txtBranchCode+","+Property_txtBranchName+","+Property_txtLatitude+","+Property_txtLongitude+","+
+			Property_txtOutletCode+","+Property_txtOutletName+","+Property_txtDeviceId+","+Property_txtUserId+","+Property_dtDateCheckOut
+			+","+Property_txtImg1+","+Property_txtImg2
+			;
 	public tAbsenUserData() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public tAbsenUserData(String _intId, String _txtAbsen, String _txtUserId,
-			String _txtBranchCode, String _txtBranchName,
-			String _txtOutletCode, String _txtOutletName, String _dtDateCheckIn,
-			String _txtLongitude, String _txtLatitude, String _txtAccuracy,
-			String _intSubmit) {
+						  String _txtBranchCode, String _txtBranchName,
+						  String _txtOutletCode, String _txtOutletName, String _dtDateCheckIn,
+						  String _txtLongitude, String _txtLatitude, String _txtAccuracy,
+						  String _intSubmit) {
 		this._intId = _intId;
 		this._txtAbsen = _txtAbsen;
 		this._txtUserId = _txtUserId;
@@ -167,5 +167,5 @@ public class tAbsenUserData {
 		this._txtAccuracy = _txtAccuracy;
 		this._intSubmit = _intSubmit;
 	}
-	
+
 }
