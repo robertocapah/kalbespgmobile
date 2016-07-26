@@ -48,11 +48,13 @@ public class ViewResoFragment extends Fragment implements IXListViewListener {
 
         swipeList.clear();
 
-        for(int i = 0; i < dt.size(); i++){
-            swplist = new clsSwipeList();
-            swplist.set_txtTitle(dt.get(i).get_intId());
-            swplist.set_txtDescription("Submit");
-            swipeList.add(swplist);
+        if(dt != null) {
+            for (int i = 0; i < dt.size(); i++) {
+                swplist = new clsSwipeList();
+                swplist.set_txtTitle(dt.get(i).get_intId());
+                swplist.set_txtDescription("Submit");
+                swipeList.add(swplist);
+            }
         }
 
         clsMainActivity clsMain = new clsMainActivity();

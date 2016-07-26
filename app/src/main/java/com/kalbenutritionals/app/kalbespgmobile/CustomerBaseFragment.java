@@ -174,53 +174,72 @@ public class CustomerBaseFragment extends Fragment implements View.OnClickListen
     }
 
     private void saveCustomerBase(){
+        boolean selected = false;
         int a = listView.getCount();
 
-        int selectedId = rdSex.getCheckedRadioButtonId();
-        RadioButton radioSexButton = (RadioButton) v.findViewById(selectedId);
-
-        tCustomerBaseData dt = new tCustomerBaseData();
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Calendar cal = Calendar.getInstance();
-
-        clsMainActivity _clsMainActivity = new clsMainActivity();
-        tAbsenUserData absenUserData = new tAbsenUserBL().getDataCheckInActive();
-
-        dt.set_intCustomerId(_clsMainActivity.GenerateGuid());
-        dt.set_intCustomerIdSync("1");
-        dt.set_bitActive("1");
-        dt.set_dtDate(dateFormat.format(cal.getTime()));
-        dt.set_intSubmit("1");
-        dt.set_txtAlamat(etAlamat.getText().toString());
-        dt.set_txtBranchId(absenUserData.get_txtBranchCode());
-        dt.set_txtNama(etNama.getText().toString());
-        dt.set_txtOutletId(absenUserData.get_txtOutletCode());
-        dt.set_txtUserId(absenUserData.get_txtUserId());
-        dt.set_txtDeviceId(absenUserData.get_txtDeviceId());
-        dt.set_txtSex(radioSexButton.getText().toString());
-        dt.set_txtTelp(etTelpon.getText().toString());
-
-        new tCustomerBaseBL().saveData(dt);
-
-        clsMainBL _clsMainBL = new clsMainBL();
-
-        SQLiteDatabase _db=_clsMainBL.getDb();
-
-        for(int i = 0; i < a; i++){
-            if(modelItems.get(i).isSelected()){
-                tCustomerBaseDetailData dtDetail = new tCustomerBaseDetailData();
-                dtDetail.set_txtDataId(_clsMainActivity.GenerateGuid());
-                dtDetail.set_intCustomerId(dt.get_intCustomerId());
-                dtDetail.set_intQty("1");
-                dtDetail.set_txtProductBrandCode(modelItems.get(i).get_id());
-                dtDetail.set_txtProductBrandName(modelItems.get(i).get_name());
-
-                new tCustomerBaseDetailDA(_db).SaveDatatCustomerBaseDetailData(_db, dtDetail);
+        for(int i = 0; i < a; i++) {
+            if (modelItems.get(i).isSelected()) {
+                selected = true;
+                break;
             }
         }
 
-        Toast.makeText(getActivity().getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+        if(selected){
+            if(etNama.length() > 0 && etTelpon.length() > 0){
+
+                int selectedId = rdSex.getCheckedRadioButtonId();
+                RadioButton radioSexButton = (RadioButton) v.findViewById(selectedId);
+
+                tCustomerBaseData dt = new tCustomerBaseData();
+
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                Calendar cal = Calendar.getInstance();
+
+                clsMainActivity _clsMainActivity = new clsMainActivity();
+                tAbsenUserData absenUserData = new tAbsenUserBL().getDataCheckInActive();
+
+                dt.set_intCustomerId(_clsMainActivity.GenerateGuid());
+                dt.set_intCustomerIdSync("1");
+                dt.set_bitActive("1");
+                dt.set_dtDate(dateFormat.format(cal.getTime()));
+                dt.set_intSubmit("1");
+                dt.set_txtAlamat(etAlamat.getText().toString());
+                dt.set_txtBranchId(absenUserData.get_txtBranchCode());
+                dt.set_txtNama(etNama.getText().toString());
+                dt.set_txtOutletId(absenUserData.get_txtOutletCode());
+                dt.set_txtUserId(absenUserData.get_txtUserId());
+                dt.set_txtDeviceId(absenUserData.get_txtDeviceId());
+                dt.set_txtSex(radioSexButton.getText().toString());
+                dt.set_txtTelp(etTelpon.getText().toString());
+
+                new tCustomerBaseBL().saveData(dt);
+
+                clsMainBL _clsMainBL = new clsMainBL();
+
+                SQLiteDatabase _db=_clsMainBL.getDb();
+
+                for(int i = 0; i < a; i++){
+                    if(modelItems.get(i).isSelected()){
+                        tCustomerBaseDetailData dtDetail = new tCustomerBaseDetailData();
+                        dtDetail.set_txtDataId(_clsMainActivity.GenerateGuid());
+                        dtDetail.set_intCustomerId(dt.get_intCustomerId());
+                        dtDetail.set_intQty("1");
+                        dtDetail.set_txtProductBrandCode(modelItems.get(i).get_id());
+                        dtDetail.set_txtProductBrandName(modelItems.get(i).get_name());
+
+                        new tCustomerBaseDetailDA(_db).SaveDatatCustomerBaseDetailData(_db, dtDetail);
+                    }
+                }
+
+                Toast.makeText(getActivity().getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(getActivity().getApplicationContext(), "Failed save: please fill name and phone number", Toast.LENGTH_LONG).show();
+            }
+        }
+        else{
+            Toast.makeText(getActivity().getApplicationContext(), "Failed save: no product selected", Toast.LENGTH_LONG).show();
+        }
     }
 
     public static boolean setListViewHeightBasedOnItems(ListView listView) {

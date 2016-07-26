@@ -14,12 +14,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="Sex"
-            android:id="@+id/tvSex"
+            android:text="Type"
+            android:id="@+id/tvType"
             android:layout_weight="1" />
 
         <RadioGroup
-            android:id="@+id/radioSex"
+            android:id="@+id/radioFlag"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
@@ -27,16 +27,16 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="Pria"
-            android:id="@+id/rbPria"
+            android:text="KALBE"
+            android:id="@+id/rbKalbe"
             android:checked="true"
             android:layout_weight="1" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="Wanita"
-            android:id="@+id/rbWanita"
+            android:text="Competitor"
+            android:id="@+id/rbCompetitor"
             android:checked="false"
             android:layout_weight="1" />
 
@@ -45,12 +45,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="Nama *"
-            android:id="@+id/tvNama"
+            android:text="Descrpition"
+            android:id="@+id/tvDesc"
             android:layout_weight="1"
             android:layout_marginTop="10dp" />
 
         <EditText
+            android:inputType="textMultiLine"
+            android:lines="2"
+            android:gravity="top|left"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:id="@+id/etNama"
@@ -61,35 +64,31 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="Telp *"
-            android:id="@+id/textView5"
+            android:text="Images"
+            android:id="@+id/textView11"
             android:layout_weight="1"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
 
-        <EditText
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/etTelpon"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:background="@drawable/bg_edtext"
-            android:phoneNumber="true" />
+            android:layout_weight="1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="Alamat"
-            android:id="@+id/textView8"
-            android:layout_weight="1"
-            android:layout_marginTop="10dp" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageButton"
+                android:src="@mipmap/b_camera" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/etAlamat"
-            android:background="@drawable/bg_edtext"
-            android:layout_weight="1"
-            android:singleLine="true" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageButton2"
+                android:src="@mipmap/b_camera" />
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -103,35 +102,10 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="Preview"
-            android:id="@+id/btnPreview"
+            android:text="Save"
+            android:id="@+id/btnSave"
             android:layout_weight="1" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="List Product"
-            android:id="@+id/textView10"
-            android:layout_weight="1"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="center_horizontal" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/searchProduct"
-            android:layout_weight="1"
-            android:background="@drawable/bg_edtext"
-            android:drawableRight="@drawable/ic_search_black_24dp"
-            android:singleLine="true"
-            android:layout_marginBottom="10dp" />
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/listView2"
-            android:layout_weight="1" />
     </LinearLayout>
 
 </ScrollView>

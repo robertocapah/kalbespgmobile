@@ -85,45 +85,26 @@ public class MainMenu extends AppCompatActivity {
                 drawerLayout.closeDrawers();
 
                 switch (menuItem.getItemId()){
-//                    case R.id.add_reso:
-//                        Toast.makeText(getApplicationContext(),"Add reso",Toast.LENGTH_SHORT).show();
-//                        toolbar.setTitle(menuItem.getTitle().toString() + " Reso");
-//                        Reso resofragment = new Reso();
-//                        android.support.v4.app.FragmentTransaction fragmentTransactionreso = getSupportFragmentManager().beginTransaction();
-//                        fragmentTransactionreso.replace(R.id.frame,resofragment);
-//                        fragmentTransactionreso.commit();
-//
-//                        return true;
                     case R.id.view_reso:
-                        Toast.makeText(getApplicationContext(),"View reso",Toast.LENGTH_SHORT).show();
                         toolbar.setTitle("View "+menuItem.getTitle().toString());
                         ViewResoFragment viewresofragment = new ViewResoFragment();
                         android.support.v4.app.FragmentTransaction fragmentTransactionviewreso = getSupportFragmentManager().beginTransaction();
                         fragmentTransactionviewreso.replace(R.id.frame,viewresofragment);
                         fragmentTransactionviewreso.commit();
                         selectedId=1;
-                        return true;
-//                    case R.id.add_activity:
-//                        Toast.makeText(getApplicationContext(),"Add activity",Toast.LENGTH_SHORT).show();
-//                        toolbar.setTitle(menuItem.getTitle().toString() + " Activity");
-//                        tv.setText(menuItem.getTitle().toString() + " Activity");
 
-//                        return true;
+                        return true;
+
                     case R.id.view_activity:
-                        Toast.makeText(getApplicationContext(),"View activity",Toast.LENGTH_SHORT).show();
                         toolbar.setTitle("View "+menuItem.getTitle().toString());
+                        ViewActivityFragment fragmentViewActivity = new ViewActivityFragment();
+                        android.support.v4.app.FragmentTransaction fragmentTransactionViewActivity = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactionViewActivity.replace(R.id.frame,fragmentViewActivity);
+                        fragmentTransactionViewActivity.commit();
                         selectedId=2;
-//                        tv.setText(menuItem.getTitle().toString() + " Activity");
 
                         return true;
-//                    case R.id.add_customerbase:
-//                        toolbar.setTitle(menuItem.getTitle().toString() + " customer base");
-//                        CustomerBaseFragment fragment2 = new CustomerBaseFragment();
-//                        android.support.v4.app.FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
-//                        fragmentTransaction2.replace(R.id.frame,fragment2);
-//                        fragmentTransaction2.commit();
-//
-//                        return true;
+
                     case R.id.view_customerbase:
                         toolbar.setTitle("View "+menuItem.getTitle().toString());
                         ViewCustomerBaseFragment fragment3 = new ViewCustomerBaseFragment();
@@ -205,6 +186,10 @@ public class MainMenu extends AppCompatActivity {
         }
         if(id == 2){
             toolbar.setTitle("Add Activity");
+            AddActivityFragment addFragment = new AddActivityFragment();
+            android.support.v4.app.FragmentTransaction fragmentTransactionActivity = getSupportFragmentManager().beginTransaction();
+            fragmentTransactionActivity.replace(R.id.frame,addFragment);
+            fragmentTransactionActivity.commit();
             selectedId=5;
 
             return true;

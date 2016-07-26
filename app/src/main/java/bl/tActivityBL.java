@@ -2,7 +2,9 @@ package bl;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -10,12 +12,20 @@ import library.salesforce.common.APIData;
 import library.salesforce.common.clsHelper;
 import library.salesforce.common.linkAPI;
 import library.salesforce.common.mconfigData;
+import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
+import library.salesforce.common.tCustomerBaseData;
+import library.salesforce.common.tLeaveMobileData;
+import library.salesforce.common.tPODetail_mobileData;
 import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 import library.salesforce.dal.enumConfigData;
 import library.salesforce.dal.mconfigDA;
+import library.salesforce.dal.tAbsenUserDA;
 import library.salesforce.dal.tActivityDA;
+import library.salesforce.dal.tCustomerBaseDA;
+import library.salesforce.dal.tLeaveMobileDA;
+import library.salesforce.dal.tPODetail_mobileDA;
 import library.salesforce.dal.tUserLoginDA;
 
 public class tActivityBL extends clsMainBL{
@@ -126,4 +136,43 @@ public class tActivityBL extends clsMainBL{
 			}
 		}
 	}
+
+	public int getCountActivity(){
+		SQLiteDatabase _db=getDb();
+
+		tActivityDA _tActivityDA = new tActivityDA(_db);
+		List<tActivityData> dt = _tActivityDA.getAllData(_db);
+
+		return dt.size();
+	}
+
+	public void saveData(List<tActivityData> Listdata){
+		SQLiteDatabase db=getDb();
+		tActivityDA _tActivityDA = new tActivityDA(db);
+		for(tActivityData data:Listdata){
+			_tActivityDA.SaveDatatActivityData(db, data);
+		}
+	}
+
+	public List<tActivityData> getDataNew(){
+		SQLiteDatabase db=getDb();
+		tActivityDA _tActivityDA=new tActivityDA(db);
+		List<tActivityData> listData=_tActivityDA.getAllDataNew(db);
+		return listData;
+	}
+
+	public tActivityData getDataByBitActive(){
+		SQLiteDatabase db=getDb();
+		tActivityDA _tActivityDA=new tActivityDA(db);
+		tActivityData listData=_tActivityDA.getAllDataByBitActive(db);
+		return listData;
+	}
+
+	public List<tActivityData> getAllData(){
+		SQLiteDatabase db=getDb();
+		tActivityDA _tActivityDA=new tActivityDA(db);
+		List<tActivityData> listData=_tActivityDA.getAllData(db);
+		return listData;
+	}
+
 }

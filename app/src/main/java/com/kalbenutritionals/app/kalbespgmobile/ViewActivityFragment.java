@@ -3,6 +3,9 @@ package com.kalbenutritionals.app.kalbespgmobile;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -12,16 +15,22 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import bl.tCustomerBaseBL;
+import bl.tActivityBL;
 import bl.tCustomerBaseDetailBL;
 import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView;
 import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
@@ -31,10 +40,10 @@ import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.Swipe
 import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
 import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
-import library.salesforce.common.tCustomerBaseData;
+import library.salesforce.common.tActivityData;
 import library.salesforce.common.tCustomerBaseDetailData;
 
-public class ViewCustomerBaseFragment extends Fragment implements IXListViewListener {
+public class ViewActivityFragment extends Fragment implements IXListViewListener {
 
     private static List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
     private AppAdapter mAdapter;
@@ -42,35 +51,24 @@ public class ViewCustomerBaseFragment extends Fragment implements IXListViewList
     private Handler mHandler;
     private static Map<String, HashMap> mapMenu;
 
-    static List<tCustomerBaseData> dt;
-    static ViewCustomerBaseFragment instance;
+    static List<tActivityData> dt;
 
     View v;
-
-    public static ViewCustomerBaseFragment getInstance() {
-        if(instance == null){
-            instance = new ViewCustomerBaseFragment ();
-        }
-        return instance;
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         v = inflater.inflate(R.layout.fragment_customerbase_view,container,false);
 
-        instance = this;
-
         clsSwipeList swplist;
-        dt = new tCustomerBaseBL().getAllCustomerBase();
+        dt = new tActivityBL().getAllData();
 
         swipeList.clear();
 
         for(int i = 0; i < dt.size(); i++){
             swplist = new clsSwipeList();
-            swplist.set_txtTitle("Nama : " + dt.get(i).get_txtNama());
-            swplist.set_txtDescription("No telp : " + dt.get(i).get_txtTelp());
+            swplist.set_txtTitle("Type : " + dt.get(i).get_intFlag());
+            swplist.set_txtDescription("Description : " + dt.get(i).get_txtDesc());
             swipeList.add(swplist);
         }
 
@@ -129,31 +127,52 @@ public class ViewCustomerBaseFragment extends Fragment implements IXListViewList
     }
 
     private void viewList(Context ctx, int position) {
-
         LayoutInflater layoutInflater = LayoutInflater.from(this.getContext());
-        final View promptView = layoutInflater.inflate(R.layout.activity_preview_customerbase, null);
+        final View promptView = layoutInflater.inflate(R.layout.fragment_activity_add, null);
 
-        final TextView _tvSex = (TextView) promptView.findViewById(R.id.tvTypeSex);
-        final TextView _tvNama = (TextView) promptView.findViewById(R.id.tvNama);
-        final TextView _tvTelp = (TextView) promptView.findViewById(R.id.tvNoTelp);
-        final TextView _tvAlamat = (TextView) promptView.findViewById(R.id.tvAlamat);
-        final TextView _tvStatus = (TextView) promptView.findViewById(R.id.tvStatus);
-        final ListView _lvProduk = (ListView) promptView.findViewById(R.id.lvProduks);
+        final EditText etDesc = (EditText) promptView.findViewById(R.id.etNama);
+        final ImageButton img1 = (ImageButton) promptView.findViewById(R.id.imageButton);
+        final ImageButton img2 = (ImageButton) promptView.findViewById(R.id.imageButton2);
+        final Button btnSave = (Button) promptView.findViewById(R.id.btnSave);
+        final RadioButton rbKalbe = (RadioButton) promptView.findViewById(R.id.rbKalbe);
+        final RadioButton rbCompetitor = (RadioButton) promptView.findViewById(R.id.rbCompetitor);
 
-        _tvSex.setText(dt.get(position).get_txtSex());
-        _tvNama.setText(dt.get(position).get_txtNama());
-        _tvTelp.setText(dt.get(position).get_txtTelp());
-        _tvAlamat.setText(dt.get(position).get_txtAlamat());
-        _tvStatus.setText("Open");
-
-        List<tCustomerBaseDetailData> dtDetail = new tCustomerBaseDetailBL().getData("'" + dt.get(position).get_intCustomerId() + "'");
-        List<String> item = new ArrayList<>();
-
-        for(int i = 0; i < dtDetail.size(); i++){
-            item.add(dtDetail.get(i).get_txtProductBrandName());
+        if(dt.get(position).get_intFlag().equals("KALBE")) {
+            rbKalbe.setChecked(true);
+            rbCompetitor.setChecked(false);
+        }
+        else{
+            rbKalbe.setChecked(false);
+            rbCompetitor.setChecked(true);
         }
 
-        _lvProduk.setAdapter(new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1, item));
+        rbKalbe.setEnabled(false);
+        rbCompetitor.setEnabled(false);
+
+        img1.setEnabled(false);
+        img2.setEnabled(false);
+
+        btnSave.setVisibility(View.GONE);
+        etDesc.setText(dt.get(position).get_txtDesc());
+        etDesc.setEnabled(false);
+
+        File imgFile = new  File(dt.get(position).get_txtImg1());
+        if(imgFile.exists()){
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            img1.setImageBitmap(myBitmap);
+        }
+        else{
+            img1.setVisibility(View.GONE);
+        }
+
+        File imgFile2 = new  File(dt.get(position).get_txtImg2());
+        if(imgFile2.exists()){
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile2.getAbsolutePath());
+            img2.setImageBitmap(myBitmap);
+        }
+        else{
+            img2.setVisibility(View.GONE);
+        }
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.getContext());
         alertDialogBuilder.setView(promptView);
@@ -167,5 +186,4 @@ public class ViewCustomerBaseFragment extends Fragment implements IXListViewList
         final AlertDialog alertD = alertDialogBuilder.create();
         alertD.show();
     }
-
 }

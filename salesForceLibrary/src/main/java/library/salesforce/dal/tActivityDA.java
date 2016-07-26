@@ -19,7 +19,7 @@ public class tActivityDA {
 			public tActivityDA(SQLiteDatabase db) {
 				tActivityData dt=new tActivityData();
 				String CREATE_CONTACTS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CONTACTS + "("
-						+ dt.Property_intId + " INTEGER PRIMARY KEY," 
+						+ dt.Property_intId + " TEXT PRIMARY KEY,"
 						+ dt.Property_dtActivity + " TEXT NULL,"
 						+ dt.Property_intActive + " TEXT NULL,"
 						+ dt.Property_intIdSyn + " TEXT NULL,"
@@ -258,6 +258,40 @@ public class tActivityDA {
 				cursor.close();
 				// return contact list
 				return contactList;
+			}
+
+			public tActivityData getAllDataByBitActive(SQLiteDatabase db) {
+				tActivityData contact = new tActivityData();
+				// Select All Query
+				tActivityData dt=new tActivityData();
+				String selectQuery = "SELECT  "+dt.Property_All+" FROM " + TABLE_CONTACTS +" WHERE "+dt.Property_intActive+"=1";
+
+				Cursor cursor = db.rawQuery(selectQuery, null);
+
+				// looping through all rows and adding to list
+				if (cursor.moveToFirst()) {
+					do {
+						contact.set_dtActivity(cursor.getString(0));
+						contact.set_intActive(cursor.getString(1));
+						contact.set_intId(cursor.getString(2));
+						contact.set_intIdSyn(cursor.getString(3));
+						contact.set_intSubmit(cursor.getString(4));
+						contact.set_txtDesc(cursor.getString(5));
+						contact.set_txtDeviceId(cursor.getString(6));
+						contact.set_txtImg1(cursor.getString(7));
+						contact.set_txtImg2(cursor.getString(8));
+						contact.set_txtOutletCode(cursor.getString(9));
+						contact.set_txtOutletName(cursor.getString(10));
+						contact.set_txtUserId(cursor.getString(11));
+						contact.set_intFlag(cursor.getString(12));
+						contact.set_txtBranch(cursor.getString(13));
+						// Adding contact to list
+//						contactList.add(contact);
+					} while (cursor.moveToNext());
+				}
+				cursor.close();
+				// return contact list
+				return contact;
 			}
 			
 			public void DeleteDataNew(SQLiteDatabase db) {
