@@ -72,7 +72,25 @@ public class MainMenu extends AppCompatActivity {
         tvUsername.setText("Welcome, " + dt.get_txtName());
         tvEmail.setText(dt.get_TxtEmail());
 
+        HomeFragment homeFragment = new HomeFragment();
+        android.support.v4.app.FragmentTransaction fragmentTransactionhome = getSupportFragmentManager().beginTransaction();
+        fragmentTransactionhome.replace(R.id.frame,homeFragment);
+        fragmentTransactionhome.commit();
+
         Menu header = navigationView.getMenu();
+
+        tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
+
+        if(dtAbsen == null){
+            header.setGroupVisible(R.id.groupListMenu, true);
+            header.setGroupVisible(R.id.groupListMenu1, false);
+        }
+        else{
+            header.setGroupVisible(R.id.groupListMenu, false);
+            header.setGroupVisible(R.id.groupListMenu1, true);
+            header.add(R.id.groupListMenu1, 1234, 1, "Tes Dinamis").setIcon(R.drawable.ic_notifications).setCheckable(true);
+        }
+
 //        header.add(Menu.NONE, 0, 0, "Reso");
 //        header.add(Menu.NONE, 1, 1, "Activity");
 //        header.add(Menu.NONE, 2, 2, "Customer Base");
@@ -104,6 +122,21 @@ public class MainMenu extends AppCompatActivity {
                 drawerLayout.closeDrawers();
 
                 switch (menuItem.getItemId()){
+                    case R.id.menu_home:
+                        toolbar.setTitle("Home");
+                        HomeFragment homeFragment1 = new HomeFragment();
+                        android.support.v4.app.FragmentTransaction fragmentTransactionhome = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactionhome.replace(R.id.frame,homeFragment1);
+                        fragmentTransactionhome.commit();
+                        selectedId=1;
+
+                        return true;
+
+                    case 1234:
+                        Toast.makeText(getApplicationContext(), "On click tes dinamis", Toast.LENGTH_LONG).show();
+
+                        return true;
+
                     case R.id.view_reso:
                         toolbar.setTitle("View "+menuItem.getTitle().toString());
                         ViewResoFragment viewresofragment = new ViewResoFragment();
