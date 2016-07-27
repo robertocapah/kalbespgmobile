@@ -257,6 +257,11 @@ public class clsMainActivity extends Activity {
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 	    return sdf.format(cal.getTime());
 	 }
+	public String FormatDateDB() {
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return sdf.format(cal.getTime());
+	}
 	public String giveFormatDate(String DateYYMMDD) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		DateFormat formatYY = new SimpleDateFormat("yyyy");

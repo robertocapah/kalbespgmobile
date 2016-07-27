@@ -5,24 +5,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import bl.tActivityBL;
-import bl.tCustomerBaseDetailBL;
 import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView;
 import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.bean.SwipeMenu;
@@ -41,7 +33,6 @@ import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
 import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tActivityData;
-import library.salesforce.common.tCustomerBaseDetailData;
 
 public class ViewActivityFragment extends Fragment implements IXListViewListener {
 
@@ -65,12 +56,13 @@ public class ViewActivityFragment extends Fragment implements IXListViewListener
 
         swipeList.clear();
 
-        for(int i = 0; i < dt.size(); i++){
-            swplist = new clsSwipeList();
-            swplist.set_txtTitle("Type : " + dt.get(i).get_intFlag());
-            swplist.set_txtDescription("Description : " + dt.get(i).get_txtDesc());
-            swipeList.add(swplist);
-        }
+
+            for(int i = 0; i < dt.size(); i++){
+                swplist = new clsSwipeList();
+                swplist.set_txtTitle("Type : " + dt.get(i).get_intFlag());
+                swplist.set_txtDescription("Description : " + dt.get(i).get_txtDesc());
+                swipeList.add(swplist);
+            }
 
         clsMainActivity clsMain = new clsMainActivity();
 

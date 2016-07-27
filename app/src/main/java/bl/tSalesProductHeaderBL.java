@@ -28,9 +28,14 @@ public class tSalesProductHeaderBL extends clsMainBL {
 //    }
     public List<tSalesProductHeaderData> getAllSalesProductHeader(){
         SQLiteDatabase _db =getDb();
-
         tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(_db);
         List<tSalesProductHeaderData> dt = _tSalesProductHeaderDA.getAllData(_db);
+        return dt ;
+    }
+    public List<tSalesProductHeaderData> getLastData(){
+        SQLiteDatabase _db =getDb();
+        tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(_db);
+        List<tSalesProductHeaderData> dt = _tSalesProductHeaderDA.getLastData(_db);
         return dt ;
     }
 }

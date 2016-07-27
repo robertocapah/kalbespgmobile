@@ -1,10 +1,10 @@
 package library.salesforce.dal;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import library.salesforce.common.tSalesProductHeaderData;
 
@@ -223,7 +223,10 @@ public class tSalesProductHeaderDA {
 		cursor.close();
 		// return contact list
 		return contactList;
-	}public List<tSalesProductHeaderData> getAllDataByOulet(SQLiteDatabase db,String txtOutletCode) {
+	}
+
+
+	public List<tSalesProductHeaderData> getAllDataByOulet(SQLiteDatabase db,String txtOutletCode) {
 		List<tSalesProductHeaderData> contactList = null;
 		// Select All Query
 		tSalesProductHeaderData dt=new tSalesProductHeaderData();
@@ -381,5 +384,41 @@ public class tSalesProductHeaderDA {
 		int index=cursor.getCount();
 		cursor.close();
 		return index;
+	}
+
+	public List<tSalesProductHeaderData> getLastData(SQLiteDatabase db) {
+		List<tSalesProductHeaderData> contactList = null;
+		// Select All Query
+		tSalesProductHeaderData dt=new tSalesProductHeaderData();
+		String selectQuery = "SELECT  "+dt.Property_All+" FROM " + TABLE_CONTACTS;
+
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToLast()) {
+			contactList=new ArrayList<tSalesProductHeaderData>();
+			do {
+				tSalesProductHeaderData contact = new tSalesProductHeaderData();
+				contact.set_intId(cursor.getString(0));
+				contact.set_OutletCode(cursor.getString(1));
+				contact.set_OutletName(cursor.getString(2));
+				contact.set_dtDate(cursor.getString(3));
+				contact.set_txtKeterangan(cursor.getString(4));
+				contact.set_txtNIK(cursor.getString(5));
+				contact.set_intSumAmount(cursor.getString(6));
+				contact.set_intSumItem(cursor.getString(7));
+				contact.set_UserId(cursor.getString(8));
+				contact.set_intSubmit(cursor.getString(9));
+				contact.set_intSync(cursor.getString(10));
+				contact.set_txtBranchCode(cursor.getString(11));
+				contact.set_txtBranchName(cursor.getString(12));
+				contact.set_intIdAbsenUser(cursor.getString(13));
+				// Adding contact to list
+				contactList.add(contact);
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+		// return contact list
+		return contactList;
 	}
 }

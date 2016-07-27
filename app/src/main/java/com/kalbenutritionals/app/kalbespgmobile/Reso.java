@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -44,6 +45,7 @@ import bl.tAbsenUserBL;
 import bl.tSalesProductDetailBL;
 import bl.tSalesProductHeaderBL;
 import library.salesforce.common.ModelListview;
+import library.salesforce.common.clsHelper;
 import library.salesforce.common.mEmployeeSalesProductData;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tSalesProductDetailData;
@@ -57,7 +59,7 @@ public class Reso extends Fragment implements View.OnClickListener {
 
     //Button btn_preview;
     private EditText edketerangan, searchProduct;
-    private String prvKet;
+    private String prvKet, noso;
     private List<String> arrdata;
     private ArrayList<ModelListview> modelItems;
     private ArrayList<ModelListview> arrprview;
@@ -77,8 +79,21 @@ public class Reso extends Fragment implements View.OnClickListener {
         searchProduct = (EditText) v.findViewById(R.id.searchProduct);
         prvKet = "ddada";
                 //edketerangan.getText().toString();
-        final String nosoNew = new mCounterNumberBL().getData(enumCounterData.NoDataSO);
-        tv_noso.setText(nosoNew);
+        List<tSalesProductHeaderData> dtta = new tSalesProductHeaderBL().getAllSalesProductHeader();
+        if(dtta==null) {
+            noso = new mCounterNumberBL().getData(enumCounterData.NoDataSO);
+
+        } else {
+            List<tSalesProductHeaderData> dttas = new tSalesProductHeaderBL().getLastData();
+            clsHelper _clsHelper=new clsHelper();
+            String oldVersion = dttas.get(0).get_intId();
+            String[] splitString = oldVersion.split("-");
+            int newVersion = Integer.valueOf(splitString[1])+1;
+            noso = _clsHelper.generateNewId(oldVersion, "-" , "5");
+        }
+
+        tv_noso.setText(noso);
+
         String timeStamp = new SimpleDateFormat("dd/MM/yyyy",
                 Locale.getDefault()).format(new Date());
         tv_date.setText(timeStamp);
@@ -231,7 +246,7 @@ public class Reso extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch ( v.getId()){
             case R.id.btnPreviewReso:
-                searchProduct.setText("");
+                //searchProduct.setText("");
                 int a = listView.getCount();
                 LayoutInflater layoutInflater = LayoutInflater.from(getContext());
                 final View promptView = layoutInflater.inflate(R.layout.activity_preview_so, null);
@@ -331,6 +346,8 @@ public class Reso extends Fragment implements View.OnClickListener {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         saveReso();
+                                        Intent intent = new Intent(getContext(), MainMenu.class);
+                                        startActivityForResult(intent, 1);
                                     }
                                 })
                         .setNegativeButton("Close",
@@ -516,7 +533,8 @@ public class Reso extends Fragment implements View.OnClickListener {
                 .setPositiveButton("Save",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-
+                                Intent intent = new Intent(getContext(), MainMenu.class);
+                                startActivityForResult(intent, 1);
                             }
                         })
                 .setNegativeButton("Close",
