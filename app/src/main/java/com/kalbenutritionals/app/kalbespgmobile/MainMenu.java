@@ -1,32 +1,24 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import bl.tAbsenUserBL;
-import bl.tDeviceInfoUserBL;
 import bl.tUserLoginBL;
 import library.salesforce.common.tAbsenUserData;
-import library.salesforce.common.tDeviceInfoUserData;
 import library.salesforce.common.tUserLoginData;
 
 public class MainMenu extends AppCompatActivity {
@@ -35,11 +27,8 @@ public class MainMenu extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-    private tAbsenUserBL _tAbsenUserBL;
-    private tAbsenUserData dttAbsenUserData;
 
     private TextView tvUsername, tvEmail;
-    private ImageView ivProfile;
 
     Map map = new HashMap();
 
@@ -60,34 +49,32 @@ public class MainMenu extends AppCompatActivity {
         tUserLoginData dt=new tUserLoginBL().getUserActive();
 
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
+
         View vwHeader = navigationView.getHeaderView(0);
 
-        ivProfile = (ImageView) vwHeader.findViewById(R.id.profile_image);
         tvUsername = (TextView) vwHeader.findViewById(R.id.username);
         tvEmail = (TextView) vwHeader.findViewById(R.id.email);
-//        dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
-//        byte[] photo = dttAbsenUserData.get_txtImg1();
-//        Bitmap bmpPht = BitmapFactory.decodeByteArray(photo, 0, photo.length);
-//        ivProfile.setImageBitmap(bmpPht);
         tvUsername.setText("Welcome, " + dt.get_txtName());
         tvEmail.setText(dt.get_TxtEmail());
 
-        Menu header = navigationView.getMenu();
-//        header.add(Menu.NONE, 0, 0, "Reso");
-//        header.add(Menu.NONE, 1, 1, "Activity");
-//        header.add(Menu.NONE, 2, 2, "Customer Base");
-//
-//        MenuItem menuItemReso = header.findItem(0);
-//        MenuItem menuItemActivity = header.findItem(1);
-//        final MenuItem menuCustomerBase = header.findItem(2);
-//
-//        menuItemReso.setIcon(R.drawable.ic_send_black);
-//        menuItemReso.setChecked(false);
-//        menuItemActivity.setIcon(R.drawable.ic_home_black);
-//        menuItemActivity.setChecked(false);
-//        menuCustomerBase.setIcon(R.drawable.ic_star_black);
-//        menuCustomerBase.setChecked(false);
+        HomeFragment homeFragment = new HomeFragment();
+        android.support.v4.app.FragmentTransaction fragmentTransactionhome = getSupportFragmentManager().beginTransaction();
+        fragmentTransactionhome.replace(R.id.frame,homeFragment);
+        fragmentTransactionhome.commit();
 
+        Menu header = navigationView.getMenu();
+
+        tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
+
+        if(dtAbsen == null){
+            header.setGroupVisible(R.id.groupListMenu, true);
+            header.setGroupVisible(R.id.groupListMenu1, false);
+        }
+        else{
+            header.setGroupVisible(R.id.groupListMenu, false);
+            header.setGroupVisible(R.id.groupListMenu1, true);
+            header.add(R.id.groupListMenu1, 1234, 1, "asde").setIcon(R.drawable.ic_notifications).setCheckable(true);
+        }
 
 //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -104,6 +91,16 @@ public class MainMenu extends AppCompatActivity {
                 drawerLayout.closeDrawers();
 
                 switch (menuItem.getItemId()){
+                    case R.id.menu_home:
+                        toolbar.setTitle("Home");
+                        HomeFragment homeFragment1 = new HomeFragment();
+                        android.support.v4.app.FragmentTransaction fragmentTransactionhome = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactionhome.replace(R.id.frame,homeFragment1);
+                        fragmentTransactionhome.commit();
+                        selectedId=1;
+
+                        return true;
+
                     case R.id.view_reso:
                         toolbar.setTitle("View "+menuItem.getTitle().toString());
                         ViewResoFragment viewresofragment = new ViewResoFragment();
@@ -133,86 +130,8 @@ public class MainMenu extends AppCompatActivity {
                         selectedId=3;
 
                         return true;
-                    case R.id.checkout:
-                        Toast.makeText(getApplicationContext(),"Check Out",Toast.LENGTH_SHORT).show();
-//                        String myClass ;
-//                        final String MenuID ;
-//                        Class<?> clazz = null;
-//
-//                        myClass= strLink;
-//                        MenuID = strDesc;
-//                        String branchCode = BranchId;
-//                        String outletCode = OutletId;
-//                        try {
-//                            if (myClass.equals("com.kalbe.salesforce.Checkout") && MenuID.toString().contains("mnCheckoutKBN")){
-                                LayoutInflater layoutInflater = LayoutInflater.from(MainMenu.this);
-                                final View promptView = layoutInflater.inflate(R.layout.confirm_data, null);
-
-                                final TextView _tvConfirm=(TextView) promptView.findViewById(R.id.tvTitle);
-                                final TextView _tvDesc=(TextView) promptView.findViewById(R.id.tvDesc);
-                                _tvDesc.setVisibility(View.INVISIBLE);
-                                _tvConfirm.setText("Check Out Data ?");
-
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainMenu.this);
-                                alertDialogBuilder.setView(promptView);
-                                alertDialogBuilder
-                                        .setCancelable(false)
-                                        .setPositiveButton("OK",
-                                                new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog,	int id) {
-                                                        _tAbsenUserBL=new tAbsenUserBL();
-                                                        dttAbsenUserData = new tAbsenUserData();
-
-                                                        dttAbsenUserData=_tAbsenUserBL.getDataCheckInActive();
-                                                        tAbsenUserData datatAbsenUserData = dttAbsenUserData;
-                                                        tUserLoginData dataUserActive = new tUserLoginBL().getUserActive();
-                                                        String idUserActive = String.valueOf(dataUserActive.get_txtUserId());
-
-                                                        List<tDeviceInfoUserData> dataDeviceInfoUser = new tDeviceInfoUserBL().getData(1);
-                                                        String deviceInfo = String.valueOf(dataDeviceInfoUser.get(0).get_txtDeviceId());
-                                                        List<tAbsenUserData> absenUserDatas = new ArrayList<tAbsenUserData>();
-                                                        clsMainActivity _clsMainActivity = new clsMainActivity();
-
-                                                        if (dttAbsenUserData!=null){
-                                                            datatAbsenUserData.set_intId(dttAbsenUserData.get_intId());
-                                                            datatAbsenUserData.set_dtDateCheckOut(_clsMainActivity.FormatDateDB().toString());
-                                                            datatAbsenUserData.set_intSubmit("1");
-                                                            datatAbsenUserData.set_intSync("0");
-                                                            datatAbsenUserData.set_txtAbsen("0");//
-                                                            absenUserDatas.add(datatAbsenUserData);
-                                                            new tAbsenUserBL().saveData(absenUserDatas);
-
-                                                            finish();
-                                                            Intent nextScreen = new Intent(getApplicationContext(), Home.class);
-//                                                            nextScreen.putExtra(clsParameterPutExtra.MenuID, MenuID);
-//                                                            nextScreen.putExtra(clsParameterPutExtra.BranchCode, BranchCode);
-//                                                            nextScreen.putExtra(clsParameterPutExtra.OutletCode, OutletCode);
-                                                            startActivity(nextScreen);
-                                                        }
-                                                    }
-                                                })
-                                        .setNegativeButton("Cancel",
-                                                new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog,	int id) {
-                                                        dialog.cancel();
-                                                    }
-                                                });
-                                final AlertDialog alertD = alertDialogBuilder.create();
-                                alertD.show();
-//                            }else{
-//                                clazz = Class.forName(myClass);
-//                                Intent myIntent = new Intent(getApplicationContext(), clazz);
-//                                myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
-//                                myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
-//                                myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);
-//                                finish();
-//                                startActivity(myIntent);
-//                            }
-//                        } catch (ClassNotFoundException e) {
-//                            // TODO Auto-generated catch block
-//                            e.printStackTrace();
-//                        }
-                        return true;
+                    case 1234:
+                        Toast.makeText(getApplicationContext(), "djlkasjdklasjdklaj", Toast.LENGTH_LONG).show();
                     default:
                         Toast.makeText(getApplicationContext(),"Somethings Wrong",Toast.LENGTH_SHORT).show();
                         return true;
@@ -350,19 +269,5 @@ public class MainMenu extends AppCompatActivity {
         //Toast.makeText(this, String.valueOf(selectedId), Toast.LENGTH_LONG).show();
         return super.onPrepareOptionsMenu(menu);
 
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==1){
-            toolbar.setTitle("View Reso");
-            ViewResoFragment viewresofragment = new ViewResoFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransactionviewreso = getSupportFragmentManager().beginTransaction();
-            fragmentTransactionviewreso.replace(R.id.frame,viewresofragment);
-            fragmentTransactionviewreso.commit();
-            selectedId=1;
-
-        }
     }
 }

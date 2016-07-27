@@ -102,7 +102,8 @@ public class ProgressBarActivity extends AppCompatActivity {
                     } else if (_clsStatusMenuStart.get_intStatus() == enumStatusMenuStart.PushDataSPGMobile) {
                         myIntent = new Intent(ProgressBarActivity.this, PushData.class);
                     } else if (_clsStatusMenuStart.get_intStatus() == enumStatusMenuStart.UserActiveLogin) {
-                        myIntent = new Intent(ProgressBarActivity.this, Home.class);
+//                        myIntent = new Intent(ProgressBarActivity.this, Home.class);
+                        myIntent = new Intent(ProgressBarActivity.this, MainMenu.class);
                         startService(new Intent(getApplicationContext(), MyServiceNative.class));
                     }
                 } catch (ParseException e) {

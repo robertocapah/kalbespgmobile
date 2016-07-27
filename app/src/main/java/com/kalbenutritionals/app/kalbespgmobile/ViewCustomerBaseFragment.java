@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,7 +81,7 @@ public class ViewCustomerBaseFragment extends Fragment implements IXListViewList
         mListView = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.listView);
         mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
         mListView.setAdapter(mAdapter);
-        mListView.setPullRefreshEnable(true);
+        mListView.setPullRefreshEnable(false);
         mListView.setPullLoadEnable(true);
         mListView.setXListViewListener(this);
         mHandler = new Handler();
@@ -116,9 +118,12 @@ public class ViewCustomerBaseFragment extends Fragment implements IXListViewList
 
     }
 
+    @Override
     public void onRefresh() {
+
     }
 
+    @Override
     public void onLoadMore() {
         mHandler.postDelayed(new Runnable() {
             @Override

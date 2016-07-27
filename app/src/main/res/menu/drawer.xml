@@ -6,35 +6,105 @@
         android:id="@+id/groupListMenu">
 
         <item
+            android:id="@+id/home"
+            android:checked="true"
+            android:icon="@drawable/ic_home_black"
+            android:orderInCategory="0"
+            android:title="Home" />
+
+        <item
+            android:id="@+id/absen"
+            android:checked="false"
+            android:icon="@drawable/ic_location"
+            android:orderInCategory="0"
+            android:title="Absen" />
+
+        <item
+            android:id="@+id/download"
+            android:checked="false"
+            android:icon="@drawable/ic_cloud_download"
+            android:orderInCategory="0"
+            android:title="Download Data" />
+
+        <!--<item-->
+            <!--android:id="@+id/report"-->
+            <!--android:checked="false"-->
+            <!--android:icon="@drawable/ic_assignment"-->
+            <!--android:title="Report" />-->
+
+        <!--<item-->
+            <!--android:id="@+id/notifikasi"-->
+            <!--android:checked="false"-->
+            <!--android:icon="@drawable/ic_notifications"-->
+            <!--android:title="Notifikasi" />-->
+
+        <!--<item-->
+            <!--android:id="@+id/history"-->
+            <!--android:checked="false"-->
+            <!--android:icon="@drawable/ic_history"-->
+            <!--android:title="History Absen" />-->
+
+    </group>
+
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/groupListMenu1">
+
+        <item
+            android:id="@+id/menu_home"
+            android:checked="true"
+            android:icon="@drawable/ic_home_black"
+            android:orderInCategory="1"
+            android:title="Home" />
+
+        <item
             android:id="@+id/view_reso"
             android:checked="false"
             android:icon="@drawable/ic_inbox_black"
+            android:orderInCategory="1"
             android:title="Reso" />
 
         <item
             android:id="@+id/view_activity"
             android:checked="false"
             android:icon="@drawable/ic_star_black"
+            android:orderInCategory="1"
             android:title="Activity" />
 
         <item
             android:id="@+id/view_customerbase"
             android:checked="false"
             android:icon="@drawable/ic_send_black"
+            android:orderInCategory="1"
             android:title="Cusutomer Base" />
 
     </group>
     <group
         android:checkableBehavior="single"
         android:id="@+id/groupListfooter">
+
         <item
-            android:id="@+id/checkout"
+            android:id="@+id/notifikasi"
             android:checked="false"
-            android:title="Checkout" />
+            android:orderInCategory="2"
+            android:title="Notifikasi" />
+
+        <item
+            android:id="@+id/report_kbn"
+            android:checked="false"
+            android:orderInCategory="2"
+            android:title="Reporting KBN" />
+
+        <item
+            android:id="@+id/historyAbsen"
+            android:checked="false"
+            android:orderInCategory="2"
+            android:title="History Absen" />
 
         <item
             android:id="@+id/logout"
             android:checked="false"
+            android:orderInCategory="2"
             android:title="Logout" />
     </group>
 

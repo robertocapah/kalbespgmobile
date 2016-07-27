@@ -69,7 +69,7 @@ public class ViewActivityFragment extends Fragment implements IXListViewListener
         mListView = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.listView);
         mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
         mListView.setAdapter(mAdapter);
-        mListView.setPullRefreshEnable(true);
+        mListView.setPullRefreshEnable(false);
         mListView.setPullLoadEnable(true);
         mListView.setXListViewListener(this);
         mHandler = new Handler();
