@@ -328,7 +328,7 @@ public class Login extends clsMainActivity {
                         new mMenuBL().SaveData(listData);
                         startService(new Intent(getApplicationContext(), MyServiceNative.class));
                         finish();
-                        Intent myIntent = new Intent(getApplicationContext(), Home.class);
+                        Intent myIntent = new Intent(getApplicationContext(), MainMenu.class);
                         startActivity(myIntent);
                     }else{
                         Toast toast = Toast.makeText(Login.this,

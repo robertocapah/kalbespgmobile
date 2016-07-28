@@ -1,14 +1,21 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,17 +24,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import bl.clsHelperBL;
 import bl.tAbsenUserBL;
 import bl.tDeviceInfoUserBL;
+import bl.tNotificationBL;
 import bl.tUserLoginBL;
+import come.example.viewbadger.ShortcutBadger;
+import library.salesforce.common.clsPushData;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tDeviceInfoUserData;
+import library.salesforce.common.tNotificationData;
 import library.salesforce.common.tUserLoginData;
+import library.salesforce.dal.clsHardCode;
+import service.MyServiceNative;
 
 public class MainMenu extends AppCompatActivity {
 
@@ -41,7 +58,7 @@ public class MainMenu extends AppCompatActivity {
     private TextView tvUsername, tvEmail;
     private ImageView ivProfile;
 
-    Map map = new HashMap();
+    PackageInfo pInfo = null;
 
     int selectedId;
 
@@ -122,6 +139,16 @@ public class MainMenu extends AppCompatActivity {
                 drawerLayout.closeDrawers();
 
                 switch (menuItem.getItemId()){
+
+                    case  R.id.download :
+                        //Toast.makeText(getApplicationContext(), "tes download", Toast.LENGTH_LONG).show();
+                        toolbar.setTitle("Download Data");
+                        DownloadDataFragment downloadDataFragment = new DownloadDataFragment();
+                        android.support.v4.app.FragmentTransaction fragmentTransactiondownloadData = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactiondownloadData.replace(R.id.frame,downloadDataFragment);
+                        fragmentTransactiondownloadData.commit();
+
+                        return true;
                     case R.id.menu_home:
                         toolbar.setTitle("Home");
                         HomeFragment homeFragment1 = new HomeFragment();
@@ -385,17 +412,4 @@ public class MainMenu extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==1){
-            toolbar.setTitle("View Reso");
-            ViewResoFragment viewresofragment = new ViewResoFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransactionviewreso = getSupportFragmentManager().beginTransaction();
-            fragmentTransactionviewreso.replace(R.id.frame,viewresofragment);
-            fragmentTransactionviewreso.commit();
-            selectedId=1;
-
-        }
-    }
 }
