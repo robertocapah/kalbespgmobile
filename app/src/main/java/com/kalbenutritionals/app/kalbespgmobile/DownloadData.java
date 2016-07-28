@@ -666,7 +666,7 @@ public class DownloadData extends clsMainActivity {
 //            android.os.Debug.waitForDebugger();
             JSONArray Json = null;
             try {
-                Json = new mEmployeeBranchBL().DownloadEmployeeBranch2(pInfo.versionName);
+            Json = new mEmployeeBranchBL().DownloadEmployeeBranch2(pInfo.versionName);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

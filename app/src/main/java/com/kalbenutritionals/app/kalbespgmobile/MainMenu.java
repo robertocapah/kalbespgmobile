@@ -285,10 +285,11 @@ public class MainMenu extends AppCompatActivity {
                                                             new tAbsenUserBL().saveData(absenUserDatas);
 
                                                             finish();
-                                                            Intent nextScreen = new Intent(getApplicationContext(), Home.class);
+                                                            Intent nextScreen = new Intent(getApplicationContext(), MainMenu.class);
 //                                                            nextScreen.putExtra(clsParameterPutExtra.MenuID, MenuID);
 //                                                            nextScreen.putExtra(clsParameterPutExtra.BranchCode, BranchCode);
 //                                                            nextScreen.putExtra(clsParameterPutExtra.OutletCode, OutletCode);
+                                                            finish();
                                                             startActivity(nextScreen);
                                                         }
                                                     }

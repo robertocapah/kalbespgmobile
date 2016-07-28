@@ -1,6 +1,7 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +15,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -113,7 +115,7 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
     private tAbsenUserBL _tAbsenUserBL;
     Options options;
     private tAbsenUserData dttAbsenUserData;
-    private Button btnRefreshMaps;
+    private Button btnRefreshMaps, btnPopupMap;
     private Button btnCheckIn;
     private String MenuID;
     private String[] arrdefaultBranch = new String[]{"Branch"};
@@ -249,9 +251,9 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
         v = inflater.inflate(R.layout.activity_absen, container, false);
 
         txtHDId = (TextView) v.findViewById(R.id.txtHDId);
-//		btnRefreshMap = (Button) findViewById(R.id.btnRefreshMap);
         btnRefreshMaps = (Button) v.findViewById(R.id.btnRefreshMaps);
         btnCheckIn = (Button) v.findViewById(R.id.buttonCheckIn);
+        btnPopupMap = (Button) v.findViewById(R.id.viewMap);
         spnOutlet = (Spinner) v.findViewById(R.id.spnOutlet);
         spnBranch = (Spinner) v.findViewById(R.id.spnBranch);
         imgPrevNoImg1 = (ImageView) v.findViewById(R.id.imageViewCamera1);
@@ -266,31 +268,73 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
         lblLong.setText("");
         lblLang.setText("");
         lblAcc.setText("");
-//        Intent i = getIntent();
         MenuID = "mnAbsenKBN";
 
         final mMenuData dtmenuData = new mMenuBL().getMenuDataByMenuName(MenuID);
-        //TableLayout TableLayout1 = (TableLayout)findViewById(R.id.TableLayout1);
-//		btnRefreshMap.setOnClickListener(new OnClickListener() {
-//			//int intProcesscancel=0;
-//			@Override
-//			public void onClick(View v) {
-//				displayLocation();
-//				showToast(getApplicationContext(), "Location Founded");
-//			}
-//		});
         btnRefreshMaps.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 displayLocation();
-//                showToast(getApplicationContext(), "Location Updated");
+                Toast.makeText(getContext(), "Location Updated", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnPopupMap.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+                final View promptView = layoutInflater.inflate(R.layout.popup_map_absen, null);
+
+                GoogleMap mMap = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+                    mMap = ((MapFragment) (getActivity()).getFragmentManager().findFragmentById(R.id.map)).getMap();
+
+                    if (mMap == null) {
+                        mMap = ((MapFragment) (getActivity()).getFragmentManager().findFragmentById(R.id.map)).getMap();
+                    }
+
+                    double latitude = Double.parseDouble(String.valueOf(lblLang.getText()));
+                    double longitude = Double.parseDouble(String.valueOf(lblLong.getText()));
+                    double accurate = Double.parseDouble(String.valueOf(lblAcc.getText()));
+
+                    MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Location");
+                    marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                    mMap.clear();
+                    mMap.addMarker(marker);
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(latitude, longitude)).zoom(19).build();
+                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                    alertDialogBuilder.setView(promptView);
+                    alertDialogBuilder
+                            .setCancelable(false)
+                            .setPositiveButton("OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,	int id) {
+                                            MapFragment f = null;
+                                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+                                                f = (MapFragment) (getActivity()).getFragmentManager().findFragmentById(R.id.map);
+                                            }
+                                            if (f != null){
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                                                    (getActivity()).getFragmentManager().beginTransaction().remove(f).commit();
+                                                }
+                                            }
+
+                                            dialog.dismiss();
+                                        }
+                                    });
+                    final AlertDialog alertD = alertDialogBuilder.create();
+                    alertD.setTitle("Your Location");
+                    alertD.show();
+                }
+
             }
         });
 
         List<mEmployeeBranchData> listDataBranch = new mEmployeeBranchBL().GetAllData();
         List<mEmployeeAreaData> listDataArea = new mEmployeeAreaBL().GetAllData();
         if (checkPlayServices()) {
-            // Building the GoogleApi client
             buildGoogleApiClient();
             //createLocationRequest();
         }
@@ -405,7 +449,6 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
             double longitude = Double.valueOf(lblLong.getText().toString());
             MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Updating Location!");
             marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-            // adding marker
             try {
                 // Loading map
                 initilizeMap();
@@ -552,7 +595,7 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                                                 myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
                                                 myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
                                                 myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);
-//                                                finish();
+                                                getActivity().finish();
                                                 startActivity(myIntent);
                                             } catch (ClassNotFoundException e) {
                                                 // TODO Auto-generated catch block
@@ -600,25 +643,13 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
     private void displayLocation() {
         // TODO Auto-generated method stub
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
+
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
+
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
         if (mLastLocation != null) {
@@ -632,33 +663,6 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
             Long = String.valueOf(longitude);
             Lat = String.valueOf(latitude);
             Acc = String.valueOf(accurate);
-
-            try {
-                // Loading map
-                initilizeMap();
-
-                // Changing map type
-                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                mMap.getUiSettings().setZoomControlsEnabled(true);
-                mMap.getUiSettings().setMyLocationButtonEnabled(true);
-                mMap.getUiSettings().setMapToolbarEnabled(true);
-                //mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Updating Location!");
-            marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-            //marker.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_kalbe_spgmobile));
-            // adding marker
-            mMap.clear();
-            //Toast.makeText(getApplicationContext(),"Location Updated", Toast.LENGTH_LONG).show();
-            mMap.addMarker(marker);
-            //OnLocationChanged(location);
-            CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(latitude, longitude)).zoom(16).build();
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-            //togglePeriodicLocationUpdates();
         }
 
     }
@@ -693,7 +697,7 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
     private void initilizeMap() {
         // TODO Auto-generated method stub
         if (mMap == null) {
-            mMap = ((MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.map)).getMap();
+//            mMap = ((MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.map)).getMap();
 
 
             // check if map is created successfully or not

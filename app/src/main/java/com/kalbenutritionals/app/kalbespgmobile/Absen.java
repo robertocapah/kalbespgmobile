@@ -1115,7 +1115,7 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 	private void initilizeMap() {
 		// TODO Auto-generated method stub
 		if (mMap == null) {
-			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+//			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
 
 			// check if map is created successfully or not
