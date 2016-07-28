@@ -313,9 +313,11 @@ public class DownloadDataFragment extends Fragment {
     private class AsyncCallDownloadAll extends AsyncTask<JSONArray, Void, List<dataJson>> {
         @Override
         protected List<dataJson> doInBackground(JSONArray... params) {
+            android.os.Debug.waitForDebugger();
             JSONArray Json = null;
             List<dataJson> listDataJson=new ArrayList<dataJson>();
-            _clsMainActivity = new clsMainActivity();
+            //clsMainActivity clsmainactivity = new clsMainActivity();
+            //_clsMainActivity = new clsMainActivity();
             dataJson dtdataJson=new dataJson();
             try {
                 new tSalesOrderHeader_MobileBL().GetDataNotSalesOrderHeader_Mobile(pInfo.versionName);

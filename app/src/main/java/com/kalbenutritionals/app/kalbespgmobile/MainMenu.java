@@ -67,6 +67,11 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         selectedId = 0;
+        try {
+            pInfo=getApplicationContext().getPackageManager().getPackageInfo(getApplicationContext().getPackageName(),0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         setContentView(R.layout.activity_main);
 
@@ -139,7 +144,39 @@ public class MainMenu extends AppCompatActivity {
                 drawerLayout.closeDrawers();
 
                 switch (menuItem.getItemId()){
+                    case R.id.logout :
+                        //funcLogOut();
+                        LayoutInflater layoutInflater = LayoutInflater.from(MainMenu.this);
+                        final View promptView = layoutInflater.inflate(R.layout.confirm_data, null);
 
+                        final TextView _tvConfirm = (TextView) promptView.findViewById(R.id.tvTitle);
+                        final TextView _tvDesc = (TextView) promptView.findViewById(R.id.tvDesc);
+                        _tvDesc.setVisibility(View.INVISIBLE);
+                        _tvConfirm.setText("Log Out Application ?");
+
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainMenu.this);
+                        alertDialogBuilder.setView(promptView);
+                        alertDialogBuilder
+                                .setCancelable(false)
+                                .setPositiveButton("OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                //PushData
+                                                stopService(new Intent(getApplicationContext(), MyServiceNative.class));
+                                                AsyncCallLogOut task = new AsyncCallLogOut();
+                                                task.execute();
+                                                //new clsHelperBL().DeleteAllDB();
+                                            }
+                                        })
+                                .setNegativeButton("Cancel",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                        final AlertDialog alertD = alertDialogBuilder.create();
+                        alertD.show();
+                        return true;
                     case  R.id.download :
                         //Toast.makeText(getApplicationContext(), "tes download", Toast.LENGTH_LONG).show();
                         toolbar.setTitle("Download Data");
@@ -205,17 +242,17 @@ public class MainMenu extends AppCompatActivity {
 //                        String outletCode = OutletId;
 //                        try {
 //                            if (myClass.equals("com.kalbe.salesforce.Checkout") && MenuID.toString().contains("mnCheckoutKBN")){
-                                LayoutInflater layoutInflater = LayoutInflater.from(MainMenu.this);
-                                final View promptView = layoutInflater.inflate(R.layout.confirm_data, null);
+                                LayoutInflater _layoutInflater = LayoutInflater.from(MainMenu.this);
+                                final View _promptView = _layoutInflater.inflate(R.layout.confirm_data, null);
 
-                                final TextView _tvConfirm=(TextView) promptView.findViewById(R.id.tvTitle);
-                                final TextView _tvDesc=(TextView) promptView.findViewById(R.id.tvDesc);
-                                _tvDesc.setVisibility(View.INVISIBLE);
-                                _tvConfirm.setText("Check Out Data ?");
+                                final TextView tvConfirm=(TextView) _promptView.findViewById(R.id.tvTitle);
+                                final TextView tvDesc=(TextView) _promptView.findViewById(R.id.tvDesc);
+                                tvDesc.setVisibility(View.INVISIBLE);
+                                tvConfirm.setText("Check Out Data ?");
 
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainMenu.this);
-                                alertDialogBuilder.setView(promptView);
-                                alertDialogBuilder
+                                AlertDialog.Builder _alertDialogBuilder = new AlertDialog.Builder(MainMenu.this);
+                                _alertDialogBuilder.setView(_promptView);
+                                _alertDialogBuilder
                                         .setCancelable(false)
                                         .setPositiveButton("OK",
                                                 new DialogInterface.OnClickListener() {
@@ -257,8 +294,8 @@ public class MainMenu extends AppCompatActivity {
                                                         dialog.cancel();
                                                     }
                                                 });
-                                final AlertDialog alertD = alertDialogBuilder.create();
-                                alertD.show();
+                                final AlertDialog _alertD = _alertDialogBuilder.create();
+                                _alertD.show();
 //                            }else{
 //                                clazz = Class.forName(myClass);
 //                                Intent myIntent = new Intent(getApplicationContext(), clazz);
@@ -412,4 +449,186 @@ public class MainMenu extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==1){
+            toolbar.setTitle("View Reso");
+            ViewResoFragment viewresofragment = new ViewResoFragment();
+            android.support.v4.app.FragmentTransaction fragmentTransactionviewreso = getSupportFragmentManager().beginTransaction();
+            fragmentTransactionviewreso.replace(R.id.frame,viewresofragment);
+            fragmentTransactionviewreso.commit();
+            selectedId=1;
+
+        }
+    }
+
+    private void funcLogOut() {
+        LayoutInflater layoutInflater = LayoutInflater.from(MainMenu.this);
+        final View promptView = layoutInflater.inflate(R.layout.confirm_data, null);
+
+        final TextView _tvConfirm = (TextView) promptView.findViewById(R.id.tvTitle);
+        final TextView _tvDesc = (TextView) promptView.findViewById(R.id.tvDesc);
+        _tvDesc.setVisibility(View.INVISIBLE);
+        _tvConfirm.setText("Log Out Application ?");
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainMenu.this);
+        alertDialogBuilder.setView(promptView);
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //PushData
+                                stopService(new Intent(getApplicationContext(), MyServiceNative.class));
+                                AsyncCallLogOut task = new AsyncCallLogOut();
+                                task.execute();
+                                //new clsHelperBL().DeleteAllDB();
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        final AlertDialog alertD = alertDialogBuilder.create();
+        alertD.show();
+    }
+    int intProcesscancel = 0;
+    private clsHardCode clsHardcode = new clsHardCode();
+    private class AsyncCallLogOut extends AsyncTask<JSONArray, Void, JSONArray> {
+        @Override
+        protected JSONArray doInBackground(JSONArray... params) {
+            JSONArray Json = null;
+
+            try {
+                List<tAbsenUserData> listAbsenData = new ArrayList<tAbsenUserData>();
+                tAbsenUserData dtTabsenData = new tAbsenUserBL().getDataCheckInActive();
+                if (dtTabsenData != null) {
+                    dtTabsenData.set_dtDateCheckOut(new clsMainActivity().FormatDateComplete().toString());
+                    dtTabsenData.set_intSubmit("1");
+                    dtTabsenData.set_intSync("0");
+                    listAbsenData.add(dtTabsenData);
+                    new tAbsenUserBL().saveData(listAbsenData);
+                }
+                clsPushData dtJson = new clsHelperBL().pushData();
+                if (dtJson != null) {
+                    String versionName = "";
+                    try {
+                        versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+                    } catch (PackageManager.NameNotFoundException e2) {
+                        // TODO Auto-generated catch block
+                        e2.printStackTrace();
+                    }
+                    try {
+                        JSONArray Jresult = null;
+                        if (dtJson.getDtdataJson().getListOftAbsenUserData() != null) {
+                            List<tAbsenUserData> listAbsen = dtJson.getDtdataJson().getListOftAbsenUserData();
+                            if (listAbsen.get(0).get_txtAbsen().equals("0")) {
+                                Jresult = new clsHelperBL().callPushDataReturnJson(versionName, dtJson.getDtdataJson().txtJSON().toString(), dtJson.getFileUpload());
+                            } else {
+                                Jresult = new clsHelperBL().callPushDataReturnJson(versionName, dtJson.getDtdataJson().txtJSON().toString(), null);
+                            }
+                            new clsHelperBL().saveDataPush(dtJson.getDtdataJson(), Jresult);
+                        }
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+                }
+
+                try {
+                    pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                } catch (PackageManager.NameNotFoundException e2) {
+                    // TODO Auto-generated catch block
+                    e2.printStackTrace();
+                }
+
+                Json = new tUserLoginBL().Logout(pInfo.versionName);
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+
+            }
+            return Json;
+        }
+
+        private ProgressDialog Dialog = new ProgressDialog(MainMenu.this);
+
+        @Override
+        protected void onCancelled() {
+            Dialog.dismiss();
+            Toast toast = Toast.makeText(MainMenu.this, "cancel", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.TOP, 25, 400);
+            toast.show();
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray roledata) {
+            if (roledata != null) {
+                Iterator i = roledata.iterator();
+                while (i.hasNext()) {
+                    JSONObject innerObj = (JSONObject) i.next();
+                    Long IntResult = (Long) innerObj.get("_pboolValid");
+                    String PstrMessage = (String) innerObj.get("_pstrMessage");
+
+                    if (IntResult == 1) {
+                        tNotificationBL _tNotificationBL = new tNotificationBL();
+                        List<tNotificationData> ListData = _tNotificationBL.getAllDataWillAlert("1");
+                        if (ListData != null) {
+                            for (tNotificationData dttNotificationData : ListData) {
+                                NotificationManager tnotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                tnotificationManager.cancelAll();
+                                ShortcutBadger.applyCount(MainMenu.this, 0);
+                                System.gc();
+                            }
+                        }
+                        new clsHelperBL().DeleteAllDB();
+                        finish();
+                        Intent nextScreen = new Intent(MainMenu.this, ProgressBarActivity.class);
+                        startActivity(nextScreen);
+                    } else {
+                        Toast toast = Toast.makeText(MainMenu.this,
+                                PstrMessage, Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP, 25, 400);
+                        toast.show();
+                    }
+                }
+
+            } else {
+                if (intProcesscancel == 1) {
+                    onCancelled();
+                } else {
+                    Toast toast = Toast.makeText(MainMenu.this, "Offline", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP, 25, 400);
+                    toast.show();
+                }
+
+            }
+            Dialog.dismiss();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            //Make ProgressBar invisible
+            //pg.setVisibility(View.VISIBLE);
+            Dialog.setMessage(new clsHardCode().txtMessLogOut);
+            Dialog.setCancelable(false);
+            Dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    intProcesscancel = 1;
+                }
+            });
+            Dialog.show();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            Dialog.dismiss();
+        }
+
+    }
 }
