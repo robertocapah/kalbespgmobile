@@ -110,7 +110,7 @@ public class MainMenu extends AppCompatActivity {
         else{
             header.setGroupVisible(R.id.groupListMenu, false);
             header.setGroupVisible(R.id.groupListMenu1, true);
-            header.add(R.id.groupListMenu1, 1234, 1, "Tes Dinamis").setIcon(R.drawable.ic_notifications).setCheckable(true);
+            header.add(R.id.groupListMenu1, 1234, 1, "Absen").setIcon(R.drawable.ic_notifications).setCheckable(true);
         }
 
 //        header.add(Menu.NONE, 0, 0, "Reso");
@@ -196,8 +196,13 @@ public class MainMenu extends AppCompatActivity {
 
                         return true;
 
-                    case 1234:
-                        Toast.makeText(getApplicationContext(), "On click tes dinamis", Toast.LENGTH_LONG).show();
+                    case R.id.absen:
+                        toolbar.setTitle("Absen");
+                        AbsenFragment absenFragment = new AbsenFragment();
+                        android.support.v4.app.FragmentTransaction fragmentTransactionAbsen = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactionAbsen.replace(R.id.frame,absenFragment);
+                        fragmentTransactionAbsen.commit();
+                        selectedId=1;
 
                         return true;
 
