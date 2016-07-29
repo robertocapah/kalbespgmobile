@@ -87,19 +87,33 @@ public class MainMenu extends AppCompatActivity {
         ivProfile = (ImageView) vwHeader.findViewById(R.id.profile_image);
         tvUsername = (TextView) vwHeader.findViewById(R.id.username);
         tvEmail = (TextView) vwHeader.findViewById(R.id.email);
-//        dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
-//        byte[] photo = dttAbsenUserData.get_txtImg1();
-//        Bitmap bmpPht = BitmapFactory.decodeByteArray(photo, 0, photo.length);
-//        ivProfile.setImageBitmap(bmpPht);
         tvUsername.setText("Welcome, " + dt.get_txtName());
         tvEmail.setText(dt.get_TxtEmail());
 
-        HomeFragment homeFragment = new HomeFragment();
-        android.support.v4.app.FragmentTransaction fragmentTransactionhome = getSupportFragmentManager().beginTransaction();
-        fragmentTransactionhome.replace(R.id.frame,homeFragment);
-        fragmentTransactionhome.commit();
-
+        Intent intent = getIntent();
+        tAbsenUserData dtAbsens = new tAbsenUserBL().getDataCheckInActive();
         Menu header = navigationView.getMenu();
+
+//        if(intent.getStringExtra("keyReso")==null&&intent.getStringExtra("keyMainMenu").equals("main_menu")){
+//            HomeFragment homeFragment = new HomeFragment();
+//            android.support.v4.app.FragmentTransaction fragmentTransactionhome = getSupportFragmentManager().beginTransaction();
+//            fragmentTransactionhome.replace(R.id.frame,homeFragment);
+//            fragmentTransactionhome.commit();
+//        }
+//        else if (intent.getStringExtra("keyMainMenu")==null&&intent.getStringExtra("keyReso").equals("add_reso")){
+//                ViewResoFragment viewresofragment = new ViewResoFragment();
+//                android.support.v4.app.FragmentTransaction fragmentTransactionviewreso = getSupportFragmentManager().beginTransaction();
+//                fragmentTransactionviewreso.replace(R.id.frame,viewresofragment);
+//                fragmentTransactionviewreso.commit();
+//                selectedId=1;
+//        } else if (dtAbsens != null){
+//            header.setGroupVisible(R.id.groupListMenu, false);
+//            header.setGroupVisible(R.id.groupListMenu1, true);
+//            header.add(R.id.groupListMenu1, 1234, 1, "Absen").setIcon(R.drawable.ic_notifications).setCheckable(true);
+//
+//        }
+
+
 
         tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
 
@@ -286,6 +300,7 @@ public class MainMenu extends AppCompatActivity {
 
                                                             finish();
                                                             Intent nextScreen = new Intent(getApplicationContext(), MainMenu.class);
+                                                            nextScreen.putExtra("keyMainMenu", "main_menu");
 //                                                            nextScreen.putExtra(clsParameterPutExtra.MenuID, MenuID);
 //                                                            nextScreen.putExtra(clsParameterPutExtra.BranchCode, BranchCode);
 //                                                            nextScreen.putExtra(clsParameterPutExtra.OutletCode, OutletCode);
@@ -375,15 +390,12 @@ public class MainMenu extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == 1) {
-            //MenuItem menuItem = null;
-            //toolbar.setTitle(menuItem.getTitle().toString() + " Reso");
             toolbar.setTitle("Add Reso");
             Reso resofragment = new Reso();
             android.support.v4.app.FragmentTransaction fragmentTransactionreso = getSupportFragmentManager().beginTransaction();
             fragmentTransactionreso.replace(R.id.frame,resofragment);
             fragmentTransactionreso.commit();
             selectedId=4;
-
             return true;
         }
         if(id == 2){
@@ -411,7 +423,6 @@ public class MainMenu extends AppCompatActivity {
     }
 
     @Override
-
     public boolean onPrepareOptionsMenu(Menu menu) {
 
 
@@ -637,4 +648,50 @@ public class MainMenu extends AppCompatActivity {
         }
 
     }
+//    protected void onPostExecute(Boolean result) {
+//        ProgressDialog Dialog = new ProgressDialog(getApplicationContext());
+//        Dialog.setMessage(new clsHardCode().txtMessGetUserRole);
+//        Dialog.setCancelable(false);
+//        Dialog.show();
+//        toolbar.setTitle("Add Reso");
+//        Reso resofragment = new Reso();
+//        android.support.v4.app.FragmentTransaction fragmentTransactionreso = getSupportFragmentManager().beginTransaction();
+//        fragmentTransactionreso.replace(R.id.frame,resofragment);
+//        fragmentTransactionreso.commit();
+//        selectedId=4;
+//
+//    }
+public class MyTask extends AsyncTask<String, String, String> {
+    private Context context;
+    private ProgressDialog progressDialog;
+
+    public MyTask(Context context) {
+        this.context = context;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.show();
+    }
+
+    @Override
+    protected String doInBackground(String... params) {
+        //Do your loading here
+        return "finish";
+    }
+
+
+    @Override
+    protected void onPostExecute(String result) {
+        progressDialog.dismiss();
+        //Start other Activity or do whatever you want
+        //        toolbar.setTitle("Add Reso");
+        Reso resofragment = new Reso();
+        android.support.v4.app.FragmentTransaction fragmentTransactionreso = getSupportFragmentManager().beginTransaction();
+        fragmentTransactionreso.replace(R.id.frame,resofragment);
+        fragmentTransactionreso.commit();
+        selectedId=4;
+    }
+}
 }

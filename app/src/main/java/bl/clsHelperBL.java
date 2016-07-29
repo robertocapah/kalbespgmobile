@@ -267,7 +267,7 @@ public class clsHelperBL extends clsMainBL{
 						_data.set_intSubmit("1");
 						_data.set_intSync("1");
 						_data.set_txtBranchCode(String.valueOf(innerObj_detail.get("_txtBranchCode")));
-						_data.set_txtDeviceId(String.valueOf(innerObj_detail.get("_txtDeviceId")));						
+						_data.set_txtDeviceId(String.valueOf(innerObj_detail.get("_txtDeviceId")));
 						_data.set_txtNoGRN(String.valueOf(innerObj_detail.get("_txtNoGRN")));
 						_data.set_txtNoMO(String.valueOf(innerObj_detail.get("_txtNoMO")));
 						_data.set_txtNoPO(String.valueOf(innerObj_detail.get("_txtNoPO")));
@@ -278,7 +278,7 @@ public class clsHelperBL extends clsMainBL{
 						new tGRNHeader_mobileBL().saveData(_data);
 						Listdata.add(_data);
 					}
-					
+
 				}
 				if(innerObj.get("ListOfclsTGRNDetail_mobile")!=null){
 					List<tGRNDetail_mobileData> Listdata= new ArrayList<tGRNDetail_mobileData>();
@@ -292,7 +292,7 @@ public class clsHelperBL extends clsMainBL{
 						_data.set_intProductCode(String.valueOf(innerObj_detail.get("_intProductCode")));
 						_data.set_intQty(String.valueOf(innerObj_detail.get("_intQty")));
 						_data.set_intReason(String.valueOf(innerObj_detail.get("_intReason")));
-						_data.set_intStockAwal(String.valueOf(innerObj_detail.get("_intStockAwal")));						
+						_data.set_intStockAwal(String.valueOf(innerObj_detail.get("_intStockAwal")));
 						_data.set_intSubmit("1");
 						_data.set_intSync("1");
 						_data.set_txtBatchNo(String.valueOf(innerObj_detail.get("_txtBatchNo")));
@@ -315,7 +315,7 @@ public class clsHelperBL extends clsMainBL{
 						_data.set_intSubmit("1");
 						_data.set_intSync("1");
 						_data.set_txtBranchCode(String.valueOf(innerObj_detail.get("_txtBranchCode")));
-						_data.set_txtDeviceId(String.valueOf(innerObj_detail.get("_txtDeviceId")));						
+						_data.set_txtDeviceId(String.valueOf(innerObj_detail.get("_txtDeviceId")));
 						_data.set_txtNoSalesOrder(String.valueOf(innerObj_detail.get("_txtNoSalesOrder")));
 						_data.set_txtOutletCode(String.valueOf(innerObj_detail.get("_txtOutletCode")));
 						_data.set_txtOutletName(String.valueOf(innerObj_detail.get("_txtOutletName")));
@@ -359,7 +359,7 @@ public class clsHelperBL extends clsMainBL{
 						_data.set_intSubmit("1");
 						_data.set_intPush("1");
 						_data.set_txtBranchCode(String.valueOf(innerObj_detail.get("_txtBranchCode")));
-						_data.set_txtDeviceId(String.valueOf(innerObj_detail.get("_txtDeviceId")));						
+						_data.set_txtDeviceId(String.valueOf(innerObj_detail.get("_txtDeviceId")));
 						_data.set_txtNoAdj(String.valueOf(innerObj_detail.get("_txtNoAdj")));
 						_data.set_txtOutletCode(String.valueOf(innerObj_detail.get("_txtOutletCode")));
 						_data.set_txtOutletName(String.valueOf(innerObj_detail.get("_txtOutletName")));
@@ -403,7 +403,7 @@ public class clsHelperBL extends clsMainBL{
 						_data.set_intSubmit("1");
 						_data.set_intSync("1");
 						_data.set_txtBranchCode(String.valueOf(innerObj_detail.get("_txtBranchCode")));
-						_data.set_txtDeviceId(String.valueOf(innerObj_detail.get("_txtDeviceId")));						
+						_data.set_txtDeviceId(String.valueOf(innerObj_detail.get("_txtDeviceId")));
 						_data.set_txtNoPenguaran(String.valueOf(innerObj_detail.get("_txtNoPenguaran")));
 						_data.set_txtOutletCode(String.valueOf(innerObj_detail.get("_txtOutletCode")));
 						_data.set_txtOutletName(String.valueOf(innerObj_detail.get("_txtOutletName")));
