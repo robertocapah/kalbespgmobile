@@ -22,12 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import bl.clsHelperBL;
 import bl.mEmployeeAreaBL;
 import bl.mEmployeeBranchBL;
 import bl.mEmployeeSalesProductBL;
@@ -313,12 +313,10 @@ public class DownloadDataFragment extends Fragment {
     private class AsyncCallDownloadAll extends AsyncTask<JSONArray, Void, List<dataJson>> {
         @Override
         protected List<dataJson> doInBackground(JSONArray... params) {
-            android.os.Debug.waitForDebugger();
             JSONArray Json = null;
             List<dataJson> listDataJson=new ArrayList<dataJson>();
-            //clsMainActivity clsmainactivity = new clsMainActivity();
-            //_clsMainActivity = new clsMainActivity();
             dataJson dtdataJson=new dataJson();
+            JSONParser parser = new JSONParser();
             try {
                 new tSalesOrderHeader_MobileBL().GetDataNotSalesOrderHeader_Mobile(pInfo.versionName);
                 new tStockOpnameHeader_mobileBL().GetDataNotStockOpnameHeader_mobile(pInfo.versionName);
@@ -326,27 +324,31 @@ public class DownloadDataFragment extends Fragment {
                 new mItemSalesPack_stockBL().GenerateDatepartNow(pInfo.versionName);
                 new mItemSalesPack_stockBL().GeneratePeriodeNow(pInfo.versionName);
                 new tPOHeader_mobileBL().GetDataNoPurchaseOrder(pInfo.versionName);
-                new clsHelperBL().DownloadData(pInfo.versionName);
                 new mPriceInOutletBL().DownloadmPriceInOutlet(pInfo.versionName);
                 new tPenguaranHeader_MobileBL().GetDatamTypePenguaranMobile(pInfo.versionName);
+//                new clsHelperBL().DownloadData(pInfo.versionName);
                 Json = new mEmployeeBranchBL().DownloadEmployeeBranch2(pInfo.versionName);
                 SaveDatamEmployeeBranchData(Json);
-                Json = new mItemSalesPack_stockBL().DownloadmProductBarcode2(pInfo.versionName);
-                SaveDatamItemSalesPack_StockData(Json);
-                Json = new mProductBarcodeBL().DownloadmProductBarcode2(pInfo.versionName);
-                SaveDatamProductBarcodeData(Json);
+//                Json = new mItemSalesPack_stockBL().DownloadmProductBarcode2(pInfo.versionName);
+//                SaveDatamItemSalesPack_StockData(Json);
+//                Json = new mProductBarcodeBL().DownloadmProductBarcode2(pInfo.versionName);
+//                SaveDatamProductBarcodeData(Json);
                 Json = new mEmployeeAreaBL().DownloadEmployeeArea2(pInfo.versionName);
                 SaveDatamEmployeeAreaData(Json);
                 Json =new mTypeLeaveBL().DownloadTypeLeave2(pInfo.versionName);
                 SaveDatamTypeLeaveMobileData(Json);
-                Json = new mStatusDocumentBL().DownloadData(pInfo.versionName);
-                SaveDatamStatusDocumentData(Json);
-                Json = new mTypePenguaranMobileBL().DownloadData(pInfo.versionName);
-                SaveDatamTypePenguaranMobileData(Json);
-                Json= new mReason_mobileBL().DownloadData(pInfo.versionName);
-                SaveDatamReasonData(Json);
-                Json= new mstockawal_mobileBL().DownloadData(pInfo.versionName, _clsMainActivity.getDataLoginActive().get_TxtEmpId());
-                SaveDatamStockAwal(Json);
+                Json = new mEmployeeSalesProductBL().DownloadEmployeeSalesProduct(pInfo.versionName);
+                SaveDatamProductBarcodeData(Json);
+                Json = new mProductBrandHeaderBL().DownloadBrandHeader(pInfo.versionName);
+                SaveDatamProductBarcodeData(Json);
+//                Json = new mStatusDocumentBL().DownloadData(pInfo.versionName);
+//                SaveDatamStatusDocumentData(Json);
+//                Json = new mTypePenguaranMobileBL().DownloadData(pInfo.versionName);
+//                SaveDatamTypePenguaranMobileData(Json);
+//                Json= new mReason_mobileBL().DownloadData(pInfo.versionName);
+//                SaveDatamReasonData(Json);
+//                Json= new mstockawal_mobileBL().DownloadData(pInfo.versionName, new tUserLoginBL().getUserActive().get_TxtEmpId());//
+//                SaveDatamStockAwal(Json);
                 dtdataJson.setIntResult("1");
             } catch (Exception e) {
                 dtdataJson.setIntResult("0");
@@ -379,7 +381,7 @@ public class DownloadDataFragment extends Fragment {
             toast.show();
             Dialog.dismiss();
             _clsMainActivity.finish();
-            Intent nextScreen = new Intent(getContext(), Home.class);
+            Intent nextScreen = new Intent(getContext(), MainMenu.class);
             nextScreen.putExtra(clsParameterPutExtra.MenuID, MenuID);
             startActivity(nextScreen);
         }

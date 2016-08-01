@@ -558,6 +558,7 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 												myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
 												myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
 												myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);
+												myIntent.putExtra("keyMainMenu", "main_menu");
 												finish();
 												startActivity(myIntent);
 											} catch (ClassNotFoundException e) {

@@ -16,6 +16,7 @@ import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -68,6 +69,8 @@ public class Reso extends Fragment implements View.OnClickListener {
     MyAdapter dataAdapter;
     PreviewAdapter dtAdapter;
     ListView listView, listView2, listView3;
+    int selectedId;
+    //private Toolbar toolbar;
 
     @Nullable
     @Override
@@ -77,8 +80,6 @@ public class Reso extends Fragment implements View.OnClickListener {
         tv_date = (TextView) v.findViewById(R.id.txtviewDate);
         edketerangan = (EditText) v.findViewById(R.id.etKeterangan);
         searchProduct = (EditText) v.findViewById(R.id.searchProduct);
-        prvKet = "ddada";
-                //edketerangan.getText().toString();
         List<tSalesProductHeaderData> dtta = new tSalesProductHeaderBL().getAllSalesProductHeader();
         if(dtta==null) {
             noso = new mCounterNumberBL().getData(enumCounterData.NoDataSO);
@@ -87,8 +88,6 @@ public class Reso extends Fragment implements View.OnClickListener {
             List<tSalesProductHeaderData> dttas = new tSalesProductHeaderBL().getLastData();
             clsHelper _clsHelper=new clsHelper();
             String oldVersion = dttas.get(0).get_intId();
-            String[] splitString = oldVersion.split("-");
-            int newVersion = Integer.valueOf(splitString[1])+1;
             noso = _clsHelper.generateNewId(oldVersion, "-" , "5");
         }
 
@@ -99,112 +98,7 @@ public class Reso extends Fragment implements View.OnClickListener {
         tv_date.setText(timeStamp);
         Button btn_preview = (Button) v.findViewById(R.id.btnPreviewReso);
         btn_preview.setOnClickListener(this);
-//            @Override
-//            public void onClick(View view){
-//            switch (view.getId()) {
-//                case R.id.btnPreviewReso:
-//                    int a = listView.getCount();
-//                    LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-//                    final View promptView = layoutInflater.inflate(R.layout.activity_preview_so, null);
-//
-//                    final TextView _tvNoSO = (TextView) promptView.findViewById(R.id.tvnoSOtbl);
-//                    final TextView _tvKet = (TextView) promptView.findViewById(R.id.tvkettbl);
-//                    final ListView _lvProduct = (ListView) promptView.findViewById(R.id.lvProduks);
-//                    _tvNoSO.setText(new mCounterNumberBL().getData(enumCounterData.NoDataSO));
-//                    _tvKet.setText(edketerangan.getText().toString());
-//                    List<String> item = new ArrayList<>();
-//                    arrdataPriv = new ArrayList<ModelListview>();
-//                    for (int i = 0; i < a; i++) {
-//                        if (modelItems.get(i).get_value() > 0) {
-//                            ModelListview data = new ModelListview();
-//                            data.set_id(modelItems.get(i).get_id());
-//                            data.set_name(modelItems.get(i).get_name());
-//                            data.set_value(modelItems.get(i).get_value());
-//                            arrdataPriv.add(data);
-//                        }
-//                    }
-//                    dataAdapter = new MyAdapter(getActivity().getApplicationContext(), arrdataPriv);
-//                    listView2 = (ListView) promptView.findViewById(R.id.lvProduks);
-//                    listView2.setAdapter(dataAdapter);
-//
-//
-//                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-//                    alertDialogBuilder.setView(promptView);
-//                    alertDialogBuilder
-//                            .setCancelable(false)
-//                            .setPositiveButton("Save",
-//                                    new DialogInterface.OnClickListener() {
-//                                        public void onClick(DialogInterface dialog, int id) {
-//
-//                                        }
-//                                    })
-//                            .setNegativeButton("Close",
-//                                    new DialogInterface.OnClickListener() {
-//                                        public void onClick(DialogInterface dialog, int id) {
-//                                            dialog.cancel();
-//                                        }
-//                                    });
-//                    final AlertDialog alertD = alertDialogBuilder.create();
-//                    alertD.show();
-                    //int selectedId = rdSex.getCheckedRadioButtonId();
-                    //RadioButton radioSexButton = (RadioButton) v.findViewById(selectedId);
 
-//                tSalesProductHeaderData dt = new tSalesProductHeaderData();
-//
-//                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//                Calendar cal = Calendar.getInstance();
-//
-//                clsMainActivity _clsMainActivity = new clsMainActivity();
-//                mEmployeeSalesProductData _mEmployeeSalesProductData = new mEmployeeSalesProductData();
-//                tAbsenUserData absenUserData = new tAbsenUserBL().getDataCheckInActive();
-//
-//                dt.set_intId(tv_noso.getText().toString());
-//                dt.set_dtDate(dateFormat.format(cal.getTime()));
-//                dt.set_OutletCode(absenUserData.get_txtOutletCode());
-//                dt.set_OutletName(absenUserData.get_txtOutletName());
-//                dt.set_txtKeterangan(edketerangan.getText().toString());
-//                dt.set_intSumItem("1");
-//                dt.set_intSumAmount("100000");
-//                dt.set_UserId(absenUserData.get_txtUserId());
-//                dt.set_intSubmit("0");
-//                dt.set_intSync("0");
-//                dt.set_txtBranchName(absenUserData.get_txtBranchName());
-//                dt.set_intIdAbsenUser(absenUserData.get_intId());
-//
-////                new tSalesProductHeaderBL().SaveData(dt);
-//
-//                clsMainBL _clsMainBL = new clsMainBL();
-//
-//                SQLiteDatabase _db=_clsMainBL.getDb();
-
-//                for(int i = 0; i < a; i++){
-//
-//                    if(modelItems.get(i).get_value()>0){
-//                        //tCustomerBaseDetailData dtDetail = new tCustomerBaseDetailData();
-//                        double price = Double.parseDouble(modelItems.get(i).get_price());
-//                        int _price = (int) price;
-//                        int qty = modelItems.get(i).get_value();
-//                        tSalesProductDetailData dtDetail = new tSalesProductDetailData();
-//                        dtDetail.set_intId(_clsMainActivity.GenerateGuid());
-//                        dtDetail.set_dtDate(dateFormat.format(cal.getTime()));
-//                        dtDetail.set_intPrice(modelItems.get(i).get_price());
-//                        dtDetail.set_intQty(String.valueOf(modelItems.get(i).get_value()));
-//                        dtDetail.set_txtCodeProduct(modelItems.get(i).get_id());
-//                        dtDetail.set_txtKeterangan(edketerangan.getText().toString());
-//                        dtDetail.set_txtNameProduct(String.valueOf(modelItems.get(i).get_name()));
-//                        dtDetail.set_intTotal(String.valueOf(_price*qty));
-//                        dtDetail.set_txtNoSo(tv_noso.getText().toString());
-//                        dtDetail.set_intActive("1");
-//                        dtDetail.set_txtNIK(modelItems.get(i).get_NIK());
-//
-//                        //new tCustomerBaseDetailDA(_db).SaveDatatCustomerBaseDetailData(_db, dtDetail);
-//                        new tSalesProductDetailDA(_db).SaveDatatSalesProductDetailData(_db, dtDetail);
-//                    }
-//                }
-
-//                Toast.makeText(getActivity().getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
-                    //funcPreviewSO(getContext());
-                    //Toast.makeText(getContext(), prvKet, Toast.LENGTH_SHORT).show();
         List<mEmployeeSalesProductData> employeeSalesProductDataList = new mEmployeeSalesProductBL().GetAllData();
         modelItems = new ArrayList<ModelListview>();
 
@@ -213,10 +107,8 @@ public class Reso extends Fragment implements View.OnClickListener {
                 ModelListview dt = new ModelListview();
                 dt.set_id(employeeSalesProductDataList.get(i).get_txtBrandDetailGramCode());
                 dt.set_name(employeeSalesProductDataList.get(i).get_txtProductBrandDetailGramName());
-                //dt.set_value(12);
                 dt.set_price((employeeSalesProductDataList.get(i).get_decHJD()));
                 dt.set_NIK(employeeSalesProductDataList.get(i).get_txtNIK());
-                //dt.set_selected(false);
                 modelItems.add(dt);
             }
         }
@@ -234,30 +126,28 @@ public class Reso extends Fragment implements View.OnClickListener {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetDataByProductName(searchProduct.getText().toString());
-                dataAdapter.getFilter().filter(s.toString());
-
+            dataAdapter.getFilter().filter(s.toString());
             }
         });
         return v;
     }
 
+
+    public void viewResoFragment(){
+        Intent intent = new Intent(getContext(),MainMenu.class);
+        intent.putExtra("keyReso", "add_reso");
+        getActivity().finish();
+        startActivity(intent);
+        return;
+    }
+
     @Override
     public void onClick(View v) {
-        switch ( v.getId()){
+        switch ( v.getId()) {
             case R.id.btnPreviewReso:
-                //searchProduct.setText("");
-                int a = listView.getCount();
-                LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-                final View promptView = layoutInflater.inflate(R.layout.activity_preview_so, null);
-
-                final TextView _tvNoSO = (TextView) promptView.findViewById(R.id.tvnoSOtbl);
-                final TextView _tvKet = (TextView) promptView.findViewById(R.id.tvkettbl);
-                final ListView _lvProduct = (ListView) promptView.findViewById(R.id.lvProduks);
-                _tvNoSO.setText(": " + new mCounterNumberBL().getData(enumCounterData.NoDataSO));
-                _tvKet.setText(": " + edketerangan.getText().toString());
+                int x = listView.getCount();
                 arrdataPriv = new ArrayList<ModelListview>();
-                for (int i = 0; i < a; i++) {
+                for (int i = 0; i < x; i++) {
                     if (modelItems.get(i).get_value() > 0) {
                         ModelListview data = new ModelListview();
                         data.set_id(modelItems.get(i).get_id());
@@ -267,98 +157,121 @@ public class Reso extends Fragment implements View.OnClickListener {
                         arrdataPriv.add(data);
                     }
                 }
-//                dataAdapter = new MyAdapter(getActivity().getApplicationContext(), arrdataPriv);
-                //listView2 = (ListView) promptView.findViewById(R.id.lvProduks);
-//                listView2.setAdapter(dataAdapter);
+                if (edketerangan.getText().toString().equals("")) {
+                    Toast.makeText(getContext(), "Keterangan Belum Diisi", Toast.LENGTH_SHORT).show();
+                } else
+                if (arrdataPriv.size()==0){
+                    Toast.makeText(getContext(), "Silahkan Input Quantity Product", Toast.LENGTH_SHORT).show();
+                } else if (arrdataPriv.size()>0){
+                    int a = listView.getCount();
+                    LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+                    final View promptView = layoutInflater.inflate(R.layout.activity_preview_so, null);
 
-                TableLayout tl = new TableLayout(getContext());
-                double qtySum=0;
-                double qtyNum;
-                for (ModelListview dt : arrdataPriv) {
-                    TableRow tr = new TableRow(getContext());
-                    TableLayout.LayoutParams tableRowParams=
-                            new TableLayout.LayoutParams
-                                    (TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
+                    final TextView _tvNoSO = (TextView) promptView.findViewById(R.id.tvnoSOtbl);
+                    final TextView _tvKet = (TextView) promptView.findViewById(R.id.tvkettbl);
+                    _tvNoSO.setText(": " + new mCounterNumberBL().getData(enumCounterData.NoDataSO));
+                    _tvKet.setText(": " + edketerangan.getText().toString());
+                    arrdataPriv = new ArrayList<ModelListview>();
+                    for (int i = 0; i < a; i++) {
+                        if (modelItems.get(i).get_value() > 0) {
+                            ModelListview data = new ModelListview();
+                            data.set_id(modelItems.get(i).get_id());
+                            data.set_price(modelItems.get(i).get_price());
+                            data.set_name(modelItems.get(i).get_name());
+                            data.set_value(modelItems.get(i).get_value());
+                            arrdataPriv.add(data);
+                        }
+                    }
 
-                    int leftMargin=10;
-                    int topMargin=2;
-                    int rightMargin=10;
-                    int bottomMargin=2;
+                    TableLayout tl = new TableLayout(getContext());
+                    double qtySum = 0;
+                    double qtyNum;
+                    for (ModelListview dt : arrdataPriv) {
+                        TableRow tr = new TableRow(getContext());
+                        TableLayout.LayoutParams tableRowParams =
+                                new TableLayout.LayoutParams
+                                        (TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
 
-                    tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
+                        int leftMargin = 10;
+                        int topMargin = 2;
+                        int rightMargin = 10;
+                        int bottomMargin = 2;
 
-                    tr.setLayoutParams(tableRowParams);
+                        tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
 
-                    TextView product = new TextView(getContext());
-                    product.setTextSize(12);
-                    product.setWidth(300);
-                    product.setText(dt.get_name());
-                    tr.addView(product);
+                        tr.setLayoutParams(tableRowParams);
 
-                    TextView qty = new TextView(getContext());
-                    qty.setTextSize(12);
-                    qty.setPadding(15, 0, 0, 0);
-                    qty.setText(String.valueOf(dt.get_value()));
-                    tr.addView(qty);
+                        TextView product = new TextView(getContext());
+                        product.setTextSize(12);
+                        product.setWidth(300);
+                        product.setText(dt.get_name());
+                        tr.addView(product);
 
-                    TextView price = new TextView(getContext());
-                    price.setTextColor(Color.GREEN);
-                    price.setTextSize(12);
-                    price.setPadding(15, 0, 0, 0);
-                    price.setText(dt.get_price());
-                    tr.addView(price);
+                        TextView qty = new TextView(getContext());
+                        qty.setTextSize(12);
+                        qty.setPadding(15, 0, 0, 0);
+                        qty.setText(String.valueOf(dt.get_value()));
+                        tr.addView(qty);
 
-                    TextView amount = new TextView(getContext());
-                    amount.setTextColor(Color.RED);
-                    amount.setTextSize(12);
-                    amount.setPadding(15, 0, 0, 0);
-                    double prc = Double.valueOf(dt.get_price());
-                    double itm = Double.valueOf(dt.get_value());
-                    qtyNum = prc*itm;
-                    qtySum += qtyNum;
-                    amount.setText(String.valueOf(qtyNum));
-                    tr.addView(amount);
+                        TextView price = new TextView(getContext());
+                        price.setTextColor(Color.GREEN);
+                        price.setTextSize(12);
+                        price.setPadding(15, 0, 0, 0);
+                        price.setText(dt.get_price());
+                        tr.addView(price);
 
-                    tl.addView(tr, tableRowParams);
+                        TextView amount = new TextView(getContext());
+                        amount.setTextColor(Color.RED);
+                        amount.setTextSize(12);
+                        amount.setPadding(15, 0, 0, 0);
+                        double prc = Double.valueOf(dt.get_price());
+                        double itm = Double.valueOf(dt.get_value());
+                        qtyNum = prc * itm;
+                        qtySum += qtyNum;
+                        amount.setText(String.valueOf(qtyNum));
+                        tr.addView(amount);
+
+                        tl.addView(tr, tableRowParams);
+                    }
+
+                    TableLayout tlb = (TableLayout) promptView.findViewById(R.id.tlProduct);
+                    tlb.addView(tl);
+
+                    final TextView tv_item = (TextView) promptView.findViewById(R.id.tvItemtbl);
+                    tv_item.setTypeface(null, Typeface.BOLD);
+                    int sumItem = arrdataPriv.size();
+                    tv_item.setText(": " + String.valueOf(sumItem));
+
+                    final TextView tv_amount = (TextView) promptView.findViewById(R.id.tvSumAmount);
+                    tv_amount.setTypeface(null, Typeface.BOLD);
+                    tv_amount.setText(": " + String.valueOf(qtySum));
+
+                    final TextView tv_status = (TextView) promptView.findViewById(R.id.tvStatus);
+                    tv_status.setTypeface(null, Typeface.BOLD);
+                    tv_status.setText(": Open");
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                    alertDialogBuilder.setView(promptView);
+                    alertDialogBuilder
+                            .setCancelable(false)
+                            .setPositiveButton("Save",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            saveReso();
+                                            //dialog.dismiss();
+                                            viewResoFragment();
+                                        }
+                                    })
+                            .setNegativeButton("Close",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                    final AlertDialog alertD = alertDialogBuilder.create();
+                    alertD.show();
+                    break;
                 }
-
-                TableLayout tlb = (TableLayout) promptView.findViewById(R.id.tlProduct) ;
-                tlb.addView(tl);
-
-                final TextView tv_item = (TextView) promptView.findViewById(R.id.tvItemtbl);
-                tv_item.setTypeface(null, Typeface.BOLD);
-                int sumItem = arrdataPriv.size();
-                tv_item.setText(": " + String.valueOf(sumItem));
-
-                final  TextView tv_amount = (TextView) promptView.findViewById(R.id.tvSumAmount) ;
-                tv_amount.setTypeface(null, Typeface.BOLD);
-                tv_amount.setText(": " + String.valueOf(qtySum));
-
-                final  TextView tv_status = (TextView) promptView.findViewById(R.id.tvStatus);
-                tv_status.setTypeface(null, Typeface.BOLD);
-                tv_status.setText(": Open");
-
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-                alertDialogBuilder.setView(promptView);
-                alertDialogBuilder
-                        .setCancelable(false)
-                        .setPositiveButton("Save",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        saveReso();
-                                        Intent intent = new Intent(getContext(), MainMenu.class);
-                                        startActivityForResult(intent, 1);
-                                    }
-                                })
-                        .setNegativeButton("Close",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-                final AlertDialog alertD = alertDialogBuilder.create();
-                alertD.show();
-                break;
         }
 
     }
@@ -533,8 +446,10 @@ public class Reso extends Fragment implements View.OnClickListener {
                 .setPositiveButton("Save",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(getContext(), MainMenu.class);
-                                startActivityForResult(intent, 1);
+                                ViewResoFragment viewresofragment = new ViewResoFragment();
+                                android.support.v4.app.FragmentTransaction fragmentTransactionviewreso = getActivity().getSupportFragmentManager().beginTransaction();
+                                fragmentTransactionviewreso.replace(R.id.frame,viewresofragment);
+                                fragmentTransactionviewreso.commit();
                             }
                         })
                 .setNegativeButton("Close",
@@ -770,6 +685,18 @@ public class Reso extends Fragment implements View.OnClickListener {
         public View getView(int position, View convertView, ViewGroup parent) {
             return null;
         }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
+
+        if(selectedId == 1) {
+
+            menu.add(0, 1, 0, "Add Reso");
+
+        }
+        super.onPrepareOptionsMenu(menu);
     }
 }
 
