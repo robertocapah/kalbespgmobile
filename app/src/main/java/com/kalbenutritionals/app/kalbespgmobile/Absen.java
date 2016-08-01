@@ -43,7 +43,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -262,7 +261,7 @@ public class Absen extends clsMainActivity implements ConnectionCallbacks, OnCon
 		btnRefreshMaps = (Button) findViewById(R.id.btnRefreshMaps);
 		btnCheckIn = (Button) findViewById(R.id.buttonCheckIn);
 		spnOutlet = (Spinner) findViewById(R.id.spnOutlet);
-		spnBranch = (Spinner) findViewById(R.id.spnBranch);
+		spnBranch = (Spinner) findViewById(R.id.spnType);
 		imgPrevNoImg1 = (ImageView) findViewById(R.id.imageViewCamera1);
 		imgPrevNoImg2 = (ImageView) findViewById(R.id.imageViewCamera2);
 		lblLong = (TextView) findViewById(R.id.tvLong);

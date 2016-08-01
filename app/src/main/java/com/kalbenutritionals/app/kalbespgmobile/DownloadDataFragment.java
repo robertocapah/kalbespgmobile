@@ -102,7 +102,7 @@ public class DownloadDataFragment extends Fragment {
         v = inflater.inflate(R.layout.activity_download_data,container,false);
         btnAllDownload = (Button) v.findViewById(R.id.btnAllDownload);
         btnBranch = (Button) v.findViewById(R.id.btnBranch);
-        spnBranch = (Spinner) v.findViewById(R.id.spnBranch);
+        spnBranch = (Spinner) v.findViewById(R.id.spnType);
         btnOutlet = (Button) v.findViewById(R.id.btnOutlet);
         spnOutlet = (Spinner) v.findViewById(R.id.spnOutlet);
         btnProduct = (Button) v.findViewById(R.id.btnProduct);

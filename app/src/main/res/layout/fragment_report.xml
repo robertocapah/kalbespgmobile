@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kalbenutritionals.app.kalbespgmobile.MainMenu"
+    android:padding="10dp">
+
+    <Spinner
+        android:id="@+id/spnType"
+        android:layout_below="@+id/txtBranch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_edtext"
+        />
+
+    <com.kalbenutritionals.app.kalbespgmobile.SortableReportTableView
+        android:id="@+id/tableView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        custom:tableView_columnCount="4"
+        custom:tableView_headerColor="#27ae60"
+        custom:tableView_headerElevation="10"
+        android:layout_below="@+id/spnType"
+        android:layout_marginTop="20dp" />
+
+</RelativeLayout>

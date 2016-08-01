@@ -105,7 +105,7 @@ public class DownloadData extends clsMainActivity {
         getLayoutInflater().inflate(R.layout.activity_download_data, lnContent);
         btnAllDownload = (Button) findViewById(R.id.btnAllDownload);
         btnBranch = (Button) findViewById(R.id.btnBranch);
-        spnBranch = (Spinner) findViewById(R.id.spnBranch);
+        spnBranch = (Spinner) findViewById(R.id.spnType);
         btnOutlet = (Button) findViewById(R.id.btnOutlet);
         spnOutlet = (Spinner) findViewById(R.id.spnOutlet);
         btnProduct = (Button) findViewById(R.id.btnProduct);

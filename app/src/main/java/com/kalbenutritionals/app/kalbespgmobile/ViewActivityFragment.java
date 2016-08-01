@@ -133,9 +133,13 @@ public class ViewActivityFragment extends Fragment implements IXListViewListener
             rbKalbe.setChecked(true);
             rbCompetitor.setChecked(false);
         }
-        else{
+        else if(dt.get(position).get_intFlag().equals("Competitor")) {
             rbKalbe.setChecked(false);
             rbCompetitor.setChecked(true);
+        }
+        else{
+            rbKalbe.setChecked(false);
+            rbCompetitor.setChecked(false);
         }
 
         rbKalbe.setEnabled(false);

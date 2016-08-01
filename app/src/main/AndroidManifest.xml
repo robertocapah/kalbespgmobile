@@ -66,7 +66,7 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyB7SCsW5IEn5jpRPlHEj16Srm8_oo62XhQ" />
+            android:value="AIzaSyDvUbkyyn7gjIbOyBTBBFCxvObOpSUBKDE" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -85,7 +85,8 @@
             android:label=""></activity>
         <activity
             android:name=".MainMenu"
-            android:label=""></activity>
+            android:label=""
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".DownloadData"
             android:label=""></activity>

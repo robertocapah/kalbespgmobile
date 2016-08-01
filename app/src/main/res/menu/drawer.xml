@@ -83,11 +83,11 @@
         android:checkableBehavior="single"
         android:id="@+id/groupListfooter">
 
-        <item
-            android:id="@+id/notifikasi"
-            android:checked="false"
-            android:orderInCategory="2"
-            android:title="Notifikasi" />
+        <!--<item-->
+            <!--android:id="@+id/notifikasi"-->
+            <!--android:checked="false"-->
+            <!--android:orderInCategory="2"-->
+            <!--android:title="Notifikasi" />-->
 
         <item
             android:id="@+id/checkout"
@@ -96,16 +96,16 @@
             android:title="Checkout" />
 
         <item
-            android:id="@+id/report_kbn"
+            android:id="@+id/reporting"
             android:checked="false"
             android:orderInCategory="2"
-            android:title="Reporting KBN" />
+            android:title="Reporting" />
 
-        <item
-            android:id="@+id/historyAbsen"
-            android:checked="false"
-            android:orderInCategory="2"
-            android:title="History Absen" />
+        <!--<item-->
+            <!--android:id="@+id/historyAbsen"-->
+            <!--android:checked="false"-->
+            <!--android:orderInCategory="2"-->
+            <!--android:title="History Absen" />-->
 
         <item
             android:id="@+id/logout"

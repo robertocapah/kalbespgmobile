@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -106,11 +107,14 @@ public class MainMenu extends AppCompatActivity {
         if(dtAbsen == null){
             header.setGroupVisible(R.id.groupListMenu, true);
             header.setGroupVisible(R.id.groupListMenu1, false);
+
+
+            MenuItem menuCheckout = header.findItem(R.id.checkout);
+            menuCheckout.setVisible(false);
         }
         else{
             header.setGroupVisible(R.id.groupListMenu, false);
             header.setGroupVisible(R.id.groupListMenu1, true);
-            header.add(R.id.groupListMenu1, 1234, 1, "Absen").setIcon(R.drawable.ic_notifications).setCheckable(true);
         }
 
 //        header.add(Menu.NONE, 0, 0, "Reso");
@@ -178,36 +182,61 @@ public class MainMenu extends AppCompatActivity {
                         alertD.show();
                         return true;
                     case  R.id.download :
-                        //Toast.makeText(getApplicationContext(), "tes download", Toast.LENGTH_LONG).show();
                         toolbar.setTitle("Download Data");
+
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+
                         DownloadDataFragment downloadDataFragment = new DownloadDataFragment();
                         android.support.v4.app.FragmentTransaction fragmentTransactiondownloadData = getSupportFragmentManager().beginTransaction();
                         fragmentTransactiondownloadData.replace(R.id.frame,downloadDataFragment);
                         fragmentTransactiondownloadData.commit();
+                        selectedId=0;
 
                         return true;
                     case R.id.menu_home:
                         toolbar.setTitle("Home");
+
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+
                         HomeFragment homeFragment1 = new HomeFragment();
                         android.support.v4.app.FragmentTransaction fragmentTransactionhome = getSupportFragmentManager().beginTransaction();
                         fragmentTransactionhome.replace(R.id.frame,homeFragment1);
                         fragmentTransactionhome.commit();
-                        selectedId=1;
+                        selectedId=0;
 
                         return true;
 
                     case R.id.absen:
                         toolbar.setTitle("Absen");
+
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+
                         AbsenFragment absenFragment = new AbsenFragment();
                         android.support.v4.app.FragmentTransaction fragmentTransactionAbsen = getSupportFragmentManager().beginTransaction();
                         fragmentTransactionAbsen.replace(R.id.frame,absenFragment);
                         fragmentTransactionAbsen.commit();
-                        selectedId=1;
+                        selectedId=0;
+
+                        return true;
+
+                    case R.id.reporting:
+                        toolbar.setTitle("Reporting");
+
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+
+                        ReportingFragment reportingFragment = new ReportingFragment();
+                        android.support.v4.app.FragmentTransaction fragmentTransactionReport = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactionReport.replace(R.id.frame,reportingFragment);
+                        fragmentTransactionReport.commit();
+                        selectedId=0;
 
                         return true;
 
                     case R.id.view_reso:
                         toolbar.setTitle("View "+menuItem.getTitle().toString());
+
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+
                         ViewResoFragment viewresofragment = new ViewResoFragment();
                         android.support.v4.app.FragmentTransaction fragmentTransactionviewreso = getSupportFragmentManager().beginTransaction();
                         fragmentTransactionviewreso.replace(R.id.frame,viewresofragment);
@@ -218,6 +247,9 @@ public class MainMenu extends AppCompatActivity {
 
                     case R.id.view_activity:
                         toolbar.setTitle("View "+menuItem.getTitle().toString());
+
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+
                         ViewActivityFragment fragmentViewActivity = new ViewActivityFragment();
                         android.support.v4.app.FragmentTransaction fragmentTransactionViewActivity = getSupportFragmentManager().beginTransaction();
                         fragmentTransactionViewActivity.replace(R.id.frame,fragmentViewActivity);
@@ -228,6 +260,9 @@ public class MainMenu extends AppCompatActivity {
 
                     case R.id.view_customerbase:
                         toolbar.setTitle("View "+menuItem.getTitle().toString());
+
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+
                         ViewCustomerBaseFragment fragment3 = new ViewCustomerBaseFragment();
                         android.support.v4.app.FragmentTransaction fragmentTransaction3 = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction3.replace(R.id.frame,fragment3);
@@ -447,7 +482,8 @@ public class MainMenu extends AppCompatActivity {
         }
         else if(selectedId == 0){
 
-            menu.add(0,4,0, "default");
+            menu.add(4, 0, 0, "De");
+            menu.setGroupEnabled(1,false);
         }
 
         //Toast.makeText(this, String.valueOf(selectedId), Toast.LENGTH_LONG).show();

@@ -1,7 +1,6 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,7 +29,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -255,7 +253,7 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
         btnCheckIn = (Button) v.findViewById(R.id.buttonCheckIn);
         btnPopupMap = (Button) v.findViewById(R.id.viewMap);
         spnOutlet = (Spinner) v.findViewById(R.id.spnOutlet);
-        spnBranch = (Spinner) v.findViewById(R.id.spnBranch);
+        spnBranch = (Spinner) v.findViewById(R.id.spnType);
         imgPrevNoImg1 = (ImageView) v.findViewById(R.id.imageViewCamera1);
         imgPrevNoImg2 = (ImageView) v.findViewById(R.id.imageViewCamera2);
         lblLong = (TextView) v.findViewById(R.id.tvLong);
@@ -286,7 +284,7 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                 final View promptView = layoutInflater.inflate(R.layout.popup_map_absen, null);
 
                 GoogleMap mMap = null;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                     mMap = ((MapFragment) (getActivity()).getFragmentManager().findFragmentById(R.id.map)).getMap();
 
                     if (mMap == null) {
@@ -312,7 +310,7 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,	int id) {
                                             MapFragment f = null;
-                                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                                                 f = (MapFragment) (getActivity()).getFragmentManager().findFragmentById(R.id.map);
                                             }
                                             if (f != null){

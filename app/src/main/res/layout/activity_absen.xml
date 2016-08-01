@@ -39,7 +39,7 @@
                 android:text="txthdId"
                 android:visibility="gone" />
             <Spinner
-                android:id="@+id/spnBranch"
+                android:id="@+id/spnType"
                 android:layout_below="@+id/tvBranch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
                 android:id="@+id/view1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/spnBranch"
+                android:layout_below="@+id/spnType"
                 android:layout_marginTop="10dp"
                 android:background="#bfbfbf" />
             <TextView

@@ -16,4 +16,8 @@
 
     <!--<color name="PrimaryColor">#2196F3</color>-->
     <color name="PrimaryColor">#035e00</color>
+
+    <color name="table_header_text">#FFFFFF</color>
+    <color name="table_data_row_even">#FFFFFF</color>
+    <color name="table_data_row_odd">#ecf0f1</color>
 </resources>
