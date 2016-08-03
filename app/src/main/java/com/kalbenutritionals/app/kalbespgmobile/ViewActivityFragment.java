@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -152,18 +151,17 @@ public class ViewActivityFragment extends Fragment implements IXListViewListener
         etDesc.setText(dt.get(position).get_txtDesc());
         etDesc.setEnabled(false);
 
-        File imgFile = new  File(dt.get(position).get_txtImg1());
-        if(imgFile.exists()){
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        byte[] imgFile = dt.get(position).get_txtImg1();
+        if(imgFile!=null){
+            Bitmap myBitmap = BitmapFactory.decodeByteArray(imgFile, 0 , imgFile.length);
             img1.setImageBitmap(myBitmap);
         }
         else{
             img1.setVisibility(View.GONE);
         }
-
-        File imgFile2 = new  File(dt.get(position).get_txtImg2());
-        if(imgFile2.exists()){
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile2.getAbsolutePath());
+        byte[] imgFile2 = dt.get(position).get_txtImg2();
+        if(imgFile2!=null){
+            Bitmap myBitmap = BitmapFactory.decodeByteArray(imgFile2, 0 , imgFile2.length);
             img2.setImageBitmap(myBitmap);
         }
         else{

@@ -1,10 +1,11 @@
 package library.salesforce.dal;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import library.salesforce.common.tActivityData;
 
@@ -25,8 +26,8 @@ public class tActivityDA {
 						+ dt.Property_intIdSyn + " TEXT NULL,"
 						+ dt.Property_intSubmit + " TEXT NULL,"
 						+ dt.Property_txtDesc + " TEXT NULL,"
-						+ dt.Property_txtImg1 + " TEXT NULL,"
-						+ dt.Property_txtImg2 + " TEXT NULL,"
+						+ dt.Property_txtImg1 + " BLOB NULL,"
+						+ dt.Property_txtImg2 + " BLOB NULL,"
 						+ dt.Property_txtOutletCode + " TEXT NULL,"
 						+ dt.Property_txtOutletName + " TEXT NULL,"
 						+ dt.Property_txtUserId + " TEXT NULL,"
@@ -56,22 +57,42 @@ public class tActivityDA {
 				//values.put(dt.Property_txtRoleId, data.get_txtRoleId()); 
 				// Inserting Row
 				//db.insert(TABLE_CONTACTS, null, values);
-				db.execSQL("INSERT OR REPLACE into "+TABLE_CONTACTS+" ("+dt.Property_All+") "+
-					"values('"	+String.valueOf(data.get_dtActivity())+"','"
-						+String.valueOf(data.get_intActive())+"',"
-						+String.valueOf(data.get_intId())+",'"
-						+String.valueOf(data.get_intIdSyn())+"','"
-						+String.valueOf(data.get_intSubmit())+"','"
-						+String.valueOf(data.get_txtDesc())+"','"
-						+String.valueOf(data.get_txtDeviceId())+"','"
-						+String.valueOf(data.get_txtImg1())+"','"
-						+String.valueOf(data.get_txtImg2())+"','"
-						+String.valueOf(data.get_txtOutletCode())+"','"
-						+String.valueOf(data.get_txtOutletName())+"','"
-						+String.valueOf(data.get_txtUserId())+"','"
-						+String.valueOf(data.get_intFlag())+"','"
-						+String.valueOf(data.get_txtBranch())+"'"
-						+")");
+//				db.execSQL("INSERT OR REPLACE into "+TABLE_CONTACTS+" ("+dt.Property_All+") "+
+//					"values('"	+String.valueOf(data.get_dtActivity())+"','"
+//						+String.valueOf(data.get_intActive())+"',"
+//						+String.valueOf(data.get_intId())+",'"
+//						+String.valueOf(data.get_intIdSyn())+"','"
+//						+String.valueOf(data.get_intSubmit())+"','"
+//						+String.valueOf(data.get_txtDesc())+"','"
+//						+String.valueOf(data.get_txtDeviceId())+"','"
+//						+String.valueOf(data.get_txtImg1())+"','"
+//						+String.valueOf(data.get_txtImg2())+"','"
+//						+String.valueOf(data.get_txtOutletCode())+"','"
+//						+String.valueOf(data.get_txtOutletName())+"','"
+//						+String.valueOf(data.get_txtUserId())+"','"
+//						+String.valueOf(data.get_intFlag())+"','"
+//						+String.valueOf(data.get_txtBranch())+"'"
+//						+")");
+				ContentValues cv = new ContentValues();
+				cv.put(dt.Property_dtActivity, String.valueOf(data.get_dtActivity()));
+				cv.put(dt.Property_intActive, String.valueOf(data.get_intActive()));
+				cv.put(dt.Property_intId, String.valueOf(data.get_intId()));
+				cv.put(dt.Property_intIdSyn, String.valueOf(data.get_intIdSyn()));
+				cv.put(dt.Property_intSubmit, String.valueOf(data.get_intSubmit()));
+				cv.put(dt.Property_txtDesc, String.valueOf(data.get_txtDesc()));
+				cv.put(dt.Property_txtDeviceId, String.valueOf(data.get_txtDeviceId()));
+				cv.put(dt.Property_txtImg1, data.get_txtImg1());
+				cv.put(dt.Property_txtImg2, data.get_txtImg2());
+				cv.put(dt.Property_txtOutletCode, String.valueOf(data.get_txtOutletCode()));
+				cv.put(dt.Property_txtOutletName, String.valueOf(data.get_txtOutletName()));
+				cv.put(dt.Property_txtUserId, String.valueOf(data.get_txtUserId()));
+				cv.put(dt.Property_intFlag, data.get_intFlag());
+				cv.put(dt.Property_txtBranch, data.get_txtBranch());
+				if(TABLE_CONTACTS!=null){
+					db.insert(TABLE_CONTACTS, null, cv);
+				} else {
+					db.replace(TABLE_CONTACTS, null, cv);
+				}
 			}
 
 			// Getting single contact
@@ -100,8 +121,8 @@ public class tActivityDA {
 				contact.set_intSubmit(cursor.getString(4));
 				contact.set_txtDesc(cursor.getString(5));
 				contact.set_txtDeviceId(cursor.getString(6));
-				contact.set_txtImg1(cursor.getString(7));
-				contact.set_txtImg2(cursor.getString(8));
+				contact.set_txtImg1(cursor.getBlob(7));
+				contact.set_txtImg2(cursor.getBlob(8));
 				contact.set_txtOutletCode(cursor.getString(9));
 				contact.set_txtOutletName(cursor.getString(10));
 				contact.set_txtUserId(cursor.getString(11));
@@ -136,8 +157,8 @@ public class tActivityDA {
 				contact.set_intSubmit(cursor.getString(4));
 				contact.set_txtDesc(cursor.getString(5));
 				contact.set_txtDeviceId(cursor.getString(6));
-				contact.set_txtImg1(cursor.getString(7));
-				contact.set_txtImg2(cursor.getString(8));
+				contact.set_txtImg1(cursor.getBlob(7));
+				contact.set_txtImg2(cursor.getBlob(8));
 				contact.set_txtOutletCode(cursor.getString(9));
 				contact.set_txtOutletName(cursor.getString(10));
 				contact.set_txtUserId(cursor.getString(11));
@@ -174,8 +195,8 @@ public class tActivityDA {
 						contact.set_intSubmit(cursor.getString(4));
 						contact.set_txtDesc(cursor.getString(5));
 						contact.set_txtDeviceId(cursor.getString(6));
-						contact.set_txtImg1(cursor.getString(7));
-						contact.set_txtImg2(cursor.getString(8));
+						contact.set_txtImg1(cursor.getBlob(7));
+						contact.set_txtImg2(cursor.getBlob(8));
 						contact.set_txtOutletCode(cursor.getString(9));
 						contact.set_txtOutletName(cursor.getString(10));
 						contact.set_txtUserId(cursor.getString(11));
@@ -209,8 +230,8 @@ public class tActivityDA {
 						contact.set_intSubmit(cursor.getString(4));
 						contact.set_txtDesc(cursor.getString(5));
 						contact.set_txtDeviceId(cursor.getString(6));
-						contact.set_txtImg1(cursor.getString(7));
-						contact.set_txtImg2(cursor.getString(8));
+						contact.set_txtImg1(cursor.getBlob(7));
+						contact.set_txtImg2(cursor.getBlob(8));
 						contact.set_txtOutletCode(cursor.getString(9));
 						contact.set_txtOutletName(cursor.getString(10));
 						contact.set_txtUserId(cursor.getString(11));
@@ -244,8 +265,8 @@ public class tActivityDA {
 						contact.set_intSubmit(cursor.getString(4));
 						contact.set_txtDesc(cursor.getString(5));
 						contact.set_txtDeviceId(cursor.getString(6));
-						contact.set_txtImg1(cursor.getString(7));
-						contact.set_txtImg2(cursor.getString(8));
+						contact.set_txtImg1(cursor.getBlob(7));
+						contact.set_txtImg2(cursor.getBlob(8));
 						contact.set_txtOutletCode(cursor.getString(9));
 						contact.set_txtOutletName(cursor.getString(10));
 						contact.set_txtUserId(cursor.getString(11));
@@ -278,8 +299,8 @@ public class tActivityDA {
 						contact.set_intSubmit(cursor.getString(4));
 						contact.set_txtDesc(cursor.getString(5));
 						contact.set_txtDeviceId(cursor.getString(6));
-						contact.set_txtImg1(cursor.getString(7));
-						contact.set_txtImg2(cursor.getString(8));
+						contact.set_txtImg1(cursor.getBlob(7));
+						contact.set_txtImg2(cursor.getBlob(8));
 						contact.set_txtOutletCode(cursor.getString(9));
 						contact.set_txtOutletName(cursor.getString(10));
 						contact.set_txtUserId(cursor.getString(11));
@@ -321,8 +342,8 @@ public class tActivityDA {
 						contact.set_intSubmit(cursor.getString(4));
 						contact.set_txtDesc(cursor.getString(5));
 						contact.set_txtDeviceId(cursor.getString(6));
-						contact.set_txtImg1(cursor.getString(7));
-						contact.set_txtImg2(cursor.getString(8));
+						contact.set_txtImg1(cursor.getBlob(7));
+						contact.set_txtImg2(cursor.getBlob(8));
 						contact.set_txtOutletCode(cursor.getString(9));
 						contact.set_txtOutletName(cursor.getString(10));
 						contact.set_txtUserId(cursor.getString(11));
@@ -357,8 +378,8 @@ public class tActivityDA {
 						contact.set_intSubmit(cursor.getString(4));
 						contact.set_txtDesc(cursor.getString(5));
 						contact.set_txtDeviceId(cursor.getString(6));
-						contact.set_txtImg1(cursor.getString(7));
-						contact.set_txtImg2(cursor.getString(8));
+						contact.set_txtImg1(cursor.getBlob(7));
+						contact.set_txtImg2(cursor.getBlob(8));
 						contact.set_txtOutletCode(cursor.getString(9));
 						contact.set_txtOutletName(cursor.getString(10));
 						contact.set_txtUserId(cursor.getString(11));

@@ -209,15 +209,20 @@ public class Login extends clsMainActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 intProcesscancel=0;
-                if(spnRole.getCount()==0){
-                    txtEmail1 = txtLoginEmail.getText().toString();
-                    AsyncCallRole task = new AsyncCallRole();
-                    task.execute();
-                }else{
-                    txtEmail1 = txtLoginEmail.getText().toString();
-                    txtPassword1 = txtLoginPassword.getText().toString();
-                    AsyncCallLogin task = new AsyncCallLogin();
-                    task.execute();
+                if(txtLoginEmail.getText().length()==0){
+                    Toast.makeText(getApplicationContext(), "Please input username", Toast.LENGTH_SHORT);
+
+                } else {
+                    if(spnRole.getCount()==0){
+                        txtEmail1 = txtLoginEmail.getText().toString();
+                        AsyncCallRole task = new AsyncCallRole();
+                        task.execute();
+                    }else{
+                        txtEmail1 = txtLoginEmail.getText().toString();
+                        txtPassword1 = txtLoginPassword.getText().toString();
+                        AsyncCallLogin task = new AsyncCallLogin();
+                        task.execute();
+                    }
                 }
             }
         });
@@ -329,6 +334,7 @@ public class Login extends clsMainActivity {
                         startService(new Intent(getApplicationContext(), MyServiceNative.class));
                         finish();
                         Intent myIntent = new Intent(getApplicationContext(), MainMenu.class);
+                        myIntent.putExtra("keyMainMenu", "main_menu");
                         startActivity(myIntent);
                     }else{
                         Toast toast = Toast.makeText(Login.this,

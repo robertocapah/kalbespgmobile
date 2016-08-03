@@ -1,31 +1,23 @@
 package bl;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import library.salesforce.common.APIData;
 import library.salesforce.common.clsHelper;
 import library.salesforce.common.linkAPI;
 import library.salesforce.common.mconfigData;
-import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
-import library.salesforce.common.tCustomerBaseData;
-import library.salesforce.common.tLeaveMobileData;
-import library.salesforce.common.tPODetail_mobileData;
 import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 import library.salesforce.dal.enumConfigData;
 import library.salesforce.dal.mconfigDA;
-import library.salesforce.dal.tAbsenUserDA;
 import library.salesforce.dal.tActivityDA;
-import library.salesforce.dal.tCustomerBaseDA;
-import library.salesforce.dal.tLeaveMobileDA;
-import library.salesforce.dal.tPODetail_mobileDA;
 import library.salesforce.dal.tUserLoginDA;
 
 public class tActivityBL extends clsMainBL{
@@ -78,7 +70,7 @@ public class tActivityBL extends clsMainBL{
 				_data.set_txtDesc((String) innerObj.get("TxtDesc"));
 				String txtLink="";
 				if(innerObj.get("TxtImg1")=="" || innerObj.get("TxtImg1")==null){
-					_data.set_txtImg1(new clsHardCode().txtPhotoNotAvailabe);	
+					//_data.set_txtImg1(new clsHardCode().txtPhotoNotAvailabe);
 				}else{
 					txtLink=(String) innerObj.get("TxtLinkImg1");
 					Bitmap _Bitmap= _help.downloadFile(txtLink);
@@ -94,14 +86,14 @@ public class tActivityBL extends clsMainBL{
 						       _Bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
 						       out.flush();
 						       out.close();
-						       _data.set_txtImg1(myDir+File.separator+fileName);
+						       //_data.set_txtImg1(myDir+File.separator+fileName);
 						} catch (Exception e) {
 						       e.printStackTrace();
 						}
 					}
 				}
 				if(innerObj.get("TxtImg2")=="" || innerObj.get("TxtImg2")==null){
-					_data.set_txtImg2(new clsHardCode().txtPhotoNotAvailabe);	
+					//_data.set_txtImg2(new clsHardCode().txtPhotoNotAvailabe);
 				}else{
 					txtLink=(String) innerObj.get("TxtLinkImg2");
 					Bitmap _Bitmap= _help.downloadFile(txtLink);
@@ -117,7 +109,7 @@ public class tActivityBL extends clsMainBL{
 						       _Bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
 						       out.flush();
 						       out.close();
-						       _data.set_txtImg2(myDir+File.separator+fileName);
+						      // _data.set_txtImg2(myDir+File.separator+fileName);
 						} catch (Exception e) {
 						       e.printStackTrace();
 						}

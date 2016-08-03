@@ -4,13 +4,14 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -43,7 +44,6 @@ import bl.clsMainBL;
 import bl.mCounterNumberBL;
 import bl.mEmployeeSalesProductBL;
 import bl.tAbsenUserBL;
-import bl.tSalesProductDetailBL;
 import bl.tSalesProductHeaderBL;
 import library.salesforce.common.ModelListview;
 import library.salesforce.common.clsHelper;
@@ -75,6 +75,9 @@ public class Reso extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //onBackPressed();
+
+        selectedId = 0;
         View v = inflater.inflate(R.layout.activity_reso,container,false);
         tv_noso = (TextView) v.findViewById(R.id.txtNoreso);
         tv_date = (TextView) v.findViewById(R.id.txtviewDate);
@@ -132,12 +135,23 @@ public class Reso extends Fragment implements View.OnClickListener {
         return v;
     }
 
+    public void onBackPressed()
+    {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        fm.popBackStack();
+    }
+
 
     public void viewResoFragment(){
-        Intent intent = new Intent(getContext(),MainMenu.class);
-        intent.putExtra("keyReso", "add_reso");
-        getActivity().finish();
-        startActivity(intent);
+        selectedId=1;
+        Toolbar toolbar;
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.setTitle("View Reso");
+        ViewResoFragment viewresofragment = new ViewResoFragment();
+        android.support.v4.app.FragmentTransaction fragmentTransactionviewreso = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransactionviewreso.replace(R.id.frame,viewresofragment);
+        fragmentTransactionviewreso.commit();
+        selectedId = 1;
         return;
     }
 
@@ -258,6 +272,9 @@ public class Reso extends Fragment implements View.OnClickListener {
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             saveReso();
+//                                            Intent myIntent = new Intent(getActivity(), MainMenu.class);
+//                                            myIntent.putExtra("keyReso", "add_reso");
+//                                            startActivity(myIntent);
                                             //dialog.dismiss();
                                             viewResoFragment();
                                         }
@@ -389,78 +406,78 @@ public class Reso extends Fragment implements View.OnClickListener {
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
     }
-    private void funcPreviewSO(Context context) {
-        int a = listView.getCount();
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        final View promptView = layoutInflater.inflate(R.layout.activity_preview_so, null);
-
-        final TextView _tvNoSO = (TextView) promptView.findViewById(R.id.tvnoSOtbl);
-        final  TextView _tvKet = (TextView) promptView.findViewById(R.id.tvkettbl);
-        final ListView _lvProduct = (ListView) promptView.findViewById(R.id.lvProduks);
-        _tvNoSO.setText(new mCounterNumberBL().getData(enumCounterData.NoDataSO));
-        _tvKet.setText(edketerangan.getText().toString());
-
-//        List<mEmployeeSalesProductData> employeeSalesProductDataList = new mEmployeeSalesProductBL().GetAllData();
-//        arrdata = new ArrayList<String>();
-//        if (employeeSalesProductDataList.size() > 0) {
-//            for (mEmployeeSalesProductData dt : employeeSalesProductDataList) {
-//                arrdata.add(dt.get_txtBrandDetailGramCode()+ "\n" + dt.get_txtProductBrandDetailGramName());
+//    private void funcPreviewSO(Context context) {
+//        int a = listView.getCount();
+//        LayoutInflater layoutInflater = LayoutInflater.from(context);
+//        final View promptView = layoutInflater.inflate(R.layout.activity_preview_so, null);
+//
+//        final TextView _tvNoSO = (TextView) promptView.findViewById(R.id.tvnoSOtbl);
+//        final  TextView _tvKet = (TextView) promptView.findViewById(R.id.tvkettbl);
+//        final ListView _lvProduct = (ListView) promptView.findViewById(R.id.lvProduks);
+//        _tvNoSO.setText(new mCounterNumberBL().getData(enumCounterData.NoDataSO));
+//        _tvKet.setText(edketerangan.getText().toString());
+//
+////        List<mEmployeeSalesProductData> employeeSalesProductDataList = new mEmployeeSalesProductBL().GetAllData();
+////        arrdata = new ArrayList<String>();
+////        if (employeeSalesProductDataList.size() > 0) {
+////            for (mEmployeeSalesProductData dt : employeeSalesProductDataList) {
+////                arrdata.add(dt.get_txtBrandDetailGramCode()+ "\n" + dt.get_txtProductBrandDetailGramName());
+////            }
+////            ArrayAdapter adapter = new ArrayAdapter<String>(getContext(), R.layout.activity_listview, arrdata);
+////            ListView listView = (ListView) promptView.findViewById(R.id.lvProduks);
+////            listView.setAdapter(adapter);
+////        }
+//
+////        final TextView _tvDesc = (TextView) promptView.findViewById(R.id.tvDesc);
+////        _tvDesc.setVisibility(View.INVISIBLE);
+////        _tvConfirm.setText("");
+////        List<mEmployeeBranchData> listDataBranch = new mEmployeeBranchBL().GetAllData();
+//        List<tSalesProductDetailData> _tSalesProductDetailData = new tSalesProductDetailBL().GetDataByNoSO(new mCounterNumberBL().getData(enumCounterData.NoDataSO));
+//        List<String> item = new ArrayList<>();
+//        arrprview = new ArrayList<ModelListview>();
+//
+////        for(int i = 0; i < a; i++){
+//            if(_tSalesProductDetailData.size()>0){
+//                for(tSalesProductDetailData dt : _tSalesProductDetailData){
+//                    //item.add(modelItems.get(i).get_name()+ modelItems.get(i).get_value());
+//                    ModelListview dtt = new ModelListview();
+//                    //dt.set_name(modelItems.get(i).get_name());
+//                    //dt.set_value(modelItems.get(i).get_value());
+//                    dtt.set_name(dt.get_txtNameProduct());
+//                    dtt.set_value(Integer.parseInt(dt.get_intQty()));
+//                    arrprview.add(dtt);
+//                }
+//
 //            }
-//            ArrayAdapter adapter = new ArrayAdapter<String>(getContext(), R.layout.activity_listview, arrdata);
-//            ListView listView = (ListView) promptView.findViewById(R.id.lvProduks);
-//            listView.setAdapter(adapter);
-//        }
-
-//        final TextView _tvDesc = (TextView) promptView.findViewById(R.id.tvDesc);
-//        _tvDesc.setVisibility(View.INVISIBLE);
-//        _tvConfirm.setText("");
-//        List<mEmployeeBranchData> listDataBranch = new mEmployeeBranchBL().GetAllData();
-        List<tSalesProductDetailData> _tSalesProductDetailData = new tSalesProductDetailBL().GetDataByNoSO(new mCounterNumberBL().getData(enumCounterData.NoDataSO));
-        List<String> item = new ArrayList<>();
-        arrprview = new ArrayList<ModelListview>();
-
-//        for(int i = 0; i < a; i++){
-            if(_tSalesProductDetailData.size()>0){
-                for(tSalesProductDetailData dt : _tSalesProductDetailData){
-                    //item.add(modelItems.get(i).get_name()+ modelItems.get(i).get_value());
-                    ModelListview dtt = new ModelListview();
-                    //dt.set_name(modelItems.get(i).get_name());
-                    //dt.set_value(modelItems.get(i).get_value());
-                    dtt.set_name(dt.get_txtNameProduct());
-                    dtt.set_value(Integer.parseInt(dt.get_intQty()));
-                    arrprview.add(dtt);
-                }
-
-            }
-//        }
-//        _lvProduct.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, item));
-//        setListViewHeightBasedOnItems(_lvProduct);
-        dataAdapter = new MyAdapter(getActivity().getApplicationContext(), arrprview);
-        listView = (ListView) promptView.findViewById(R.id.lvProduks);
-        listView.setAdapter(dataAdapter);
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setView(promptView);
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("Save",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                ViewResoFragment viewresofragment = new ViewResoFragment();
-                                android.support.v4.app.FragmentTransaction fragmentTransactionviewreso = getActivity().getSupportFragmentManager().beginTransaction();
-                                fragmentTransactionviewreso.replace(R.id.frame,viewresofragment);
-                                fragmentTransactionviewreso.commit();
-                            }
-                        })
-                .setNegativeButton("Close",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-        final AlertDialog alertD = alertDialogBuilder.create();
-        alertD.show();
-    }
+////        }
+////        _lvProduct.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, item));
+////        setListViewHeightBasedOnItems(_lvProduct);
+//        dataAdapter = new MyAdapter(getActivity().getApplicationContext(), arrprview);
+//        listView = (ListView) promptView.findViewById(R.id.lvProduks);
+//        listView.setAdapter(dataAdapter);
+//
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+//        alertDialogBuilder.setView(promptView);
+//        alertDialogBuilder
+//                .setCancelable(false)
+//                .setPositiveButton("Save",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                ViewResoFragment viewresofragment = new ViewResoFragment();
+//                                android.support.v4.app.FragmentTransaction fragmentTransactionviewreso = getActivity().getSupportFragmentManager().beginTransaction();
+//                                fragmentTransactionviewreso.replace(R.id.frame,viewresofragment);
+//                                fragmentTransactionviewreso.commit();
+//                            }
+//                        })
+//                .setNegativeButton("Close",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                dialog.cancel();
+//                            }
+//                        });
+//        final AlertDialog alertD = alertDialogBuilder.create();
+//        alertD.show();
+//    }
     public class MyAdapter extends BaseAdapter implements Filterable {
 
         private ArrayList<ModelListview> mOriginalValues; // Original Values
@@ -698,5 +715,6 @@ public class Reso extends Fragment implements View.OnClickListener {
         }
         super.onPrepareOptionsMenu(menu);
     }
+
 }
 

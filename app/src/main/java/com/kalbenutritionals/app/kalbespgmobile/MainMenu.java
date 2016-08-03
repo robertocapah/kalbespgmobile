@@ -92,6 +92,10 @@ public class MainMenu extends AppCompatActivity {
         tvEmail.setText(dt.get_TxtEmail());
 
         Intent intent = getIntent();
+        String i_main_menu = intent.getStringExtra("keyMainMenu");
+        String i_reso = intent.getStringExtra("keyReso");
+        String i_activity = intent.getStringExtra("keyActivity");
+        String i_cb = intent.getStringExtra("keyCB");
         tAbsenUserData dtAbsens = new tAbsenUserBL().getDataCheckInActive();
         Menu header = navigationView.getMenu();
 
@@ -126,10 +130,52 @@ public class MainMenu extends AppCompatActivity {
             MenuItem menuCheckout = header.findItem(R.id.checkout);
             menuCheckout.setVisible(false);
         }
-        else{
+//        else if (i_reso=="add_reso"){
+//            toolbar.setTitle("View Reso");
+//            ViewResoFragment viewresofragment = new ViewResoFragment();
+//            android.support.v4.app.FragmentTransaction fragmentTransactionviewreso = getSupportFragmentManager().beginTransaction();
+//            fragmentTransactionviewreso.replace(R.id.frame,viewresofragment);
+//            fragmentTransactionviewreso.commit();
+//            selectedId=1;
+//        }
+        else {
+
+//            if(intent.getStringExtra("keyCB")==null&&intent.getStringExtra("keyActivity")==null&&intent.getStringExtra("keyReso")==null&&intent.getStringExtra("keyMainMenu").equals("main_menu")){
+//                HomeFragment homeFragment = new HomeFragment();
+//                android.support.v4.app.FragmentTransaction fragmentTransactionhome = getSupportFragmentManager().beginTransaction();
+//                fragmentTransactionhome.replace(R.id.frame,homeFragment);
+//                fragmentTransactionhome.commit();
             header.setGroupVisible(R.id.groupListMenu, false);
             header.setGroupVisible(R.id.groupListMenu1, true);
-        }
+
+            }
+//        else if (i_main_menu=="main_menu"){
+//            header.setGroupVisible(R.id.groupListMenu, false);
+//            header.setGroupVisible(R.id.groupListMenu1, true);
+//
+//        }
+
+//        else if (i_reso==null&&i_cb==null&&i_activity=="add_activity"&&i_main_menu==null&&dtAbsen !=null){
+//                toolbar.setTitle("View Activity");
+//                ViewActivityFragment fragmentViewActivity = new ViewActivityFragment();
+//                android.support.v4.app.FragmentTransaction fragmentTransactionViewActivity = getSupportFragmentManager().beginTransaction();
+//                fragmentTransactionViewActivity.replace(R.id.frame,fragmentViewActivity);
+//                fragmentTransactionViewActivity.commit();
+//                selectedId=2;
+//            header.setGroupVisible(R.id.groupListMenu, false);
+//            header.setGroupVisible(R.id.groupListMenu1, true);
+
+//            } else if (i_reso==null&&i_cb=="add_cb"&&i_activity==null&&i_main_menu==null&&dtAbsen !=null) {
+//                 toolbar.setTitle("View CustomerBase");
+//                 ViewCustomerBaseFragment fragment3 = new ViewCustomerBaseFragment();
+//                 android.support.v4.app.FragmentTransaction fragmentTransaction3 = getSupportFragmentManager().beginTransaction();
+//                 fragmentTransaction3.replace(R.id.frame, fragment3);
+//                 fragmentTransaction3.commit();
+//                 selectedId = 3;
+//            header.setGroupVisible(R.id.groupListMenu, false);
+//            header.setGroupVisible(R.id.groupListMenu1, true);
+//             }
+
 
 //        header.add(Menu.NONE, 0, 0, "Reso");
 //        header.add(Menu.NONE, 1, 1, "Activity");
@@ -256,7 +302,6 @@ public class MainMenu extends AppCompatActivity {
                         fragmentTransactionviewreso.replace(R.id.frame,viewresofragment);
                         fragmentTransactionviewreso.commit();
                         selectedId=1;
-
                         return true;
 
                     case R.id.view_activity:
@@ -464,6 +509,7 @@ public class MainMenu extends AppCompatActivity {
         menu.clear();
 
         if(selectedId == 1) {
+            int a = 1;
 
             menu.add(0, 1, 0, "Add Reso");
 
@@ -730,4 +776,12 @@ public class MyTask extends AsyncTask<String, String, String> {
         selectedId=4;
     }
 }
+    public void viewResoFragment(){
+        ViewResoFragment viewresofragment = new ViewResoFragment();
+        android.support.v4.app.FragmentTransaction fragmentTransactionviewreso = getSupportFragmentManager().beginTransaction();
+        fragmentTransactionviewreso.replace(R.id.frame,viewresofragment);
+        fragmentTransactionviewreso.commit();
+        selectedId=1;
+        return;
+    }
 }

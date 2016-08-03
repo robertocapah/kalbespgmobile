@@ -517,9 +517,9 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
 
                 myClass= "com.kalbenutritionals.app.kalbespgmobile.Home";
                 MenuID = "mnCheckinKBN";
-                nameBranch = spnBranch.getSelectedItem().toString();
+                //nameBranch = spnBranch.getSelectedItem().toString();
                 nameOutlet = spnOutlet.getSelectedItem().toString();
-                branchCode = HMbranch.get(nameBranch);
+                //branchCode = HMbranch.get(nameBranch);
                 outletCode = HMoutlet.get(nameOutlet);
                 LayoutInflater layoutInflater = LayoutInflater.from(getContext());
                 final View promptView = layoutInflater.inflate(R.layout.confirm_data, null);
@@ -541,7 +541,9 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                                             pRes=false;
                                         }else{
                                             if((dttAbsenUserData.get_txtImg1().equals("")|| dttAbsenUserData.get_txtImg1().equals("null"))
-                                                    && (dttAbsenUserData.get_txtImg2().equals("")|| dttAbsenUserData.get_txtImg2().equals("null"))){
+                                                    && (dttAbsenUserData.get_txtImg2().equals("")|| dttAbsenUserData.get_txtImg2().equals("null"))
+                                                    && (spnBranch.getSelectedItem().toString().equals("")||spnBranch.getSelectedItem().toString().equals("null"))
+                                                    && (HMbranch.get(nameBranch).equals("")|| HMbranch.get(nameBranch).equals("null"))){
                                                 pRes=false;
                                             }
                                         }
@@ -566,8 +568,8 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                                             datatAbsenUserData.set_intSubmit("1");
                                             datatAbsenUserData.set_intSync("0");
                                             datatAbsenUserData.set_txtAbsen("0");//
-                                            datatAbsenUserData.set_txtBranchCode(branchCode);
-                                            datatAbsenUserData.set_txtBranchName(nameBranch);
+                                            datatAbsenUserData.set_txtBranchCode(spnBranch.getSelectedItem().toString());
+                                            datatAbsenUserData.set_txtBranchName(HMbranch.get(nameBranch));
                                             datatAbsenUserData.set_txtAccuracy(lblAcc.getText().toString());
                                             datatAbsenUserData.set_txtLatitude(lblLang.getText().toString());
                                             datatAbsenUserData.set_txtLongitude(lblLong.getText().toString());
@@ -593,6 +595,7 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                                                 myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
                                                 myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
                                                 myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);
+                                                myIntent.putExtra("keyMainMenu", "main_menu");
                                                 getActivity().finish();
                                                 startActivity(myIntent);
                                             } catch (ClassNotFoundException e) {
@@ -600,7 +603,7 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                                                 e.printStackTrace();
                                             }
                                         }else{
-//                                            showToast(getApplicationContext(), "Please Photo at least 1 photo..");
+                                            Toast.makeText(getContext(), "Please Photo at least 1 photo..", Toast.LENGTH_SHORT);
                                         }
                                     }
                                 })

@@ -104,7 +104,7 @@ public class ProgressBarActivity extends AppCompatActivity {
                     } else if (_clsStatusMenuStart.get_intStatus() == enumStatusMenuStart.UserActiveLogin) {
 //                        myIntent = new Intent(ProgressBarActivity.this, Home.class);
                         myIntent = new Intent(ProgressBarActivity.this, MainMenu.class);
-//                        myIntent.putExtra("keyMainMenu", "main_menu");
+                        myIntent.putExtra("keyMainMenu", "main_menu");
                         startService(new Intent(getApplicationContext(), MyServiceNative.class));
                     }
                 } catch (ParseException e) {

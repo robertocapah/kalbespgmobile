@@ -1,10 +1,6 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -12,31 +8,20 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageButton;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -46,19 +31,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import bl.clsMainBL;
-import bl.mEmployeeSalesProductBL;
 import bl.tAbsenUserBL;
 import bl.tActivityBL;
-import bl.tCustomerBaseBL;
-import library.salesforce.common.ModelListview;
-import library.salesforce.common.mEmployeeSalesProductData;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
-import library.salesforce.common.tCustomerBaseData;
-import library.salesforce.common.tCustomerBaseDetailData;
 import library.salesforce.dal.clsHardCode;
-import library.salesforce.dal.tCustomerBaseDetailDA;
 
 /**
  * Created by Admin on 04-06-2015.
@@ -77,8 +54,12 @@ public class AddActivityFragment extends Fragment implements View.OnClickListene
     private int countActivity;
 
     private tActivityData dtActivityData;
+    private tActivityBL _tActivityBL;
 
     private static Bitmap photo1, photo2;
+    private static ByteArrayOutputStream output = new ByteArrayOutputStream();
+    private static byte[] pht1;
+    private static byte[] pht2;
 
     @Nullable
     @Override
@@ -99,17 +80,22 @@ public class AddActivityFragment extends Fragment implements View.OnClickListene
         countActivity = new tActivityBL().getCountActivity();
         dtActivityData = new tActivityBL().getDataByBitActive();
 
+        _tActivityBL = new tActivityBL();
+
+        pht1=null;
+        pht2=null;
+
 
         if(dtActivityData.get_intId() != null){
-            File imgFile = new  File(dtActivityData.get_txtImg1());
-            if(imgFile.exists()){
-                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            byte[] imgFile = dtActivityData.get_txtImg1();
+            if(imgFile!=null){
+                Bitmap myBitmap = BitmapFactory.decodeByteArray(imgFile, 0 , imgFile.length);
                 imgActivity1.setImageBitmap(myBitmap);
             }
 
-            File imgFile2 = new  File(dtActivityData.get_txtImg2());
-            if(imgFile2.exists()){
-                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile2.getAbsolutePath());
+            byte[] imgFile2 = dtActivityData.get_txtImg2();
+            if(imgFile2!=null){
+                Bitmap myBitmap = BitmapFactory.decodeByteArray(imgFile2, 0 , imgFile2.length);;
                 imgActivity2.setImageBitmap(myBitmap);
             }
         }
@@ -129,30 +115,66 @@ public class AddActivityFragment extends Fragment implements View.OnClickListene
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.imageButton:
-                Intent intentCamera1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intentCamera1, CAMERA_CAPTURE_IMAGE1_REQUEST_CODE);
+//                Intent intentCamera1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(intentCamera1, CAMERA_CAPTURE_IMAGE1_REQUEST_CODE);
+//                tActivityData dt = null;
+//
+//                if(dtActivityData.get_intId() == null){
+//
+//                    dt = new tActivityData();
+//                    dt.set_intId("'" + String.valueOf(new clsMainActivity().GenerateGuid()) + "'");
+//                    dt.set_intActive("1");
+//                    dt.set_intIdSyn("0");
+//                    dt.set_intSubmit("0");
+//                    dt.set_txtDesc("");
+//
+//                    tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
+//                    dt.set_txtOutletCode(dtAbsen.get_txtOutletCode());
+//                    dt.set_txtOutletName(dtAbsen.get_txtOutletName());
+//                    dt.set_txtUserId(dtAbsen.get_txtUserId());
+//                    dt.set_intFlag("0");
+//                    dt.set_txtBranch(dtAbsen.get_txtBranchCode());
+//                    dt.set_txtDeviceId(dtAbsen.get_txtDeviceId());
+//
+//                    List<tActivityData> dtListActivityData = new ArrayList<>();
+//                    dtListActivityData.add(dt);
+//                    new tActivityBL().saveData(dtListActivityData);
+//
+//                    dtActivityData = dt;
+//                }
+                captureImage1();
 
                 break;
             case R.id.imageButton2:
-                Intent intentCamera2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intentCamera2, CAMERA_CAPTURE_IMAGE2_REQUEST_CODE);
+//                Intent intentCamera2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(intentCamera2, CAMERA_CAPTURE_IMAGE2_REQUEST_CODE);
+                captureImage2();
 
                 break;
             case R.id.btnSave:
                 int selectedId = rdFlag.getCheckedRadioButtonId();
                 RadioButton radioFlag = (RadioButton) v.findViewById(selectedId);
+                tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
 
-                dtActivityData = new tActivityBL().getDataByBitActive();
+                //dtActivityData = new tActivityBL().getDataByBitActive();
 
                 if(dtActivityData.get_txtImg1() == null && dtActivityData.get_txtImg2() == null){
                     Toast.makeText(this.getContext(), "Failed to save: Please take at least 1 photo", Toast.LENGTH_LONG).show();
                 }
                 else{
                     dtActivityData.set_intActive("0");
+                    dtActivityData.set_intIdSyn("");
                     dtActivityData.set_txtDesc(String.valueOf(etDescription.getText()));
                     dtActivityData.set_intFlag(String.valueOf(radioFlag.getText()));
-                    dtActivityData.set_intId("'" + dtActivityData.get_intId() + "'");
+                    dtActivityData.set_intId(String.valueOf(new clsMainActivity().GenerateGuid()));
                     dtActivityData.set_intSubmit("1");
+                    dtActivityData.set_txtOutletCode(dtAbsen.get_txtOutletCode());
+                    dtActivityData.set_txtOutletName(dtAbsen.get_txtOutletName());
+                    dtActivityData.set_txtDeviceId(dtAbsen.get_txtDeviceId());
+                    dtActivityData.set_txtBranch(dtAbsen.get_txtBranchCode());
+                    dtActivityData.set_txtUserId(dtAbsen.get_txtUserId());
+                    dtActivityData.set_txtImg1(pht1);
+                    dtActivityData.set_txtImg2(pht2);
 
                     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                     Calendar cal = Calendar.getInstance();
@@ -165,6 +187,7 @@ public class AddActivityFragment extends Fragment implements View.OnClickListene
                     new tActivityBL().saveData(dtList);
 
                     Toast.makeText(getActivity().getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+                    viewActivityFragment();
                 }
         }
     }
@@ -175,33 +198,33 @@ public class AddActivityFragment extends Fragment implements View.OnClickListene
             if (resultCode == -1 && (data.getExtras().get("data") != null || data.getData() != null))
                 if (data.getExtras().get("data") != null) {
                     photo1 = (Bitmap) data.getExtras().get("data");
-                    imgActivity1.setImageBitmap(photo1);
+//                    imgActivity1.setImageBitmap(photo1);
 
-                    tActivityData dt = null;
-
-                    if(dtActivityData.get_intId() == null){
-
-                        dt = new tActivityData();
-                        dt.set_intId("'" + String.valueOf(new clsMainActivity().GenerateGuid()) + "'");
-                        dt.set_intActive("1");
-                        dt.set_intIdSyn("0");
-                        dt.set_intSubmit("0");
-                        dt.set_txtDesc("");
-
-                        tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
-                        dt.set_txtOutletCode(dtAbsen.get_txtOutletCode());
-                        dt.set_txtOutletName(dtAbsen.get_txtOutletName());
-                        dt.set_txtUserId(dtAbsen.get_txtUserId());
-                        dt.set_intFlag("0");
-                        dt.set_txtBranch(dtAbsen.get_txtBranchCode());
-                        dt.set_txtDeviceId(dtAbsen.get_txtDeviceId());
-
-                        List<tActivityData> dtListActivityData = new ArrayList<>();
-                        dtListActivityData.add(dt);
-                        new tActivityBL().saveData(dtListActivityData);
-
-                        dtActivityData = dt;
-                    }
+//                    tActivityData dt = null;
+//
+//                    if(dtActivityData.get_intId() == null){
+//
+//                        dt = new tActivityData();
+//                        dt.set_intId("'" + String.valueOf(new clsMainActivity().GenerateGuid()) + "'");
+//                        dt.set_intActive("1");
+//                        dt.set_intIdSyn("0");
+//                        dt.set_intSubmit("0");
+//                        dt.set_txtDesc("");
+//
+//                        tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
+//                        dt.set_txtOutletCode(dtAbsen.get_txtOutletCode());
+//                        dt.set_txtOutletName(dtAbsen.get_txtOutletName());
+//                        dt.set_txtUserId(dtAbsen.get_txtUserId());
+//                        dt.set_intFlag("0");
+//                        dt.set_txtBranch(dtAbsen.get_txtBranchCode());
+//                        dt.set_txtDeviceId(dtAbsen.get_txtDeviceId());
+//
+//                        List<tActivityData> dtListActivityData = new ArrayList<>();
+//                        dtListActivityData.add(dt);
+//                        new tActivityBL().saveData(dtListActivityData);
+//
+//                        dtActivityData = dt;
+//                    }
 
                     previewCapturedImage1(photo1);
                 } else {
@@ -220,37 +243,37 @@ public class AddActivityFragment extends Fragment implements View.OnClickListene
             if (resultCode == -1 && (data.getExtras().get("data") != null || data.getData() != null))
                 if (data.getExtras().get("data") != null) {
                     photo2 = (Bitmap) data.getExtras().get("data");
-                    imgActivity2.setImageBitmap(photo2);
-
-                    tActivityData dt = null;
-
-                    if(dtActivityData.get_intId() == null){
-                        dt = new tActivityData();
-                        dt.set_intId("'" + String.valueOf(new clsMainActivity().GenerateGuid()) + "'");
-                        dt.set_intActive("1");
-                        dt.set_intIdSyn("0");
-                        dt.set_intSubmit("0");
-                        dt.set_txtDesc("");
-
-                        tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
-                        dt.set_txtOutletCode(dtAbsen.get_txtOutletCode());
-                        dt.set_txtOutletName(dtAbsen.get_txtOutletName());
-                        dt.set_txtUserId(dtAbsen.get_txtUserId());
-                        dt.set_intFlag("0");
-                        dt.set_txtBranch(dtAbsen.get_txtBranchCode());
-                        dt.set_txtDeviceId(dtAbsen.get_txtDeviceId());
-
-                        List<tActivityData> dtListActivityData = new ArrayList<>();
-                        dtListActivityData.add(dt);
-                        new tActivityBL().saveData(dtListActivityData);
-
-                        dtActivityData = dt;
-                    }
+//                    imgActivity2.setImageBitmap(photo2);
+//
+//                    tActivityData dt = null;
+//
+//                    if(dtActivityData.get_intId() == null){
+//                        dt = new tActivityData();
+//                        dt.set_intId("'" + String.valueOf(new clsMainActivity().GenerateGuid()) + "'");
+//                        dt.set_intActive("1");
+//                        dt.set_intIdSyn("0");
+//                        dt.set_intSubmit("0");
+//                        dt.set_txtDesc("");
+//
+//                        tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
+//                        dt.set_txtOutletCode(dtAbsen.get_txtOutletCode());
+//                        dt.set_txtOutletName(dtAbsen.get_txtOutletName());
+//                        dt.set_txtUserId(dtAbsen.get_txtUserId());
+//                        dt.set_intFlag("0");
+//                        dt.set_txtBranch(dtAbsen.get_txtBranchCode());
+//                        dt.set_txtDeviceId(dtAbsen.get_txtDeviceId());
+//
+//                        List<tActivityData> dtListActivityData = new ArrayList<>();
+//                        dtListActivityData.add(dt);
+//                        new tActivityBL().saveData(dtListActivityData);
+//
+//                        dtActivityData = dt;
+//                    }
 
                     previewCapturedImage2(photo2);
                 } else {
                     try {
-                        photo1 = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), data.getData());
+                        photo2 = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), data.getData());
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -268,35 +291,53 @@ public class AddActivityFragment extends Fragment implements View.OnClickListene
     private void previewCapturedImage1(Bitmap photo) {
         try {
             uriImage = getOutputMediaFileUri();
-            FileOutputStream out = null;
+            //ByteArrayOutputStream out = null;
             try {
-                out = new FileOutputStream(uriImage.getPath().toString());
-                photo.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
+                output = new ByteArrayOutputStream();
+                photo.compress(Bitmap.CompressFormat.PNG, 100, output); // bmp is your Bitmap instance
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 try {
-                    if (out != null) {
-                        out.close();
+                    if (output != null) {
+                        output.close();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
             Bitmap bitmap1 = Bitmap.createScaledBitmap(photo, 150, 150, false);
+            pht1 = output.toByteArray();
             imgActivity1.setImageBitmap(bitmap1);
             String uriForSave = String.valueOf(uriImage.getPath().toString());
 
             dtActivityData = new tActivityBL().getDataByBitActive();
 
-            if(dtActivityData != null) {
-                dtActivityData.set_txtImg1(uriForSave);
-                dtActivityData.set_intId("'" + dtActivityData.get_intId() + "'");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Calendar cal = Calendar.getInstance();
 
+//            if(dtActivityData != null) {
+//                dtActivityData.set_txtImg1(pht);
+//                dtActivityData.set_intId("'" + dtActivityData.get_intId() + "'");
+//
+//                List<tActivityData> dtListActivity = new ArrayList<>();
+//                dtListActivity.add(dtActivityData);
+//                new tActivityBL().saveData(dtListActivity);
+//            }
+            if (dtActivityData != null) {
+                dtActivityData.set_txtImg1(pht1);
+                dtActivityData.set_txtImg2(pht2);
+            } else {
+                dtActivityData.set_txtImg1(pht1);
+                dtActivityData.set_txtImg2(pht2);
+            }
+//            dtActivityData.set_dtActivity(dateFormat.format(cal.getTime()));
+//            dtActivityData.set_intIdSyn("0");
+//            dttAbsenUserData.set_txtAbsen("0");//
                 List<tActivityData> dtListActivity = new ArrayList<>();
                 dtListActivity.add(dtActivityData);
-                new tActivityBL().saveData(dtListActivity);
-            }
+                //new tActivityBL().saveData(dtListActivity);
+                photo1 = null;
 
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -306,35 +347,47 @@ public class AddActivityFragment extends Fragment implements View.OnClickListene
     private void previewCapturedImage2(Bitmap photo) {
         try {
             uriImage = getOutputMediaFileUri();
-            FileOutputStream out = null;
+            //ByteArrayOutputStream out = null;
             try {
-                out = new FileOutputStream(uriImage.getPath().toString());
-                photo.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
+                output = new ByteArrayOutputStream();
+                photo.compress(Bitmap.CompressFormat.PNG, 100, output); // bmp is your Bitmap instance
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 try {
-                    if (out != null) {
-                        out.close();
+                    if (output != null) {
+                        output.close();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
             Bitmap bitmap2 = Bitmap.createScaledBitmap(photo, 150, 150, false);
+            pht2 = output.toByteArray();
             imgActivity2.setImageBitmap(bitmap2);
             String uriForSave = String.valueOf(uriImage.getPath().toString());
 
             dtActivityData = new tActivityBL().getDataByBitActive();
 
-            if(dtActivityData != null) {
-                dtActivityData.set_txtImg2(uriForSave);
-                dtActivityData.set_intId("'" + dtActivityData.get_intId() + "'");
-
-                List<tActivityData> dtListActivity = new ArrayList<>();
-                dtListActivity.add(dtActivityData);
-                new tActivityBL().saveData(dtListActivity);
+//            if(dtActivityData != null) {
+//                dtActivityData.set_txtImg2(pht);
+//                dtActivityData.set_intId("'" + dtActivityData.get_intId() + "'");
+//
+//                List<tActivityData> dtListActivity = new ArrayList<>();
+//                dtListActivity.add(dtActivityData);
+//                new tActivityBL().saveData(dtListActivity);
+//            }
+            if (dtActivityData != null) {
+                dtActivityData.set_txtImg1(pht1);
+                dtActivityData.set_txtImg2(pht2);
+            } else {
+                dtActivityData.set_txtImg1(pht1);
+                dtActivityData.set_txtImg2(pht2);
             }
+            List<tActivityData> dtListActivity = new ArrayList<>();
+            dtListActivity.add(dtActivityData);
+            //new tActivityBL().saveData(dtListActivity);
+            photo2 = null;
 
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -361,5 +414,21 @@ public class AddActivityFragment extends Fragment implements View.OnClickListene
         File mediaFile;
         mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG" + "_" + timeStamp + ".jpg");
         return mediaFile;
+    }
+    public void viewActivityFragment(){
+        Intent intent = new Intent(getContext(),MainMenu.class);
+        intent.putExtra("keyActivity", "add_activity");
+        getActivity().finish();
+        startActivity(intent);
+        return;
+    }
+    protected void captureImage1() {
+        Intent intentCamera1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intentCamera1, CAMERA_CAPTURE_IMAGE1_REQUEST_CODE);
+    }
+
+    protected void captureImage2() {
+        Intent intentCamera2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intentCamera2, CAMERA_CAPTURE_IMAGE2_REQUEST_CODE);
     }
 }

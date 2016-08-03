@@ -354,7 +354,7 @@ public class clsMainBL {
 				Json.setIntResult("1");
 				Json.setListOftActivityData(tmpListDatatActivityData);
 				//
-				String Html= new clsHelper().PushDataWithFile(strLinkAPI,Json.txtJSON().toString(),Integer.valueOf(TimeOut),dataActivity.get_txtImg1(),dataActivity.get_txtImg2());
+				String Html= new clsHelper().PushDataWithFile(strLinkAPI,Json.txtJSON().toString(),Integer.valueOf(TimeOut),String.valueOf(dataActivity.get_txtImg1()),String.valueOf(dataActivity.get_txtImg2()));
 				org.json.simple.JSONArray JsonArray= _help.ResultJsonArray(Html);
 				Iterator i = JsonArray.iterator();
 				while (i.hasNext()) {

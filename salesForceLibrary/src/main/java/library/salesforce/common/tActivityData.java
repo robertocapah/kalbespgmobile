@@ -48,7 +48,7 @@ public class tActivityData {
 		// TODO Auto-generated constructor stub
 	}
 	public tActivityData(String _intId, String _intIdSyn, String _txtDesc,
-			String _txtImg1, String _txtImg2, String _txtOutletCode,
+						 byte[] _txtImg1, byte[] _txtImg2, String _txtOutletCode,
 			String _txtOutletName, String _intActive, String _dtActivity) {
 		this._intId = _intId;
 		this._intIdSyn = _intIdSyn;
@@ -66,16 +66,16 @@ public class tActivityData {
 	public synchronized void set_txtDesc(String _txtDesc) {
 		this._txtDesc = _txtDesc;
 	}
-	public synchronized String get_txtImg1() {
+	public synchronized byte[] get_txtImg1() {
 		return _txtImg1;
 	}
-	public synchronized void set_txtImg1(String _txtImg1) {
+	public synchronized void set_txtImg1(byte[] _txtImg1) {
 		this._txtImg1 = _txtImg1;
 	}
-	public synchronized String get_txtImg2() {
+	public synchronized byte[] get_txtImg2() {
 		return _txtImg2;
 	}
-	public synchronized void set_txtImg2(String _txtImg2) {
+	public synchronized void set_txtImg2(byte[] _txtImg2) {
 		this._txtImg2 = _txtImg2;
 	}
 	public synchronized String get_txtOutletCode() {
@@ -105,8 +105,8 @@ public class tActivityData {
 	private String _intId;
 	private String _intIdSyn;
 	private String _txtDesc;
-	private String _txtImg1;
-	private String _txtImg2;
+	private byte[] _txtImg1;
+	private byte[] _txtImg2;
 	private String _txtOutletCode;
 	private String _txtOutletName;
 	private String _intActive;

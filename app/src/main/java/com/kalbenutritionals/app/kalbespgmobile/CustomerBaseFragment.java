@@ -3,6 +3,7 @@ package com.kalbenutritionals.app.kalbespgmobile;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -160,6 +161,7 @@ public class CustomerBaseFragment extends Fragment implements View.OnClickListen
                         .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 saveCustomerBase();
+                                viewCBFragment();
                             }
                         })
                         .setNegativeButton("Close", new DialogInterface.OnClickListener() {
@@ -414,5 +416,12 @@ public class CustomerBaseFragment extends Fragment implements View.OnClickListen
             };
             return filter;
         }
+    }
+    public void viewCBFragment(){
+        Intent intent = new Intent(getContext(),MainMenu.class);
+        intent.putExtra("keyCB", "add_cb");
+        getActivity().finish();
+        startActivity(intent);
+        return;
     }
 }
