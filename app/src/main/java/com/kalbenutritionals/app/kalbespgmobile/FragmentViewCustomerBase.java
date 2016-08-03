@@ -8,15 +8,11 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +32,7 @@ import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tCustomerBaseData;
 import library.salesforce.common.tCustomerBaseDetailData;
 
-public class ViewCustomerBaseFragment extends Fragment implements IXListViewListener {
+public class FragmentViewCustomerBase extends Fragment implements IXListViewListener {
 
     private static List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
     private AppAdapter mAdapter;
@@ -45,13 +41,13 @@ public class ViewCustomerBaseFragment extends Fragment implements IXListViewList
     private static Map<String, HashMap> mapMenu;
 
     static List<tCustomerBaseData> dt;
-    static ViewCustomerBaseFragment instance;
+    static FragmentViewCustomerBase instance;
 
     View v;
 
-    public static ViewCustomerBaseFragment getInstance() {
+    public static FragmentViewCustomerBase getInstance() {
         if(instance == null){
-            instance = new ViewCustomerBaseFragment ();
+            instance = new FragmentViewCustomerBase();
         }
         return instance;
     }

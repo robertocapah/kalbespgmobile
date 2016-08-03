@@ -61,6 +61,7 @@ public class mMenuData {
 		this._intVisible = _intVisible;
 		this._IntMenuID=_IntMenuID;
 	}
+
 	public mMenuData() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -72,6 +73,7 @@ public class mMenuData {
 	private String _TxtMenuName;
 	private String _intVisible;
 	private String _IntMenuID;
+	private String _TxtIcon;
 	
 	public String Property_intVisible="intVisible";
 	public String Property_intId="intId";
@@ -82,6 +84,8 @@ public class mMenuData {
 	public String Property_TxtLink="TxtLink";
 	public String Property_TxtMenuName="TxtMenuName";
 	public String Property_ListOfMMenuData="ListOfMMenuData";
+	public String Property_TxtIcon="TxtIcon";
+
 	public String Property_All=Property_intId +","+
 			Property_IntOrder +","+
 			Property_IntParentID +","+
@@ -89,6 +93,15 @@ public class mMenuData {
 			Property_TxtLink +","+
 			Property_TxtMenuName +","+
 			Property_intVisible +","+
+			Property_TxtIcon + "," +
 			Property_API_IntMenuID
 			;
+
+	public String get_TxtIcon() {
+		return _TxtIcon;
+	}
+
+	public void set_TxtIcon(String _TxtIcon) {
+		this._TxtIcon = _TxtIcon;
+	}
 }

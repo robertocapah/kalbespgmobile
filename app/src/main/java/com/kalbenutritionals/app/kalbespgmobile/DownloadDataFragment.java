@@ -7,12 +7,15 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -32,6 +35,7 @@ import bl.mEmployeeAreaBL;
 import bl.mEmployeeBranchBL;
 import bl.mEmployeeSalesProductBL;
 import bl.mItemSalesPack_stockBL;
+import bl.mMenuBL;
 import bl.mPriceInOutletBL;
 import bl.mProductBarcodeBL;
 import bl.mProductBrandHeaderBL;
@@ -53,6 +57,7 @@ import library.salesforce.common.mEmployeeAreaData;
 import library.salesforce.common.mEmployeeBranchData;
 import library.salesforce.common.mEmployeeSalesProductData;
 import library.salesforce.common.mItemSalesPack_StockData;
+import library.salesforce.common.mMenuData;
 import library.salesforce.common.mPriceInOutletData;
 import library.salesforce.common.mProductBarcodeData;
 import library.salesforce.common.mProductBrandHeaderData;
@@ -375,12 +380,11 @@ public class DownloadDataFragment extends Fragment {
             }else{
                 loadData();
             }
-            Toast toast = Toast.makeText(getContext(), txtMess,
-                    Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(getContext(), txtMess, Toast.LENGTH_LONG);
             toast.setGravity(Gravity.TOP, 25, 400);
             toast.show();
             Dialog.dismiss();
-            _clsMainActivity.finish();
+            getActivity().finish();
             Intent nextScreen = new Intent(getContext(), MainMenu.class);
             nextScreen.putExtra(clsParameterPutExtra.MenuID, MenuID);
             startActivity(nextScreen);

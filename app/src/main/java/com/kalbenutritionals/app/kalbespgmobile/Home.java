@@ -139,126 +139,126 @@ public class Home extends clsMainActivity {
 
 		mMenuData datMenu = new mMenuData();
 
-		final LinearLayout lm = (LinearLayout) findViewById(R.id.linearMain);
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		params.gravity = Gravity.CENTER_VERTICAL;
-		params.setMargins(20, 100, 20, 100);
-		lm.setLayoutParams(params);
+//		final LinearLayout lm = (LinearLayout) findViewById(R.id.linearMain);
+//		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+//		params.gravity = Gravity.CENTER_VERTICAL;
+//		params.setMargins(20, 100, 20, 100);
+//		lm.setLayoutParams(params);
+//
+//		LinearLayout ll;
+//		Button btn;
+//		LinearLayout.LayoutParams paramsButton = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+//		paramsButton.weight = 1.0f;
+//		paramsButton.setMargins(10, 10, 10, 10);
+//		paramsButton.gravity = Gravity.CENTER_HORIZONTAL;
+//
+//
+//		int imgResource;
 
-		LinearLayout ll;
-		Button btn;
-		LinearLayout.LayoutParams paramsButton = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-		paramsButton.weight = 1.0f;
-		paramsButton.setMargins(10, 10, 10, 10);
-		paramsButton.gravity = Gravity.CENTER_HORIZONTAL;
-
-
-		int imgResource;
-
-		for (int j = 0; j < countMenu; j++) {
-			if (jumLinearLayout == 0) {
-				ll = new LinearLayout(this);
-				ll.setOrientation(LinearLayout.VERTICAL);
-				LinearLayout.LayoutParams paramsDynamic = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-				paramsDynamic.gravity = Gravity.CENTER_VERTICAL;
-				paramsDynamic.setMargins(50, 20, 50, 20);
-				ll.setLayoutParams(paramsDynamic);
-				//ll.setPadding(0, 0, 0, 100);
-				jumLinearLayout += 1;
-
-				if (positionRow == 0) {
-					for (int k = 0; k < 8; k++) {
-						if (positionRow < listMenu.size()) {
-							datMenu = listMenu.get(positionRow);
-							final String strLink = datMenu.get_TxtLink();
-							final String strDesc = datMenu.get_TxtDescription();
-
-							// Create Button
-							btn = new Button(this, null, R.style.HomeButton);
-							btn.setId(positionRow + 1);
-							//imgResource= R.drawable.shape_oval_orange;
-							//imgResource = getStringResourceByName("b_"+strDesc.toLowerCase(),this.getPackageName());
-							imgResource = getStringResourceByName(strDesc.toLowerCase(), this.getPackageName());
-
-							btn.setBackgroundResource(R.drawable.btn_on_click);
-							btn.setText(datMenu.get_TxtMenuName());
-							btn.setLayoutParams(paramsButton);
-
-							btn.setGravity(Gravity.CENTER_HORIZONTAL);
-							btn.setTypeface(btn.getTypeface(), Typeface.NORMAL);
-							//btn.setTextColor(Color.parseColor("#00000"));
-
-
-							final int index = positionRow;
-							if (positionRow > 1) {
-								j += 1;
-							}
-							positionRow += 1;
-							btn.setOnClickListener(new OnClickListener() {
-								public void onClick(View v) {
-									String myClass;
-									String MenuID;
-									Class<?> clazz = null;
-
-									myClass = strLink;
-									MenuID = strDesc;
-
-									try {
-										if (myClass.equals("#") && MenuID.toString().contains("Logout")) {
-											funcLogOut();
-										} else if (MenuID.toString().contains("mnDownloadData")) {
-											Intent myIntent = new Intent(getApplicationContext(), DownloadData.class);
-											myIntent.putExtra("MenuID", MenuID);
-											finish();
-											startActivity(myIntent);
-										}
-										else if (MenuID.toString().contains("mnAbsenKBN")) {
-											Intent myIntent = new Intent(getApplicationContext(), Absen.class);
-											myIntent.putExtra("MenuID", MenuID);
-											finish();
-											startActivity(myIntent);
-										} else if (MenuID.toString().contains("mnNotifikasiKBN")) {
-											Intent myIntent = new Intent(getApplicationContext(), LNotifi.class);
-											myIntent.putExtra("MenuID", MenuID);
-											finish();
-											startActivity(myIntent);
-										} else if (MenuID.toString().contains("mnNotifikasiKBN")) {
-											Intent myIntent = new Intent(getApplicationContext(), Reso.class);
-											myIntent.putExtra("MenuID", MenuID);
-											finish();
-											startActivity(myIntent);
-										}
-										else{
-											clazz = Class.forName(myClass);
-											Intent myIntent = new Intent(getApplicationContext(), clazz);
-											myIntent.putExtra("MenuID", MenuID);
-											finish();
-											startActivity(myIntent);
-										}
-									} catch (ClassNotFoundException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-
-									//Toast.makeText(getApplicationContext(), "Clicked Button Index :" + index, Toast.LENGTH_LONG).show();
-								}
-							});
-
-							//Add button to LinearLayout
-							ll.addView(btn);
-						}
-					}
-					//Add button to LinearLayout defined in XML
-					lm.addView(ll);
-				}
-			}
-		}
-		int totalStatus = new tNotificationBL().getContactsCountStatus();
-		ShortcutBadger.removeCount(Home.this);
-		ShortcutBadger.applyCount(Home.this, totalStatus);
-		// ATTENTION: This was auto-generated to implement the App Indexing API.
-		// See https://g.co/AppIndexing/AndroidStudio for more information.
-		client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+//		for (int j = 0; j < countMenu; j++) {
+//			if (jumLinearLayout == 0) {
+//				ll = new LinearLayout(this);
+//				ll.setOrientation(LinearLayout.VERTICAL);
+//				LinearLayout.LayoutParams paramsDynamic = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+//				paramsDynamic.gravity = Gravity.CENTER_VERTICAL;
+//				paramsDynamic.setMargins(50, 20, 50, 20);
+//				ll.setLayoutParams(paramsDynamic);
+//				//ll.setPadding(0, 0, 0, 100);
+//				jumLinearLayout += 1;
+//
+//				if (positionRow == 0) {
+//					for (int k = 0; k < 8; k++) {
+//						if (positionRow < listMenu.size()) {
+//							datMenu = listMenu.get(positionRow);
+//							final String strLink = datMenu.get_TxtLink();
+//							final String strDesc = datMenu.get_TxtDescription();
+//
+//							// Create Button
+//							btn = new Button(this, null, R.style.HomeButton);
+//							btn.setId(positionRow + 1);
+//							//imgResource= R.drawable.shape_oval_orange;
+//							//imgResource = getStringResourceByName("b_"+strDesc.toLowerCase(),this.getPackageName());
+//							imgResource = getStringResourceByName(strDesc.toLowerCase(), this.getPackageName());
+//
+//							btn.setBackgroundResource(R.drawable.btn_on_click);
+//							btn.setText(datMenu.get_TxtMenuName());
+//							btn.setLayoutParams(paramsButton);
+//
+//							btn.setGravity(Gravity.CENTER_HORIZONTAL);
+//							btn.setTypeface(btn.getTypeface(), Typeface.NORMAL);
+//							//btn.setTextColor(Color.parseColor("#00000"));
+//
+//
+//							final int index = positionRow;
+//							if (positionRow > 1) {
+//								j += 1;
+//							}
+//							positionRow += 1;
+//							btn.setOnClickListener(new OnClickListener() {
+//								public void onClick(View v) {
+//									String myClass;
+//									String MenuID;
+//									Class<?> clazz = null;
+//
+//									myClass = strLink;
+//									MenuID = strDesc;
+//
+//									try {
+//										if (myClass.equals("#") && MenuID.toString().contains("Logout")) {
+//											funcLogOut();
+//										} else if (MenuID.toString().contains("mnDownloadData")) {
+//											Intent myIntent = new Intent(getApplicationContext(), DownloadData.class);
+//											myIntent.putExtra("MenuID", MenuID);
+//											finish();
+//											startActivity(myIntent);
+//										}
+//										else if (MenuID.toString().contains("mnAbsenKBN")) {
+//											Intent myIntent = new Intent(getApplicationContext(), Absen.class);
+//											myIntent.putExtra("MenuID", MenuID);
+//											finish();
+//											startActivity(myIntent);
+//										} else if (MenuID.toString().contains("mnNotifikasiKBN")) {
+//											Intent myIntent = new Intent(getApplicationContext(), LNotifi.class);
+//											myIntent.putExtra("MenuID", MenuID);
+//											finish();
+//											startActivity(myIntent);
+//										} else if (MenuID.toString().contains("mnNotifikasiKBN")) {
+//											Intent myIntent = new Intent(getApplicationContext(), Reso.class);
+//											myIntent.putExtra("MenuID", MenuID);
+//											finish();
+//											startActivity(myIntent);
+//										}
+//										else{
+//											clazz = Class.forName(myClass);
+//											Intent myIntent = new Intent(getApplicationContext(), clazz);
+//											myIntent.putExtra("MenuID", MenuID);
+//											finish();
+//											startActivity(myIntent);
+//										}
+//									} catch (ClassNotFoundException e) {
+//										// TODO Auto-generated catch block
+//										e.printStackTrace();
+//									}
+//
+//									//Toast.makeText(getApplicationContext(), "Clicked Button Index :" + index, Toast.LENGTH_LONG).show();
+//								}
+//							});
+//
+//							//Add button to LinearLayout
+//							ll.addView(btn);
+//						}
+//					}
+//					//Add button to LinearLayout defined in XML
+//					lm.addView(ll);
+//				}
+//			}
+//		}
+//		int totalStatus = new tNotificationBL().getContactsCountStatus();
+//		ShortcutBadger.removeCount(Home.this);
+//		ShortcutBadger.applyCount(Home.this, totalStatus);
+//		// ATTENTION: This was auto-generated to implement the App Indexing API.
+//		// See https://g.co/AppIndexing/AndroidStudio for more information.
+//		client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 	}
 
 	private clsHardCode clsHardcode = new clsHardCode();

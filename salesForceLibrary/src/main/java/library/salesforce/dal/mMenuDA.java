@@ -19,6 +19,7 @@ public class mMenuDA {
 				+ dt.Property_TxtLink + " TEXT NOT NULL,"
 				+ dt.Property_API_IntMenuID + " TEXT NOT NULL,"
 				+ dt.Property_intVisible + " TEXT NOT NULL,"
+				+ dt.Property_TxtIcon + " TEXT NOT NULL,"
 				+ dt.Property_TxtMenuName+ " TEXT NOT NULL" + ")";
 		db.execSQL(CREATE_CONTACTS_TABLE);
 	}
@@ -49,7 +50,7 @@ public class mMenuDA {
 				+ dt.Property_intId + "," + dt.Property_IntOrder + ","
 				+ dt.Property_IntParentID + "," + dt.Property_TxtDescription+ "," + dt.Property_TxtLink
 				+ "," + dt.Property_intVisible + "," + dt.Property_API_IntMenuID
-				+ "," + dt.Property_TxtMenuName + ") " + "values("
+				+ "," + dt.Property_TxtIcon + "," + dt.Property_TxtMenuName + ") " + "values("
 				+ valId + ","
 				+ String.valueOf(data.get_IntOrder()) + ","
 				+ String.valueOf(data.get_IntParentID()) + ",'"
@@ -57,6 +58,7 @@ public class mMenuDA {
 				+ String.valueOf(data.get_TxtLink()) + "','"
 				+ String.valueOf(data.get_intVisible()) + "','"
 				+ String.valueOf(data.get_IntMenuID()) + "','"
+				+ String.valueOf(data.get_TxtIcon()) + "','"
 				+ String.valueOf(data.get_TxtMenuName()) + "')");
 		// db.insert(TABLE_CONTACTS, null, values);
 		// db.close(); // Closing database connection
@@ -71,7 +73,7 @@ public class mMenuDA {
 		mMenuData dt = new mMenuData();
 		Cursor cursor = db.query(TABLE_CONTACTS, new String[] {
 				dt.Property_intId, dt.Property_IntOrder, dt.Property_IntParentID,
-				dt.Property_TxtDescription, dt.Property_TxtLink, dt.Property_TxtMenuName, dt.Property_intVisible,dt.Property_API_IntMenuID },
+				dt.Property_TxtDescription, dt.Property_TxtLink, dt.Property_TxtMenuName, dt.Property_intVisible,dt.Property_API_IntMenuID, dt.Property_TxtIcon },
 				dt.Property_TxtDescription + "=?", new String[] { String.valueOf(Name) },
 				null, null, null, null);
 		if (cursor != null)
@@ -144,6 +146,7 @@ public class mMenuDA {
 					contact.set_TxtLink(cursor.getString(4));
 					contact.set_TxtMenuName(cursor.getString(5));
 					contact.set_intVisible(cursor.getString(6));
+					contact.set_TxtIcon(cursor.getString(7));
 					// Adding contact to list
 					contactList.add(contact);
 				} while (cursor.moveToNext());
@@ -268,5 +271,31 @@ public class mMenuDA {
 		cursor.close();
 		// return count
 		return countData;
+	}
+
+	public void InsertDefaultMconfig(SQLiteDatabase db) {
+		String txtQuery = "insert into mMenu(intId,intOrder,intParentID,TxtDescription,TxtLink, intMenuID, intVisible, TxtIcon, TxtMenuName )"
+				+ "select  1,'1','1','mnAbsenKBN','com.kalbenutritionals.app.kalbespgmobile.AbsenFragment','1','', 'ic_location', 'Absen';";
+		db.execSQL(txtQuery);
+
+		txtQuery = "insert into mMenu(intId,intOrder,intParentID,TxtDescription,TxtLink, intMenuID, intVisible, TxtIcon, TxtMenuName )"
+				+ "select  2,'2','1','mnDownloadData','com.kalbenutritionals.app.kalbespgmobile.DownloadDataFragment','2','', 'ic_cloud_download', 'Download Data';";
+		db.execSQL(txtQuery);
+
+		txtQuery = "insert into mMenu(intId,intOrder,intParentID,TxtDescription,TxtLink, intMenuID, intVisible, TxtIcon, TxtMenuName )"
+				+ "select  3,'3','3','mnPushDataData','com.kalbenutritionals.app.kalbespgmobile','1','', 'ic_location', 'Push Data';";
+		db.execSQL(txtQuery);
+
+        txtQuery = "insert into mMenu(intId,intOrder,intParentID,TxtDescription,TxtLink, intMenuID, intVisible, TxtIcon, TxtMenuName )"
+                + "select  4,'1','2','mnReso','com.kalbenutritionals.app.kalbespgmobile.ViewResoFragment','1','', 'ic_assignment', 'Reso';";
+        db.execSQL(txtQuery);
+
+        txtQuery = "insert into mMenu(intId,intOrder,intParentID,TxtDescription,TxtLink, intMenuID, intVisible, TxtIcon, TxtMenuName )"
+                + "select  5,'2','2','mnActivity','com.kalbenutritionals.app.kalbespgmobile.FragmentViewActivity','2','', 'ic_history', 'Activity';";
+        db.execSQL(txtQuery);
+
+		txtQuery = "insert into mMenu(intId,intOrder,intParentID,TxtDescription,TxtLink, intMenuID, intVisible, TxtIcon, TxtMenuName )"
+				+ "select  6,'3','2','mnCustomerBase','com.kalbenutritionals.app.kalbespgmobile.FragmentViewCustomerBase','3','', 'ic_person', 'Customer Base';";
+		db.execSQL(txtQuery);
 	}
 }
