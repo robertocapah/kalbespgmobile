@@ -2,6 +2,7 @@ package com.kalbenutritionals.app.kalbespgmobile;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -10,8 +11,12 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.EventLogTags;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -22,6 +27,12 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -53,6 +64,8 @@ import library.salesforce.common.mCounterNumberData;
 import library.salesforce.common.tDeviceInfoUserData;
 import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.enumCounterData;
+
+import static junit.framework.Assert.assertEquals;
 
 //import com.kalbe.bl.mCounterNumberBL;
 
@@ -175,6 +188,17 @@ public class clsMainActivity extends Activity {
 //		};
 //		return listener;
 //	}
+
+    public void IsReachable(Context context) {
+        try {
+            InetAddress address = InetAddress.getByName("www.stackoverflow.com");
+            //Connected to working internet connection
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            //Internet not available
+        }
+    }
+
 	public void doStuff(Context _ctx, String Item) {
 		Toast.makeText(_ctx, Item, Toast.LENGTH_SHORT).show();
 	}

@@ -1,11 +1,21 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#FFFFFF"
     tools:context="com.kalbenutritionals.app.kalbespgmobile.MainMenu"
-    android:padding="10dp">
+    android:id="@+id/coordinatorLayout">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -101,7 +111,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="sri.bulan"
-        android:id="@+id/textView20"
+        android:id="@+id/username"
         android:layout_alignTop="@+id/textView3"
         android:layout_toRightOf="@+id/textView19" />
 
@@ -109,52 +119,52 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="MEDAN"
-        android:id="@+id/textView21"
+        android:id="@+id/branch"
         android:layout_alignTop="@+id/textView12"
-        android:layout_alignLeft="@+id/textView20"
-        android:layout_alignStart="@+id/textView20" />
+        android:layout_alignLeft="@+id/username"
+        android:layout_alignStart="@+id/username" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PT IRIAN UNTUNG BERSAMA"
-        android:id="@+id/textView22"
+        android:id="@+id/outlet"
         android:layout_alignTop="@+id/textView13"
-        android:layout_alignLeft="@+id/textView21"
-        android:layout_alignStart="@+id/textView21" />
+        android:layout_alignLeft="@+id/branch"
+        android:layout_alignStart="@+id/branch" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Active"
-        android:id="@+id/textView23"
+        android:id="@+id/statusAbsen"
         android:layout_alignTop="@+id/textView14"
-        android:layout_alignLeft="@+id/textView22"
-        android:layout_alignStart="@+id/textView22" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="27"
-        android:id="@+id/textView24"
-        android:layout_alignTop="@+id/textView15"
-        android:layout_alignLeft="@+id/textView23"
-        android:layout_alignStart="@+id/textView23" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="371"
-        android:id="@+id/textView25"
-        android:layout_alignTop="@+id/textView16"
-        android:layout_alignLeft="@+id/textView24"
-        android:layout_alignStart="@+id/textView24" />
+        android:layout_alignLeft="@+id/outlet"
+        android:layout_alignStart="@+id/outlet" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
-        android:id="@+id/textView26"
+        android:id="@+id/totalBrand"
+        android:layout_alignTop="@+id/textView15"
+        android:layout_alignLeft="@+id/statusAbsen"
+        android:layout_alignStart="@+id/statusAbsen" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/totalProduct"
+        android:layout_alignTop="@+id/textView16"
+        android:layout_alignLeft="@+id/totalBrand"
+        android:layout_alignStart="@+id/totalBrand" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/totalReso"
         android:layout_alignTop="@+id/textView17"
         android:layout_toRightOf="@+id/textView19"
         android:layout_toEndOf="@+id/textView19" />
@@ -163,7 +173,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
-        android:id="@+id/textView27"
+        android:id="@+id/totalActivity"
         android:layout_alignTop="@+id/textView18"
         android:layout_toRightOf="@+id/textView19"
         android:layout_toEndOf="@+id/textView19" />
@@ -172,8 +182,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
-        android:id="@+id/textView28"
+        android:id="@+id/totalCustomerBase"
         android:layout_alignTop="@+id/textView19"
         android:layout_toEndOf="@+id/textView19"
         android:layout_toRightOf="@+id/textView19" />
-</RelativeLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/button3"
+            android:layout_below="@+id/totalCustomerBase"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="800dp" />
+    </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|right"-->
+        <!--android:layout_margin="16dp"-->
+        <!--android:src="@mipmap/ic_launcher"-->
+        <!--app:layout_anchorGravity="bottom|right|end"/>-->
+</android.support.design.widget.CoordinatorLayout>

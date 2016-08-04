@@ -68,7 +68,7 @@ public class Login extends clsMainActivity {
     long Delay = 3000;
     private EditText txtLoginEmail;
     private EditText txtLoginPassword;
-    private Button btnLogin;
+    private Button btnLogin, btnPing;
     private TextView txtVersionLogin;
     private PackageInfo pInfo = null;
     private List<String> arrrole, arroutlet;
@@ -241,7 +241,7 @@ public class Login extends clsMainActivity {
         btnPing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                IsReachable(getApplicationContext());
             }
         });
         ArrayAdapter<String> adapterspnBranch = new ArrayAdapter<String>(this,

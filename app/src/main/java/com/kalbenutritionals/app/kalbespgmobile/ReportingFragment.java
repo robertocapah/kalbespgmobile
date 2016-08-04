@@ -106,27 +106,29 @@ public class ReportingFragment extends Fragment {
                 List<tSalesProductHeaderData> dt_so = new tSalesProductHeaderBL().getAllSalesProductHeader();
                 reportList = new ArrayList<>();
 
-                for(i = 0; i < dt_so.size(); i++){
-                    ReportTable rt = new ReportTable();
+                if(dt_so != null){
+                    for(i = 0; i < dt_so.size(); i++){
+                        ReportTable rt = new ReportTable();
 
-                    rt.set_report_type("Reso");
-                    rt.set_no_so(dt_so.get(i).get_intId());
-                    rt.set_total_product(dt_so.get(i).get_intSumItem());
-                    rt.set_total_price(dt_so.get(i).get_intSumAmount());
-                    rt.set_status(dt_so.get(i).get_intSubmit());
+                        rt.set_report_type("Reso");
+                        rt.set_no_so(dt_so.get(i).get_intId());
+                        rt.set_total_product(dt_so.get(i).get_intSumItem());
+                        rt.set_total_price(dt_so.get(i).get_intSumAmount());
+                        rt.set_status(dt_so.get(i).get_intSubmit());
 
-                    List<tSalesProductDetailData> dt_detail = new tSalesProductDetailBL().GetDataByNoSO(dt_so.get(i).get_intId());
+                        List<tSalesProductDetailData> dt_detail = new tSalesProductDetailBL().GetDataByNoSO(dt_so.get(i).get_intId());
 
-                    int total_item = 0;
+                        int total_item = 0;
 
-                    for(i = 0; i < dt_detail.size(); i++){
-                        total_item = total_item + Integer.parseInt(dt_detail.get(i).get_intQty());
+                        for(i = 0; i < dt_detail.size(); i++){
+                            total_item = total_item + Integer.parseInt(dt_detail.get(i).get_intQty());
+                        }
+
+                        rt.set_total_item(String.valueOf(total_item));
+                        rt.set_total_product(String.valueOf(dt_detail.size()));
+
+                        reportList.add(rt);
                     }
-
-                    rt.set_total_item(String.valueOf(total_item));
-                    rt.set_total_product(String.valueOf(dt_detail.size()));
-
-                    reportList.add(rt);
                 }
 
                 ReportTableView.setDataAdapter(new ReportTableDataAdapter(getContext(), reportList));

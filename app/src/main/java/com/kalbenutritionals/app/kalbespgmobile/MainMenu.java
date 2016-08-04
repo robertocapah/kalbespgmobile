@@ -74,12 +74,28 @@ public class MainMenu extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(Gravity.LEFT)){
-            drawerLayout.closeDrawer(Gravity.LEFT);
-        }
-        else{
-            drawerLayout.openDrawer(Gravity.LEFT);
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Exit");
+        builder.setMessage("Do you want to exit?");
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override
@@ -127,6 +143,7 @@ public class MainMenu extends AppCompatActivity {
         if(dtAbsens == null){
             statusAbsen = 1;
             menuActive = R.id.groupListMenu;
+            header.removeItem(R.id.checkout);
         }
         else{
             statusAbsen = 2;
