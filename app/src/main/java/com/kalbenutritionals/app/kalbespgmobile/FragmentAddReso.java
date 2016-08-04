@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -11,7 +12,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -143,15 +143,10 @@ public class FragmentAddReso extends Fragment implements View.OnClickListener {
 
 
     public void viewResoFragment(){
-        selectedId=1;
-        Toolbar toolbar;
-        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle("View Reso");
-        ViewResoFragment viewresofragment = new ViewResoFragment();
-        android.support.v4.app.FragmentTransaction fragmentTransactionviewreso = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransactionviewreso.replace(R.id.frame,viewresofragment);
-        fragmentTransactionviewreso.commit();
-        selectedId = 1;
+        Intent myIntent = new Intent(getContext(), MainMenu.class);
+        myIntent.putExtra("key_view","View Reso");
+        getActivity().finish();
+        startActivity(myIntent);
         return;
     }
 
@@ -183,7 +178,7 @@ public class FragmentAddReso extends Fragment implements View.OnClickListener {
 
                     final TextView _tvNoSO = (TextView) promptView.findViewById(R.id.tvnoSOtbl);
                     final TextView _tvKet = (TextView) promptView.findViewById(R.id.tvkettbl);
-                    _tvNoSO.setText(": " + new mCounterNumberBL().getData(enumCounterData.NoDataSO));
+                    _tvNoSO.setText(noso);
                     _tvKet.setText(": " + edketerangan.getText().toString());
                     arrdataPriv = new ArrayList<ModelListview>();
                     for (int i = 0; i < a; i++) {
@@ -272,10 +267,6 @@ public class FragmentAddReso extends Fragment implements View.OnClickListener {
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             saveReso();
-//                                            Intent myIntent = new Intent(getActivity(), MainMenu.class);
-//                                            myIntent.putExtra("keyReso", "add_reso");
-//                                            startActivity(myIntent);
-                                            //dialog.dismiss();
                                             viewResoFragment();
                                         }
                                     })

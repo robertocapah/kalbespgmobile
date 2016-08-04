@@ -1,11 +1,11 @@
 package library.salesforce.dal;
 
-import java.util.ArrayList;
-import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
-import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import library.salesforce.common.mMenuData;
 
 public class mMenuDA {
@@ -287,7 +287,7 @@ public class mMenuDA {
 		db.execSQL(txtQuery);
 
         txtQuery = "insert into mMenu(intId,intOrder,intParentID,TxtDescription,TxtLink, intMenuID, intVisible, TxtIcon, TxtMenuName )"
-                + "select  4,'1','2','mnReso','com.kalbenutritionals.app.kalbespgmobile.ViewResoFragment','1','', 'ic_assignment', 'Reso';";
+                + "select  4,'1','2','mnReso','com.kalbenutritionals.app.kalbespgmobile.FragmentViewReso','1','', 'ic_assignment', 'Reso';";
         db.execSQL(txtQuery);
 
         txtQuery = "insert into mMenu(intId,intOrder,intParentID,TxtDescription,TxtLink, intMenuID, intVisible, TxtIcon, TxtMenuName )"

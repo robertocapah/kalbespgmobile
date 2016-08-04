@@ -3,18 +3,58 @@ package service;
 import android.app.Service;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.simple.JSONArray;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import bl.clsHelperBL;
 import bl.clsMainBL;
 import library.salesforce.common.clsPushData;
+import library.salesforce.common.dataJson;
+import library.salesforce.common.mCounterNumberData;
+import library.salesforce.common.mItemSalesPack_StockData;
+import library.salesforce.common.mItemSalesPack_StockLogData;
+import library.salesforce.common.tAbsenUserData;
+import library.salesforce.common.tActivityData;
+import library.salesforce.common.tGRNDetail_mobileData;
+import library.salesforce.common.tGRNHeader_mobileData;
+import library.salesforce.common.tPODetail_mobileData;
+import library.salesforce.common.tPOHeader_mobileData;
+import library.salesforce.common.tPOStatus_mobileData;
+import library.salesforce.common.tSalesOrderDetail_MobileData;
+import library.salesforce.common.tSalesOrderHeader_MobileData;
+import library.salesforce.common.tTransactionDetailData;
+import library.salesforce.common.tUserLoginData;
+import library.salesforce.dal.clsHardCode;
+import library.salesforce.dal.enumCounterData;
+import library.salesforce.dal.mCounterNumberDA;
+import library.salesforce.dal.mItemSalesPack_StockDA;
+import library.salesforce.dal.mItemSalesPack_StockLogDA;
+import library.salesforce.dal.tAbsenUserDA;
+import library.salesforce.dal.tActivityDA;
+import library.salesforce.dal.tGRNDetail_mobileDA;
+import library.salesforce.dal.tGRNHeader_mobileDA;
+import library.salesforce.dal.tPODetail_mobileDA;
+import library.salesforce.dal.tPOHeader_mobileDA;
+import library.salesforce.dal.tPOStatus_mobileDA;
+import library.salesforce.dal.tPenguaranDetail_MobileDA;
+import library.salesforce.dal.tPenguaranHeader_MobileDA;
+import library.salesforce.dal.tPenguaranStatus_MobileDA;
+import library.salesforce.dal.tSalesOrderDetail_MobileDA;
+import library.salesforce.dal.tSalesOrderHeader_MobileDA;
+import library.salesforce.dal.tTransactionDetailDA;
+import library.salesforce.dal.tUserLoginDA;
 
 public class MyServiceNative extends Service{
 	public MyServiceNative() {
@@ -92,7 +132,6 @@ public class MyServiceNative extends Service{
 			}
     	}
     	
-    	/*
     	SQLiteDatabase db;
     	String versionName="";
     	try {
@@ -106,7 +145,7 @@ public class MyServiceNative extends Service{
 		tUserLoginDA _tUserLoginDA=new tUserLoginDA(db);
 		if(_tUserLoginDA.getContactsCount(db)> 0){
 			tUserLoginData _tUserLoginData=_tUserLoginDA.getData(db, 1);
-			
+
 			try {
 				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	    		Calendar cal = Calendar.getInstance();
@@ -117,7 +156,7 @@ public class MyServiceNative extends Service{
 				_data.set_txtName("Monitor Service");
 				_data.set_txtValue(dateFormat.format(cal.getTime()));
 				_mCounterNumberDA.SaveDataMConfig(db, _data);
-				
+
 				//new clsInit().PushData(db,versionName);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
@@ -138,7 +177,7 @@ public class MyServiceNative extends Service{
 			tTransactionDetailDA _tTransactionDetailDA =new tTransactionDetailDA(db);
 			mItemSalesPack_StockDA _mItemSalesPack_StockDA =new mItemSalesPack_StockDA(db);
 			mItemSalesPack_StockLogDA _mItemSalesPack_StockLogDA =new mItemSalesPack_StockLogDA(db);
-			
+
 			List<tAbsenUserData> ListOftAbsenUserData=_tAbsenUserDA.getAllDataToPushData(db);
 			List<tActivityData> ListOftActivityData=_tActivityDA.getAllDataToPushData(db);
 			List<tGRNHeader_mobileData> ListOftGRNHeader_mobileData=_tGRNHeader_mobileDA.getAllDataToPushData(db);
@@ -161,10 +200,10 @@ public class MyServiceNative extends Service{
 				dtPush.setListOftAbsenUserData(ListOftAbsenUserData);
 				for (tAbsenUserData dttAbsenUserData : ListOftAbsenUserData) {
 					if(dttAbsenUserData.get_txtImg1()!=null){
-						FileUpload.put("FUAbsen1"+dttAbsenUserData.get_intId(), dttAbsenUserData.get_txtImg1());	
+						FileUpload.put("FUAbsen1"+dttAbsenUserData.get_intId(), dttAbsenUserData.get_txtImg1().toString());
 					}
 					if(dttAbsenUserData.get_txtImg2()!=null){
-						FileUpload.put("FUAbsen2"+dttAbsenUserData.get_intId(), dttAbsenUserData.get_txtImg2());	
+						FileUpload.put("FUAbsen2"+dttAbsenUserData.get_intId(), dttAbsenUserData.get_txtImg2().toString());
 					}
 				}
 			}
@@ -172,10 +211,10 @@ public class MyServiceNative extends Service{
 				dtPush.setListOftActivityData(ListOftActivityData);
 				for (tActivityData dttActivityData : ListOftActivityData) {
 					if(dttActivityData.get_txtImg1()!=null){
-						FileUpload.put("FUActivity1"+dttActivityData.get_intId(), dttActivityData.get_txtImg1());	
+						FileUpload.put("FUActivity1"+dttActivityData.get_intId(), dttActivityData.get_txtImg1().toString());
 					}
 					if(dttActivityData.get_txtImg2()!=null){
-						FileUpload.put("FUActivity2"+dttActivityData.get_intId(), dttActivityData.get_txtImg2());	
+						FileUpload.put("FUActivity2"+dttActivityData.get_intId(), dttActivityData.get_txtImg2().toString());
 					}
 				}
 			}
@@ -213,9 +252,8 @@ public class MyServiceNative extends Service{
 		else{
 			_shutdownService();
 		}
-		
+
 		db.close();
-		*/
     }
 
     private void _shutdownService()

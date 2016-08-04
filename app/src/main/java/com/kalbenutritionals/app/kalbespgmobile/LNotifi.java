@@ -49,7 +49,7 @@ public class LNotifi extends clsMainActivity implements IXListViewListener{
 	  @Override
 		public void onBackPressed() {
 			finish();
-			Intent nextScreen = new Intent(getApplicationContext(), Home.class);
+			Intent nextScreen = new Intent(getApplicationContext(), MainMenu.class);
 			startActivity(nextScreen);
 		}
 	  

@@ -81,21 +81,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:label=""></activity>
-        <activity
             android:name=".MainMenu"
             android:label=""
             android:configChanges="orientation|screenSize"/>
-        <activity
-            android:name=".DownloadData"
-            android:label=""></activity>
-        <activity
-            android:name=".Home"
-            android:label=""></activity>
-        <activity
-            android:name=".Absen"
-            android:label=""></activity>
 
         <service android:name="service.MyServiceNative">
             <intent-filter>
@@ -127,7 +115,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".PreviewSO"></activity>
     </application>
 
 </manifest>

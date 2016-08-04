@@ -1,7 +1,6 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,7 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -119,6 +118,7 @@ public class MainMenu extends AppCompatActivity {
         android.support.v4.app.FragmentTransaction fragmentTransactionHome = getSupportFragmentManager().beginTransaction();
         fragmentTransactionHome.replace(R.id.frame,homeFragment);
         fragmentTransactionHome.commit();
+        selectedId=99;
 
         //set menu masih manual untuk create db nya
         new mMenuBL().setMenuManual();
@@ -137,6 +137,11 @@ public class MainMenu extends AppCompatActivity {
         tAbsenUserData dtAbsens = new tAbsenUserBL().getDataCheckInActive();
         Menu header = navigationView.getMenu();
 
+        Intent intent = getIntent();
+        String i_view = intent.getStringExtra("key_view");
+
+
+
         int statusAbsen = 0;
         int menuActive = 0;
 
@@ -148,7 +153,38 @@ public class MainMenu extends AppCompatActivity {
         else{
             statusAbsen = 2;
             menuActive = R.id.groupListMenu1;
-        }
+
+            List<mMenuData> menu = new mMenuBL().getDatabyParentId(statusAbsen);
+            listMenu = new String[menu.size()];
+
+            for(int i = 0; i < menu.size(); i++){
+                listMenu[i] = menu.get(i).get_TxtMenuName();
+            }
+
+            if(i_view!=null)
+                try{
+                    Class<?> fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view.replaceAll("\\s+","") );
+                    try {
+                        for(int i = 0; i < listMenu.length; i++){
+                            if(("View " + listMenu[i]).equals(i_view)){
+                                 selectedId = i;
+                                break;
+                            }
+                        }
+                        toolbar.setTitle(i_view);
+                        Fragment fragment = (android.support.v4.app.Fragment) fragmentClass.newInstance();
+                        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frame,fragment);
+                        fragmentTransaction.commit();
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
 
         List<mMenuData> menu = new mMenuBL().getDatabyParentId(statusAbsen);
         linkMenu = new String[menu.size()];
@@ -442,52 +478,7 @@ public class MainMenu extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==1){
-            toolbar.setTitle("View Reso");
-            ViewResoFragment viewresofragment = new ViewResoFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransactionviewreso = getSupportFragmentManager().beginTransaction();
-            fragmentTransactionviewreso.replace(R.id.frame,viewresofragment);
-            fragmentTransactionviewreso.commit();
-            selectedId=1;
 
-        }
-    }
-
-    private void funcLogOut() {
-        LayoutInflater layoutInflater = LayoutInflater.from(MainMenu.this);
-        final View promptView = layoutInflater.inflate(R.layout.confirm_data, null);
-
-        final TextView _tvConfirm = (TextView) promptView.findViewById(R.id.tvTitle);
-        final TextView _tvDesc = (TextView) promptView.findViewById(R.id.tvDesc);
-        _tvDesc.setVisibility(View.INVISIBLE);
-        _tvConfirm.setText("Log Out Application ?");
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainMenu.this);
-        alertDialogBuilder.setView(promptView);
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                //PushData
-                                stopService(new Intent(getApplicationContext(), MyServiceNative.class));
-                                AsyncCallLogOut task = new AsyncCallLogOut();
-                                task.execute();
-                                //new clsHelperBL().DeleteAllDB();
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-        final AlertDialog alertD = alertDialogBuilder.create();
-        alertD.show();
-    }
     int intProcesscancel = 0;
     private clsHardCode clsHardcode = new clsHardCode();
     private class AsyncCallLogOut extends AsyncTask<JSONArray, Void, JSONArray> {
@@ -623,51 +614,5 @@ public class MainMenu extends AppCompatActivity {
             Dialog.dismiss();
         }
 
-    }
-    //    protected void onPostExecute(Boolean result) {
-//        ProgressDialog Dialog = new ProgressDialog(getApplicationContext());
-//        Dialog.setMessage(new clsHardCode().txtMessGetUserRole);
-//        Dialog.setCancelable(false);
-//        Dialog.show();
-//        toolbar.setTitle("Add Reso");
-//        Reso resofragment = new Reso();
-//        android.support.v4.app.FragmentTransaction fragmentTransactionreso = getSupportFragmentManager().beginTransaction();
-//        fragmentTransactionreso.replace(R.id.frame,resofragment);
-//        fragmentTransactionreso.commit();
-//        selectedId=4;
-//
-//    }
-    public class MyTask extends AsyncTask<String, String, String> {
-        private Context context;
-        private ProgressDialog progressDialog;
-
-        public MyTask(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = new ProgressDialog(context);
-            progressDialog.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            //Do your loading here
-            return "finish";
-        }
-
-
-        @Override
-        protected void onPostExecute(String result) {
-            progressDialog.dismiss();
-            //Start other Activity or do whatever you want
-            //        toolbar.setTitle("Add Reso");
-            Reso resofragment = new Reso();
-            android.support.v4.app.FragmentTransaction fragmentTransactionreso = getSupportFragmentManager().beginTransaction();
-            fragmentTransactionreso.replace(R.id.frame,resofragment);
-            fragmentTransactionreso.commit();
-            selectedId=4;
-        }
     }
 }

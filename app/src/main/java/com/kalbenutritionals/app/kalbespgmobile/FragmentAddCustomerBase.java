@@ -419,7 +419,7 @@ public class FragmentAddCustomerBase extends Fragment implements View.OnClickLis
     }
     public void viewCBFragment(){
         Intent intent = new Intent(getContext(),MainMenu.class);
-        intent.putExtra("keyCB", "add_cb");
+        intent.putExtra("key_view", "View Customer Base");
         getActivity().finish();
         startActivity(intent);
         return;
