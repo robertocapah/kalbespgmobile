@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
@@ -74,10 +73,11 @@ import library.salesforce.common.tDeviceInfoUserData;
 import library.salesforce.common.tUserLoginData;
 
 public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
+
     private GoogleMap mMap;
     private Location mLastLocation;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
-    private static final String TAG = Absen.class.getSimpleName();
+    private static final String TAG = AbsenFragment.class.getSimpleName();
     // Google client to interact with Google API
     private GoogleApiClient mGoogleApiClient;
     // boolean flag to toggle periodic location updates
@@ -90,9 +90,6 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
     private Spinner spnOutlet;
     private Spinner spnBranch;
     private List<String> arrData;
-    private Uri uriImage;
-    private String uriImageSaveDB1;
-    private String uriImageSaveDB2;
     private String Long;
     private String Lat;
     private String Acc;
@@ -238,7 +235,6 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                 label.setTextColor(new Color().parseColor("#000000"));
                 row.setBackgroundColor(new Color().parseColor("#FFFFFF"));
             }
-            //sub.setText(mydata2[position]);
             return row;
         }
 
@@ -334,8 +330,8 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
         List<mEmployeeAreaData> listDataArea = new mEmployeeAreaBL().GetAllData();
         if (checkPlayServices()) {
             buildGoogleApiClient();
-            //createLocationRequest();
         }
+
         // First we need to check availability of play services
         imgPrevNoImg1.setOnClickListener(new OnClickListener() {
             @Override
@@ -364,13 +360,13 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                 dttAbsenUserData.set_txtOutletCode(outletCode);
                 dttAbsenUserData.set_txtOutletName(nameOutlet);
                 dttAbsenUserData.set_txtDeviceId(deviceInfo);
-                dttAbsenUserData.set_txtUserId(idUserActive); //
-                //dttAbsenUserData.set_txtImg1(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_maps_local_see));
+                dttAbsenUserData.set_txtUserId(idUserActive);
                 absenUserDatas.add(dttAbsenUserData);
                 new tAbsenUserBL().saveData(absenUserDatas);
                 captureImage1();
             }
         });
+
         imgPrevNoImg2.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -399,8 +395,7 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                 dttAbsenUserData.set_txtOutletCode(outletCode);
                 dttAbsenUserData.set_txtOutletName(nameOutlet);
                 dttAbsenUserData.set_txtDeviceId(deviceInfo);
-                dttAbsenUserData.set_txtUserId(idUserActive); //
-                //dttAbsenUserData.set_txtImg2(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_maps_local_see));
+                dttAbsenUserData.set_txtUserId(idUserActive);
                 absenUserDatas.add(dttAbsenUserData);
                 new tAbsenUserBL().saveData(absenUserDatas);
                 captureImage2();
@@ -448,11 +443,9 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
             MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Updating Location!");
             marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
             try {
-                // Loading map
                 initilizeMap();
                 // Changing map type
                 mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                //mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -460,8 +453,7 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
             mMap.clear();
             mMap.addMarker(marker);
             if (dttAbsenUserData.get_intSubmit().equals("1")) {
-                //showToast(getApplicationContext(), "Location Founded");
-//				ShowMenu(dtmenuData);
+
             }
         } else {
             int IdAbsen = _tAbsenUserBL.getContactsCount() + 1;
@@ -471,55 +463,31 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
 
         // Checking camera availability
         if (!isDeviceSupportCamera()) {
-//            Toast.makeText(getApplicationContext(), "Sorry! Your device doesn't support camera", Toast.LENGTH_LONG).show();
-            // will close the app if the device does't have camera
-//            finish();
         }
 
         dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
         if (dttAbsenUserData != null) {
             if (dttAbsenUserData.get_intSubmit().equals("1")) {
-//                // Kalau ada langsung ke Main Menu
-//                String nameBranch = spnBranch.getSelectedItem().toString();
-//                String nameOutlet = spnOutlet.getSelectedItem().toString();
-//
-//                String branchCode = HMbranch.get(nameBranch);
-//                String outletCode = HMoutlet.get(nameOutlet);
-//
-//                String myClass = "com.kalbe.salesforce.Checkin";
-//                String MenuID = "mnCheckinKBN";
-//                Class<?> clazz = null;
-//
-////				clazz = Class.forName(myClass);
-//                Intent myIntent = new Intent(getApplicationContext(), MainMenu.class);
-//                myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
-//                myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
-//                myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);
-//                finish();
-//                startActivity(myIntent);
             } else {
                 // Kalau ga ada harus check in dulu
-//				ShowMenu(dtmenuData);
             }
         } else {
             // Kalau ga ada harus check in dulu
-//			ShowMenu(dtmenuData);
         }
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(getContext()).addApi(AppIndex.API).build();
         btnCheckIn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                myClass="com.kalbenutritionals.app.kalbespgmobile.Home"; ;
+                myClass="com.kalbenutritionals.app.kalbespgmobile.MainMenu"; ;
                 MenuID="mnCheckinKBN";
                 clazz = null;
 
-                myClass= "com.kalbenutritionals.app.kalbespgmobile.Home";
+                myClass= "com.kalbenutritionals.app.kalbespgmobile.MainMenu";
                 MenuID = "mnCheckinKBN";
-                //nameBranch = spnBranch.getSelectedItem().toString();
                 nameOutlet = spnOutlet.getSelectedItem().toString();
-                //branchCode = HMbranch.get(nameBranch);
                 outletCode = HMoutlet.get(nameOutlet);
                 LayoutInflater layoutInflater = LayoutInflater.from(getContext());
                 final View promptView = layoutInflater.inflate(R.layout.confirm_data, null);
@@ -538,12 +506,15 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                                     public void onClick(DialogInterface dialog,	int id) {
                                         Boolean pRes= true;
                                         if(dttAbsenUserData == null){
+
                                             pRes=false;
+
                                         }else{
                                             if((dttAbsenUserData.get_txtImg1().equals("")|| dttAbsenUserData.get_txtImg1().equals("null"))
                                                     && (dttAbsenUserData.get_txtImg2().equals("")|| dttAbsenUserData.get_txtImg2().equals("null"))
                                                     && (spnBranch.getSelectedItem().toString().equals("")||spnBranch.getSelectedItem().toString().equals("null"))
                                                     && (HMbranch.get(nameBranch).equals("")|| HMbranch.get(nameBranch).equals("null"))){
+
                                                 pRes=false;
                                             }
                                         }
@@ -579,7 +550,6 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                                             datatAbsenUserData.set_txtUserId(idUserActive); //
                                             absenUserDatas.add(datatAbsenUserData);
                                             new tAbsenUserBL().saveData(absenUserDatas);
-//                                            showToast(getApplicationContext(), "Save Data Check-in");
                                             spnBranch.setEnabled(false);
                                             spnOutlet.setEnabled(false);
                                             imgPrevNoImg1.setClickable(false);
@@ -595,15 +565,14 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                                                 myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
                                                 myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
                                                 myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);
-                                                myIntent.putExtra("keyMainMenu", "main_menu");
-                                                getActivity().finish();
                                                 startActivity(myIntent);
                                             } catch (ClassNotFoundException e) {
                                                 // TODO Auto-generated catch block
                                                 e.printStackTrace();
                                             }
-                                        }else{
-                                            Toast.makeText(getContext(), "Please Photo at least 1 photo..", Toast.LENGTH_SHORT);
+                                        }
+                                        else {
+                                            Toast.makeText(getContext(), "Please Photo at least 1 photo..", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 })
@@ -628,16 +597,6 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
 
         });
         return v;
-    }
-
-    private void createLocationRequest() {
-        // TODO Auto-generated method stub
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(UPDATE_INTERVAL);
-        mLocationRequest.setFastestInterval(FATEST_INTERVAL);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setSmallestDisplacement(DISPLACEMENT);
-
     }
 
     @SuppressWarnings("deprecation")
@@ -685,8 +644,6 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
                 GooglePlayServicesUtil.getErrorDialog(resultCode, getActivity(), PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
-//                showToast(getApplicationContext(), "This device is not supported GPS.");
-//                finish();
             }
             return false;
         }
@@ -698,12 +655,10 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
     private void initilizeMap() {
         // TODO Auto-generated method stub
         if (mMap == null) {
-//            mMap = ((MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.map)).getMap();
-
 
             // check if map is created successfully or not
             if (mMap == null) {
-//                showToast(getApplicationContext(), "Sorry! unable to create maps");
+
             }
         }
 
@@ -744,46 +699,17 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
 
     protected void captureImage1() {
         Intent intentCamera1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //uriImage = getOutputMediaFileUri();
         startActivityForResult(intentCamera1, CAMERA_CAPTURE_IMAGE1_REQUEST_CODE);
     }
 
     protected void captureImage2() {
         Intent intentCamera2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //uriImage = getOutputMediaFileUri();
         startActivityForResult(intentCamera2, CAMERA_CAPTURE_IMAGE2_REQUEST_CODE);
     }
-
-//	private Uri getOutputMediaFileUri() {
-//		return Uri.fromFile(getOutputMediaFile());
-//	}
-
-//	private File getOutputMediaFile() {
-//		// External sdcard location
-//		File mediaStorageDir = new File(
-//				new clsHardCode().txtFolderAbsen + txtHDId.getText().toString() + File.separator);
-//		// Create the storage directory if it does not exist
-//		if (!mediaStorageDir.exists()) {
-//			if (!mediaStorageDir.mkdirs()) {
-//				Log.d(IMAGE_DIRECTORY_NAME, "Failed create "
-//						+ IMAGE_DIRECTORY_NAME + " directory");
-//				return null;
-//			}
-//		}
-//		// Create a media file name
-//		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-//				Locale.getDefault()).format(new Date());
-//		File mediaFile;
-//		mediaFile = new File(mediaStorageDir.getPath() + File.separator
-//				+ "IMG" + "_" + timeStamp + ".jpg");
-//		return mediaFile;
-//	}
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // if the result is capturing Image
-        //super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_CAPTURE_IMAGE1_REQUEST_CODE) {
             if (resultCode == -1 && (data.getExtras().get("data") != null || data.getData() != null)) {
                 Bitmap photo = null;
@@ -803,9 +729,7 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                 }
                 previewCapturedImage1(photo);
             } else if (resultCode == 0) {
-//                showToast(getApplicationContext(), "User cancelled image capture");
             } else {
-//                showToast(getApplicationContext(), "Sorry! Failed to capture image");
             }
         } else if (requestCode == CAMERA_CAPTURE_IMAGE2_REQUEST_CODE) {
             if (resultCode == -1 && (data.getExtras().get("data") != null || data.getData() != null)) {
@@ -825,22 +749,12 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                 }
                 previewCapturedImage2(photo);
             } else if (resultCode == 0) {
-//                showToast(getApplicationContext(), "User cancelled image capture");
             } else {
-//                showToast(getApplicationContext(), "Sorry! Failed to capture image");
             }
         }
 
     }
 
-
-    private String getRealPathFromURI(Uri uri) {
-        //TODO Auto-generated method stub
-        Cursor cursor = this.getActivity().getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-        return cursor.getString(idx);
-    }
     private void previewCapturedImage1(Bitmap photo) {
         try {
             dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
@@ -928,9 +842,6 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
         }
     }
 
-
-
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult result) {
         // TODO Auto-generated method stub
@@ -964,50 +875,6 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
         }
     }
 
-    /**
-     * Method to toggle periodic location updates
-     */
-    private void togglePeriodicLocationUpdates() {
-        if (!mRequestingLocationUpdates) {
-            // Changing the button text
-            //btnStartLocationUpdates
-            //.setText(getString(R.string.btn_stop_location_updates));
-
-            mRequestingLocationUpdates = true;
-
-            // Starting the location updates
-            startLocationUpdates();
-            //displayLocation();
-
-            Log.d(TAG, "Periodic location updates started!");
-
-        }
-    }
-
-    /**
-     * Starting the location updates
-     */
-    protected void startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) this);
-
-    }
-
-    /**
-     * Stopping location updates
-     */
-    protected void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, (com.google.android.gms.location.LocationListener) this);
-    }
 
     @Override
     public void onLocationChanged(Location location) {

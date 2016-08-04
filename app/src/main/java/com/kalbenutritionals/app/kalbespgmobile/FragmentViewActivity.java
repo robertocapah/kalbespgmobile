@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -141,6 +142,7 @@ public class FragmentViewActivity extends Fragment implements IXListViewListener
             rbCompetitor.setChecked(false);
         }
 
+        rbKalbe.setTextColor(Color.BLACK);
         rbKalbe.setEnabled(false);
         rbCompetitor.setEnabled(false);
 
@@ -149,6 +151,7 @@ public class FragmentViewActivity extends Fragment implements IXListViewListener
 
         btnSave.setVisibility(View.GONE);
         etDesc.setText(dt.get(position).get_txtDesc());
+        etDesc.setTextColor(Color.BLACK);
         etDesc.setEnabled(false);
 
         byte[] imgFile = dt.get(position).get_txtImg1();

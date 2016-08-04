@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,22 +19,18 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import bl.tAbsenUserBL;
 import bl.tActivityBL;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
-import library.salesforce.dal.clsHardCode;
 
 /**
  * Created by Admin on 04-06-2015.
@@ -102,10 +97,14 @@ public class FragmentAddActivity extends Fragment implements View.OnClickListene
 
         if(photo1 != null){
             imgActivity1.setImageBitmap(photo1);
+            photo1.compress(Bitmap.CompressFormat.PNG, 100, output);
+            pht1 = output.toByteArray();
         }
 
         if(photo2 != null){
             imgActivity2.setImageBitmap(photo2);
+            photo2.compress(Bitmap.CompressFormat.PNG, 100, output);
+            pht2 = output.toByteArray();
         }
 
         return v;
@@ -158,7 +157,7 @@ public class FragmentAddActivity extends Fragment implements View.OnClickListene
 
                 //dtActivityData = new tActivityBL().getDataByBitActive();
 
-                if(dtActivityData.get_txtImg1() == null && dtActivityData.get_txtImg2() == null){
+                if(pht1 == null && pht2 == null){
                     Toast.makeText(this.getContext(), "Failed to save: Please take at least 1 photo", Toast.LENGTH_LONG).show();
                 }
                 else{
@@ -188,6 +187,8 @@ public class FragmentAddActivity extends Fragment implements View.OnClickListene
 
                     Toast.makeText(getActivity().getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
                     viewActivityFragment();
+                    photo1=null;
+                    photo2=null;
                 }
         }
     }
@@ -290,7 +291,7 @@ public class FragmentAddActivity extends Fragment implements View.OnClickListene
 
     private void previewCapturedImage1(Bitmap photo) {
         try {
-            uriImage = getOutputMediaFileUri();
+            //uriImage = getOutputMediaFileUri();
             //ByteArrayOutputStream out = null;
             try {
                 output = new ByteArrayOutputStream();
@@ -337,7 +338,6 @@ public class FragmentAddActivity extends Fragment implements View.OnClickListene
                 List<tActivityData> dtListActivity = new ArrayList<>();
                 dtListActivity.add(dtActivityData);
                 //new tActivityBL().saveData(dtListActivity);
-                photo1 = null;
 
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -346,7 +346,7 @@ public class FragmentAddActivity extends Fragment implements View.OnClickListene
 
     private void previewCapturedImage2(Bitmap photo) {
         try {
-            uriImage = getOutputMediaFileUri();
+            //uriImage = getOutputMediaFileUri();
             //ByteArrayOutputStream out = null;
             try {
                 output = new ByteArrayOutputStream();
@@ -387,37 +387,37 @@ public class FragmentAddActivity extends Fragment implements View.OnClickListene
             List<tActivityData> dtListActivity = new ArrayList<>();
             dtListActivity.add(dtActivityData);
             //new tActivityBL().saveData(dtListActivity);
-            photo2 = null;
 
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
 
-    private Uri getOutputMediaFileUri() {
-        return Uri.fromFile(getOutputMediaFile());
-    }
+//    private Uri getOutputMediaFileUri() {
+//        return Uri.fromFile(getOutputMediaFile());
+//    }
 
-    private File getOutputMediaFile() {
-        // External sdcard location
+//    private File getOutputMediaFile() {
+//        // External sdcard location
+//
+//        File mediaStorageDir = new File(new clsHardCode().txtFolderActivity + String.valueOf(countActivity) + File.separator);
+//        // Create the storage directory if it does not exist
+//        if (!mediaStorageDir.exists()) {
+//            if (!mediaStorageDir.mkdirs()) {
+//                Log.d(IMAGE_DIRECTORY_NAME, "Failed create " + IMAGE_DIRECTORY_NAME + " directory");
+//                return null;
+//            }
+//        }
+//        // Create a media file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+//        File mediaFile;
+//        mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG" + "_" + timeStamp + ".jpg");
+//        return mediaFile;
+//    }
 
-        File mediaStorageDir = new File(new clsHardCode().txtFolderActivity + String.valueOf(countActivity) + File.separator);
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d(IMAGE_DIRECTORY_NAME, "Failed create " + IMAGE_DIRECTORY_NAME + " directory");
-                return null;
-            }
-        }
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        File mediaFile;
-        mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG" + "_" + timeStamp + ".jpg");
-        return mediaFile;
-    }
     public void viewActivityFragment(){
         Intent intent = new Intent(getContext(),MainMenu.class);
-        intent.putExtra("keyActivity", "add_activity");
+        intent.putExtra("key_view", "View Activity");
         getActivity().finish();
         startActivity(intent);
         return;
