@@ -42,10 +42,6 @@ public class HomeFragment extends Fragment {
         v = inflater.inflate(R.layout.activity_home,container,false);
 
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout) v.findViewById(R.id.coordinatorLayout);
-        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Welcome to AndroidHive", Snackbar.LENGTH_LONG);
-
-        snackbar.show();
-
 
         username = (TextView) v.findViewById(R.id.username);
         branch = (TextView) v.findViewById(R.id.branch);
@@ -66,9 +62,25 @@ public class HomeFragment extends Fragment {
         List<tCustomerBaseData> dtCustomerBase = new tCustomerBaseBL().getAllCustomerBase();
 
         username.setText(dt.get_txtName());
-        branch.setText(dt.get_txtBranchCode());
-        outlet.setText(dt.get_txtOutletName());
-        statusAbsen.setText(dtAbsen != null ? "Active" : "Inactive");
+
+        if(dtAbsen != null){
+            branch.setText(dtAbsen.get_txtBranchName());
+            outlet.setText(dtAbsen.get_txtOutletName());
+            statusAbsen.setText("Active");
+        }
+        else{
+            branch.setText("Inactive");
+            outlet.setText("Inactive");
+            statusAbsen.setText("Inactive");
+        }
+
+        Snackbar.make(coordinatorLayout, "Welcome " + dt.get_txtName(), Snackbar.LENGTH_LONG)
+                .setAction("Dismiss", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                }
+        }).show();
+
         totalBrand.setText(String.valueOf(dtBrand.size()));
         totalProduct.setText(String.valueOf(dtProduct.size()));
 

@@ -267,7 +267,7 @@ public class MainMenu extends AppCompatActivity {
                         android.support.v4.app.FragmentTransaction fragmentTransactionHome = getSupportFragmentManager().beginTransaction();
                         fragmentTransactionHome.replace(R.id.frame,homeFragment);
                         fragmentTransactionHome.commit();
-                        selectedId=0;
+                        selectedId=99;
 
                         return true;
 
@@ -327,6 +327,7 @@ public class MainMenu extends AppCompatActivity {
 
                         return true;
                     default:
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
                         try{
                             Class<?> fragmentClass = Class.forName(linkMenu[menuItem.getItemId()]);
                             try {
@@ -429,7 +430,7 @@ public class MainMenu extends AppCompatActivity {
         menu.clear();
         if(listMenu.length <= selectedId){
             menu.add(4, 0, 0, "Default");
-            menu.setGroupEnabled(1,false);
+            menu.setGroupEnabled(4,false);
         }
         else if(!isSubMenu){
             menu.add(0, selectedId, 0, "Add " + listMenu[selectedId]);

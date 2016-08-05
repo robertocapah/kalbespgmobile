@@ -187,14 +187,14 @@
         android:layout_toEndOf="@+id/textView19"
         android:layout_toRightOf="@+id/textView19" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button3"
-            android:layout_below="@+id/totalCustomerBase"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="800dp" />
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="New Button"-->
+            <!--android:id="@+id/button3"-->
+            <!--android:layout_below="@+id/totalCustomerBase"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="800dp" />-->
     </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
     <!--<android.support.design.widget.FloatingActionButton-->
