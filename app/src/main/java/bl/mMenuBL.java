@@ -51,7 +51,7 @@ public class mMenuBL extends clsMainBL {
 				if (_tSalesProductHeaderDA.getContactsCount(db) > 0) {
 					tmpData.add(data);
 				}
-			} else if (data.get_TxtDescription().contains("mnAbsenKBN") || data.get_TxtDescription().contains("mnInventoryKBN") || data.get_TxtDescription().contains("mnInventoryOut") || data.get_TxtDescription().contains("mnStockopname") || data.get_TxtDescription().contains("mnPushDataData") || data.get_TxtDescription().contains("mnReportKBN") || data.get_TxtDescription().contains("mnLogoutKBN")) {
+			} else if (data.get_TxtDescription().contains("mnLeave")||data.get_TxtDescription().contains("mnAbsenKBN") || data.get_TxtDescription().contains("mnInventoryKBN") || data.get_TxtDescription().contains("mnInventoryOut") || data.get_TxtDescription().contains("mnStockopname") || data.get_TxtDescription().contains("mnPushDataData") || data.get_TxtDescription().contains("mnReportKBN") || data.get_TxtDescription().contains("mnLogoutKBN")) {
 				mEmployeeAreaDA _mEmployeeAreaDA = new mEmployeeAreaDA(db);
 				mEmployeeBranchDA _mEmployeeBranchDA = new mEmployeeBranchDA(db);
 				mProductBarcodeDA _mProductBarcodeDA = new mProductBarcodeDA(db);
@@ -68,7 +68,7 @@ public class mMenuBL extends clsMainBL {
 						tmpData.add(data);
 					}
 				}
-			} else if(data.get_TxtDescription().contains("mnReso") || data.get_TxtDescription().contains("mnActivity") || data.get_TxtDescription().contains("mnCustomerBase") || data.get_TxtDescription().contains("mnDownloadData")){
+			} else if(data.get_TxtDescription().contains("mnLeave")||data.get_TxtDescription().contains("mnReso") || data.get_TxtDescription().contains("mnActivity") || data.get_TxtDescription().contains("mnCustomerBase") || data.get_TxtDescription().contains("mnDownloadData")){
 				tmpData.add(data);
 			}
 		}

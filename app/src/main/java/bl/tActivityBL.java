@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -165,6 +166,16 @@ public class tActivityBL extends clsMainBL{
 		tActivityDA _tActivityDA=new tActivityDA(db);
 		List<tActivityData> listData=_tActivityDA.getAllData(db);
 		return listData;
+	}
+
+	public List<tActivityData> getAllDataByIntSyc(String val){
+		SQLiteDatabase _db =getDb();
+		tActivityDA _tActivityDA = new tActivityDA(_db);
+		List<tActivityData> dt = _tActivityDA.getAllDataByIntSyc(_db,val);
+		if(dt == null){
+			dt = new ArrayList<>(0);
+		}
+		return dt ;
 	}
 
 }

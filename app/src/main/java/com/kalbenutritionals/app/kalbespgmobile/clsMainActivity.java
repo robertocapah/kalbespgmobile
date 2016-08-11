@@ -2,7 +2,6 @@ package com.kalbenutritionals.app.kalbespgmobile;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -11,12 +10,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.EventLogTags;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -27,11 +22,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -65,12 +56,13 @@ import library.salesforce.common.tDeviceInfoUserData;
 import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.enumCounterData;
 
-import static junit.framework.Assert.assertEquals;
-
 //import com.kalbe.bl.mCounterNumberBL;
 
 public class clsMainActivity extends Activity {
 	private static final String TAG_UUID = "id";
+	String months[] = {"","January", "February", "March", "April",
+			"May", "June", "July", "August", "September",
+			"October", "November", "December"};
 	public void onClickHome (View v){
 //	    goHome (this);
 	}
@@ -117,6 +109,11 @@ public class clsMainActivity extends Activity {
 		 String output = myFormatter.format(value);
 		 
 		 return output;
+	}
+
+	public String convertcurrencyidn (double value){
+
+		return convertcurrencyidn(value);
 	}
 	
 	@SuppressLint("NewApi")
@@ -259,6 +256,14 @@ public class clsMainActivity extends Activity {
 			return dt.get(0);	
 		}
 	}
+
+	public double qtySumAmount(double price, double item){
+		double total;
+		total = price*item;
+
+		return total;
+	}
+
 	public void GenerateNewId(String txtId,enumCounterData dtCounter){
 		
 		clsHelper _clsHelper=new clsHelper();
@@ -278,7 +283,7 @@ public class clsMainActivity extends Activity {
 	    }
 	public String giveFormatDate() {
 	    Calendar cal = Calendar.getInstance();
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	    return sdf.format(cal.getTime());
 	 }
 	public String FormatDateDB() {
@@ -286,6 +291,31 @@ public class clsMainActivity extends Activity {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return sdf.format(cal.getTime());
 	}
+	public String giveFormatDateTime(String DateYYMMDD) {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+		DateFormat formatYY = new SimpleDateFormat("yyyy");
+		DateFormat formatMM = new SimpleDateFormat("MM");
+		DateFormat formatDD = new SimpleDateFormat("dd");
+		DateFormat HH = new SimpleDateFormat("HH");
+		DateFormat mm = new SimpleDateFormat("mm");
+		DateFormat ss = new SimpleDateFormat("ss");
+		String txtDate="";
+		try {
+			Date dtdate = (Date)dateFormat.parse(DateYYMMDD);
+			int year = Integer.valueOf(formatYY.format(dtdate));
+			int month = Integer.valueOf(formatMM.format(dtdate));
+			int day  = Integer.valueOf(formatDD.format(dtdate));
+			int hr = Integer.valueOf(HH.format(dtdate));
+			int mnt = Integer.valueOf(mm.format(dtdate));
+			int scnd = Integer.valueOf(ss.format(dtdate));
+			txtDate=String.valueOf(day)+" "+String.valueOf(months[month])+" "+String.valueOf(year)+" " + String.valueOf(hr)+":"+String.valueOf(mnt)+":"+String.valueOf(scnd);
+		} catch (ParseException e) {
+			txtDate=DateYYMMDD;
+		}
+	   
+	    return txtDate;
+	 }
 	public String giveFormatDate(String DateYYMMDD) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		DateFormat formatYY = new SimpleDateFormat("yyyy");
@@ -301,9 +331,9 @@ public class clsMainActivity extends Activity {
 		} catch (ParseException e) {
 			txtDate=DateYYMMDD;
 		}
-	   
-	    return txtDate;
-	 }
+
+		return txtDate;
+	}
 	 public String giveDate() {
 	    Calendar cal = Calendar.getInstance();
 	    SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM, yyyy");

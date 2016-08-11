@@ -154,6 +154,45 @@ public class tCustomerBaseDA {
 			// return contact list
 			return contactList;
 		}
+
+
+	//get data by int sync
+	public List<tCustomerBaseData> getAllDataByIntSyc(SQLiteDatabase db, String int_sync) {
+		List<tCustomerBaseData> contactList = null;
+		// Select All Query
+		tCustomerBaseData dt=new tCustomerBaseData();
+		String selectQuery = "SELECT  "+dt.Property_ALL+" FROM " + TABLE_CONTACTS +" WHERE "+dt.Property_intCustomerIdSync +"='"+int_sync+"'";
+
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			contactList=new ArrayList<tCustomerBaseData>();
+			do {
+				tCustomerBaseData contact = new tCustomerBaseData();
+				contact.set_bitActive(cursor.getString(0));
+				contact.set_dtDate(cursor.getString(1));
+				contact.set_intCustomerId(cursor.getString(2));
+				contact.set_intCustomerIdSync(cursor.getString(3));
+				contact.set_intSubmit(cursor.getString(4));
+				contact.set_txtAlamat(cursor.getString(5));
+				contact.set_txtBranchId(cursor.getString(6));
+				contact.set_txtNama(cursor.getString(7));
+				contact.set_txtOutletId(cursor.getString(8));
+				contact.set_txtTelp(cursor.getString(9));
+				contact.set_txtUserId(cursor.getString(10));
+				contact.set_txtDeviceId(cursor.getString(11));
+				contact.set_txtSex(cursor.getString(12));
+				contact.set_txtProductBrandCode(cursor.getString(13));
+				// Adding contact to list
+				contactList.add(contact);
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+		// return contact list
+		return contactList;
+	}
+
 		public List<tCustomerBaseData> getPushData(SQLiteDatabase db) {
 			List<tCustomerBaseData> contactList = null;
 			// Select All Query

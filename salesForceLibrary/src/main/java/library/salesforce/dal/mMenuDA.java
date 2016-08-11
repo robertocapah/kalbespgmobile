@@ -297,5 +297,9 @@ public class mMenuDA {
 		txtQuery = "insert into mMenu(intId,intOrder,intParentID,TxtDescription,TxtLink, intMenuID, intVisible, TxtIcon, TxtMenuName )"
 				+ "select  6,'3','2','mnCustomerBase','com.kalbenutritionals.app.kalbespgmobile.FragmentViewCustomerBase','3','', 'ic_person', 'Customer Base';";
 		db.execSQL(txtQuery);
+
+		txtQuery = "insert into mMenu(intId,intOrder,intParentID,TxtDescription,TxtLink, intMenuID, intVisible, TxtIcon, TxtMenuName )"
+				+ "select  99,'3','1','mnLeave','com.kalbenutritionals.app.kalbespgmobile.FragmentAddLeave','3','', 'ic_person', 'Leave';";
+		db.execSQL(txtQuery);
 	}
 }

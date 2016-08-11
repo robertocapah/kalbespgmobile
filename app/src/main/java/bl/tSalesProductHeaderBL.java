@@ -2,6 +2,7 @@ package bl;
 
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import library.salesforce.common.tSalesProductHeaderData;
@@ -36,6 +37,16 @@ public class tSalesProductHeaderBL extends clsMainBL {
         SQLiteDatabase _db =getDb();
         tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(_db);
         List<tSalesProductHeaderData> dt = _tSalesProductHeaderDA.getLastData(_db);
+        return dt ;
+    }
+
+    public List<tSalesProductHeaderData> getAllDataByIntSyc(String val){
+        SQLiteDatabase _db =getDb();
+        tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(_db);
+        List<tSalesProductHeaderData> dt = _tSalesProductHeaderDA.getAllDataByIntSyc(_db,val);
+        if(dt == null){
+            dt = new ArrayList<>(0);
+        }
         return dt ;
     }
 }

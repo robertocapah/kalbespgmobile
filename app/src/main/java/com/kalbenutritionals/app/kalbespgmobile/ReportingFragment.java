@@ -113,7 +113,7 @@ public class ReportingFragment extends Fragment {
                         rt.set_report_type("Reso");
                         rt.set_no_so(dt_so.get(i).get_intId());
                         rt.set_total_product(dt_so.get(i).get_intSumItem());
-                        rt.set_total_price(dt_so.get(i).get_intSumAmount());
+                        rt.set_total_price("Rp " + new clsMainActivity().convertNumberDec(Double.valueOf(dt_so.get(i).get_intSumAmount())));
                         rt.set_status(dt_so.get(i).get_intSubmit());
 
                         List<tSalesProductDetailData> dt_detail = new tSalesProductDetailBL().GetDataByNoSO(dt_so.get(i).get_intId());

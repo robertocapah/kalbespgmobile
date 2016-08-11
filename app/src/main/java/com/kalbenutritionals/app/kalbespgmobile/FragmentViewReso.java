@@ -124,7 +124,7 @@ public class FragmentViewReso extends Fragment implements IXListViewListener {
         tv_item.setText(": " + String.valueOf(dt.get(position).get_intSumItem()));
         final  TextView tv_amount = (TextView) promptView.findViewById(R.id.tvSumAmount) ;
         tv_amount.setTypeface(null, Typeface.BOLD);
-        tv_amount.setText(": " + String.valueOf(dt.get(position).get_intSumAmount()));
+        tv_amount.setText(": " + new clsMainActivity().convertNumberDec(Double.valueOf(dt.get(position).get_intSumAmount())));
         final  TextView tv_status = (TextView) promptView.findViewById(R.id.tvStatus);
         tv_status.setTypeface(null, Typeface.BOLD);
         tv_status.setText(": Submit");
@@ -164,7 +164,7 @@ public class FragmentViewReso extends Fragment implements IXListViewListener {
             price.setTextColor(Color.GREEN);
             price.setTextSize(12);
             price.setPadding(15, 0, 0, 0);
-            price.setText(dat.get_intPrice());
+            price.setText(new clsMainActivity().convertNumberDec(Double.valueOf(dat.get_intPrice())));
             tr.addView(price);
 
             TextView amount = new TextView(getContext());
@@ -175,7 +175,7 @@ public class FragmentViewReso extends Fragment implements IXListViewListener {
             double itm = Double.valueOf(dat.get_intQty());
             qtyNum = prc*itm;
             qtySum += qtyNum;
-            amount.setText(String.valueOf(qtyNum));
+            amount.setText(new clsMainActivity().convertNumberDec(qtyNum));
             tr.addView(amount);
 
             tl.addView(tr, tableRowParams);

@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import bl.mEmployeeSalesProductBL;
@@ -23,7 +21,6 @@ import bl.tCustomerBaseBL;
 import bl.tSalesProductHeaderBL;
 import bl.tUserLoginBL;
 import library.salesforce.common.mEmployeeSalesProductData;
-import library.salesforce.common.mProductBrandHeaderData;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
 import library.salesforce.common.tCustomerBaseData;
@@ -34,7 +31,8 @@ public class HomeFragment extends Fragment {
 
     View v;
     private Toolbar toolbar;
-    TextView username, branch, outlet, statusAbsen, totalBrand, totalProduct, totalReso, totalActivity, totalCustomerBase;
+    private SortableReportTableView ReportTableView;
+    TextView username, branch, outlet, statusAbsen, totalBrand, totalProduct, totalReso, totalActivity, totalCustomerBase, tv_reso1, tv_reso2, tv_act1, tv_act2, tv_cb1, tv_cb2;
 
     @Nullable
     @Override
@@ -52,6 +50,13 @@ public class HomeFragment extends Fragment {
         totalReso = (TextView) v.findViewById(R.id.totalReso);
         totalActivity = (TextView) v.findViewById(R.id.totalActivity);
         totalCustomerBase = (TextView) v.findViewById(R.id.totalCustomerBase);
+        ReportTableView = (SortableReportTableView) v.findViewById(R.id.tableView);
+        tv_reso1 = (TextView) v.findViewById(R.id.tv_reso1);
+        tv_reso2 = (TextView) v.findViewById(R.id.tv_reso2);
+        tv_act1 = (TextView) v.findViewById(R.id.tv_act1);
+        tv_act2 = (TextView) v.findViewById(R.id.tv_act2);
+        tv_cb1 = (TextView) v.findViewById(R.id.tv_cb1);
+        tv_cb2 = (TextView) v.findViewById(R.id.tv_cb2);
 
         tUserLoginData dt=new tUserLoginBL().getUserActive();
         tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
@@ -66,7 +71,7 @@ public class HomeFragment extends Fragment {
         if(dtAbsen != null){
             branch.setText(dtAbsen.get_txtBranchName());
             outlet.setText(dtAbsen.get_txtOutletName());
-            statusAbsen.setText("Active");
+            statusAbsen.setText("Active" + ", " + new clsMainActivity().giveFormatDateTime(dtAbsen.get_dtDateCheckIn()));
         }
         else{
             branch.setText("Inactive");
@@ -87,6 +92,28 @@ public class HomeFragment extends Fragment {
         if(dtReso != null) totalReso.setText(String.valueOf(dtReso.size()));
         if(dtActivity != null) totalActivity.setText(String.valueOf(dtActivity.size()));
         if(dtCustomerBase != null) totalCustomerBase.setText(String.valueOf(dtCustomerBase.size()));
+
+
+
+        List<tSalesProductHeaderData> dt_reso_unpush = new tSalesProductHeaderBL().getAllDataByIntSyc("0");
+        List<tSalesProductHeaderData> dt_reso_push = new tSalesProductHeaderBL().getAllDataByIntSyc("1");
+        List<tActivityData> dt_act_unpush = new tActivityBL().getAllDataByIntSyc("0");
+        List<tActivityData> dt_act_push = new tActivityBL().getAllDataByIntSyc("1");
+        List<tCustomerBaseData> dt_cb_unpush = new tCustomerBaseBL().getAllDataByIntSyc("0");
+        List<tCustomerBaseData> dt_cb_push = new tCustomerBaseBL().getAllDataByIntSyc("1");
+
+
+        if(dtReso != null) totalReso.setText(String.valueOf(dtReso.size()));
+        if(dtActivity != null) totalActivity.setText(String.valueOf(dtActivity.size()));
+        if(dtCustomerBase != null) totalCustomerBase.setText(String.valueOf(dtCustomerBase.size()));
+
+
+        tv_reso1.setText(String.valueOf(dt_reso_unpush.size()));
+        tv_reso2.setText(String.valueOf(dt_reso_push.size()));
+        tv_act1.setText(String.valueOf(dt_act_unpush.size()));
+        tv_act2.setText(String.valueOf(dt_act_push.size()));
+        tv_cb1.setText(String.valueOf(dt_cb_unpush.size()));
+        tv_cb2.setText(String.valueOf(dt_cb_push.size()));
 
         return v;
     }

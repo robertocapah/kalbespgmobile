@@ -162,7 +162,7 @@ public class FragmentAddActivity extends Fragment implements View.OnClickListene
                 }
                 else{
                     dtActivityData.set_intActive("0");
-                    dtActivityData.set_intIdSyn("");
+                    dtActivityData.set_intIdSyn("0");
                     dtActivityData.set_txtDesc(String.valueOf(etDescription.getText()));
                     dtActivityData.set_intFlag(String.valueOf(radioFlag.getText()));
                     dtActivityData.set_intId(String.valueOf(new clsMainActivity().GenerateGuid()));

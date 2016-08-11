@@ -201,7 +201,7 @@ public class FragmentAddCustomerBase extends Fragment implements View.OnClickLis
                 tAbsenUserData absenUserData = new tAbsenUserBL().getDataCheckInActive();
 
                 dt.set_intCustomerId(_clsMainActivity.GenerateGuid());
-                dt.set_intCustomerIdSync("1");
+                dt.set_intCustomerIdSync("0");
                 dt.set_bitActive("1");
                 dt.set_dtDate(dateFormat.format(cal.getTime()));
                 dt.set_intSubmit("1");

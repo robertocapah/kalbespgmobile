@@ -1,6 +1,7 @@
 package library.salesforce.common;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 public class ModelListview implements Serializable{
     private String _id;
@@ -9,6 +10,16 @@ public class ModelListview implements Serializable{
     private boolean _selected;
     private String _price;
     private String _NIK;
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    private String amount;
 
     public String get_id() {
         return _id;
@@ -56,6 +67,34 @@ public class ModelListview implements Serializable{
     public String set_NIK(String _NIK){this._NIK = _NIK;
         return _NIK;
     }
+
+    /*Comparator for sorting the list by roll no*/
+    public static Comparator<ModelListview> StuRollno = new Comparator<ModelListview>() {
+        @Override
+        public int compare(ModelListview lhs, ModelListview rhs) {
+            int rollno1 = lhs.get_value();
+            int rollno2 = rhs.get_value();
+
+            //	   /*For ascending order*/
+            return rollno2-rollno1;
+//
+//	   /*For descending order*/
+//            //rollno2-rollno1;
+//        }
+        }
+
+//        public int compare(Student s1, Student s2) {
+//
+//            int rollno1 = s1.getRollno();
+//            int rollno2 = s2.getRollno();
+//
+//	   /*For ascending order*/
+//            return rollno1-rollno2;
+//
+//	   /*For descending order*/
+//            //rollno2-rollno1;
+//        }
+    };
 
 
 //    public ModelListview(String id, String name, int value, boolean selected){

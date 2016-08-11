@@ -96,6 +96,14 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/btn_download_all"/>
 
+        <ListView
+            android:id="@+id/lvProduk2"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/btnPreviewReso"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"></ListView>
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="0dp"

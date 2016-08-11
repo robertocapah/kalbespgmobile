@@ -37,5 +37,4 @@ public class SortableReportTableView extends SortableTableView<ReportTable> {
 
         setColumnWeight(0, 0);
     }
-
 }
