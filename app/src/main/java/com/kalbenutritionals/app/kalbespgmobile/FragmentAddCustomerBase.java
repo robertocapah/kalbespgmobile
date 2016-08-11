@@ -21,6 +21,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -51,7 +52,7 @@ import library.salesforce.dal.tCustomerBaseDetailDA;
  */
 public class FragmentAddCustomerBase extends Fragment implements View.OnClickListener {
     private ArrayList<ModelListview> modelItems;
-//    private ArrayList<ModelListview> mDisplayedValues;
+    //    private ArrayList<ModelListview> mDisplayedValues;
     ListView listView;
     MyAdapter dataAdapter;
     EditText etAlamat, etNama, etTelpon;
@@ -63,24 +64,26 @@ public class FragmentAddCustomerBase extends Fragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_customerbase_add,container,false);
         final EditText searchProduct = (EditText) v.findViewById(R.id.searchProduct);
-        final TextView tvListproduct = (TextView) v.findViewById(R.id.textView10);
+//        final TextView tvListproduct = (TextView) v.findViewById(R.id.textView10);
         final ScrollView scroll = (ScrollView) v.findViewById(R.id.scroll);
         etAlamat = (EditText) v.findViewById(R.id.etAlamat) ;
         etNama = (EditText) v.findViewById(R.id.etNama) ;
         etTelpon = (EditText) v.findViewById(R.id.etTelpon);
-        rdSex = (RadioGroup) v.findViewById(R.id.radioSex);
+//        rdSex = (RadioGroup) v.findViewById(R.id.radioSex);
 
-        searchProduct.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-                    scroll.scrollTo(0, tvListproduct.getTop());
-                }
-            }
-        });
+//        searchProduct.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if(hasFocus){
+//                    scroll.scrollTo(0, tvListproduct.getTop());
+//                }
+//            }
+//        });
 
-        Button btnPreview = (Button) v.findViewById(R.id.btnPreview);
-        btnPreview.setOnClickListener(this);
+        Button btnAdd = (Button) v.findViewById(R.id.btnAdd);
+        Button btnAddPerson = (Button) v.findViewById(R.id.btnAddPerson);
+        btnAdd.setOnClickListener(this);
+        btnAddPerson.setOnClickListener(this);
 
         List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetAllData();
         modelItems = new ArrayList<ModelListview>();
@@ -97,24 +100,24 @@ public class FragmentAddCustomerBase extends Fragment implements View.OnClickLis
         }
 
         dataAdapter = new MyAdapter(getActivity().getApplicationContext(), modelItems);
-        listView = (ListView) v.findViewById(R.id.listView2);
-        listView.setAdapter(dataAdapter);
-        listView.setTextFilterEnabled(true);
+//        listView = (ListView) v.findViewById(R.id.listView2);
+//        listView.setAdapter(dataAdapter);
+//        listView.setTextFilterEnabled(true);
 
-        setListViewHeightBasedOnItems(listView);
+//        setListViewHeightBasedOnItems(listView);
 
-        searchProduct.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {}
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetDataByProductName(searchProduct.getText().toString());
-                dataAdapter.getFilter().filter(s.toString());
-
-            }
-        });
+//        searchProduct.addTextChangedListener(new TextWatcher() {
+//
+//            public void afterTextChanged(Editable s) {}
+//
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+//
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+////                List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetDataByProductName(searchProduct.getText().toString());
+//                dataAdapter.getFilter().filter(s.toString());
+//
+//            }
+//        });
 
         return v;
     }
@@ -122,55 +125,66 @@ public class FragmentAddCustomerBase extends Fragment implements View.OnClickLis
     @Override
     public void onClick(View view) {
         switch(view.getId()){
-            case R.id.btnPreview:
-                int a = listView.getCount();
+            case R.id.btnAddPerson:
+                break;
 
-                LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-                final View promptView = layoutInflater.inflate(R.layout.activity_preview_customerbase, null);
+            case R.id.btnAdd:
+                LinearLayout lnTop = (LinearLayout) v.findViewById(R.id.linearLayoutTop);
+                LinearLayout lnBottom = (LinearLayout) v.findViewById(R.id.linearLayoutBottom);
 
-                int selectedId = rdSex.getCheckedRadioButtonId();
-                RadioButton radioSexButton = (RadioButton) v.findViewById(selectedId);
+                lnTop.setVisibility(View.GONE);
+                lnBottom.setVisibility(View.VISIBLE);
 
-                final TextView _tvSex = (TextView) promptView.findViewById(R.id.tvTypeSex);
-                final TextView _tvNama = (TextView) promptView.findViewById(R.id.tvNama);
-                final TextView _tvTelp = (TextView) promptView.findViewById(R.id.tvNoTelp);
-                final TextView _tvAlamat = (TextView) promptView.findViewById(R.id.tvAlamat);
-                final TextView _tvStatus = (TextView) promptView.findViewById(R.id.tvStatus);
-                final ListView _lvProduk = (ListView) promptView.findViewById(R.id.lvProduks);
+                Toast.makeText(getContext(), etAlamat.getText().toString(), Toast.LENGTH_SHORT).show();
 
-                _tvSex.setText(radioSexButton.getText().toString());
-                _tvNama.setText(etNama.getText().toString());
-                _tvTelp.setText(etTelpon.getText().toString());
-                _tvAlamat.setText(etAlamat.getText().toString());
-                _tvStatus.setText("Open");
-
-                List<String> item = new ArrayList<>();
-
-                for(int i = 0; i < a; i++){
-                    if(modelItems.get(i).isSelected()){
-                        item.add(modelItems.get(i).get_name());
-                    }
-                }
-
-                _lvProduk.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, item));
-
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-                alertDialogBuilder.setView(promptView);
-                alertDialogBuilder
-                        .setCancelable(false)
-                        .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                saveCustomerBase();
-                                viewCBFragment();
-                            }
-                        })
-                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                final AlertDialog alertD = alertDialogBuilder.create();
-                alertD.show();
+//                int a = listView.getCount();
+//
+//                LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+//                final View promptView = layoutInflater.inflate(R.layout.activity_preview_customerbase, null);
+//
+//                int selectedId = rdSex.getCheckedRadioButtonId();
+//                RadioButton radioSexButton = (RadioButton) v.findViewById(selectedId);
+//
+//                final TextView _tvSex = (TextView) promptView.findViewById(R.id.tvTypeSex);
+//                final TextView _tvNama = (TextView) promptView.findViewById(R.id.tvNama);
+//                final TextView _tvTelp = (TextView) promptView.findViewById(R.id.tvNoTelp);
+//                final TextView _tvAlamat = (TextView) promptView.findViewById(R.id.tvAlamat);
+//                final TextView _tvStatus = (TextView) promptView.findViewById(R.id.tvStatus);
+//                final ListView _lvProduk = (ListView) promptView.findViewById(R.id.lvProduks);
+//
+//                _tvSex.setText(radioSexButton.getText().toString());
+//                _tvNama.setText(etNama.getText().toString());
+//                _tvTelp.setText(etTelpon.getText().toString());
+//                _tvAlamat.setText(etAlamat.getText().toString());
+//                _tvStatus.setText("Open");
+//
+//                List<String> item = new ArrayList<>();
+//
+//                for(int i = 0; i < a; i++){
+//                    if(modelItems.get(i).isSelected()){
+//                        item.add(modelItems.get(i).get_name());
+//                    }
+//                }
+//
+//                _lvProduk.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, item));
+//
+//                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+//                alertDialogBuilder.setView(promptView);
+//                alertDialogBuilder
+//                        .setCancelable(false)
+//                        .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                saveCustomerBase();
+//                                viewCBFragment();
+//                            }
+//                        })
+//                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                dialog.cancel();
+//                            }
+//                        });
+//                final AlertDialog alertD = alertDialogBuilder.create();
+//                alertD.show();
                 break;
         }
     }
@@ -201,7 +215,7 @@ public class FragmentAddCustomerBase extends Fragment implements View.OnClickLis
                 tAbsenUserData absenUserData = new tAbsenUserBL().getDataCheckInActive();
 
                 dt.set_intCustomerId(_clsMainActivity.GenerateGuid());
-                dt.set_intCustomerIdSync("0");
+                dt.set_intCustomerIdSync("1");
                 dt.set_bitActive("1");
                 dt.set_dtDate(dateFormat.format(cal.getTime()));
                 dt.set_intSubmit("1");

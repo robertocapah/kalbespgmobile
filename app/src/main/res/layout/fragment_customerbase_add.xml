@@ -11,127 +11,275 @@
         android:padding="15dp"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="Sex"
-            android:id="@+id/tvSex"
-            android:layout_weight="1" />
-
-        <RadioGroup
-            android:id="@+id/radioSex"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="Pria"
-            android:id="@+id/rbPria"
-            android:checked="true"
-            android:layout_weight="1" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="Wanita"
-            android:id="@+id/rbWanita"
-            android:checked="false"
-            android:layout_weight="1" />
-
-        </RadioGroup>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="Nama *"
-            android:id="@+id/tvNama"
+            android:layout_gravity="right"
             android:layout_weight="1"
-            android:layout_marginTop="10dp" />
+            android:id="@+id/linearLayoutTop">
 
-        <EditText
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Nama *"
+                android:id="@+id/tvNama"
+                android:layout_weight="1" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/etNama"
+                android:background="@drawable/bg_edtext"
+                android:layout_weight="1"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Telp *"
+                android:id="@+id/textView10"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:inputType="number"
+                android:background="@drawable/bg_edtext"
+                android:id="@+id/etTelpon"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Telp Kantor"
+                android:id="@+id/textView5"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/etTelponKantor"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:background="@drawable/bg_edtext"
+                android:phoneNumber="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Email"
+                android:id="@+id/textView21"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:id="@+id/etEmail"
+                android:background="@drawable/bg_edtext"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Pin BBM"
+                android:id="@+id/textView22"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/etPinBBM"
+                android:background="@drawable/bg_edtext"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Alamat"
+                android:id="@+id/textView8"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/etAlamat"
+                android:background="@drawable/bg_edtext"
+                android:layout_weight="1"
+                android:singleLine="true" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="PIC Sebagai Pelanggan"
+                android:id="@+id/cbPIC"
+                android:layout_weight="1"
+                android:checked="false"
+                android:layout_marginTop="20dp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="Preview"
+                android:id="@+id/btnAdd"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/etNama"
-            android:background="@drawable/bg_edtext"
             android:layout_weight="1"
-            android:singleLine="true" />
+            android:id="@+id/linearLayoutBottom"
+            android:visibility="gone"
+            android:weightSum="1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="Telp *"
-            android:id="@+id/textView5"
-            android:layout_weight="1"
-            android:layout_marginTop="10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama"
+                android:id="@+id/tvNamaPreview" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/etTelpon"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:background="@drawable/bg_edtext"
-            android:phoneNumber="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Telp"
+                android:id="@+id/tvTelpPreview"
+                android:layout_marginTop="10dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="Alamat"
-            android:id="@+id/textView8"
-            android:layout_weight="1"
-            android:layout_marginTop="10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alamat"
+                android:id="@+id/tvAlamatPreview"
+                android:layout_marginTop="10dp" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/etAlamat"
-            android:background="@drawable/bg_edtext"
-            android:layout_weight="1"
-            android:singleLine="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:id="@+id/tvEmailPreview"
+                android:layout_marginTop="10dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="Status : Open"
-            android:id="@+id/textView9"
-            android:layout_weight="1"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status : Open"
+                android:id="@+id/textView27"
+                android:layout_marginTop="10dp" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="Preview"
-            android:id="@+id/btnPreview"
-            android:layout_weight="1" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="List Product"
-            android:id="@+id/textView10"
-            android:layout_weight="1"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="center_horizontal" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Person"
+                    android:id="@+id/btnAddPerson" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/searchProduct"
-            android:layout_weight="1"
-            android:background="@drawable/bg_edtext"
-            android:drawableRight="@drawable/ic_search_black_24dp"
-            android:singleLine="true"
-            android:layout_marginBottom="10dp" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Save"
+                    android:id="@+id/btnSave" />
+            </LinearLayout>
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/listView2"
-            android:layout_weight="1" />
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tlPerson">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:background="@color/colorAccent"
+                        android:textColor="#fff"
+                        android:text="Nama"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:background="@color/colorAccent"
+                        android:textColor="#fff"
+                        android:text="Produk"
+                        android:gravity="center"/>
+                </TableRow>
+
+                <!--<TableRow-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:padding="10dp"-->
+                        <!--android:background="#fff"-->
+                        <!--android:layout_margin="1dp"-->
+                        <!--android:text="Aan"-->
+                        <!--android:gravity="center"/>-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:padding="10dp"-->
+                        <!--android:background="#fff"-->
+                        <!--android:layout_margin="1dp"-->
+                        <!--android:text="Prenagen\nDiabetasol"/>-->
+                <!--</TableRow>-->
+            </TableLayout>
+
+        </LinearLayout>
+
+
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:text="List Product"-->
+            <!--android:id="@+id/textView10"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:gravity="center_horizontal" />-->
+
+        <!--<EditText-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:id="@+id/searchProduct"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/bg_edtext"-->
+            <!--android:drawableRight="@drawable/ic_search_black_24dp"-->
+            <!--android:singleLine="true"-->
+            <!--android:layout_marginBottom="10dp" />-->
+
+        <!--<ListView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:id="@+id/listView2"-->
+            <!--android:layout_weight="1" />-->
     </LinearLayout>
 
 </ScrollView>

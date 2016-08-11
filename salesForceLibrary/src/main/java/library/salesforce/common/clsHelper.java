@@ -53,6 +53,9 @@ import library.salesforce.dal.tAbsenUserDA;
 import library.salesforce.dal.tActivityDA;
 import library.salesforce.dal.tCustomerBaseDA;
 import library.salesforce.dal.tCustomerBaseDetailDA;
+import library.salesforce.dal.tCustomerBasedMobileDetailDA;
+import library.salesforce.dal.tCustomerBasedMobileDetailProductDA;
+import library.salesforce.dal.tCustomerBasedMobileHeaderDA;
 import library.salesforce.dal.tDeviceInfoUserDA;
 import library.salesforce.dal.tEmployeeBRWithLOBDA;
 import library.salesforce.dal.tGRNDetail_mobileDA;
@@ -272,6 +275,14 @@ public class clsHelper {
 		tStockOpnameDetail_mobileDA _tStockOpnameDetail_mobileDA=new tStockOpnameDetail_mobileDA(db);
 		tStockOpnameHeader_mobileDA _tStockOpnameHeader_mobileDA=new tStockOpnameHeader_mobileDA(db);
 		mProductBarcodeDA _mProductBarcodeDA=new mProductBarcodeDA(db);
+
+		tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(db);
+		tCustomerBasedMobileDetailDA _tCustomerBasedMobileDetailDA = new tCustomerBasedMobileDetailDA(db);
+		tCustomerBasedMobileDetailProductDA _tCustomerBasedMobileDetailProductDA = new tCustomerBasedMobileDetailProductDA(db);
+
+		_tCustomerBasedMobileHeaderDA.DropTable(db);
+		_tCustomerBasedMobileDetailDA.DropTable(db);
+		_tCustomerBasedMobileDetailProductDA.DropTable(db);
 		_tNotificationDA.DropTable(db);
 		_mTypePenguaranMobileDA.DropTable(db);
 		_tPenguaranDetail_MobileDA.DropTable(db);
@@ -313,6 +324,11 @@ public class clsHelper {
 		_mCounterNumberDA.DropTable(db);
 		_tAbsenUserDA.DropTable(db);
 		_mTypeLeaveMobileDA.DropTable(db);
+
+		_tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(db);
+		_tCustomerBasedMobileDetailDA = new tCustomerBasedMobileDetailDA(db);
+		_tCustomerBasedMobileDetailProductDA = new tCustomerBasedMobileDetailProductDA(db);
+
 		_mPriceInOutletDA=new mPriceInOutletDA(db);
 		_mReasonDA=new mReasonDA(db);
 		_mStatusDocumentDA=new mStatusDocumentDA(db);

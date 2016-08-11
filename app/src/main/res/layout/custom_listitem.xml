@@ -9,10 +9,22 @@
         android:id="@+id/checkBox1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="" />
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#000" />
+        android:textColor="#000"
+        android:layout_weight="4"
+        android:text="" />
+
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText4"
+        android:layout_gravity="center_horizontal"
+        android:gravity="right"
+        android:inputType="number"
+        android:background="@drawable/bg_edtext"/>
 </LinearLayout>

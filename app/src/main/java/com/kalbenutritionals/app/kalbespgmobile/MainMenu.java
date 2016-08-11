@@ -59,6 +59,7 @@ public class MainMenu extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private tAbsenUserBL _tAbsenUserBL;
     private tAbsenUserData dttAbsenUserData;
+    private tAbsenUserData dtAbsens;
 
     private TextView tvUsername, tvEmail;
     private ImageView ivProfile;
@@ -66,6 +67,7 @@ public class MainMenu extends AppCompatActivity {
     PackageInfo pInfo = null;
 
     int selectedId;
+    private static int menuId = 0;
     Boolean isSubMenu = false;
 
     String[] listMenu;
@@ -100,8 +102,8 @@ public class MainMenu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         selectedId = 0;
+
         try {
             pInfo=getApplicationContext().getPackageManager().getPackageInfo(getApplicationContext().getPackageName(),0);
         } catch (PackageManager.NameNotFoundException e) {
@@ -121,7 +123,7 @@ public class MainMenu extends AppCompatActivity {
         selectedId=99;
 
         //set menu masih manual untuk create db nya
-        new mMenuBL().setMenuManual();
+//        new mMenuBL().setMenuManual();
 
         tUserLoginData dt=new tUserLoginBL().getUserActive();
 
@@ -134,7 +136,7 @@ public class MainMenu extends AppCompatActivity {
         tvUsername.setText("Welcome, " + dt.get_txtName());
         tvEmail.setText(dt.get_TxtEmail());
 
-        tAbsenUserData dtAbsens = new tAbsenUserBL().getDataCheckInActive();
+        dtAbsens = new tAbsenUserBL().getDataCheckInActive();
         Menu header = navigationView.getMenu();
 
         Intent intent = getIntent();
@@ -151,7 +153,7 @@ public class MainMenu extends AppCompatActivity {
             header.removeItem(R.id.checkout);
         }
         else{
-            statusAbsen = 2;
+            statusAbsen = menuId;
             menuActive = R.id.groupListMenu1;
 
             List<mMenuData> menu = new mMenuBL().getDatabyParentId(statusAbsen);
@@ -186,19 +188,29 @@ public class MainMenu extends AppCompatActivity {
                 }
             }
 
-        List<mMenuData> menu = new mMenuBL().getDatabyParentId(statusAbsen);
+        List<mMenuData> menu;
+
+        if(dtAbsens == null){
+            menu = new mMenuBL().getDatabyParentId(0);
+        }
+        else{
+            menu = new mMenuBL().getDatabyParentId(211);
+        }
+
         linkMenu = new String[menu.size()];
         listMenu = new String[menu.size()];
 
-        for(int i = 0; i < menu.size(); i++){
+        if(menu != null) {
+            for (int i = 0; i < menu.size(); i++) {
 
-            int resId = getResources().getIdentifier(String.valueOf(menu.get(i).get_TxtIcon()),"drawable",MainMenu.this.getPackageName());
-            Drawable icon = MainMenu.this.getResources().getDrawable(resId);
+                int resId = getResources().getIdentifier(String.valueOf(menu.get(i).get_TxtDescription().toLowerCase()), "drawable", MainMenu.this.getPackageName());
+                Drawable icon = MainMenu.this.getResources().getDrawable(resId);
 
-            header.add(menuActive, i, 1, menu.get(i).get_TxtMenuName()).setIcon(icon).setCheckable(true);
+                header.add(menuActive, i, 1, menu.get(i).get_TxtMenuName()).setIcon(icon).setCheckable(true);
 
-            linkMenu[i] = menu.get(i).get_TxtLink();
-            listMenu[i] = menu.get(i).get_TxtMenuName();
+                linkMenu[i] = menu.get(i).get_TxtLink();
+                listMenu[i] = menu.get(i).get_TxtMenuName();
+            }
         }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -331,7 +343,15 @@ public class MainMenu extends AppCompatActivity {
                         try{
                             Class<?> fragmentClass = Class.forName(linkMenu[menuItem.getItemId()]);
                             try {
-                                toolbar.setTitle("View "+menuItem.getTitle().toString());
+                                if(dtAbsens != null){
+                                    toolbar.setTitle("View "+menuItem.getTitle().toString());
+                                }
+                                else{
+                                    toolbar.setTitle(menuItem.getTitle().toString());
+                                }
+
+//                                menuId = Integer.parseInt(new mMenuBL().getMenuDataByMenuName2(menuItem.getTitle().toString()).get_IntMenuID());
+
                                 fragment = (android.support.v4.app.Fragment) fragmentClass.newInstance();
                                 android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                                 fragmentTransaction.replace(R.id.frame,fragment);

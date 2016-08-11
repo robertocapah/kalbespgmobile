@@ -24,7 +24,7 @@ public class mMenuDA {
 		db.execSQL(CREATE_CONTACTS_TABLE);
 	}
 
-	
+
 	// Contacts table name
 	private static final String TABLE_CONTACTS = new clsHardCode().txtTable_mMenu;
 
@@ -72,15 +72,15 @@ public class mMenuDA {
 	public mMenuData getDataByName(SQLiteDatabase db, String Name) {
 		mMenuData dt = new mMenuData();
 		Cursor cursor = db.query(TABLE_CONTACTS, new String[] {
-				dt.Property_intId, dt.Property_IntOrder, dt.Property_IntParentID,
-				dt.Property_TxtDescription, dt.Property_TxtLink, dt.Property_TxtMenuName, dt.Property_intVisible,dt.Property_API_IntMenuID, dt.Property_TxtIcon },
+						dt.Property_intId, dt.Property_IntOrder, dt.Property_IntParentID,
+						dt.Property_TxtDescription, dt.Property_TxtLink, dt.Property_TxtMenuName, dt.Property_intVisible,dt.Property_API_IntMenuID, dt.Property_TxtIcon },
 				dt.Property_TxtDescription + "=?", new String[] { String.valueOf(Name) },
 				null, null, null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
 		mMenuData contact = new mMenuData();
 		if (cursor.getCount() > 0) {
-			contact = new mMenuData(Long.valueOf(cursor.getString(0)), Long.valueOf(cursor.getString(1)), 
+			contact = new mMenuData(Long.valueOf(cursor.getString(0)), Long.valueOf(cursor.getString(1)),
 					Long.valueOf(cursor.getString(2)), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),cursor.getString(7));
 			// return contact
 		} else {
@@ -91,17 +91,17 @@ public class mMenuDA {
 	}
 	public mMenuData getData(SQLiteDatabase db, int id) {
 		mMenuData dt = new mMenuData();
-		
+
 		Cursor cursor = db.query(TABLE_CONTACTS, new String[] {
-				dt.Property_intId, dt.Property_IntOrder, dt.Property_IntParentID,
-				dt.Property_TxtDescription, dt.Property_TxtLink, dt.Property_TxtMenuName, dt.Property_intVisible,dt.Property_API_IntMenuID },
+						dt.Property_intId, dt.Property_IntOrder, dt.Property_IntParentID,
+						dt.Property_TxtDescription, dt.Property_TxtLink, dt.Property_TxtMenuName, dt.Property_intVisible,dt.Property_API_IntMenuID },
 				dt.Property_intId + "=?", new String[] { String.valueOf(id) },
 				null, null, null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
 		mMenuData contact = new mMenuData();
 		if (cursor.getCount() > 0) {
-			contact = new mMenuData(Long.valueOf(cursor.getString(0)), Long.valueOf(cursor.getString(1)), 
+			contact = new mMenuData(Long.valueOf(cursor.getString(0)), Long.valueOf(cursor.getString(1)),
 					Long.valueOf(cursor.getString(2)), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
 			// return contact
 		} else {
@@ -113,15 +113,15 @@ public class mMenuDA {
 	public mMenuData getDataByNamaMenu(SQLiteDatabase db, String txtnmMenu) {
 		mMenuData dt = new mMenuData();
 		Cursor cursor = db.query(TABLE_CONTACTS, new String[] {
-				dt.Property_intId, dt.Property_IntOrder, dt.Property_IntParentID,
-				dt.Property_TxtDescription, dt.Property_TxtLink, dt.Property_TxtMenuName, dt.Property_intVisible, dt.Property_API_IntMenuID },
+						dt.Property_intId, dt.Property_IntOrder, dt.Property_IntParentID,
+						dt.Property_TxtDescription, dt.Property_TxtLink, dt.Property_TxtMenuName, dt.Property_intVisible, dt.Property_API_IntMenuID },
 				dt.Property_TxtDescription + "=?", new String[] { String.valueOf(txtnmMenu) },
 				null, null, null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
 		mMenuData contact = new mMenuData();
 		if (cursor.getCount() > 0) {
-			contact = new mMenuData(Long.valueOf(cursor.getString(0)), Long.valueOf(cursor.getString(1)), 
+			contact = new mMenuData(Long.valueOf(cursor.getString(0)), Long.valueOf(cursor.getString(1)),
 					Long.valueOf(cursor.getString(2)), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
 			// return contact
 		} else {
@@ -130,99 +130,121 @@ public class mMenuDA {
 		cursor.close();
 		return contact;
 	}
+
+	public mMenuData getDataByNamaMenu2(SQLiteDatabase db, String txtnmMenu) {
+		mMenuData dt = new mMenuData();
+		Cursor cursor = db.query(TABLE_CONTACTS, new String[] {
+						dt.Property_intId, dt.Property_IntOrder, dt.Property_IntParentID,
+						dt.Property_TxtDescription, dt.Property_TxtLink, dt.Property_TxtMenuName, dt.Property_intVisible, dt.Property_API_IntMenuID },
+				dt.Property_TxtMenuName + "=?", new String[] { String.valueOf(txtnmMenu) },
+				null, null, null, null);
+		if (cursor != null)
+			cursor.moveToFirst();
+		mMenuData contact = new mMenuData();
+		if (cursor.getCount() > 0) {
+			contact = new mMenuData(Long.valueOf(cursor.getString(0)), Long.valueOf(cursor.getString(1)),
+					Long.valueOf(cursor.getString(2)), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+			// return contact
+		} else {
+			contact = null;
+		}
+		cursor.close();
+		return contact;
+	}
+
 	// Getting single contact
-		public List<mMenuData> getDatabyParentId(SQLiteDatabase db, int IntParentID) {
-			List<mMenuData> contactList = new ArrayList<mMenuData>();
-			mMenuData dt = new mMenuData();
-			Cursor cursor = db.rawQuery("SELECT  " + dt.Property_All + " FROM "+ TABLE_CONTACTS 
-					+" WHERE "+dt.Property_IntParentID+"='"+String.valueOf(IntParentID)+"'",null);
-			if (cursor.moveToFirst()) {
-				do {
-					mMenuData contact = new mMenuData();
-					contact.set_intId(Long.valueOf(cursor.getString(0)));
-					contact.set_IntOrder(Long.valueOf(cursor.getString(1)));
-					contact.set_IntParentID(Long.valueOf(cursor.getString(2)));
-					contact.set_TxtDescription(cursor.getString(3));
-					contact.set_TxtLink(cursor.getString(4));
-					contact.set_TxtMenuName(cursor.getString(5));
-					contact.set_intVisible(cursor.getString(6));
-					contact.set_TxtIcon(cursor.getString(7));
-					// Adding contact to list
-					contactList.add(contact);
-				} while (cursor.moveToNext());
-			}
-			cursor.close();
-			return contactList;
+	public List<mMenuData> getDatabyParentId(SQLiteDatabase db, int IntParentID) {
+		List<mMenuData> contactList = new ArrayList<mMenuData>();
+		mMenuData dt = new mMenuData();
+		Cursor cursor = db.rawQuery("SELECT  " + dt.Property_All + " FROM "+ TABLE_CONTACTS
+				+" WHERE "+dt.Property_IntParentID+"='"+String.valueOf(IntParentID)+"'",null);
+		if (cursor.moveToFirst()) {
+			do {
+				mMenuData contact = new mMenuData();
+				contact.set_intId(Long.valueOf(cursor.getString(0)));
+				contact.set_IntOrder(Long.valueOf(cursor.getString(1)));
+				contact.set_IntParentID(Long.valueOf(cursor.getString(2)));
+				contact.set_TxtDescription(cursor.getString(3));
+				contact.set_TxtLink(cursor.getString(4));
+				contact.set_TxtMenuName(cursor.getString(5));
+				contact.set_intVisible(cursor.getString(6));
+				contact.set_TxtIcon(cursor.getString(7));
+				// Adding contact to list
+				contactList.add(contact);
+			} while (cursor.moveToNext());
 		}
-		public List<mMenuData> GetMenuPushData(SQLiteDatabase db) {
-			List<mMenuData> contactList = new ArrayList<mMenuData>();
-			mMenuData dt = new mMenuData();
-			Cursor cursor = db.query(TABLE_CONTACTS, new String[] {
-					dt.Property_intId, dt.Property_IntOrder, dt.Property_IntParentID,
-					dt.Property_TxtDescription, dt.Property_TxtLink, dt.Property_TxtMenuName,dt.Property_intVisible },
-					dt.Property_TxtDescription + "=?", new String[] { "mnUploadDataMobile" },
-					null, null, null, null);
-			if (cursor.moveToFirst()) {
-				do {
-					mMenuData contact = new mMenuData();
-					contact.set_intId(Long.valueOf(cursor.getString(0)));
-					contact.set_IntOrder(Long.valueOf(cursor.getString(1)));
-					contact.set_IntParentID(Long.valueOf(cursor.getString(2)));
-					contact.set_TxtDescription(cursor.getString(3));
-					contact.set_TxtLink(cursor.getString(4));
-					contact.set_TxtMenuName(cursor.getString(5));
-					contact.set_intVisible(cursor.getString(6));
-					// Adding contact to list
-					contactList.add(contact);
-				} while (cursor.moveToNext());
-			}
-			cursor.close();
-			return contactList;
+		cursor.close();
+		return contactList;
+	}
+	public List<mMenuData> GetMenuPushData(SQLiteDatabase db) {
+		List<mMenuData> contactList = new ArrayList<mMenuData>();
+		mMenuData dt = new mMenuData();
+		Cursor cursor = db.query(TABLE_CONTACTS, new String[] {
+						dt.Property_intId, dt.Property_IntOrder, dt.Property_IntParentID,
+						dt.Property_TxtDescription, dt.Property_TxtLink, dt.Property_TxtMenuName,dt.Property_intVisible },
+				dt.Property_TxtDescription + "=?", new String[] { "mnUploadDataMobile" },
+				null, null, null, null);
+		if (cursor.moveToFirst()) {
+			do {
+				mMenuData contact = new mMenuData();
+				contact.set_intId(Long.valueOf(cursor.getString(0)));
+				contact.set_IntOrder(Long.valueOf(cursor.getString(1)));
+				contact.set_IntParentID(Long.valueOf(cursor.getString(2)));
+				contact.set_TxtDescription(cursor.getString(3));
+				contact.set_TxtLink(cursor.getString(4));
+				contact.set_TxtMenuName(cursor.getString(5));
+				contact.set_intVisible(cursor.getString(6));
+				// Adding contact to list
+				contactList.add(contact);
+			} while (cursor.moveToNext());
 		}
-		public List<mMenuData> getDataActivebyParentId(SQLiteDatabase db, int IntParentID) {
-			List<mMenuData> contactList = new ArrayList<mMenuData>();
-			mMenuData dt = new mMenuData();
-			Cursor cursor = db.rawQuery("SELECT  " + dt.Property_All + " FROM"+ TABLE_CONTACTS 
-					+" WHERE "+dt.Property_IntParentID+"='"+String.valueOf(IntParentID)+"' AND "+dt.Property_intVisible+"='1'",null);
-			if (cursor.moveToFirst()) {
-				do {
-					mMenuData contact = new mMenuData();
-					contact.set_intId(Long.valueOf(cursor.getString(0)));
-					contact.set_IntOrder(Long.valueOf(cursor.getString(1)));
-					contact.set_IntParentID(Long.valueOf(cursor.getString(2)));
-					contact.set_TxtDescription(cursor.getString(3));
-					contact.set_TxtLink(cursor.getString(4));
-					contact.set_TxtMenuName(cursor.getString(5));
-					contact.set_intVisible(cursor.getString(6));
-					// Adding contact to list
-					contactList.add(contact);
-				} while (cursor.moveToNext());
-			}
-			cursor.close();
-			return contactList;
+		cursor.close();
+		return contactList;
+	}
+	public List<mMenuData> getDataActivebyParentId(SQLiteDatabase db, int IntParentID) {
+		List<mMenuData> contactList = new ArrayList<mMenuData>();
+		mMenuData dt = new mMenuData();
+		Cursor cursor = db.rawQuery("SELECT  " + dt.Property_All + " FROM"+ TABLE_CONTACTS
+				+" WHERE "+dt.Property_IntParentID+"='"+String.valueOf(IntParentID)+"' AND "+dt.Property_intVisible+"='1'",null);
+		if (cursor.moveToFirst()) {
+			do {
+				mMenuData contact = new mMenuData();
+				contact.set_intId(Long.valueOf(cursor.getString(0)));
+				contact.set_IntOrder(Long.valueOf(cursor.getString(1)));
+				contact.set_IntParentID(Long.valueOf(cursor.getString(2)));
+				contact.set_TxtDescription(cursor.getString(3));
+				contact.set_TxtLink(cursor.getString(4));
+				contact.set_TxtMenuName(cursor.getString(5));
+				contact.set_intVisible(cursor.getString(6));
+				// Adding contact to list
+				contactList.add(contact);
+			} while (cursor.moveToNext());
 		}
-		public List<mMenuData> getDatabyName(SQLiteDatabase db, String txtName) {
-			List<mMenuData> contactList = new ArrayList<mMenuData>();
-			mMenuData dt = new mMenuData();
-			Cursor cursor = db.rawQuery("SELECT  " + dt.Property_All + " FROM"+ TABLE_CONTACTS 
-					+" WHERE "+dt.Property_TxtDescription+"='"+String.valueOf(txtName)+"'",null);
-			if (cursor.moveToFirst()) {
-				do {
-					mMenuData contact = new mMenuData();
-					contact.set_intId(Long.valueOf(cursor.getString(0)));
-					contact.set_IntOrder(Long.valueOf(cursor.getString(1)));
-					contact.set_IntParentID(Long.valueOf(cursor.getString(2)));
-					contact.set_TxtDescription(cursor.getString(3));
-					contact.set_TxtLink(cursor.getString(4));
-					contact.set_TxtMenuName(cursor.getString(5));
-					contact.set_intVisible(cursor.getString(6));
-					// Adding contact to list
-					contactList.add(contact);
-				} while (cursor.moveToNext());
-			}
-			cursor.close();
-			return contactList;
+		cursor.close();
+		return contactList;
+	}
+	public List<mMenuData> getDatabyName(SQLiteDatabase db, String txtName) {
+		List<mMenuData> contactList = new ArrayList<mMenuData>();
+		mMenuData dt = new mMenuData();
+		Cursor cursor = db.rawQuery("SELECT  " + dt.Property_All + " FROM"+ TABLE_CONTACTS
+				+" WHERE "+dt.Property_TxtDescription+"='"+String.valueOf(txtName)+"'",null);
+		if (cursor.moveToFirst()) {
+			do {
+				mMenuData contact = new mMenuData();
+				contact.set_intId(Long.valueOf(cursor.getString(0)));
+				contact.set_IntOrder(Long.valueOf(cursor.getString(1)));
+				contact.set_IntParentID(Long.valueOf(cursor.getString(2)));
+				contact.set_TxtDescription(cursor.getString(3));
+				contact.set_TxtLink(cursor.getString(4));
+				contact.set_TxtMenuName(cursor.getString(5));
+				contact.set_intVisible(cursor.getString(6));
+				// Adding contact to list
+				contactList.add(contact);
+			} while (cursor.moveToNext());
 		}
+		cursor.close();
+		return contactList;
+	}
 	// Getting All Contacts
 	public List<mMenuData> getAllData(SQLiteDatabase db) {
 		List<mMenuData> contactList = new ArrayList<mMenuData>();
@@ -251,7 +273,7 @@ public class mMenuDA {
 		return contactList;
 	}
 
-	
+
 	// Deleting single contact
 	public void deleteContact(SQLiteDatabase db, int id) {
 		mMenuData dt = new mMenuData();
@@ -286,20 +308,16 @@ public class mMenuDA {
 				+ "select  3,'3','3','mnPushDataData','com.kalbenutritionals.app.kalbespgmobile','1','', 'ic_location', 'Push Data';";
 		db.execSQL(txtQuery);
 
-        txtQuery = "insert into mMenu(intId,intOrder,intParentID,TxtDescription,TxtLink, intMenuID, intVisible, TxtIcon, TxtMenuName )"
-                + "select  4,'1','2','mnReso','com.kalbenutritionals.app.kalbespgmobile.FragmentViewReso','1','', 'ic_assignment', 'Reso';";
-        db.execSQL(txtQuery);
-
-        txtQuery = "insert into mMenu(intId,intOrder,intParentID,TxtDescription,TxtLink, intMenuID, intVisible, TxtIcon, TxtMenuName )"
-                + "select  5,'2','2','mnActivity','com.kalbenutritionals.app.kalbespgmobile.FragmentViewActivity','2','', 'ic_history', 'Activity';";
-        db.execSQL(txtQuery);
-
 		txtQuery = "insert into mMenu(intId,intOrder,intParentID,TxtDescription,TxtLink, intMenuID, intVisible, TxtIcon, TxtMenuName )"
-				+ "select  6,'3','2','mnCustomerBase','com.kalbenutritionals.app.kalbespgmobile.FragmentViewCustomerBase','3','', 'ic_person', 'Customer Base';";
+				+ "select  4,'1','2','mnReso','com.kalbenutritionals.app.kalbespgmobile.FragmentViewReso','1','', 'ic_assignment', 'Reso';";
 		db.execSQL(txtQuery);
 
 		txtQuery = "insert into mMenu(intId,intOrder,intParentID,TxtDescription,TxtLink, intMenuID, intVisible, TxtIcon, TxtMenuName )"
-				+ "select  99,'3','1','mnLeave','com.kalbenutritionals.app.kalbespgmobile.FragmentAddLeave','3','', 'ic_person', 'Leave';";
+				+ "select  5,'2','2','mnActivity','com.kalbenutritionals.app.kalbespgmobile.FragmentViewActivity','2','', 'ic_history', 'Activity';";
+		db.execSQL(txtQuery);
+
+		txtQuery = "insert into mMenu(intId,intOrder,intParentID,TxtDescription,TxtLink, intMenuID, intVisible, TxtIcon, TxtMenuName )"
+				+ "select  6,'3','2','mnCustomerBase','com.kalbenutritionals.app.kalbespgmobile.FragmentViewCustomerBase','3','', 'ic_person', 'Customer Base';";
 		db.execSQL(txtQuery);
 	}
 }

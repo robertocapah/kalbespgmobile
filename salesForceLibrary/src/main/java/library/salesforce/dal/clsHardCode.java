@@ -87,6 +87,10 @@ public class clsHardCode  {
 	public String txtStatus_TypeDataStockOpname = "OP";
 	public String txtStatus_TypeDataPengeluaran="PB";
 	public String txtStatus_TypeDataReserved = "RSV";
+
+	public String txtTable_tCustomerBasedMobileHeader = "tCustomerBasedMobileHeader";
+	public String txtTable_tCustomerBasedMobileDetail = "tCustomerBasedMobileDetail";
+	public String txtTable_tCustomerBasedMobileDetailProduct = "tCustomerBasedMobileDetailProduct";
 	
 	public String txtStatus_CheckDataActiveCheckIn = "CheckDataActiveCheckIn";
 	public String txtStatus_CheckOutAbsen = "CheckOutAbsen";

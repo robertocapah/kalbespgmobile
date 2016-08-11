@@ -72,7 +72,7 @@ import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tDeviceInfoUserData;
 import library.salesforce.common.tUserLoginData;
 
-public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
+public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
     private GoogleMap mMap;
     private Location mLastLocation;

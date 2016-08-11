@@ -39,6 +39,14 @@ public class mMenuBL extends clsMainBL {
 		return dt;
 	}
 
+	public mMenuData getMenuDataByMenuName2(String menuName) {
+		SQLiteDatabase db = getDb();
+		mMenuDA _mMenuDA = new mMenuDA(db);
+		mMenuData dt = _mMenuDA.getDataByNamaMenu2(db, menuName);
+		db.close();
+		return dt;
+	}
+
 	public List<mMenuData> getDatabyParentId(int id) {
 		SQLiteDatabase db = getDb();
 		mMenuDA _mMenuDA = new mMenuDA(db);
@@ -51,7 +59,7 @@ public class mMenuBL extends clsMainBL {
 				if (_tSalesProductHeaderDA.getContactsCount(db) > 0) {
 					tmpData.add(data);
 				}
-			} else if (data.get_TxtDescription().contains("mnLeave")||data.get_TxtDescription().contains("mnAbsenKBN") || data.get_TxtDescription().contains("mnInventoryKBN") || data.get_TxtDescription().contains("mnInventoryOut") || data.get_TxtDescription().contains("mnStockopname") || data.get_TxtDescription().contains("mnPushDataData") || data.get_TxtDescription().contains("mnReportKBN") || data.get_TxtDescription().contains("mnLogoutKBN")) {
+			} else if (data.get_TxtDescription().contains("mnAbsenSPG") || data.get_TxtDescription().contains("mnPushDataSPG") || data.get_TxtDescription().contains("mnLeaveSPG")) {
 				mEmployeeAreaDA _mEmployeeAreaDA = new mEmployeeAreaDA(db);
 				mEmployeeBranchDA _mEmployeeBranchDA = new mEmployeeBranchDA(db);
 				mProductBarcodeDA _mProductBarcodeDA = new mProductBarcodeDA(db);
@@ -68,18 +76,12 @@ public class mMenuBL extends clsMainBL {
 						tmpData.add(data);
 					}
 				}
-			} else if(data.get_TxtDescription().contains("mnLeave")||data.get_TxtDescription().contains("mnReso") || data.get_TxtDescription().contains("mnActivity") || data.get_TxtDescription().contains("mnCustomerBase") || data.get_TxtDescription().contains("mnDownloadData")){
+			}
+			else{
 				tmpData.add(data);
 			}
 		}
 		db.close();
 		return tmpData;
-	}
-
-	public void setMenuManual(){
-		SQLiteDatabase db = getDb();
-		mMenuDA _mMenuDA = new mMenuDA(db);
-		_mMenuDA.DeleteAllDAta(db);
-		_mMenuDA.InsertDefaultMconfig(db);
 	}
 }
