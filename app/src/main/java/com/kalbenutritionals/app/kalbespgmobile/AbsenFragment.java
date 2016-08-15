@@ -351,7 +351,8 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                 dttAbsenUserData.set_intId(txtHDId.getText().toString());
                 dttAbsenUserData.set_intSubmit("0");
                 dttAbsenUserData.set_intSync("0");
-                dttAbsenUserData.set_txtAbsen("0");//
+                dttAbsenUserData.set_txtAbsen("0");
+                dttAbsenUserData.set_dtDateCheckOut("-");
                 dttAbsenUserData.set_txtAccuracy(lblAcc.getText().toString());
                 dttAbsenUserData.set_txtBranchCode(branchCode);
                 dttAbsenUserData.set_txtBranchName(nameBranch);
@@ -386,7 +387,8 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                 dttAbsenUserData.set_intId(txtHDId.getText().toString());
                 dttAbsenUserData.set_intSubmit("0");
                 dttAbsenUserData.set_intSync("0");
-                dttAbsenUserData.set_txtAbsen("0");//
+                dttAbsenUserData.set_txtAbsen("0");
+                dttAbsenUserData.set_dtDateCheckOut("-");
                 dttAbsenUserData.set_txtAccuracy(lblAcc.getText().toString());
                 dttAbsenUserData.set_txtBranchCode(branchCode);
                 dttAbsenUserData.set_txtBranchName(nameBranch);

@@ -333,8 +333,8 @@ public class FragmentDownloadData extends Fragment {
 //                SaveDatamItemSalesPack_StockData(Json);
 //                Json = new mProductBarcodeBL().DownloadmProductBarcode2(pInfo.versionName);
 //                SaveDatamProductBarcodeData(Json);
-                Json = new mEmployeeAreaBL().DownloadEmployeeArea2(pInfo.versionName);
-                SaveDatamEmployeeAreaData(Json);
+//                Json = new mEmployeeAreaBL().DownloadEmployeeArea2(pInfo.versionName);
+//                SaveDatamEmployeeAreaData(Json);
                 Json =new mTypeLeaveBL().DownloadTypeLeave2(pInfo.versionName);
                 SaveDatamTypeLeaveMobileData(Json);
                 Json = new mEmployeeSalesProductBL().DownloadEmployeeSalesProduct(pInfo.versionName);

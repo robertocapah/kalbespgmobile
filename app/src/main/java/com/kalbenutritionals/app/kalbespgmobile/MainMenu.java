@@ -425,6 +425,7 @@ public class MainMenu extends AppCompatActivity {
         Class<?> fragmentClass = null;
         try {
             android.support.v4.app.Fragment fragment = null;
+
             fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + String.valueOf(item.getTitle()).replaceAll("\\s+",""));
             fragment = (android.support.v4.app.Fragment) fragmentClass.newInstance();
             android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();

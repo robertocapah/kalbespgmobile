@@ -21,6 +21,7 @@ import java.util.Map;
 
 import bl.tCustomerBaseBL;
 import bl.tCustomerBaseDetailBL;
+import bl.tCustomerBasedMobileHeaderBL;
 import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView;
 import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.bean.SwipeMenu;
@@ -31,6 +32,7 @@ import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tCustomerBaseData;
 import library.salesforce.common.tCustomerBaseDetailData;
+import library.salesforce.common.tCustomerBasedMobileHeaderData;
 
 public class FragmentViewCustomerBase extends Fragment implements IXListViewListener {
 
@@ -40,7 +42,7 @@ public class FragmentViewCustomerBase extends Fragment implements IXListViewList
     private Handler mHandler;
     private static Map<String, HashMap> mapMenu;
 
-    static List<tCustomerBaseData> dt;
+    static List<tCustomerBasedMobileHeaderData> dt;
     static FragmentViewCustomerBase instance;
 
     View v;
@@ -61,13 +63,13 @@ public class FragmentViewCustomerBase extends Fragment implements IXListViewList
         instance = this;
 
         clsSwipeList swplist;
-        dt = new tCustomerBaseBL().getAllCustomerBase();
+        dt = new tCustomerBasedMobileHeaderBL().getAllData();
 
         swipeList.clear();
 
         for(int i = 0; i < dt.size(); i++){
             swplist = new clsSwipeList();
-            swplist.set_txtTitle("Nama : " + dt.get(i).get_txtNama());
+            swplist.set_txtTitle("Nama : " + dt.get(i).get_txtNamaDepan());
             swplist.set_txtDescription("No telp : " + dt.get(i).get_txtTelp());
             swipeList.add(swplist);
         }
@@ -141,13 +143,13 @@ public class FragmentViewCustomerBase extends Fragment implements IXListViewList
         final TextView _tvStatus = (TextView) promptView.findViewById(R.id.tvStatus);
         final ListView _lvProduk = (ListView) promptView.findViewById(R.id.lvProduks);
 
-        _tvSex.setText(dt.get(position).get_txtSex());
-        _tvNama.setText(dt.get(position).get_txtNama());
-        _tvTelp.setText(dt.get(position).get_txtTelp());
-        _tvAlamat.setText(dt.get(position).get_txtAlamat());
+//        _tvSex.setText(dt.get(position).get_txtSex());
+//        _tvNama.setText(dt.get(position).get_txtNama());
+//        _tvTelp.setText(dt.get(position).get_txtTelp());
+//        _tvAlamat.setText(dt.get(position).get_txtAlamat());
         _tvStatus.setText("Open");
 
-        List<tCustomerBaseDetailData> dtDetail = new tCustomerBaseDetailBL().getData("'" + dt.get(position).get_intCustomerId() + "'");
+        List<tCustomerBaseDetailData> dtDetail = new tCustomerBaseDetailBL().getData("'" + dt.get(position).get_intTrCustomerId() + "'");
         List<String> item = new ArrayList<>();
 
         for(int i = 0; i < dtDetail.size(); i++){

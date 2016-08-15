@@ -76,10 +76,10 @@ public class mProductBrandHeaderBL extends clsMainBL{
 		return JsonArray;
 	}
 
-	public List<mEmployeeSalesProductData> GetAllData(){
+	public List<mProductBrandHeaderData> GetAllData(){
 		SQLiteDatabase db=getDb();
-		mEmployeeSalesProductDA _mEmployeeSalesProductDA= new mEmployeeSalesProductDA(db);
-		List<mEmployeeSalesProductData>ListData=_mEmployeeSalesProductDA.getAllData(db);
+		mProductBrandHeaderDA _mProductBrandHeaderDA= new mProductBrandHeaderDA(db);
+		List<mProductBrandHeaderData>ListData=_mProductBrandHeaderDA.getAllData(db);
 		db.close();
 		return ListData;
 	}

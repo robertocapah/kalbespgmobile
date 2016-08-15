@@ -21,6 +21,7 @@ import bl.tCustomerBaseBL;
 import bl.tSalesProductHeaderBL;
 import bl.tUserLoginBL;
 import library.salesforce.common.mEmployeeSalesProductData;
+import library.salesforce.common.mProductBrandHeaderData;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
 import library.salesforce.common.tCustomerBaseData;
@@ -60,7 +61,7 @@ public class HomeFragment extends Fragment {
 
         tUserLoginData dt=new tUserLoginBL().getUserActive();
         tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
-        List<mEmployeeSalesProductData> dtBrand = new mProductBrandHeaderBL().GetAllData();
+        List<mProductBrandHeaderData> dtBrand = new mProductBrandHeaderBL().GetAllData();
         List<mEmployeeSalesProductData> dtProduct = new mEmployeeSalesProductBL().GetAllData();
         List<tSalesProductHeaderData> dtReso = new tSalesProductHeaderBL().getAllSalesProductHeader();
         List<tActivityData> dtActivity = new tActivityBL().getAllData();

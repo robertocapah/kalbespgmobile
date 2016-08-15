@@ -29,6 +29,7 @@ import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.I
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.bean.SwipeMenu;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.SwipeMenuCreator;
+import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
 import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tSalesProductDetailData;
@@ -108,8 +109,22 @@ public class FragmentViewReso extends Fragment implements IXListViewListener {
 
     @Override
     public void onLoadMore() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                onLoad();
+            }
+        }, 1);
+    }
+
+    private void onLoad() {
+        mListView.setRefreshTime(RefreshTime.getRefreshTime(getActivity().getApplicationContext()));
+        mListView.stopRefresh();
+
+        mListView.stopLoadMore();
 
     }
+
     private void viewList(Context ctx, int position) {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         final View promptView = layoutInflater.inflate(R.layout.activity_preview_so, null);

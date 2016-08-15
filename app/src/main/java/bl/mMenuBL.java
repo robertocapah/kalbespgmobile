@@ -65,8 +65,8 @@ public class mMenuBL extends clsMainBL {
 				mProductBarcodeDA _mProductBarcodeDA = new mProductBarcodeDA(db);
 				tLeaveMobileDA _tLeaveMobileDA = new tLeaveMobileDA(db);
 				mEmployeeSalesProductDA _mEmployeeSalesProductDA = new mEmployeeSalesProductDA(db);
-				if (_mEmployeeAreaDA.getContactsCount(db) > 0 && _mEmployeeBranchDA.getContactsCount(db) > 0 && _mEmployeeSalesProductDA.getContactsCount(db) > 0) {
-					if (listDataLeave.size() == 0 && _mEmployeeAreaDA.getContactsCount(db) > 0 && _mEmployeeBranchDA.getContactsCount(db) > 0 && _mProductBarcodeDA.getContactsCount(db) > 0) {
+				if (_mEmployeeAreaDA.getContactsCount(db) > 0 && _mEmployeeBranchDA.getContactsCount(db) > 0) {
+					if (listDataLeave.size() == 0 && _mEmployeeAreaDA.getContactsCount(db) > 0 && _mEmployeeBranchDA.getContactsCount(db) > 0) {
 						tmpData.add(data);
 					}
 				} else if (data.get_TxtDescription().contains("mnLeave")) {

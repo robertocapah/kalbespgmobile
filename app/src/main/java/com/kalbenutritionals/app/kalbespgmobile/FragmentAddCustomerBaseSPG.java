@@ -114,22 +114,26 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 break;
 
             case R.id.btnAdd:
-                LinearLayout lnTop = (LinearLayout) v.findViewById(R.id.linearLayoutTop);
-                LinearLayout lnBottom = (LinearLayout) v.findViewById(R.id.linearLayoutBottom);
-                TextView tvNama = (TextView) v.findViewById(R.id.tvNamaPreview);
-                TextView tvTelp = (TextView) v.findViewById(R.id.tvTelpPreview);
-                TextView tvAlamat = (TextView) v.findViewById(R.id.tvAlamatPreview);
-                TextView tvEmail = (TextView) v.findViewById(R.id.tvEmailPreview);
+                if (!etNama.getText().toString().equals("") || !etTelpon.getText().toString().equals("")) {
+                    LinearLayout lnTop = (LinearLayout) v.findViewById(R.id.linearLayoutTop);
+                    LinearLayout lnBottom = (LinearLayout) v.findViewById(R.id.linearLayoutBottom);
+                    TextView tvNama = (TextView) v.findViewById(R.id.tvNamaPreview);
+                    TextView tvTelp = (TextView) v.findViewById(R.id.tvTelpPreview);
+                    TextView tvAlamat = (TextView) v.findViewById(R.id.tvAlamatPreview);
+                    TextView tvEmail = (TextView) v.findViewById(R.id.tvEmailPreview);
 
-                lnTop.setVisibility(View.GONE);
-                lnBottom.setVisibility(View.VISIBLE);
+                    lnTop.setVisibility(View.GONE);
+                    lnBottom.setVisibility(View.VISIBLE);
 
-                tvNama.setText("Nama : " + etNama.getText().toString());
-                tvTelp.setText("Telp : " + etTelpon.getText().toString());
-                tvAlamat.setText("Alamat : " + etAlamat.getText().toString());
-                tvEmail.setText("Email : " + etEmail.getText().toString());
+                    tvNama.setText("Nama : " + etNama.getText().toString());
+                    tvTelp.setText("Telp : " + etTelpon.getText().toString());
+                    tvAlamat.setText("Alamat : " + etAlamat.getText().toString());
+                    tvEmail.setText("Email : " + etEmail.getText().toString());
 
-                saveCustomerBaseHeader();
+                    saveCustomerBaseHeader();
+                } else {
+                    Toast.makeText(getContext(), "Nama and Telp cannot empty", Toast.LENGTH_SHORT).show();
+                }
 
                 break;
 
@@ -141,11 +145,17 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     }
 
     private void saveCustomerBase() {
-        new tCustomerBasedMobileHeaderBL().submit();
-        getActivity().finish();
-        Intent intent = new Intent(getContext(),MainMenu.class);
-        startActivity(intent);
-        return;
+        Boolean status = new tCustomerBasedMobileHeaderBL().submit();
+
+        if(status) {
+//            Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+            getActivity().finish();
+            Intent intent = new Intent(getContext(), MainMenu.class);
+            startActivity(intent);
+        }
+        else{
+            Toast.makeText(getContext(), "Failed to save", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void popUpAddPerson(final tCustomerBasedMobileDetailData dataDetail) {
@@ -159,7 +169,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         final List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetAllData();
         modelItems = new ArrayList<>();
 
-        if(dataDetail.get_intTrCustomerIdDetail() != null){
+        if (dataDetail.get_intTrCustomerIdDetail() != null) {
             nama.setText(dataDetail.get_txtNamaDepan());
         }
 
@@ -201,12 +211,38 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        final AlertDialog alertD = alertDialogBuilder.create();
+        alertD.show();
+
+        alertD.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (!nama.getText().toString().equals("")) {
+                    Boolean status = false;
+                    for (int i = 0; i < modelItems.size(); i++) {
+                        if (modelItems.get(i).is_selected()) {
+                            status = true;
+                            break;
+                        }
+                    }
+
+                    if (status) {
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Calendar cal = Calendar.getInstance();
 
                         tCustomerBasedMobileDetailData data = dataDetail;
 
-                        if(data.get_intTrCustomerIdDetail() == null){
+                        if (data.get_intTrCustomerIdDetail() == null) {
                             data = new tCustomerBasedMobileDetailData();
                             data.set_intTrCustomerIdDetail(new clsMainActivity().GenerateGuid());
                             data.set_intPIC(dataDetail.get_intPIC());
@@ -238,20 +274,21 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                                 new tCustomerBasedMobileDetailProductBL().saveData(dtProduct);
                             }
                         }
-                        setTablePerson(data.get_intTrCustomerIdDetail());
+                        alertD.dismiss();
+                        setTablePerson();
                     }
-                })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-        final AlertDialog alertD = alertDialogBuilder.create();
-        alertD.show();
+                    else{
+                        Toast.makeText(getContext(), "Select at least 1 product", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    Toast.makeText(getContext(), "Nama cannot empty", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
-    private void setTablePerson(String idCustomerDetail) {
+    private void setTablePerson() {
         TableLayout tl = (TableLayout) v.findViewById(R.id.tlPerson);
         tl.removeAllViews();
 
@@ -306,14 +343,14 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                     tv.setGravity(Gravity.LEFT);
 
                     if (count % 2 == 0) {
-                        tv.setBackgroundColor(Color.DKGRAY);
+                        tv.setBackgroundColor(Color.parseColor("#F0F0F0"));
                     } else {
                         tv.setBackgroundColor(Color.GRAY);
                     }
 
                     tv.setTextColor(Color.BLACK);
 
-                    if(j == 3){
+                    if (j == 3) {
                         tv.setGravity(Gravity.CENTER_HORIZONTAL);
                         final int finalCount = count;
                         tv.setOnClickListener(new View.OnClickListener() {
@@ -357,7 +394,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             tCustomerBasedMobileDetailData data = new tCustomerBasedMobileDetailBL().getAllDataByHeaderIdandintPIC(dtHeader.get_intTrCustomerId());
             dtHeader.set_intPIC("1");
 
-            if(data.get_intTrCustomerId() == null){
+            if (data.get_intTrCustomerId() == null) {
                 data = new tCustomerBasedMobileDetailData();
                 data.set_intTrCustomerIdDetail(new clsMainActivity().GenerateGuid());
             }
@@ -373,12 +410,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
             new tCustomerBasedMobileDetailBL().saveData(data);
 
-            setTablePerson(data.get_intTrCustomerIdDetail());
         } else {
             dtHeader.set_intPIC("0");
             tCustomerBasedMobileDetailData data = new tCustomerBasedMobileDetailBL().getAllDataByHeaderIdandintPIC(dtHeader.get_intTrCustomerId());
 
-            if(data != null){
+            if (data != null) {
                 new tCustomerBasedMobileDetailBL().deleteData(data);
             }
         }
@@ -389,39 +425,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         dtHeader.set_intSubmit("0");
         dtHeader.set_intSync("0");
         new tCustomerBasedMobileHeaderBL().saveData(dtHeader);
-    }
 
-    public static boolean setListViewHeightBasedOnItems(ListView listView) {
-
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter != null) {
-
-            int numberOfItems = listAdapter.getCount();
-
-            // Get total height of all items.
-            int totalItemsHeight = 0;
-            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
-                View item = listAdapter.getView(itemPos, null, listView);
-                item.measure(0, 0);
-                totalItemsHeight += item.getMeasuredHeight();
-            }
-
-            // Get total height of all item dividers.
-            int totalDividersHeight = listView.getDividerHeight() *
-                    (numberOfItems - 1);
-
-            // Set list height.
-            ViewGroup.LayoutParams params = listView.getLayoutParams();
-            params.height = totalItemsHeight + totalDividersHeight;
-            listView.setLayoutParams(params);
-            listView.requestLayout();
-
-            return true;
-
-        } else {
-            return false;
-        }
-
+        setTablePerson();
     }
 
     public class MyAdapter extends BaseAdapter implements Filterable {

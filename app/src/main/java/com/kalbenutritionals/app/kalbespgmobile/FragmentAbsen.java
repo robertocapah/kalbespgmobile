@@ -304,12 +304,12 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                             .setCancelable(false)
                             .setPositiveButton("OK",
                                     new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,	int id) {
+                                        public void onClick(DialogInterface dialog, int id) {
                                             MapFragment f = null;
                                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                                                 f = (MapFragment) (getActivity()).getFragmentManager().findFragmentById(R.id.map);
                                             }
-                                            if (f != null){
+                                            if (f != null) {
                                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                                                     (getActivity()).getFragmentManager().beginTransaction().remove(f).commit();
                                                 }
@@ -351,7 +351,8 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                 dttAbsenUserData.set_intId(txtHDId.getText().toString());
                 dttAbsenUserData.set_intSubmit("0");
                 dttAbsenUserData.set_intSync("0");
-                dttAbsenUserData.set_txtAbsen("0");//
+                dttAbsenUserData.set_txtAbsen("0");
+                dttAbsenUserData.set_dtDateCheckOut("-");
                 dttAbsenUserData.set_txtAccuracy(lblAcc.getText().toString());
                 dttAbsenUserData.set_txtBranchCode(branchCode);
                 dttAbsenUserData.set_txtBranchName(nameBranch);
@@ -481,19 +482,20 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
         btnCheckIn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                myClass="com.kalbenutritionals.app.kalbespgmobile.MainMenu"; ;
-                MenuID="mnCheckinKBN";
+                myClass = "com.kalbenutritionals.app.kalbespgmobile.MainMenu";
+                ;
+                MenuID = "mnCheckinKBN";
                 clazz = null;
 
-                myClass= "com.kalbenutritionals.app.kalbespgmobile.MainMenu";
+                myClass = "com.kalbenutritionals.app.kalbespgmobile.MainMenu";
                 MenuID = "mnCheckinKBN";
                 nameOutlet = spnOutlet.getSelectedItem().toString();
                 outletCode = HMoutlet.get(nameOutlet);
                 LayoutInflater layoutInflater = LayoutInflater.from(getContext());
                 final View promptView = layoutInflater.inflate(R.layout.confirm_data, null);
 
-                final TextView _tvConfirm=(TextView) promptView.findViewById(R.id.tvTitle);
-                final TextView _tvDesc=(TextView) promptView.findViewById(R.id.tvDesc);
+                final TextView _tvConfirm = (TextView) promptView.findViewById(R.id.tvTitle);
+                final TextView _tvDesc = (TextView) promptView.findViewById(R.id.tvDesc);
                 _tvDesc.setVisibility(View.INVISIBLE);
                 _tvConfirm.setText("Check In Data ?");
 
@@ -503,28 +505,31 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                         .setCancelable(false)
                         .setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,	int id) {
-                                        Boolean pRes= true;
-                                        if(dttAbsenUserData == null){
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        Boolean pRes = true;
+                                        if (dttAbsenUserData == null) {
 
-                                            pRes=false;
+                                            pRes = false;
 
-                                        }else{
-                                            if((dttAbsenUserData.get_txtImg1().equals("")|| dttAbsenUserData.get_txtImg1().equals("null"))
-                                                    && (dttAbsenUserData.get_txtImg2().equals("")|| dttAbsenUserData.get_txtImg2().equals("null"))
-                                                    && (spnBranch.getSelectedItem().toString().equals("")||spnBranch.getSelectedItem().toString().equals("null"))
-                                                    && (HMbranch.get(nameBranch).equals("")|| HMbranch.get(nameBranch).equals("null"))){
+                                        } else {
+                                            nameBranch = spnBranch.getSelectedItem().toString();
+                                            if ((dttAbsenUserData.get_txtImg1() == null)
+                                                    && (dttAbsenUserData.get_txtImg2() == null)
+                                                    || (spnBranch.getSelectedItem().toString().equals("")
+                                                    || spnBranch.getSelectedItem().toString().equals("null"))
+                                                    || (HMbranch.get(nameBranch).equals("")
+                                                    || HMbranch.get(nameBranch).equals("null"))) {
 
-                                                pRes=false;
+                                                pRes = false;
                                             }
                                         }
-                                        if(pRes){
+                                        if (pRes) {
                                             nameBranch = spnBranch.getSelectedItem().toString();
                                             nameOutlet = spnOutlet.getSelectedItem().toString();
                                             branchCode = HMbranch.get(nameBranch);
                                             outletCode = HMoutlet.get(nameOutlet);
-                                            if(dttAbsenUserData == null){
-                                                dttAbsenUserData=new tAbsenUserData();
+                                            if (dttAbsenUserData == null) {
+                                                dttAbsenUserData = new tAbsenUserData();
                                             }
                                             tAbsenUserData datatAbsenUserData = dttAbsenUserData;
                                             tUserLoginData dataUserActive = new tUserLoginBL().getUserActive();
@@ -532,7 +537,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                                             List<tDeviceInfoUserData> dataDeviceInfoUser = new tDeviceInfoUserBL().getData(1);
                                             String deviceInfo = String.valueOf(dataDeviceInfoUser.get(0).get_txtDeviceId());
                                             List<tAbsenUserData> absenUserDatas = new ArrayList<tAbsenUserData>();
-                                            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                             Calendar cal = Calendar.getInstance();
                                             datatAbsenUserData.set_dtDateCheckIn(dateFormat.format(cal.getTime()));
                                             datatAbsenUserData.set_intId(txtHDId.getText().toString());
@@ -547,7 +552,8 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                                             datatAbsenUserData.set_txtOutletCode(outletCode);
                                             datatAbsenUserData.set_txtOutletName(nameOutlet);
                                             datatAbsenUserData.set_txtDeviceId(deviceInfo);
-                                            datatAbsenUserData.set_txtUserId(idUserActive); //
+                                            datatAbsenUserData.set_txtUserId(idUserActive);
+                                            datatAbsenUserData.set_dtDateCheckOut(null);
                                             absenUserDatas.add(datatAbsenUserData);
                                             new tAbsenUserBL().saveData(absenUserDatas);
                                             spnBranch.setEnabled(false);
@@ -570,15 +576,14 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                                                 // TODO Auto-generated catch block
                                                 e.printStackTrace();
                                             }
-                                        }
-                                        else {
+                                        } else {
                                             Toast.makeText(getContext(), "Please Photo at least 1 photo..", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 })
                         .setNegativeButton("Cancel",
                                 new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,	int id) {
+                                    public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
                                     }
                                 });
@@ -715,8 +720,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                 Bitmap photo = null;
                 if (data.getExtras().get("data") != null) {
                     photo = (Bitmap) data.getExtras().get("data");
-                }
-                else {
+                } else {
                     try {
                         photo = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), data.getData());
                     } catch (FileNotFoundException e) {
@@ -729,7 +733,9 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                 }
                 previewCapturedImage1(photo);
             } else if (resultCode == 0) {
+                Toast.makeText(getContext(), "User canceled photo", Toast.LENGTH_SHORT).show();
             } else {
+                Toast.makeText(getContext(), "Something error", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == CAMERA_CAPTURE_IMAGE2_REQUEST_CODE) {
             if (resultCode == -1 && (data.getExtras().get("data") != null || data.getData() != null)) {
@@ -757,7 +763,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
 
     private void previewCapturedImage1(Bitmap photo) {
         try {
-            dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
+//            dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
             imgPrevNoImg1.setVisibility(View.VISIBLE);
             ByteArrayOutputStream out = null;
             try {
@@ -784,7 +790,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                 dttAbsenUserData.set_txtImg1(pht);
             } else {
                 dttAbsenUserData.set_txtImg1(pht);
-                dttAbsenUserData.set_txtImg2(null);
+//                dttAbsenUserData.set_txtImg2(null);
                 dttAbsenUserData.set_intId(txtHDId.getText().toString());
             }
             dttAbsenUserData.set_intSubmit("0");

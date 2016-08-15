@@ -1,6 +1,7 @@
 package bl;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -8,6 +9,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import library.salesforce.common.mCounterNumberData;
+import library.salesforce.common.tCustomerBaseData;
 import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
@@ -49,26 +51,53 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL{
 		return dt;
 	}
 
-	public void submit() {
+	public Boolean submit() {
 		SQLiteDatabase _db=getDb();
 
+		Boolean status = false;
 		tCustomerBasedMobileHeaderData dtHeader = getDataByBitActive();
-		dtHeader.set_bitActive("0");
-		dtHeader.set_intSubmit("1");
-		new tCustomerBasedMobileHeaderDA(_db).SaveDatatCustomerBasedMobileHeaderData(_db, dtHeader);
+		if(dtHeader != null){
+			List<tCustomerBasedMobileDetailData> dtDetail = new tCustomerBasedMobileDetailBL().getAllDataByHeaderId(dtHeader.get_intTrCustomerId());
+			if(dtDetail != null){
+				for(tCustomerBasedMobileDetailData dt: dtDetail){
+					List<tCustomerBasedMobileDetailProductData> dtProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dt.get_intTrCustomerIdDetail());
+					if(dtProduct == null || dtProduct.size() == 0){
+						status = false;
+						break;
+					}
+					else{
+						status = true;
+					}
+				}
+			}
+		}
 
-        List<tCustomerBasedMobileDetailData> dtDetail = new tCustomerBasedMobileDetailBL().getAllDataByHeaderId(dtHeader.get_intTrCustomerId());
+		if(status){
+			dtHeader.set_bitActive("0");
+			dtHeader.set_intSubmit("1");
+			new tCustomerBasedMobileHeaderDA(_db).SaveDatatCustomerBasedMobileHeaderData(_db, dtHeader);
 
-        for(tCustomerBasedMobileDetailData dt: dtDetail){
-            dt.set_bitActive("0");
-            new tCustomerBasedMobileDetailBL().saveData(dt);
+			List<tCustomerBasedMobileDetailData> dtDetail = new tCustomerBasedMobileDetailBL().getAllDataByHeaderId(dtHeader.get_intTrCustomerId());
 
-            List<tCustomerBasedMobileDetailProductData> dtProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dt.get_intTrCustomerIdDetail());
+			for(tCustomerBasedMobileDetailData dt: dtDetail){
+				dt.set_bitActive("0");
+				new tCustomerBasedMobileDetailBL().saveData(dt);
 
-            for(tCustomerBasedMobileDetailProductData dtP : dtProduct){
-                dtP.set_bitActive("0");
-                new tCustomerBasedMobileDetailProductBL().saveData(dtP);
-            }
-        }
+				List<tCustomerBasedMobileDetailProductData> dtProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dt.get_intTrCustomerIdDetail());
+
+				for(tCustomerBasedMobileDetailProductData dtP : dtProduct){
+					dtP.set_bitActive("0");
+					new tCustomerBasedMobileDetailProductBL().saveData(dtP);
+				}
+			}
+		}
+
+        return status;
+	}
+
+	public List<tCustomerBasedMobileHeaderData> getAllData() {
+		SQLiteDatabase _db=getDb();
+		List<tCustomerBasedMobileHeaderData> dt = new tCustomerBasedMobileHeaderDA(_db).getAllData(_db);
+		return dt;
 	}
 }

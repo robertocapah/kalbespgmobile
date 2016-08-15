@@ -149,7 +149,7 @@ public class tCustomerBasedMobileHeaderDA {
 				List<tCustomerBasedMobileHeaderData> contactList = new ArrayList<tCustomerBasedMobileHeaderData>();
 				// Select All Query
 				tCustomerBasedMobileHeaderData dt=new tCustomerBasedMobileHeaderData();
-				String selectQuery = "SELECT  "+dt.Property_ALL+" FROM " + TABLE_NAME;
+				String selectQuery = "SELECT  "+dt.Property_ALL+" FROM " + TABLE_NAME + " WHERE " + dt.Property_intSubmit + "='1'";
 
 				Cursor cursor = db.rawQuery(selectQuery, null);
 
