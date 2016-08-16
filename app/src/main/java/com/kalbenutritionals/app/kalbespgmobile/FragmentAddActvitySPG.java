@@ -1,5 +1,7 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -151,45 +153,65 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
 
                 break;
             case R.id.btnSave:
-                int selectedId = rdFlag.getCheckedRadioButtonId();
-                RadioButton radioFlag = (RadioButton) v.findViewById(selectedId);
-                tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
 
-                //dtActivityData = new tActivityBL().getDataByBitActive();
+                if(etDescription.getText().toString().equals("")&&etDescription.getText().toString().length()==0){
+                    Toast.makeText(getActivity(), "Please give Description...", Toast.LENGTH_LONG).show();
+                } else if(pht1 == null && pht2 == null) {
+                    Toast.makeText(getContext(), "Failed to save: Please take at least 1 photo", Toast.LENGTH_LONG).show();
+                } else {
 
-                if(pht1 == null && pht2 == null){
-                    Toast.makeText(this.getContext(), "Failed to save: Please take at least 1 photo", Toast.LENGTH_LONG).show();
+                    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    alertDialog.setTitle("Save Reso...?");
+                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            int selectedId = rdFlag.getCheckedRadioButtonId();
+                            RadioButton radioFlag = (RadioButton) v.findViewById(selectedId);
+                            tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
+
+                            dtActivityData.set_intActive("0");
+                            dtActivityData.set_intIdSyn("0");
+                            dtActivityData.set_txtDesc(String.valueOf(etDescription.getText()));
+                            dtActivityData.set_intFlag(String.valueOf(radioFlag.getText()));
+                            dtActivityData.set_intId(String.valueOf(new clsMainActivity().GenerateGuid()));
+                            dtActivityData.set_intSubmit("1");
+                            dtActivityData.set_txtOutletCode(dtAbsen.get_txtOutletCode());
+                            dtActivityData.set_txtOutletName(dtAbsen.get_txtOutletName());
+                            dtActivityData.set_txtDeviceId(dtAbsen.get_txtDeviceId());
+                            dtActivityData.set_txtBranch(dtAbsen.get_txtBranchCode());
+                            dtActivityData.set_txtUserId(dtAbsen.get_txtUserId());
+                            dtActivityData.set_txtImg1(pht1);
+                            dtActivityData.set_txtImg2(pht2);
+
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                            Calendar cal = Calendar.getInstance();
+
+                            dtActivityData.set_dtActivity(dateFormat.format(cal.getTime()));
+
+                            List<tActivityData> dtList = new ArrayList<>();
+                            dtList.add(dtActivityData);
+
+                            new tActivityBL().saveData(dtList);
+
+                            Toast.makeText(getActivity().getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+                            viewActivityFragment();
+                            photo1 = null;
+                            photo2 = null;
+                        }
+                    });
+                    alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+
+                        }
+                    });
+
+                    alertDialog.show();
                 }
-                else{
-                    dtActivityData.set_intActive("0");
-                    dtActivityData.set_intIdSyn("0");
-                    dtActivityData.set_txtDesc(String.valueOf(etDescription.getText()));
-                    dtActivityData.set_intFlag(String.valueOf(radioFlag.getText()));
-                    dtActivityData.set_intId(String.valueOf(new clsMainActivity().GenerateGuid()));
-                    dtActivityData.set_intSubmit("1");
-                    dtActivityData.set_txtOutletCode(dtAbsen.get_txtOutletCode());
-                    dtActivityData.set_txtOutletName(dtAbsen.get_txtOutletName());
-                    dtActivityData.set_txtDeviceId(dtAbsen.get_txtDeviceId());
-                    dtActivityData.set_txtBranch(dtAbsen.get_txtBranchCode());
-                    dtActivityData.set_txtUserId(dtAbsen.get_txtUserId());
-                    dtActivityData.set_txtImg1(pht1);
-                    dtActivityData.set_txtImg2(pht2);
 
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                    Calendar cal = Calendar.getInstance();
-
-                    dtActivityData.set_dtActivity(dateFormat.format(cal.getTime()));
-
-                    List<tActivityData> dtList = new ArrayList<>();
-                    dtList.add(dtActivityData);
-
-                    new tActivityBL().saveData(dtList);
-
-                    Toast.makeText(getActivity().getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
-                    viewActivityFragment();
-                    photo1=null;
-                    photo2=null;
-                }
+                break;
         }
     }
 

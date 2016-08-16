@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import bl.tCustomerBaseBL;
 import bl.tCustomerBaseDetailBL;
 import bl.tCustomerBasedMobileHeaderBL;
 import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView;
@@ -30,7 +29,6 @@ import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.Swipe
 import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
 import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
-import library.salesforce.common.tCustomerBaseData;
 import library.salesforce.common.tCustomerBaseDetailData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
 

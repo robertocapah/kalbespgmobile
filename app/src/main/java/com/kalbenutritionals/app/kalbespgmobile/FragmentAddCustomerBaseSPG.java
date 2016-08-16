@@ -4,9 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,8 +15,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -26,17 +22,11 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -44,24 +34,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import bl.clsMainBL;
 import bl.mEmployeeSalesProductBL;
 import bl.tAbsenUserBL;
-import bl.tCustomerBaseBL;
 import bl.tCustomerBasedMobileDetailBL;
 import bl.tCustomerBasedMobileDetailProductBL;
 import bl.tCustomerBasedMobileHeaderBL;
+import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
 import library.salesforce.common.ModelListview;
+import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.mEmployeeSalesProductData;
-import library.salesforce.common.tAbsenUserData;
-import library.salesforce.common.tCustomerBaseData;
-import library.salesforce.common.tCustomerBaseDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
-import library.salesforce.dal.tCustomerBaseDetailDA;
 
-public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClickListener {
+public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClickListener, IXListViewListener {
     private ArrayList<ModelListview> modelItems;
     private List<tCustomerBasedMobileDetailData> dtDetail;
     tCustomerBasedMobileHeaderData dtHeader;
@@ -70,6 +56,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     EditText etEmail, etNama, etTelpon, etAlamat, etTelponKantor, etPinBBM;
     CheckBox cbPIC;
     View v;
+
+    private static List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
 
     @Nullable
     @Override
@@ -276,6 +264,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         }
                         alertD.dismiss();
                         setTablePerson();
+                        setListPerson();
                     }
                     else{
                         Toast.makeText(getContext(), "Select at least 1 product", Toast.LENGTH_SHORT).show();
@@ -288,7 +277,19 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         });
     }
 
+    private void setListPerson() {
+        clsSwipeList swplist;
+        swipeList.clear();
+
+        final List<tCustomerBasedMobileDetailData> dtListDetail = new tCustomerBasedMobileDetailBL().getAllDataByHeaderId(dtHeader.get_intTrCustomerId());
+
+
+
+
+    }
+
     private void setTablePerson() {
+
         TableLayout tl = (TableLayout) v.findViewById(R.id.tlPerson);
         tl.removeAllViews();
 
@@ -427,6 +428,16 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         new tCustomerBasedMobileHeaderBL().saveData(dtHeader);
 
         setTablePerson();
+    }
+
+    @Override
+    public void onRefresh() {
+
+    }
+
+    @Override
+    public void onLoadMore() {
+
     }
 
     public class MyAdapter extends BaseAdapter implements Filterable {

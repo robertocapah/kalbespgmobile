@@ -124,7 +124,7 @@ public class FragmentAddReso extends Fragment implements View.OnClickListener {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-            dataAdapter.getFilter().filter(s.toString());
+                dataAdapter.getFilter().filter(s.toString());
             }
         });
         return v;
@@ -142,9 +142,9 @@ public class FragmentAddReso extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch ( v.getId()) {
             case R.id.btnPreviewReso:
-                int x = listView.getCount();
+                //int x = listView.getCount();
                 arrdataPriv = new ArrayList<ModelListview>();
-                for (int i = 0; i < x; i++) {
+                for (int i = 0; i < modelItems.size(); i++) {
                     if (modelItems.get(i).get_value() > 0) {
                         ModelListview data = new ModelListview();
                         data.set_id(modelItems.get(i).get_id());
@@ -168,17 +168,17 @@ public class FragmentAddReso extends Fragment implements View.OnClickListener {
                     final TextView _tvKet = (TextView) promptView.findViewById(R.id.tvkettbl);
                     _tvNoSO.setText(noso);
                     _tvKet.setText(": " + edketerangan.getText().toString());
-                    arrdataPriv = new ArrayList<ModelListview>();
-                    for (int i = 0; i < a; i++) {
-                        if (modelItems.get(i).get_value() > 0) {
-                            ModelListview data = new ModelListview();
-                            data.set_id(modelItems.get(i).get_id());
-                            data.set_price(modelItems.get(i).get_price());
-                            data.set_name(modelItems.get(i).get_name());
-                            data.set_value(modelItems.get(i).get_value());
-                            arrdataPriv.add(data);
-                        }
-                    }
+//                    arrdataPriv = new ArrayList<ModelListview>();
+//                    for (int i = 0; i < a; i++) {
+//                        if (modelItems.get(i).get_value() > 0) {
+//                            ModelListview data = new ModelListview();
+//                            data.set_id(modelItems.get(i).get_id());
+//                            data.set_price(modelItems.get(i).get_price());
+//                            data.set_name(modelItems.get(i).get_name());
+//                            data.set_value(modelItems.get(i).get_value());
+//                            arrdataPriv.add(data);
+//                        }
+//                    }
 
                     TableLayout tl = new TableLayout(getContext());
                     double qtySum = 0;
@@ -279,49 +279,49 @@ public class FragmentAddReso extends Fragment implements View.OnClickListener {
         arrdataPriv = new ArrayList<ModelListview>();
         double qntySum=0;
         double qntyNum;
-        for (int i = 0; i < a; i++) {
+        for (int i = 0; i < modelItems.size(); i++) {
             if (modelItems.get(i).get_value() > 0) {
-                            ModelListview data = new ModelListview();
-                            data.set_id(modelItems.get(i).get_id());
-                            data.set_name(modelItems.get(i).get_name());
-                            data.set_value(modelItems.get(i).get_value());
-                            nik = data.set_NIK(String.valueOf(modelItems.get(i).get_NIK()));
-                            qntyNum = new clsMainActivity().qtySumAmount(Double.valueOf(modelItems.get(i).get_price()), Double.valueOf(modelItems.get(i).get_value()));
-                            qntySum += qntyNum;
-                            arrdataPriv.add(data);
-                        }
-                    }
+                ModelListview data = new ModelListview();
+                data.set_id(modelItems.get(i).get_id());
+                data.set_name(modelItems.get(i).get_name());
+                data.set_value(modelItems.get(i).get_value());
+                nik = data.set_NIK(String.valueOf(modelItems.get(i).get_NIK()));
+                qntyNum = new clsMainActivity().qtySumAmount(Double.valueOf(modelItems.get(i).get_price()), Double.valueOf(modelItems.get(i).get_value()));
+                qntySum += qntyNum;
+                arrdataPriv.add(data);
+            }
+        }
 
-                tSalesProductHeaderData dt = new tSalesProductHeaderData();
+        tSalesProductHeaderData dt = new tSalesProductHeaderData();
 
-                java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                Calendar cal = Calendar.getInstance();
+        java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Calendar cal = Calendar.getInstance();
 
-                clsMainActivity _clsMainActivity = new clsMainActivity();
-                mEmployeeSalesProductData _mEmployeeSalesProductData = new mEmployeeSalesProductData();
-                tAbsenUserData absenUserData = new tAbsenUserBL().getDataCheckInActive();
+        clsMainActivity _clsMainActivity = new clsMainActivity();
+        mEmployeeSalesProductData _mEmployeeSalesProductData = new mEmployeeSalesProductData();
+        tAbsenUserData absenUserData = new tAbsenUserBL().getDataCheckInActive();
 
-                dt.set_intId(tv_noso.getText().toString());
-                dt.set_dtDate(dateFormat.format(cal.getTime()));
-                dt.set_OutletCode(absenUserData.get_txtOutletCode());
-                dt.set_OutletName(absenUserData.get_txtOutletName());
-                dt.set_txtKeterangan(edketerangan.getText().toString());
-                dt.set_intSumItem(String.valueOf(arrdataPriv.size()));
-                dt.set_intSumAmount(String.valueOf(qntySum));
-                dt.set_UserId(absenUserData.get_txtUserId());
-                dt.set_intSubmit("1");
-                dt.set_intSync("0");
-                dt.set_txtBranchCode(absenUserData.get_txtBranchCode());
-                dt.set_txtBranchName(absenUserData.get_txtBranchName());
-                dt.set_intIdAbsenUser(absenUserData.get_intId());
-                dt.set_txtNIK(nik);
+        dt.set_intId(tv_noso.getText().toString());
+        dt.set_dtDate(dateFormat.format(cal.getTime()));
+        dt.set_OutletCode(absenUserData.get_txtOutletCode());
+        dt.set_OutletName(absenUserData.get_txtOutletName());
+        dt.set_txtKeterangan(edketerangan.getText().toString());
+        dt.set_intSumItem(String.valueOf(arrdataPriv.size()));
+        dt.set_intSumAmount(String.valueOf(qntySum));
+        dt.set_UserId(absenUserData.get_txtUserId());
+        dt.set_intSubmit("1");
+        dt.set_intSync("0");
+        dt.set_txtBranchCode(absenUserData.get_txtBranchCode());
+        dt.set_txtBranchName(absenUserData.get_txtBranchName());
+        dt.set_intIdAbsenUser(absenUserData.get_intId());
+        dt.set_txtNIK(nik);
 
-                new tSalesProductHeaderBL().SaveData(dt);
+        new tSalesProductHeaderBL().SaveData(dt);
 
-                clsMainBL _clsMainBL = new clsMainBL();
+        clsMainBL _clsMainBL = new clsMainBL();
 
-                SQLiteDatabase _db=_clsMainBL.getDb();
-        for (int i = 0; i < a; i++) {
+        SQLiteDatabase _db=_clsMainBL.getDb();
+        for (int i = 0; i < modelItems.size(); i++) {
             if (modelItems.get(i).get_value() > 0) {
                 double prc = Double.valueOf(modelItems.get(i).get_price());
                 double itm = Double.valueOf(modelItems.get(i).get_value());
@@ -421,19 +421,13 @@ public class FragmentAddReso extends Fragment implements View.OnClickListener {
                                 } else {
                                     mOriginalValues.get(i).set_value(Integer.parseInt(et.getText().toString()));
                                     break;
-
                                 }
                             }
                         }
-
-
                     }
 
                     @Override
-                    public void afterTextChanged(Editable s) {
-
-
-                    }
+                    public void afterTextChanged(Editable s) {}
                 });
 
             }

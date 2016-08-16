@@ -1,12 +1,14 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,6 +30,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,7 +72,10 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
     ListView listView, listView2, listView3;
     int selectedId;
     public static ArrayList<ModelListview> arr = new ArrayList<ModelListview>();
+    ProgressDialog progressDialog;
     //private Toolbar toolbar;
+    List<mEmployeeSalesProductData> employeeSalesProductDataList = null;
+    JSONArray array_Product = null;
 
     @Nullable
     @Override
@@ -99,26 +106,27 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
         Button btn_preview = (Button) v.findViewById(R.id.btnPreviewReso);
         btn_preview.setOnClickListener(this);
 
-        List<mEmployeeSalesProductData> employeeSalesProductDataList = new mEmployeeSalesProductBL().GetAllData();
-        modelItems = new ArrayList<ModelListview>();
-
-        if (employeeSalesProductDataList.size() > 0) {
-            for (int i = 0; i < employeeSalesProductDataList.size(); i++) {
-                ModelListview dt = new ModelListview();
-                dt.set_id(employeeSalesProductDataList.get(i).get_txtBrandDetailGramCode());
-                dt.set_name(employeeSalesProductDataList.get(i).get_txtProductBrandDetailGramName());
-                dt.set_price((employeeSalesProductDataList.get(i).get_decHJD()));
-                dt.set_NIK(employeeSalesProductDataList.get(i).get_txtNIK());
-                modelItems.add(dt);
-            }
-        }
-
-        dataAdapter = new MyAdapter(getActivity().getApplicationContext(), modelItems);
         listView = (ListView) v.findViewById(R.id.lvProduk);
-        listView.setAdapter(dataAdapter);
-        listView.setTextFilterEnabled(true);
 
-        setListViewHeightBasedOnItems(listView);
+        new GetAllemployeeSalesProductDataList().execute();
+
+//        List<mEmployeeSalesProductData> employeeSalesProductDataList = new mEmployeeSalesProductBL().GetAllData();
+//
+//                modelItems = new ArrayList<ModelListview>();
+//
+//                if (employeeSalesProductDataList.size() > 0) {
+//                    for (int i = 0; i < employeeSalesProductDataList.size(); i++) {
+//                        ModelListview dt = new ModelListview();
+//                        dt.set_id(employeeSalesProductDataList.get(i).get_txtBrandDetailGramCode());
+//                        dt.set_name(employeeSalesProductDataList.get(i).get_txtProductBrandDetailGramName());
+//                        dt.set_price((employeeSalesProductDataList.get(i).get_decHJD()));
+//                        dt.set_NIK(employeeSalesProductDataList.get(i).get_txtNIK());
+//                        modelItems.add(dt);
+//                    }
+//                }
+//
+
+
         searchProduct.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {}
@@ -126,13 +134,28 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                dataAdapter.getFilter().filter(s.toString());
                 if (s.length()==0){
+                    dataAdapter.getFilter().filter(s.toString());
                     Collections.sort(modelItems, ModelListview.StuRollno);
                 }
-                //dataAdapter.notifyDataSetChanged();
             }
         });
+
+        searchProduct.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(searchProduct) {
+            @Override
+            public boolean onDrawableClick() {
+                CharSequence s = searchProduct.getText();
+                if(s.length()>0){
+                    dataAdapter.getFilter().filter(s.toString());
+                } else {
+                    Collections.sort(modelItems, ModelListview.StuRollno);
+                }
+
+
+                return false;
+            }
+        });
+
         return v;
     }
 
@@ -263,15 +286,36 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                             .setPositiveButton("Save",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
-                                            saveReso();
-                                            viewResoFragment();
+                                            final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                                            alertDialog.setTitle("Save Reso...?");
+                                            alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    saveReso();
+                                                    viewResoFragment();
+                                                }
+                                            });
+                                            alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+
+                                                }
+                                            });
+
+                                            alertDialog.show();
                                         }
                                     })
                             .setNegativeButton("Close",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
-                                            Collections.sort(modelItems, ModelListview.StuRollno);
-                                            //dataAdapter.notifyDataSetChanged();
+                                            if (searchProduct.getText().length()>0){
+                                                Collections.sort(modelItems, ModelListview.StuRollno);
+                                            } else {
+                                                Collections.sort(modelItems, ModelListview.StuRollno);
+                                                dataAdapter.notifyDataSetChanged();
+                                            }
+
                                             dialog.cancel();
                                         }
                                     });
@@ -618,6 +662,58 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
 
         }
         super.onPrepareOptionsMenu(menu);
+    }
+
+
+    private class GetAllemployeeSalesProductDataList extends AsyncTask<ArrayList<ModelListview>, Void, ArrayList<ModelListview>> {
+
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            //bikin progres dialognya
+            progressDialog = new ProgressDialog(getContext());
+            progressDialog.setMessage("Loading Data... Please Wait");
+            progressDialog.setIndeterminate(false); //ukur berapa persen, false maka not do
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+
+        @Override
+        protected ArrayList<ModelListview> doInBackground(ArrayList<ModelListview>... params) {
+            //android.os.Debug.waitForDebugger();
+
+            List<mEmployeeSalesProductData> employeeSalesProductDataList = new mEmployeeSalesProductBL().GetAllData();
+
+            modelItems = new ArrayList<ModelListview>();
+
+            if (employeeSalesProductDataList.size() > 0) {
+                for (int i = 0; i < employeeSalesProductDataList.size(); i++) {
+                    ModelListview dt = new ModelListview();
+                    dt.set_id(employeeSalesProductDataList.get(i).get_txtBrandDetailGramCode());
+                    dt.set_name(employeeSalesProductDataList.get(i).get_txtProductBrandDetailGramName());
+                    dt.set_price((employeeSalesProductDataList.get(i).get_decHJD()));
+                    dt.set_NIK(employeeSalesProductDataList.get(i).get_txtNIK());
+                    modelItems.add(dt);
+                }
+            }
+
+            return modelItems;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ModelListview> s) {
+
+            dataAdapter = new MyAdapter(getContext(), modelItems);
+            listView.setAdapter(dataAdapter);
+            listView.setTextFilterEnabled(true);
+
+            setListViewHeightBasedOnItems(listView);
+
+            progressDialog.dismiss();
+        }
     }
 
 }

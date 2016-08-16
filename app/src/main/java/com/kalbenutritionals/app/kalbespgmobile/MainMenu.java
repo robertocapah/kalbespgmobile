@@ -142,8 +142,6 @@ public class MainMenu extends AppCompatActivity {
         Intent intent = getIntent();
         String i_view = intent.getStringExtra("key_view");
 
-
-
         int statusAbsen = 0;
         int menuActive = 0;
 
@@ -153,6 +151,8 @@ public class MainMenu extends AppCompatActivity {
             header.removeItem(R.id.checkout);
         }
         else{
+            mMenuData data = new mMenuBL().getMenuDataByMenuName("mnAbsenSPG");
+            menuId = Integer.parseInt(data.get_IntMenuID());
             statusAbsen = menuId;
             menuActive = R.id.groupListMenu1;
 
@@ -168,7 +168,7 @@ public class MainMenu extends AppCompatActivity {
                     Class<?> fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view.replaceAll("\\s+","") );
                     try {
                         for(int i = 0; i < listMenu.length; i++){
-                            if(("View " + listMenu[i]).equals(i_view)){
+                            if(("View " + listMenu[i]).equals(i_view + " SPG")){
                                  selectedId = i;
                                 break;
                             }

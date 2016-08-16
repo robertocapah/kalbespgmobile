@@ -540,7 +540,7 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                                             datatAbsenUserData.set_intId(txtHDId.getText().toString());
                                             datatAbsenUserData.set_intSubmit("1");
                                             datatAbsenUserData.set_intSync("0");
-                                            datatAbsenUserData.set_txtAbsen("0");//
+                                            datatAbsenUserData.set_txtAbsen("0");
                                             datatAbsenUserData.set_txtBranchCode(HMbranch.get(nameBranch));
                                             datatAbsenUserData.set_txtBranchName(spnBranch.getSelectedItem().toString());
                                             datatAbsenUserData.set_txtAccuracy(lblAcc.getText().toString());
@@ -549,7 +549,7 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                                             datatAbsenUserData.set_txtOutletCode(outletCode);
                                             datatAbsenUserData.set_txtOutletName(nameOutlet);
                                             datatAbsenUserData.set_txtDeviceId(deviceInfo);
-                                            datatAbsenUserData.set_txtUserId(idUserActive); //
+                                            datatAbsenUserData.set_txtUserId(idUserActive);
                                             absenUserDatas.add(datatAbsenUserData);
                                             new tAbsenUserBL().saveData(absenUserDatas);
                                             spnBranch.setEnabled(false);
@@ -558,7 +558,6 @@ public class AbsenFragment extends Fragment implements ConnectionCallbacks, OnCo
                                             imgPrevNoImg2.setClickable(false);
                                             btnRefreshMaps.setClickable(false);
                                             btnRefreshMaps.setVisibility(View.GONE);
-
 
                                             Toast.makeText(getContext(), "Saved", Toast.LENGTH_LONG).show();
                                             try {

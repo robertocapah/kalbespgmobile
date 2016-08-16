@@ -92,24 +92,26 @@
         android:layout_height="wrap_content"
         android:text="Preview"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/btn_download_all"/>
 
-        <ListView
-            android:id="@+id/lvProduk2"
+        <TextView
+            android:id="@+id/tv_search"
             android:layout_marginTop="10dp"
             android:layout_below="@+id/btnPreviewReso"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="5dp"></ListView>
+            android:text="Search Product"
+            android:textColor="#000"></TextView>
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:id="@+id/searchProduct"
-            android:layout_weight="1"
-            android:background="@drawable/bg_edtext"/>
+            android:inputType="textFilter"
+            android:background="@drawable/bg_edtext"
+            android:drawableRight="@drawable/ic_search_black_24dp"/>
 
     <ListView
         android:id="@+id/lvProduk"
