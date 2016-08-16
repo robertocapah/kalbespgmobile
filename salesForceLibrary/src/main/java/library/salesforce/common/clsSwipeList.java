@@ -1,11 +1,6 @@
 package library.salesforce.common;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import library.salesforce.dal.tPODetail_mobileDA;
-import android.database.sqlite.SQLiteDatabase;
 
 public class clsSwipeList implements Serializable{
 	

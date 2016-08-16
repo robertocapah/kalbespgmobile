@@ -23,37 +23,14 @@ import bl.clsMainBL;
 import library.salesforce.common.clsPushData;
 import library.salesforce.common.dataJson;
 import library.salesforce.common.mCounterNumberData;
-import library.salesforce.common.mItemSalesPack_StockData;
-import library.salesforce.common.mItemSalesPack_StockLogData;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
-import library.salesforce.common.tGRNDetail_mobileData;
-import library.salesforce.common.tGRNHeader_mobileData;
-import library.salesforce.common.tPODetail_mobileData;
-import library.salesforce.common.tPOHeader_mobileData;
-import library.salesforce.common.tPOStatus_mobileData;
-import library.salesforce.common.tSalesOrderDetail_MobileData;
-import library.salesforce.common.tSalesOrderHeader_MobileData;
-import library.salesforce.common.tTransactionDetailData;
 import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 import library.salesforce.dal.enumCounterData;
 import library.salesforce.dal.mCounterNumberDA;
-import library.salesforce.dal.mItemSalesPack_StockDA;
-import library.salesforce.dal.mItemSalesPack_StockLogDA;
 import library.salesforce.dal.tAbsenUserDA;
 import library.salesforce.dal.tActivityDA;
-import library.salesforce.dal.tGRNDetail_mobileDA;
-import library.salesforce.dal.tGRNHeader_mobileDA;
-import library.salesforce.dal.tPODetail_mobileDA;
-import library.salesforce.dal.tPOHeader_mobileDA;
-import library.salesforce.dal.tPOStatus_mobileDA;
-import library.salesforce.dal.tPenguaranDetail_MobileDA;
-import library.salesforce.dal.tPenguaranHeader_MobileDA;
-import library.salesforce.dal.tPenguaranStatus_MobileDA;
-import library.salesforce.dal.tSalesOrderDetail_MobileDA;
-import library.salesforce.dal.tSalesOrderHeader_MobileDA;
-import library.salesforce.dal.tTransactionDetailDA;
 import library.salesforce.dal.tUserLoginDA;
 
 public class MyServiceNative extends Service{
@@ -121,7 +98,7 @@ public class MyServiceNative extends Service{
     		}
     		try {
     			JSONArray JsonArrayResult=new clsHelperBL().callPushDataReturnJson(versionName,dtJson.getDtdataJson().txtJSON().toString(),dtJson.getFileUpload());
-				new clsHelperBL().saveDataPush(dtJson.getDtdataJson(),JsonArrayResult);
+//				new clsHelperBL().saveDataPush(dtJson.getDtdataJson(),JsonArrayResult);
 				Intent serviceIntent = new Intent(this,MyNotificationService.class);
 				serviceIntent.putExtra("From", "PUSHDATA");
 				startService(serviceIntent);
@@ -164,35 +141,9 @@ public class MyServiceNative extends Service{
 			}
 			tAbsenUserDA _tAbsenUserDA =new tAbsenUserDA (db);
 			tActivityDA _tActivityDA =new tActivityDA (db);
-			tGRNDetail_mobileDA _tGRNDetail_mobileDA =new tGRNDetail_mobileDA (db);
-			tGRNHeader_mobileDA _tGRNHeader_mobileDA =new tGRNHeader_mobileDA (db);
-			tPenguaranHeader_MobileDA _tPenguaranHeader_MobileDA =new tPenguaranHeader_MobileDA (db);
-			tPenguaranDetail_MobileDA _tPenguaranDetail_MobileDA =new tPenguaranDetail_MobileDA (db);
-			tPenguaranStatus_MobileDA _tPenguaranStatus_MobileDA =new tPenguaranStatus_MobileDA (db);
-			tPOHeader_mobileDA _tPOHeader_mobileDA =new tPOHeader_mobileDA (db);
-			tPODetail_mobileDA _tPODetail_mobileDA =new tPODetail_mobileDA (db);
-			tPOStatus_mobileDA _tPOStatus_mobileDA =new tPOStatus_mobileDA (db);
-			tSalesOrderDetail_MobileDA _tSalesOrderDetail_MobileDA =new tSalesOrderDetail_MobileDA (db);
-			tSalesOrderHeader_MobileDA _tSalesOrderHeader_MobileDA =new tSalesOrderHeader_MobileDA(db);
-			tTransactionDetailDA _tTransactionDetailDA =new tTransactionDetailDA(db);
-			mItemSalesPack_StockDA _mItemSalesPack_StockDA =new mItemSalesPack_StockDA(db);
-			mItemSalesPack_StockLogDA _mItemSalesPack_StockLogDA =new mItemSalesPack_StockLogDA(db);
 
 			List<tAbsenUserData> ListOftAbsenUserData=_tAbsenUserDA.getAllDataToPushData(db);
 			List<tActivityData> ListOftActivityData=_tActivityDA.getAllDataToPushData(db);
-			List<tGRNHeader_mobileData> ListOftGRNHeader_mobileData=_tGRNHeader_mobileDA.getAllDataToPushData(db);
-			List<tGRNDetail_mobileData> ListOftGRNDetail_mobileData=_tGRNDetail_mobileDA.getAllDataToPushData(db);
-			List<tPOHeader_mobileData> ListOftPOHeader_mobileData=_tPOHeader_mobileDA.getAllDataToPushData(db);
-			List<tPODetail_mobileData> ListOftPODetail_mobileData=_tPODetail_mobileDA.getAllDataToPushData(db);
-			List<tPOStatus_mobileData> ListOftPOStatus_mobileData=_tPOStatus_mobileDA.getAllDataToPushData(db);
-			//List<tPenguaranDetail_MobileData> ListOftPenguaranDetail_MobileData=_tPenguaranDetail_MobileDA.getAllDataToPushData(db);
-			//List<tPenguaranHeader_MobileData> ListOftPenguaranHeader_MobileData = _tPenguaranHeader_MobileDA.getAllDataToPushData(db);
-			//List<tPenguaranStatus_MobileData> ListOftPenguaranStatus_MobileData = _tPenguaranStatus_MobileDA.getAllDataToPushData(db);
-			List<tSalesOrderDetail_MobileData> ListOftSalesOrderDetail_MobileData = _tSalesOrderDetail_MobileDA.getAllDataToPushData(db);
-			List<tSalesOrderHeader_MobileData> ListOftSalesOrderHeader_MobileData = _tSalesOrderHeader_MobileDA.getAllDataToPushData(db);
-			List<tTransactionDetailData> ListOftTransactionDetailData = _tTransactionDetailDA.getAllDataToPushData(db);
-			List<mItemSalesPack_StockData> ListOfmItemSalesPack_StockData = _mItemSalesPack_StockDA.getAllDataToPushData(db);
-			List<mItemSalesPack_StockLogData> ListOfmItemSalesPack_StockLogData = _mItemSalesPack_StockLogDA.getAllDataToPushData(db);
 			dataJson dtPush=new dataJson();
 			HashMap<String, String> FileUpload=null;
 			FileUpload=new HashMap<String, String>();
@@ -217,36 +168,6 @@ public class MyServiceNative extends Service{
 						FileUpload.put("FUActivity2"+dttActivityData.get_intId(), dttActivityData.get_txtImg2().toString());
 					}
 				}
-			}
-			if(ListOftGRNHeader_mobileData!=null){
-				dtPush.set_ListOftGRNHeader_mobileData(ListOftGRNHeader_mobileData);
-			}
-			if(ListOftGRNDetail_mobileData!=null){
-				dtPush.set_ListOftGRNDetail_mobileData(ListOftGRNDetail_mobileData);
-			}
-			if(ListOftSalesOrderDetail_MobileData!=null){
-				dtPush.set_ListOftSalesOrderDetail_MobileData(ListOftSalesOrderDetail_MobileData);
-			}
-			if(ListOftSalesOrderHeader_MobileData!=null){
-				dtPush.set_ListOftSalesOrderHeader_MobileData(ListOftSalesOrderHeader_MobileData);
-			}
-			if(ListOftPOHeader_mobileData!=null){
-				dtPush.set_ListOftPOHeader_mobileData(ListOftPOHeader_mobileData);
-			}
-			if(ListOftPODetail_mobileData!=null){
-				dtPush.set_ListOftPODetail_mobileData(ListOftPODetail_mobileData);
-			}
-			if(ListOftPOStatus_mobileData!=null){
-				dtPush.set_ListOftPOStatus_mobileData(ListOftPOStatus_mobileData);
-			}
-			if(ListOftTransactionDetailData!=null){
-				dtPush.set_ListOftTransactionDetailData(ListOftTransactionDetailData);
-			}
-			if(ListOfmItemSalesPack_StockData!=null){
-				dtPush.set_ListOfmItemSalesPack_StockData(ListOfmItemSalesPack_StockData);
-			}
-			if(ListOfmItemSalesPack_StockLogData!=null){
-				dtPush.set_ListOfmItemSalesPack_StockLogData(ListOfmItemSalesPack_StockLogData);
 			}
 		}
 		else{

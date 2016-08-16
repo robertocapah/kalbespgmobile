@@ -15,60 +15,24 @@ import library.salesforce.common.clsHelper;
 import library.salesforce.common.clsStatusMenuStart;
 import library.salesforce.common.dataJson;
 import library.salesforce.common.linkAPI;
-import library.salesforce.common.mItemSalesPack_StockData;
-import library.salesforce.common.mItemSalesPack_StockLogData;
 import library.salesforce.common.mMenuData;
-import library.salesforce.common.mStockAwalData;
 import library.salesforce.common.mconfigData;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
-import library.salesforce.common.tCustomerBaseData;
-import library.salesforce.common.tCustomerBaseDetailData;
-import library.salesforce.common.tGRNDetail_mobileData;
-import library.salesforce.common.tGRNHeader_mobileData;
 import library.salesforce.common.tLeaveMobileData;
-import library.salesforce.common.tPODetail_mobileData;
-import library.salesforce.common.tPOHeader_mobileData;
-import library.salesforce.common.tPOStatus_mobileData;
-import library.salesforce.common.tPenguaranDetail_MobileData;
-import library.salesforce.common.tPenguaranHeader_MobileData;
-import library.salesforce.common.tPenguaranStatus_MobileData;
-import library.salesforce.common.tSalesOrderDetail_MobileData;
-import library.salesforce.common.tSalesOrderHeader_MobileData;
 import library.salesforce.common.tSalesProductDetailData;
 import library.salesforce.common.tSalesProductHeaderData;
-import library.salesforce.common.tStockOpnameDetail_mobileData;
-import library.salesforce.common.tStockOpnameHeader_mobileData;
-import library.salesforce.common.tTransactionDetailData;
 import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 import library.salesforce.dal.enumConfigData;
 import library.salesforce.dal.enumStatusMenuStart;
-import library.salesforce.dal.mItemSalesPack_StockDA;
-import library.salesforce.dal.mItemSalesPack_StockLogDA;
 import library.salesforce.dal.mMenuDA;
-import library.salesforce.dal.mStockAwalDA;
 import library.salesforce.dal.mconfigDA;
 import library.salesforce.dal.tAbsenUserDA;
 import library.salesforce.dal.tActivityDA;
-import library.salesforce.dal.tCustomerBaseDA;
-import library.salesforce.dal.tCustomerBaseDetailDA;
-import library.salesforce.dal.tGRNDetail_mobileDA;
-import library.salesforce.dal.tGRNHeader_mobileDA;
 import library.salesforce.dal.tLeaveMobileDA;
-import library.salesforce.dal.tPODetail_mobileDA;
-import library.salesforce.dal.tPOHeader_mobileDA;
-import library.salesforce.dal.tPOStatus_mobileDA;
-import library.salesforce.dal.tPenguaranDetail_MobileDA;
-import library.salesforce.dal.tPenguaranHeader_MobileDA;
-import library.salesforce.dal.tPenguaranStatus_MobileDA;
-import library.salesforce.dal.tSalesOrderDetail_MobileDA;
-import library.salesforce.dal.tSalesOrderHeader_MobileDA;
 import library.salesforce.dal.tSalesProductDetailDA;
 import library.salesforce.dal.tSalesProductHeaderDA;
-import library.salesforce.dal.tStockOpnameDetail_mobileDA;
-import library.salesforce.dal.tStockOpnameHeader_mobileDA;
-import library.salesforce.dal.tTransactionDetailDA;
 import library.salesforce.dal.tUserLoginDA;
 
 public class clsMainBL {
@@ -133,7 +97,6 @@ public class clsMainBL {
 		tUserLoginDA _tUserLoginDA=new tUserLoginDA(db);
     	tActivityDA _tActivityDA=new tActivityDA(db);
     	tAbsenUserDA _tAbsenUserDA=new tAbsenUserDA(db);
-    	tCustomerBaseDA _tCustomerBaseDA=new tCustomerBaseDA(db);
     	tLeaveMobileDA _tLeaveMobileDA=new tLeaveMobileDA(db);
     	mMenuDA _mMenuDA=new mMenuDA(db);
     	clsStatusMenuStart _clsStatusMenuStart =new clsStatusMenuStart();
@@ -145,7 +108,6 @@ public class clsMainBL {
     		List<tSalesProductHeaderData> listDataPush= _tSalesProductHeaderDA.getAllDataToPushData(db);
     		List<tActivityData> listtActivityDataPush= _tActivityDA.getAllDataToPushData(db);
     		List<tAbsenUserData> listtAbsenUserDataPush= _tAbsenUserDA.getAllDataToPushData(db);
-    		List<tCustomerBaseData> listtCustomerBaseDetailDataPush= _tCustomerBaseDA.getPushData(db);
     		List<tLeaveMobileData> listTLeave= _tLeaveMobileDA.getAllDataPushData(db);
     		if(listDataPush != null && dvalid==false){
     			dvalid=true;
@@ -154,9 +116,6 @@ public class clsMainBL {
     			dvalid=true;
     		}
     		if(listtAbsenUserDataPush != null && dvalid==false){
-    			dvalid=true;
-    		}
-    		if(listtCustomerBaseDetailDataPush != null && dvalid==false){
     			dvalid=true;
     		}
     		if(listTLeave != null && dvalid==false){
@@ -180,66 +139,9 @@ public class clsMainBL {
 	public dataJson GetAllPushData(String VersionName) throws Exception{
 		SQLiteDatabase db=getDb();
 		dataJson dtJson=new dataJson();
-		tPOHeader_mobileDA _tPOHeader_mobileDA=new tPOHeader_mobileDA(db);
-		tPODetail_mobileDA _tPODetail_mobileDA=new tPODetail_mobileDA(db);
-		tPOStatus_mobileDA _tPOStatus_mobileDA=new tPOStatus_mobileDA(db);
-		tGRNHeader_mobileDA _tGRNHeader_mobileDA=new tGRNHeader_mobileDA(db);
-		tGRNDetail_mobileDA _tGRNDetail_mobileDA=new tGRNDetail_mobileDA(db);
-		tSalesOrderHeader_MobileDA _tSalesOrderHeader_mobileDA=new tSalesOrderHeader_MobileDA(db);
-		tSalesOrderDetail_MobileDA _tSalesOrderDetail_MobileDA=new tSalesOrderDetail_MobileDA(db);
-		tPenguaranHeader_MobileDA _tPenguaranHeader_MobileDA=new tPenguaranHeader_MobileDA(db);
-		tPenguaranDetail_MobileDA _tPenguaranDetail_MobileDA=new tPenguaranDetail_MobileDA(db);
-		tPenguaranStatus_MobileDA _tPenguaranStatus_MobileDA=new tPenguaranStatus_MobileDA(db);
-		tStockOpnameHeader_mobileDA _tStockOpnameHeader_MobileDA=new tStockOpnameHeader_mobileDA(db);
-		tStockOpnameDetail_mobileDA _tStockOpnameDetail_mobileDA=new tStockOpnameDetail_mobileDA(db);
-		tTransactionDetailDA _tTransactionDetailDA=new tTransactionDetailDA(db);
-		mItemSalesPack_StockDA _mItemSalesPack_StockDA=new mItemSalesPack_StockDA(db);
-		mStockAwalDA _mStockAwalDA=new mStockAwalDA(db);
-		mItemSalesPack_StockLogDA _mItemSalesPack_StockLogDA=new mItemSalesPack_StockLogDA(db);
 		tAbsenUserDA _tAbsenUserDA=new tAbsenUserDA(db);
 		tLeaveMobileDA _tLeaveMobileDA=new tLeaveMobileDA(db);
-		
-		List<tPOHeader_mobileData> listOftPOHeader_mobileData=_tPOHeader_mobileDA.getAllDataToPushData(db);
-		dtJson.set_ListOftPOHeader_mobileData(listOftPOHeader_mobileData);
-		List<tPODetail_mobileData> listOftPODetail_mobileData=_tPODetail_mobileDA.getAllDataToPushData(db);
-		dtJson.set_ListOftPODetail_mobileData(listOftPODetail_mobileData);
-		List<tPOStatus_mobileData> listOftPOStatus_mobileData=_tPOStatus_mobileDA.getAllDataToPushData(db);
-		dtJson.set_ListOftPOStatus_mobileData(listOftPOStatus_mobileData);
-		
-		List<tGRNHeader_mobileData> listOftGRNHeader_mobileData=_tGRNHeader_mobileDA.getAllDataToPushData(db);
-		dtJson.set_ListOftGRNHeader_mobileData(listOftGRNHeader_mobileData);
-		List<tGRNDetail_mobileData> listOftGRNDetail_mobileData=_tGRNDetail_mobileDA.getAllDataToPushData(db);
-		dtJson.set_ListOftGRNDetail_mobileData(listOftGRNDetail_mobileData);
-		
-		List<tSalesOrderHeader_MobileData> listOftSalesOrderHeader_mobileData=_tSalesOrderHeader_mobileDA.getAllDataToPushData(db);
-		dtJson.set_ListOftSalesOrderHeader_MobileData(listOftSalesOrderHeader_mobileData);
-		List<tSalesOrderDetail_MobileData> listOftSalesOrderDetail_mobileData=_tSalesOrderDetail_MobileDA.getAllDataToPushData(db);
-		dtJson.set_ListOftSalesOrderDetail_MobileData(listOftSalesOrderDetail_mobileData);
-		
-		List<tPenguaranHeader_MobileData> listOftPenguaranHeader_MobileData=_tPenguaranHeader_MobileDA.getAllDataToPushData(db);
-		dtJson.set_ListOftPenguaranHeader_MobileData(listOftPenguaranHeader_MobileData);
-		List<tPenguaranDetail_MobileData> listOftPenguaranDetail_MobileData=_tPenguaranDetail_MobileDA.getAllDataToPushData(db);
-		dtJson.set_ListOftPenguaranDetail_MobileData(listOftPenguaranDetail_MobileData);
-		List<tPenguaranStatus_MobileData> listOftPenguaranStatus_MobileData=_tPenguaranStatus_MobileDA.getAllDataToPushData(db);
-		dtJson.set_ListOftPenguaranStatus_MobileData(listOftPenguaranStatus_MobileData);
-		
-		List<tStockOpnameHeader_mobileData> listOftStockOpnameHeader_MobileData=_tStockOpnameHeader_MobileDA.getAllDataToPushData(db);
-		dtJson.set_ListOftStockOpnameHeader_mobileData(listOftStockOpnameHeader_MobileData);
-		List<tStockOpnameDetail_mobileData> listOftStockOpnameDetail_MobileData=_tStockOpnameDetail_mobileDA.getAllDataToPushData(db);
-		dtJson.set_ListOftStockOpnameHeader_mobileData(listOftStockOpnameHeader_MobileData);
-		
-		List<tTransactionDetailData> listOftTransactionDetailData=_tTransactionDetailDA.getAllDataToPushData(db);
-		dtJson.set_ListOftTransactionDetailData(listOftTransactionDetailData);
-		List<mItemSalesPack_StockData> listOfmItemSalesPack_StockData=_mItemSalesPack_StockDA.getAllDataToPushData(db);
-		dtJson.set_ListOftTransactionDetailData(listOftTransactionDetailData);
-		List<mItemSalesPack_StockLogData> listOfmItemSalesPack_StockLogData=_mItemSalesPack_StockLogDA.getAllDataToPushData(db);
-		dtJson.set_ListOftTransactionDetailData(listOftTransactionDetailData);
-		List<tAbsenUserData> listOftAbsenUserData=_tAbsenUserDA.getAllDataToPushData(db);
-		dtJson.set_ListOftTransactionDetailData(listOftTransactionDetailData);
-		List<tLeaveMobileData> listOftLeaveMobileData=_tLeaveMobileDA.getAllDataPushData(db);
-		dtJson.set_ListOftTransactionDetailData(listOftTransactionDetailData);
-		List<mStockAwalData> listOfmStockAwalData=_mStockAwalDA.getAllDataPushData(db);
-		dtJson.set_ListOfmStockAwalData(listOfmStockAwalData);
+
 		db.close();
 		return dtJson;
 	}
@@ -376,37 +278,6 @@ public class clsMainBL {
 		dtlinkAPI.set_txtToken(new clsHardCode().txtTokenAPI);
 		dtlinkAPI.set_txtVesion(VersionName);
 		strLinkAPI= dtlinkAPI.QueryString(_StrLINKAPI);
-		
-		tCustomerBaseDA _tCustomerBaseDA=new tCustomerBaseDA(_db);
-		tCustomerBaseDetailDA _tCustomerBaseDetailDA=new tCustomerBaseDetailDA(_db);
-		
-		List<tCustomerBaseData> tmpListOftCustomerBaseData=new ArrayList<tCustomerBaseData>();
-		List<tCustomerBaseDetailData> tmpListOftCustomerBaseDetailData=new ArrayList<tCustomerBaseDetailData>();
-		List<tCustomerBaseData> ListDatatCustomerBase= _tCustomerBaseDA.getPushData(_db);
-		if(ListDatatCustomerBase!=null){
-			for (tCustomerBaseData dataActivity : ListDatatCustomerBase) {
-				tmpListOftCustomerBaseData.add(dataActivity);
-				tmpListOftCustomerBaseDetailData=_tCustomerBaseDetailDA.getDataByCustomerId(_db, dataActivity.get_intCustomerId());
-				
-				dataJson Json= new dataJson();
-				Json.setIntResult("1");
-				Json.setListOftCustomerBase(tmpListOftCustomerBaseData);
-				Json.setListOftCustomerBaseDetailData(tmpListOftCustomerBaseDetailData);
-				//
-				String Html= new clsHelper().pushtData(strLinkAPI,Json.txtJSON().toString(),Integer.valueOf(TimeOut));
-				org.json.simple.JSONArray JsonArray= _help.ResultJsonArray(Html);
-				Iterator i = JsonArray.iterator();
-				while (i.hasNext()) {
-					APIData dtAPIDATA=new APIData();
-					org.json.simple.JSONObject innerObj = (org.json.simple.JSONObject) i.next();
-					int boolValid= Integer.valueOf(String.valueOf( innerObj.get(dtAPIDATA.boolValid)));
-					if(boolValid == Integer.valueOf(new clsHardCode().intSuccess)){
-						dataActivity.set_intCustomerIdSync(String.valueOf(innerObj.get(dtAPIDATA.strArgument)));
-						_tCustomerBaseDA.SaveDatatCustomerBaseData(_db, dataActivity);
-					}
-				}
-			}
-		}
 		
 		dtlinkAPI=new linkAPI();
 		txtMethod="SaveDatatLeaveMobile";

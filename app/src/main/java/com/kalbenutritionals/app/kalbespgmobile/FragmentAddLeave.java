@@ -62,7 +62,7 @@ public class FragmentAddLeave extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.fragment_leave_add, container, false);
 
-        tvStatus=(TextView)view.findViewById(R.id.tvStatus);
+        tvStatus=(TextView)view.findViewById(R.id.tvPinBbm);
         spLeave = (Spinner) view.findViewById(R.id.spnTypeLeave);
         btnSaveleave = (Button) view.findViewById(R.id.btnSaveLeave);
         edReason  = (EditText) view.findViewById(R.id.editTextReason);

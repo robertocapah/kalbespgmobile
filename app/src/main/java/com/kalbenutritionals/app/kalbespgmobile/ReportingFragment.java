@@ -17,14 +17,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import bl.tCustomerBaseBL;
-import bl.tCustomerBaseDetailBL;
 import bl.tSalesProductDetailBL;
 import bl.tSalesProductHeaderBL;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 import library.salesforce.common.ReportTable;
-import library.salesforce.common.tCustomerBaseData;
-import library.salesforce.common.tCustomerBaseDetailData;
 import library.salesforce.common.tSalesProductDetailData;
 import library.salesforce.common.tSalesProductHeaderData;
 
@@ -160,25 +156,6 @@ public class ReportingFragment extends Fragment {
                 ReportTableView.setColumnWeight(4, 1);
 
                 ReportTableView.setHeaderAdapter(simpleTableHeaderAdapter);
-
-                List<tCustomerBaseData> dt = new tCustomerBaseBL().getAllCustomerBase();
-                reportList = new ArrayList<>();
-
-                for(i = 0; i < dt.size(); i++){
-                    ReportTable rt = new ReportTable();
-
-                    rt.set_report_type("Customer Base");
-                    rt.set_customer_sex(dt.get(i).get_txtSex());
-                    rt.set_customer_name(dt.get(i).get_txtNama());
-                    rt.set_customer_number(dt.get(i).get_txtTelp());
-
-                    List<tCustomerBaseDetailData> dt_detail = new tCustomerBaseDetailBL().getData("'" + dt.get(i).get_intCustomerId() + "'");
-                    rt.set_total_product(String.valueOf(dt_detail.size()));
-
-                    reportList.add(rt);
-                }
-
-                ReportTableView.setDataAdapter(new ReportTableDataAdapter(getContext(), reportList));
 
                 break;
 

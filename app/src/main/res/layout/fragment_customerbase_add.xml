@@ -70,7 +70,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:text="Email"
+                android:text="Email *"
                 android:id="@+id/textView21"
                 android:layout_weight="1"
                 android:layout_marginTop="10dp" />
@@ -226,60 +226,8 @@
                         android:text="Produk"
                         android:gravity="center"/>
                 </TableRow>
-
-                <!--<TableRow-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content">-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:padding="10dp"-->
-                        <!--android:background="#fff"-->
-                        <!--android:layout_margin="1dp"-->
-                        <!--android:text="Aan"-->
-                        <!--android:gravity="center"/>-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:padding="10dp"-->
-                        <!--android:background="#fff"-->
-                        <!--android:layout_margin="1dp"-->
-                        <!--android:text="Prenagen\nDiabetasol"/>-->
-                <!--</TableRow>-->
             </TableLayout>
-
         </LinearLayout>
-
-
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:text="List Product"-->
-            <!--android:id="@+id/textView10"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_marginTop="20dp"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:gravity="center_horizontal" />-->
-
-        <!--<EditText-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:id="@+id/searchProduct"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@drawable/bg_edtext"-->
-            <!--android:drawableRight="@drawable/ic_search_black_24dp"-->
-            <!--android:singleLine="true"-->
-            <!--android:layout_marginBottom="10dp" />-->
-
-        <!--<ListView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:id="@+id/listView2"-->
-            <!--android:layout_weight="1" />-->
     </LinearLayout>
 
 </ScrollView>

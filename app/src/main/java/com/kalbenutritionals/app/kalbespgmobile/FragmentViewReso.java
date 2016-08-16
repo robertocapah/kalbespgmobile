@@ -131,7 +131,6 @@ public class FragmentViewReso extends Fragment implements IXListViewListener {
 
         final TextView _tvNoSO = (TextView) promptView.findViewById(R.id.tvnoSOtbl);
         final TextView _tvKet = (TextView) promptView.findViewById(R.id.tvkettbl);
-        final ListView _lvProduct = (ListView) promptView.findViewById(R.id.lvProduks);
         _tvNoSO.setText(": " + dt.get(position).get_intId());
         _tvKet.setText(": " + dt.get(position).get_txtKeterangan());
         final TextView tv_item = (TextView) promptView.findViewById(R.id.tvItemtbl);
@@ -140,7 +139,7 @@ public class FragmentViewReso extends Fragment implements IXListViewListener {
         final  TextView tv_amount = (TextView) promptView.findViewById(R.id.tvSumAmount) ;
         tv_amount.setTypeface(null, Typeface.BOLD);
         tv_amount.setText(": " + new clsMainActivity().convertNumberDec(Double.valueOf(dt.get(position).get_intSumAmount())));
-        final  TextView tv_status = (TextView) promptView.findViewById(R.id.tvStatus);
+        final  TextView tv_status = (TextView) promptView.findViewById(R.id.tvPinBbm);
         tv_status.setTypeface(null, Typeface.BOLD);
         tv_status.setText(": Submit");
 

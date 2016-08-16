@@ -17,14 +17,14 @@ import bl.mEmployeeSalesProductBL;
 import bl.mProductBrandHeaderBL;
 import bl.tAbsenUserBL;
 import bl.tActivityBL;
-import bl.tCustomerBaseBL;
+import bl.tCustomerBasedMobileHeaderBL;
 import bl.tSalesProductHeaderBL;
 import bl.tUserLoginBL;
 import library.salesforce.common.mEmployeeSalesProductData;
 import library.salesforce.common.mProductBrandHeaderData;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
-import library.salesforce.common.tCustomerBaseData;
+import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.common.tUserLoginData;
 
@@ -65,7 +65,6 @@ public class HomeFragment extends Fragment {
         List<mEmployeeSalesProductData> dtProduct = new mEmployeeSalesProductBL().GetAllData();
         List<tSalesProductHeaderData> dtReso = new tSalesProductHeaderBL().getAllSalesProductHeader();
         List<tActivityData> dtActivity = new tActivityBL().getAllData();
-        List<tCustomerBaseData> dtCustomerBase = new tCustomerBaseBL().getAllCustomerBase();
 
         username.setText(dt.get_txtName());
 
@@ -92,22 +91,16 @@ public class HomeFragment extends Fragment {
 
         if(dtReso != null) totalReso.setText(String.valueOf(dtReso.size()));
         if(dtActivity != null) totalActivity.setText(String.valueOf(dtActivity.size()));
-        if(dtCustomerBase != null) totalCustomerBase.setText(String.valueOf(dtCustomerBase.size()));
-
-
 
         List<tSalesProductHeaderData> dt_reso_unpush = new tSalesProductHeaderBL().getAllDataByIntSyc("0");
         List<tSalesProductHeaderData> dt_reso_push = new tSalesProductHeaderBL().getAllDataByIntSyc("1");
         List<tActivityData> dt_act_unpush = new tActivityBL().getAllDataByIntSyc("0");
         List<tActivityData> dt_act_push = new tActivityBL().getAllDataByIntSyc("1");
-        List<tCustomerBaseData> dt_cb_unpush = new tCustomerBaseBL().getAllDataByIntSyc("0");
-        List<tCustomerBaseData> dt_cb_push = new tCustomerBaseBL().getAllDataByIntSyc("1");
-
+        List<tCustomerBasedMobileHeaderData> dt_cb_unpush = new tCustomerBasedMobileHeaderBL().getAllDataByIntSyc("0");
+        List<tCustomerBasedMobileHeaderData> dt_cb_push = new tCustomerBasedMobileHeaderBL().getAllDataByIntSyc("1");
 
         if(dtReso != null) totalReso.setText(String.valueOf(dtReso.size()));
         if(dtActivity != null) totalActivity.setText(String.valueOf(dtActivity.size()));
-        if(dtCustomerBase != null) totalCustomerBase.setText(String.valueOf(dtCustomerBase.size()));
-
 
         tv_reso1.setText(String.valueOf(dt_reso_unpush.size()));
         tv_reso2.setText(String.valueOf(dt_reso_push.size()));

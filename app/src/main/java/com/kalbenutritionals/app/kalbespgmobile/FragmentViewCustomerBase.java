@@ -3,15 +3,19 @@ package com.kalbenutritionals.app.kalbespgmobile;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,7 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import bl.tCustomerBaseDetailBL;
+import bl.tCustomerBasedMobileDetailBL;
+import bl.tCustomerBasedMobileDetailProductBL;
 import bl.tCustomerBasedMobileHeaderBL;
 import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView;
 import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
@@ -29,7 +34,8 @@ import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.Swipe
 import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
 import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
-import library.salesforce.common.tCustomerBaseDetailData;
+import library.salesforce.common.tCustomerBasedMobileDetailData;
+import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
 
 public class FragmentViewCustomerBase extends Fragment implements IXListViewListener {
@@ -134,27 +140,90 @@ public class FragmentViewCustomerBase extends Fragment implements IXListViewList
         LayoutInflater layoutInflater = LayoutInflater.from(this.getContext());
         final View promptView = layoutInflater.inflate(R.layout.activity_preview_customerbase, null);
 
-        final TextView _tvSex = (TextView) promptView.findViewById(R.id.tvTypeSex);
         final TextView _tvNama = (TextView) promptView.findViewById(R.id.tvNama);
-        final TextView _tvTelp = (TextView) promptView.findViewById(R.id.tvNoTelp);
+        final TextView _tvTelp = (TextView) promptView.findViewById(R.id.tvTelp);
+        final TextView _tvTelpKantor = (TextView) promptView.findViewById(R.id.tvTelpKantor);
+        final TextView _tvEmail = (TextView) promptView.findViewById(R.id.tvEmail);
+        final TextView _tvPinBbm = (TextView) promptView.findViewById(R.id.tvPinBbm);
         final TextView _tvAlamat = (TextView) promptView.findViewById(R.id.tvAlamat);
-        final TextView _tvStatus = (TextView) promptView.findViewById(R.id.tvStatus);
-        final ListView _lvProduk = (ListView) promptView.findViewById(R.id.lvProduks);
+        final TextView _tvPicPelanggan = (TextView) promptView.findViewById(R.id.tvPicPelanggan);
+//        final ListView _lvProduk = (ListView) promptView.findViewById(R.id.lvProduks);
 
-//        _tvSex.setText(dt.get(position).get_txtSex());
-//        _tvNama.setText(dt.get(position).get_txtNama());
-//        _tvTelp.setText(dt.get(position).get_txtTelp());
-//        _tvAlamat.setText(dt.get(position).get_txtAlamat());
-        _tvStatus.setText("Open");
+        _tvNama.setText(dt.get(position).get_txtNamaDepan());
+        _tvTelp.setText(dt.get(position).get_txtTelp());
+        _tvTelpKantor.setText(dt.get(position).get_txtTelpKantor());
+        _tvEmail.setText(dt.get(position).get_txtEmail());
+        _tvPinBbm.setText(dt.get(position).get_txtPINBBM());
+        _tvAlamat.setText(dt.get(position).get_txtALamat());
+        _tvPicPelanggan.setText(Integer.parseInt(dt.get(position).get_intPIC()) == 1 ? "Yes" : "No");
 
-        List<tCustomerBaseDetailData> dtDetail = new tCustomerBaseDetailBL().getData("'" + dt.get(position).get_intTrCustomerId() + "'");
-        List<String> item = new ArrayList<>();
+        TableLayout tl = (TableLayout) promptView.findViewById(R.id.tlPerson);
+        tl.removeAllViews();
 
-        for(int i = 0; i < dtDetail.size(); i++){
-            item.add(dtDetail.get(i).get_txtProductBrandName());
+        TableRow row = new TableRow(getContext());
+        row.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+        String[] colTextHeader = {"Nama", "Produk"};
+
+        for (String text : colTextHeader) {
+            TextView tv = new TextView(getContext());
+            tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+            tv.setTextSize(14);
+            tv.setPadding(10, 10, 10, 10);
+            tv.setText(text);
+            tv.setGravity(Gravity.CENTER);
+            tv.setBackgroundColor(Color.parseColor("#4CAF50"));
+
+            tv.setTextColor(Color.WHITE);
+            row.addView(tv);
         }
+        tl.addView(row);
 
-        _lvProduk.setAdapter(new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1, item));
+        final List<tCustomerBasedMobileDetailData> dtListDetail = new tCustomerBasedMobileDetailBL().getAllDataByHeaderId(dt.get(position).get_intTrCustomerId());
+
+        for (int count = 0; count < dtListDetail.size(); count++) {
+
+            List<tCustomerBasedMobileDetailProductData> dtListProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dtListDetail.get(count).get_intTrCustomerIdDetail());
+
+            if (dtListProduct != null) {
+                row = new TableRow(getContext());
+                row.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+
+                String product = "";
+                for (tCustomerBasedMobileDetailProductData dataproduct : dtListProduct) {
+                    product = product + "- " + dataproduct.get_txtProductBrandName() + " (" + dataproduct.get_txtProductBrandQty() + ")\n";
+                }
+                String[] colText = {dtListDetail.get(count).get_txtNamaDepan(), product};
+
+                int j = 1;
+
+                for (String text : colText) {
+                    TextView tv = new TextView(getContext());
+
+                    if (j % 2 == 0) {
+                        tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
+                    } else {
+                        tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1));
+                    }
+                    tv.setTextSize(14);
+                    tv.setPadding(10, 10, 10, 10);
+                    tv.setText(text);
+                    tv.setGravity(Gravity.LEFT);
+
+                    if (count % 2 == 0) {
+                        tv.setBackgroundColor(Color.parseColor("#F0F0F0"));
+                    } else {
+                        tv.setBackgroundColor(Color.GRAY);
+                    }
+
+                    tv.setTextColor(Color.BLACK);
+
+                    row.addView(tv);
+                    j++;
+                }
+                tl.addView(row);
+            }
+        }
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.getContext());
         alertDialogBuilder.setView(promptView);

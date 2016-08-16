@@ -5,16 +5,13 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import library.salesforce.common.mCounterNumberData;
-import library.salesforce.common.tCustomerBaseData;
 import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
-import library.salesforce.dal.mCounterNumberDA;
-import library.salesforce.dal.tCustomerBaseDA;
 import library.salesforce.dal.tCustomerBasedMobileHeaderDA;
 
 public class tCustomerBasedMobileHeaderBL extends clsMainBL{
@@ -99,5 +96,15 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL{
 		SQLiteDatabase _db=getDb();
 		List<tCustomerBasedMobileHeaderData> dt = new tCustomerBasedMobileHeaderDA(_db).getAllData(_db);
 		return dt;
+	}
+
+	public List<tCustomerBasedMobileHeaderData> getAllDataByIntSyc(String val){
+		SQLiteDatabase _db =getDb();
+		tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(_db);
+		List<tCustomerBasedMobileHeaderData> dt = _tCustomerBasedMobileHeaderDA.getAllDataByIntSyc(_db,val);
+		if(dt == null){
+			dt = new ArrayList<>(0);
+		}
+		return dt ;
 	}
 }

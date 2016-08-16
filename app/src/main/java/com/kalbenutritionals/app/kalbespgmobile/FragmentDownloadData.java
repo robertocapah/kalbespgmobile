@@ -31,43 +31,18 @@ import java.util.List;
 import bl.mEmployeeAreaBL;
 import bl.mEmployeeBranchBL;
 import bl.mEmployeeSalesProductBL;
-import bl.mItemSalesPack_stockBL;
 import bl.mPriceInOutletBL;
 import bl.mProductBarcodeBL;
 import bl.mProductBrandHeaderBL;
-import bl.mReason_mobileBL;
-import bl.mStatusDocumentBL;
 import bl.mTypeLeaveBL;
-import bl.mTypePenguaranMobileBL;
-import bl.mstockawal_mobileBL;
-import bl.tAbsenUserBL;
-import bl.tGRNHeader_mobileBL;
-import bl.tLeaveMobileBL;
-import bl.tPOHeader_mobileBL;
-import bl.tPenguaranHeader_MobileBL;
-import bl.tSalesOrderHeader_MobileBL;
-import bl.tStockOpnameHeader_mobileBL;
 import library.salesforce.common.APIData;
 import library.salesforce.common.dataJson;
 import library.salesforce.common.mEmployeeAreaData;
 import library.salesforce.common.mEmployeeBranchData;
 import library.salesforce.common.mEmployeeSalesProductData;
-import library.salesforce.common.mItemSalesPack_StockData;
-import library.salesforce.common.mPriceInOutletData;
 import library.salesforce.common.mProductBarcodeData;
 import library.salesforce.common.mProductBrandHeaderData;
-import library.salesforce.common.mReasonData;
-import library.salesforce.common.mStatusDocumentData;
-import library.salesforce.common.mStockAwalData;
 import library.salesforce.common.mTypeLeaveMobileData;
-import library.salesforce.common.mTypePenguaranMobileData;
-import library.salesforce.common.tAbsenUserData;
-import library.salesforce.common.tGRNHeader_mobileData;
-import library.salesforce.common.tLeaveMobileData;
-import library.salesforce.common.tPOHeader_mobileData;
-import library.salesforce.common.tPenguaranHeader_MobileData;
-import library.salesforce.common.tSalesOrderHeader_MobileData;
-import library.salesforce.common.tStockOpnameHeader_mobileData;
 import library.salesforce.dal.clsHardCode;
 
 /**
@@ -112,9 +87,6 @@ public class FragmentDownloadData extends Fragment {
         spnBrand = (Spinner) v.findViewById(R.id.spnBrand);
         btnBrand = (Button) v.findViewById(R.id.btnDlBrand);
 
-        //_clsMainActivity=new clsMainActivity();
-
-        //pInfo=getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
         loadData();
         btnAllDownload.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
@@ -173,20 +145,7 @@ public class FragmentDownloadData extends Fragment {
         List<mEmployeeBranchData> listDataBranch=new mEmployeeBranchBL().GetAllData();
         List<mEmployeeAreaData> listDataArea=new mEmployeeAreaBL().GetAllData();
         List<mEmployeeSalesProductData> listDataProduct=new mEmployeeSalesProductBL().GetAllData();
-        List<mItemSalesPack_StockData> listDataStock=new mItemSalesPack_stockBL().GetAllData();
         List<mTypeLeaveMobileData> listDataLeave=new mTypeLeaveBL().GetAllData();
-        List<mTypePenguaranMobileData> listDatamTypePenguaranMobileData=new mTypePenguaranMobileBL().getData("");
-        List<mStatusDocumentData> listmStatusDocumentData=new mStatusDocumentBL().getData("");
-        List<mReasonData> listmReasonData=new mReason_mobileBL().getData("");
-        List<mStockAwalData> listmStockAwalData=new mstockawal_mobileBL().getData("");
-        List<mPriceInOutletData> listmPriceInOutletData=new mPriceInOutletBL().GetAllData();
-        List<tPOHeader_mobileData> listtPOHeader_mobileBL=new tPOHeader_mobileBL().getData("");
-        List<tGRNHeader_mobileData> listtGRNHeader_mobileBL=new tGRNHeader_mobileBL().getData("");
-        List<tPenguaranHeader_MobileData> listtPenguaranHeader_MobileData=new tPenguaranHeader_MobileBL().getData("");
-        List<tStockOpnameHeader_mobileData> listtStockOpnameHeader_mobileData=new tStockOpnameHeader_mobileBL().getData("");
-        List<tSalesOrderHeader_MobileData> listtSalesOrderHeader_MobileData=new tSalesOrderHeader_MobileBL().getData("");
-        List<tLeaveMobileData> listtLeaveMobileData=new tLeaveMobileBL().getData("");
-        List<tAbsenUserData> listtAbsenUserData=new tAbsenUserBL().GetData("");
         List<mProductBrandHeaderData> listmProductBrandData = new mProductBrandHeaderBL().getData("");
 
         arrData=new ArrayList<String>();
@@ -318,37 +277,15 @@ public class FragmentDownloadData extends Fragment {
             dataJson dtdataJson=new dataJson();
             JSONParser parser = new JSONParser();
             try {
-                new tSalesOrderHeader_MobileBL().GetDataNotSalesOrderHeader_Mobile(pInfo.versionName);
-                new tStockOpnameHeader_mobileBL().GetDataNotStockOpnameHeader_mobile(pInfo.versionName);
-                new tGRNHeader_mobileBL().GetDataNotGRNHeader_mobile(pInfo.versionName);
-                new mItemSalesPack_stockBL().GenerateDatepartNow(pInfo.versionName);
-                new mItemSalesPack_stockBL().GeneratePeriodeNow(pInfo.versionName);
-                new tPOHeader_mobileBL().GetDataNoPurchaseOrder(pInfo.versionName);
                 new mPriceInOutletBL().DownloadmPriceInOutlet(pInfo.versionName);
-                new tPenguaranHeader_MobileBL().GetDatamTypePenguaranMobile(pInfo.versionName);
-//                new clsHelperBL().DownloadData(pInfo.versionName);
                 Json = new mEmployeeBranchBL().DownloadEmployeeBranch2(pInfo.versionName);
                 SaveDatamEmployeeBranchData(Json);
-//                Json = new mItemSalesPack_stockBL().DownloadmProductBarcode2(pInfo.versionName);
-//                SaveDatamItemSalesPack_StockData(Json);
-//                Json = new mProductBarcodeBL().DownloadmProductBarcode2(pInfo.versionName);
-//                SaveDatamProductBarcodeData(Json);
-//                Json = new mEmployeeAreaBL().DownloadEmployeeArea2(pInfo.versionName);
-//                SaveDatamEmployeeAreaData(Json);
                 Json =new mTypeLeaveBL().DownloadTypeLeave2(pInfo.versionName);
                 SaveDatamTypeLeaveMobileData(Json);
                 Json = new mEmployeeSalesProductBL().DownloadEmployeeSalesProduct(pInfo.versionName);
                 SaveDatamProductBarcodeData(Json);
                 Json = new mProductBrandHeaderBL().DownloadBrandHeader(pInfo.versionName);
                 SaveDatamProductBarcodeData(Json);
-//                Json = new mStatusDocumentBL().DownloadData(pInfo.versionName);
-//                SaveDatamStatusDocumentData(Json);
-//                Json = new mTypePenguaranMobileBL().DownloadData(pInfo.versionName);
-//                SaveDatamTypePenguaranMobileData(Json);
-//                Json= new mReason_mobileBL().DownloadData(pInfo.versionName);
-//                SaveDatamReasonData(Json);
-//                Json= new mstockawal_mobileBL().DownloadData(pInfo.versionName, new tUserLoginBL().getUserActive().get_TxtEmpId());//
-//                SaveDatamStockAwal(Json);
                 dtdataJson.setIntResult("1");
             } catch (Exception e) {
                 dtdataJson.setIntResult("0");
@@ -436,42 +373,6 @@ public class FragmentDownloadData extends Fragment {
             }
         }
         new mEmployeeBranchBL().saveData(_Listdata);
-        return _array;
-    }
-    private List<String> SaveDatamItemSalesPack_StockData(JSONArray JData){
-        List<String> _array=new ArrayList<String>();
-        APIData dtAPIDATA = new APIData();
-        _array= new ArrayList<String>();
-        Iterator i = JData.iterator();
-        Boolean flag = true;
-        String ErrorMess = "";
-        List<mItemSalesPack_StockData> _Listdata = new ArrayList<mItemSalesPack_StockData>();
-        while (i.hasNext()) {
-            org.json.simple.JSONObject innerObj = (org.json.simple.JSONObject) i.next();
-            int boolValid = Integer.valueOf(String.valueOf(innerObj.get(dtAPIDATA.boolValid)));
-            if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
-                mItemSalesPack_StockData _data = new mItemSalesPack_StockData();
-                _data.set_intProductCode((String) innerObj.get("_intProductCode"));
-                _data.set_txtDataId((String) innerObj.get("_txtDataId"));
-                _data.set_txtPeriode((String) innerObj.get("_txtPeriode"));
-                _data.set_intSaldoAwal((String) innerObj.get("_intSaldoAwal"));
-                _data.set_intWeek((String) innerObj.get("_intWeek"));
-                _data.set_intQtyIn((String) innerObj.get("_intQtyIn"));
-                _data.set_intQtyOut((String) innerObj.get("_intQtyOut"));
-                _data.set_intQtyAdj((String) innerObj.get("_intQtyAdj"));
-                _data.set_txtOutletCode((String) innerObj.get("_txtOutletCode"));
-                _data.set_txtOutletName((String) innerObj.get("_txtOutletName"));
-                _data.set_txtBranchCode((String) innerObj.get("_txtBranchCode"));
-                _data.set_txtNoTransaction((String) innerObj.get("_txtNoTransaction"));
-                _array.add(_data.get_txtOutletCode() +" - "+_data.get_txtOutletName()+" : "+_data.get_intQtyAvailable());
-                _Listdata.add(_data);
-            } else {
-                flag = false;
-                ErrorMess = (String) innerObj.get(dtAPIDATA.strMessage);
-                break;
-            }
-        }
-        new mItemSalesPack_stockBL().saveData(_Listdata);
         return _array;
     }
     private List<String> SaveDatamProductBarcodeData(JSONArray JData){
@@ -804,96 +705,6 @@ public class FragmentDownloadData extends Fragment {
         }
 
     }
-    private List<String> SaveDatamStockAwal(JSONArray JData){
-        List<String> _array=new ArrayList<String>();
-        APIData dtAPIDATA = new APIData();
-        _array= new ArrayList<String>();
-        Iterator i = JData.iterator();
-        Boolean flag = true;
-        String ErrorMess = "";
-        List<mStockAwalData> _Listdata = new ArrayList<mStockAwalData>();
-        while (i.hasNext()) {
-            org.json.simple.JSONObject innerObj = (org.json.simple.JSONObject) i.next();
-            int boolValid = Integer.valueOf(String.valueOf(innerObj.get(dtAPIDATA.boolValid)));
-            if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
-                mStockAwalData _data = new mStockAwalData();
-                _data.set_bitActive((String) innerObj.get("BitActive"));
-                _data.set_intdata((String) innerObj.get("TxtdataId"));
-                _data.set_intQty((String) innerObj.get("IntQty"));
-                _data.set_txtBranchCode((String) innerObj.get("TxtBranchCode"));
-                _data.set_txtNoDoc((String) innerObj.get("TxtNoDoc"));
-                _data.set_txtOutletCode((String) innerObj.get("TxtOutletCode"));
-                _data.set_txtOutletName((String) innerObj.get("TxtOutletName"));
-                _data.set_txtProductCode((String) innerObj.get("TxtProductCode"));
-                _data.set_txtProductName((String) innerObj.get("TxtProductName"));
-                _data.set_txtStatus((String) innerObj.get("TxtStatus"));
-                _array.add(_data.get_txtOutletCode()+" - "+_data.get_txtOutletName() +" : "+ _data.get_intQty());
-                _Listdata.add(_data);
-            } else {
-                flag = false;
-                ErrorMess = (String) innerObj.get(dtAPIDATA.strMessage);
-                break;
-            }
-        }
-        new mstockawal_mobileBL().saveData(_Listdata);
-        return _array;
-    }
-    private List<String> SaveDatamStatusDocumentData(JSONArray JData){
-        List<String> _array=new ArrayList<String>();
-        APIData dtAPIDATA = new APIData();
-        _array= new ArrayList<String>();
-        Iterator i = JData.iterator();
-        Boolean flag = true;
-        String ErrorMess = "";
-        List<mStatusDocumentData> _Listdata = new ArrayList<mStatusDocumentData>();
-        while (i.hasNext()) {
-            org.json.simple.JSONObject innerObj = (org.json.simple.JSONObject) i.next();
-            int boolValid = Integer.valueOf(String.valueOf(innerObj.get(dtAPIDATA.boolValid)));
-            if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
-                mStatusDocumentData _data = new mStatusDocumentData();
-
-                _data.set_bitActive("1");
-                _data.set_intStatus((String.valueOf(innerObj.get("_intStatus"))) );
-                _data.set_txtStatus((String) innerObj.get("_txtStatus"));
-                _array.add(_data.get_txtStatus());
-                _Listdata.add(_data);
-            } else {
-                flag = false;
-                ErrorMess = (String) innerObj.get(dtAPIDATA.strMessage);
-                break;
-            }
-        }
-        new mStatusDocumentBL().saveData(_Listdata);
-        return _array;
-    }
-    private List<String> SaveDatamReasonData(JSONArray JData){
-        List<String> _array=new ArrayList<String>();
-        APIData dtAPIDATA = new APIData();
-        _array= new ArrayList<String>();
-        Iterator i = JData.iterator();
-        Boolean flag = true;
-        String ErrorMess = "";
-        List<mReasonData> _Listdata = new ArrayList<mReasonData>();
-        while (i.hasNext()) {
-            org.json.simple.JSONObject innerObj = (org.json.simple.JSONObject) i.next();
-            int boolValid = Integer.valueOf(String.valueOf(innerObj.get(dtAPIDATA.boolValid)));
-            if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
-                mReasonData _data = new mReasonData();
-                _data.set_bitActive("1");
-                _data.set_intData((String.valueOf(innerObj.get("IntData"))) );
-                _data.set_txtReason((String) innerObj.get("TxtReason"));
-                _data.set_txtType((String) innerObj.get("TxtType"));
-                _array.add(_data.get_txtReason()+"-"+ _data.get_txtType());
-                _Listdata.add(_data);
-            } else {
-                flag = false;
-                ErrorMess = (String) innerObj.get(dtAPIDATA.strMessage);
-                break;
-            }
-        }
-        new mReason_mobileBL().saveData(_Listdata);
-        return _array;
-    }
     private List<String> SaveDatamTypeLeaveMobileData(JSONArray JData){
         List<String> _array=new ArrayList<String>();
         APIData dtAPIDATA = new APIData();
@@ -984,33 +795,5 @@ public class FragmentDownloadData extends Fragment {
         protected void onProgressUpdate(Void... values) {
             Dialog.dismiss();
         }
-    }
-    private List<String> SaveDatamTypePenguaranMobileData(JSONArray JData){
-        List<String> _array=new ArrayList<String>();
-        APIData dtAPIDATA = new APIData();
-        _array= new ArrayList<String>();
-        Iterator i = JData.iterator();
-        Boolean flag = true;
-        String ErrorMess = "";
-        List<mTypePenguaranMobileData> _Listdata = new ArrayList<mTypePenguaranMobileData>();
-        while (i.hasNext()) {
-            org.json.simple.JSONObject innerObj = (org.json.simple.JSONObject) i.next();
-            int boolValid = Integer.valueOf(String.valueOf(innerObj.get(dtAPIDATA.boolValid)));
-            if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
-                mTypePenguaranMobileData _data = new mTypePenguaranMobileData();
-
-                _data.set_bitActive("1");
-                _data.set_intTypePenguaranMobile((String.valueOf(innerObj.get("_intTypePenguaranMobile"))) );
-                _data.set_txtNamaPenguaran((String) innerObj.get("_txtNamaPenguaran"));
-                _array.add(_data.get_txtNamaPenguaran());
-                _Listdata.add(_data);
-            } else {
-                flag = false;
-                ErrorMess = (String) innerObj.get(dtAPIDATA.strMessage);
-                break;
-            }
-        }
-        new mTypePenguaranMobileBL().saveData(_Listdata);
-        return _array;
     }
 }

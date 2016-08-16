@@ -17,50 +17,6 @@ public class dataJson {
 			List<tEmployeeBRWithLOBData> listOftEmployeeBRWithLOBData) {
 		ListOftEmployeeBRWithLOBData = listOftEmployeeBRWithLOBData;
 	}
-	
-	public synchronized List<tUserLOBData> getListOftUserLOBData() {
-		return ListOftUserLOBData;
-	}
-	public synchronized void setListOftUserLOBData(
-			List<tUserLOBData> listOftUserLOBData) {
-		ListOftUserLOBData = listOftUserLOBData;
-	}
-	
-	public synchronized List<tReportInventorySPGData> getListOftReportInventorySPGData() {
-		return ListOftReportInventorySPGData;
-	}
-	public synchronized void setListOftReportInventorySPGData(
-			List<tReportInventorySPGData> listOftReportInventorySPGData) {
-		ListOftReportInventorySPGData = listOftReportInventorySPGData;
-	}
-	public synchronized List<tInventorySPGDetail_mobileData> getListOftInventorySPGDetail_mobileData() {
-		return ListOftInventorySPGDetail_mobileData;
-	}
-	public synchronized void setListOftInventorySPGDetail_mobileData(
-			List<tInventorySPGDetail_mobileData> listOftInventorySPGDetail_mobileData) {
-		ListOftInventorySPGDetail_mobileData = listOftInventorySPGDetail_mobileData;
-	}
-	public synchronized List<tInventorySPGHeader_mobileData> getListOftInventorySPGHeader_mobileData() {
-		return ListOftInventorySPGHeader_mobileData;
-	}
-	public synchronized void setListOftInventorySPGHeader_mobileData(
-			List<tInventorySPGHeader_mobileData> listOftInventorySPGHeader_mobileData) {
-		ListOftInventorySPGHeader_mobileData = listOftInventorySPGHeader_mobileData;
-	}
-	public synchronized List<tCustomerBaseInfoData> getListOftCustomerBaseInfoData() {
-		return ListOftCustomerBaseInfoData;
-	}
-	public synchronized void setListOftCustomerBaseInfoData(
-			List<tCustomerBaseInfoData> listOftCustomerBaseInfoData) {
-		ListOftCustomerBaseInfoData = listOftCustomerBaseInfoData;
-	}
-	public synchronized List<tCustomerBaseDetailData> getListOftCustomerBaseDetailData() {
-		return ListOftCustomerBaseDetailData;
-	}
-	public synchronized void setListOftCustomerBaseDetailData(
-			List<tCustomerBaseDetailData> listOftCustomerBaseDetailData) {
-		ListOftCustomerBaseDetailData = listOftCustomerBaseDetailData;
-	}
 	public synchronized List<tLeaveMobileData> getListOftLeaveMobileData() {
 		return ListOftLeaveMobileData;
 	}
@@ -75,13 +31,6 @@ public class dataJson {
 			List<mTypeLeaveMobileData> listOfmTypeLeaveMobileData) {
 		ListOfmTypeLeaveMobileData = listOfmTypeLeaveMobileData;
 	}
-	public synchronized List<tCustomerBaseData> getListOftCustomerBase() {
-		return ListOftCustomerBase;
-	}
-	public synchronized void setListOftCustomerBase(
-			List<tCustomerBaseData> listOftCustomerBase) {
-		ListOftCustomerBase = listOftCustomerBase;
-	}
 	public synchronized List<mProductBrandHeaderData> getListOfmProductBrandHeaderData() {
 		return ListOfmProductBrandHeaderData;
 	}
@@ -95,13 +44,6 @@ public class dataJson {
 	public synchronized void setListOftActivityData(
 			List<tActivityData> listOftActivityData) {
 		ListOftActivityData = listOftActivityData;
-	}
-	public synchronized List<tReportSalesSOData> getListOftReportSalesSOData() {
-		return ListOftReportSalesSOData;
-	}
-	public synchronized void setListOftReportSalesSOData(
-			List<tReportSalesSOData> listOftReportSalesSOData) {
-		ListOftReportSalesSOData = listOftReportSalesSOData;
 	}
 	public synchronized List<mGeolocationOutletSPGData> getListOfmGeolocationOutletSPGData() {
 		return ListOfmGeolocationOutletSPGData;
@@ -334,53 +276,6 @@ public class dataJson {
 				resJson.put(dttSalesProductHeaderData.Property_ListOftSalesProductHeaderData, new JSONArray(itemsListJquey));
 			}
 			
-			
-			if(this.getListOftInventorySPGDetail_mobileData()!=null){
-				tInventorySPGDetail_mobileData dttInventorySPGDetail_mobileData=new tInventorySPGDetail_mobileData();
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tInventorySPGDetail_mobileData data : this.getListOftInventorySPGDetail_mobileData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(dttInventorySPGDetail_mobileData.Property_intId, String.valueOf(data.get_intId()));
-					item1.put(dttInventorySPGDetail_mobileData.Property_dtDate, String.valueOf(data.get_dtDate()));
-					item1.put(dttInventorySPGDetail_mobileData.Property_intQtyDisplay , String.valueOf(data.get_intQtyDisplay()));
-					item1.put(dttInventorySPGDetail_mobileData.Property_intQtyGudang , String.valueOf(data.get_intQtyGudang()));
-					item1.put(dttInventorySPGDetail_mobileData.Property_txtCodeProduct , String.valueOf(data.get_txtCodeProduct()));
-					item1.put(dttInventorySPGDetail_mobileData.Property_txtKeterangan , String.valueOf(data.get_txtKeterangan()));
-					item1.put(dttInventorySPGDetail_mobileData.Property_txtNameProduct , String.valueOf(data.get_txtNameProduct()));
-					item1.put(dttInventorySPGDetail_mobileData.Property_txtNIK , String.valueOf(data.get_txtNIK()));
-					item1.put(dttInventorySPGDetail_mobileData.Property_intTotal , String.valueOf(data.get_intTotal()));
-					item1.put(dttInventorySPGDetail_mobileData.Property_txtNoInv , String.valueOf(data.get_txtNoInv()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put(dttInventorySPGDetail_mobileData.Property_ListOftInventorySPGDetail_mobileData, new JSONArray(itemsListJquey));
-			}
-			
-			
-			if(this.getListOftInventorySPGHeader_mobileData()!=null){
-				tInventorySPGHeader_mobileData dttInventorySPGHeader_mobileData=new tInventorySPGHeader_mobileData();
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tInventorySPGHeader_mobileData data : this.getListOftInventorySPGHeader_mobileData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(dttInventorySPGHeader_mobileData.Property_intId, String.valueOf(data.get_intId()));
-					item1.put(dttInventorySPGHeader_mobileData.Property_OutletCode, String.valueOf(data.get_OutletCode()));
-					item1.put(dttInventorySPGHeader_mobileData.Property_OutletName, String.valueOf(data.get_OutletName()));
-					item1.put(dttInventorySPGHeader_mobileData.Property_txtDate , String.valueOf(data.get_dtDate()));
-					item1.put(dttInventorySPGHeader_mobileData.Property_intIdAbsenUser , String.valueOf(data.get_intIdAbsenUser()));
-					item1.put(dttInventorySPGHeader_mobileData.Property_intSubmit , String.valueOf(data.get_intSubmit()));
-					item1.put(dttInventorySPGHeader_mobileData.Property_intSumAmount , String.valueOf(data.get_intSumAmount()));
-					item1.put(dttInventorySPGHeader_mobileData.Property_intSumItem , String.valueOf(data.get_intSumItem()));
-					item1.put(dttInventorySPGHeader_mobileData.Property_intSync , String.valueOf(data.get_intSync()));
-					item1.put(dttInventorySPGHeader_mobileData.Property_txtBranchCode , String.valueOf(data.get_txtBranchCode()));
-					item1.put(dttInventorySPGHeader_mobileData.Property_txtBranchName , String.valueOf(data.get_txtBranchName()));
-					item1.put(dttInventorySPGHeader_mobileData.Property_UserId , String.valueOf(data.get_UserId()));
-					item1.put(dttInventorySPGHeader_mobileData.Property_txtKeterangan , String.valueOf(data.get_txtKeterangan()));
-					item1.put(dttInventorySPGHeader_mobileData.Property_txtNIK , String.valueOf(data.get_txtNIK()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put(dttInventorySPGHeader_mobileData.Property_tInventorySPGHeader_mobileData, new JSONArray(itemsListJquey));
-			}
-			
-			
 			if(this.getListOfmEmployeeAreaData()!=null){
 				mEmployeeAreaData dtmEmployeeAreaData=new mEmployeeAreaData();
 				itemsListJquey = new ArrayList<JSONObject>();
@@ -423,25 +318,7 @@ public class dataJson {
 				}
 				resJson.put(dtmEmployeeBranchData.Property_ListOfEmployeeBranchData, new JSONArray(itemsListJquey));
 			}
-			
-			if(this.get_ListOfmStockAwalData()!=null){
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (mStockAwalData data : this.get_ListOfmStockAwalData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(data.Property_bitActive, String.valueOf(data.get_bitActive()));
-					item1.put(data.Property_intdata, String.valueOf(data.get_intdata()));
-					item1.put(data.Property_intQty, String.valueOf(data.get_intQty()));
-					item1.put(data.Property_txtBranchCode , String.valueOf(data.get_txtBranchCode()));
-					item1.put(data.Property_txtNoDoc , String.valueOf(data.get_txtNoDoc()));
-					item1.put(data.Property_txtOutletCode , String.valueOf(data.get_txtOutletCode()));
-					item1.put(data.Property_txtOutletName , String.valueOf(data.get_txtOutletName()));
-					item1.put(data.Property_txtProductCode , String.valueOf(data.get_txtProductCode()));
-					item1.put(data.Property_txtProductName , String.valueOf(data.get_txtProductName()));
-					item1.put(data.Property_txtStatus , String.valueOf(data.get_txtStatus()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put("ListOfmStockAwalData", new JSONArray(itemsListJquey));
-			}
+
 			if(this.getListOfmEmployeeSalesProductData()!=null){
 				mEmployeeSalesProductData dtmEmployeeSalesProductData=new mEmployeeSalesProductData();
 				itemsListJquey = new ArrayList<JSONObject>();
@@ -526,38 +403,7 @@ public class dataJson {
 				}
 				resJson.put(dtmGeolocationOutletSPGData.Property_ListOfmGeolocationOutletSPG, new JSONArray(itemsListJquey));
 			}
-			
-			
-			if(this.getListOftReportSalesSOData()!=null){
-				tReportSalesSOData dttReportSalesSOData=new tReportSalesSOData();
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tReportSalesSOData data : this.getListOftReportSalesSOData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(dttReportSalesSOData.Property_tSalesProductDetailData, GenerateJsontSalesProductDetailData(data.get_tSalesProductDetailData()));
-					item1.put(dttReportSalesSOData.Property_tSalesProductHeaderData, GenerateJsontSalesProductHeaderData(data.get_tSalesProductHeaderData()));
-					item1.put(dttReportSalesSOData.Property_TotalAmount, String.valueOf(data.get_TotalAmount()));
-					item1.put(dttReportSalesSOData.Property_TotalQty , String.valueOf(data.get_TotalQty()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put(dttReportSalesSOData.Property_ListOftReportSalesSO, new JSONArray(itemsListJquey));
-			}
-			
-			
-			if(this.getListOftReportSalesSOData()!=null){
-				tReportInventorySPGData dttReportInventorySPGData=new tReportInventorySPGData();
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tReportInventorySPGData data : this.getListOftReportInventorySPGData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(dttReportInventorySPGData.Property_tInventorySPGDetail_mobileData, GenerateJsontInventorySPGDetail_mobile(data.get_tInventorySPGDetail_mobileData()));
-					item1.put(dttReportInventorySPGData.Property_tInventorySPGHeader_mobileData, GenerateJsontInventorySPGHeader_mobile(data.get_tInventorySPGHeader_mobileData()));
-					item1.put(dttReportInventorySPGData.Property_TotalAmount, String.valueOf(data.get_TotalAmount()));
-					item1.put(dttReportInventorySPGData.Property_TotalQty , String.valueOf(data.get_TotalQty()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put(dttReportInventorySPGData.Property_ListOftReportInventorySPGData, new JSONArray(itemsListJquey));
-			}
-			
-			
+
 			if(this.getListOftActivityData()!=null){
 				tActivityData dttActivityData=new tActivityData();
 				itemsListJquey = new ArrayList<JSONObject>();
@@ -581,49 +427,7 @@ public class dataJson {
 				}
 				resJson.put(dttActivityData.Property_ListOfTActivity, new JSONArray(itemsListJquey));
 			}
-			
-			
-			if(this.getListOftCustomerBase()!=null){
-				tCustomerBaseData dttCustomerBaseData=new tCustomerBaseData();
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tCustomerBaseData data : this.getListOftCustomerBase()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(dttCustomerBaseData.Property_bitActive ,String.valueOf(data.get_bitActive()));
-					item1.put(dttCustomerBaseData.Property_dtDate , String.valueOf(data.get_dtDate()));
-					item1.put(dttCustomerBaseData.Property_intCustomerId , String.valueOf(data.get_intCustomerId()));
-					item1.put(dttCustomerBaseData.Property_intCustomerIdSync , String.valueOf(data.get_intCustomerIdSync()));
-					item1.put(dttCustomerBaseData.Property_intSubmit , String.valueOf(data.get_intSubmit()));
-					item1.put(dttCustomerBaseData.Property_txtAlamat , String.valueOf(data.get_txtAlamat()));
-					item1.put(dttCustomerBaseData.Property_txtBranchId , String.valueOf(data.get_txtBranchId()));
-					item1.put(dttCustomerBaseData.Property_txtNama , String.valueOf(data.get_txtNama()));
-					item1.put(dttCustomerBaseData.Property_txtOutletId , String.valueOf(data.get_txtOutletId()));
-					item1.put(dttCustomerBaseData.Property_txtTelp , String.valueOf(data.get_txtTelp()));
-					item1.put(dttCustomerBaseData.Property_txtUserId , String.valueOf(data.get_txtUserId()));
-					item1.put(dttCustomerBaseData.Property_txtDeviceId , String.valueOf(data.get_txtDeviceId()));
-					item1.put(dttCustomerBaseData.Property_txtSex , String.valueOf(data.get_txtSex()));
-					item1.put(dttCustomerBaseData.Property_txtProductBrandCode , String.valueOf(data.get_txtProductBrandCode()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put(dttCustomerBaseData.Property_ListOftCustomerBaseData, new JSONArray(itemsListJquey));
-			}
-			
-			
-			if(this.getListOftCustomerBaseDetailData()!=null){
-				tCustomerBaseDetailData dttCustomerBaseDetailData=new tCustomerBaseDetailData();
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tCustomerBaseDetailData data : this.getListOftCustomerBaseDetailData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(dttCustomerBaseDetailData.Property_intCustomerId ,String.valueOf(data.get_intCustomerId()));
-					item1.put(dttCustomerBaseDetailData.Property_intQty , String.valueOf(data.get_intQty()));
-					item1.put(dttCustomerBaseDetailData.Property_txtProductBrandCode , String.valueOf(data.get_txtProductBrandCode()));
-					item1.put(dttCustomerBaseDetailData.Property_txtProductBrandName , String.valueOf(data.get_txtProductBrandName()));
-					item1.put(dttCustomerBaseDetailData.property_txtDataId , String.valueOf(data.get_txtDataId()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put(dttCustomerBaseDetailData.PropertyListOftCustomerBaseDetailData, new JSONArray(itemsListJquey));
-			}
-			
-			
+
 			if(this.getListOfmProductBrandHeaderData()!=null){
 				mProductBrandHeaderData dtmProductBrandHeaderData=new mProductBrandHeaderData();
 				itemsListJquey = new ArrayList<JSONObject>();
@@ -694,280 +498,6 @@ public class dataJson {
 				}
 				resJson.put(dttEmployeeBRWithLOBData.Property_ListOftEmployeeBRWithLOBData, new JSONArray(itemsListJquey));
 			}
-			
-			if(this.getListOftUserLOBData()!=null){
-				tUserLOBData dttUserLOBData=new tUserLOBData();
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tUserLOBData data : this.getListOftUserLOBData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(dttUserLOBData.Property_intLOB ,String.valueOf(data.get_intLOB()));
-					item1.put(dttUserLOBData.Property_txtLOB , String.valueOf(data.get_txtLOB()));
-					item1.put(dttUserLOBData.Property_txtNik , String.valueOf(data.get_txtNik()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put(dttUserLOBData.Property_ListOftUserLOBData, new JSONArray(itemsListJquey));
-			}
-			if(this.get_ListOfmItemSalesPack_StockLogData()!=null){
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (mItemSalesPack_StockLogData data : this.get_ListOfmItemSalesPack_StockLogData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(data.Property_intProductCode ,String.valueOf(data.get_intProductCode()));
-					item1.put(data.Property_intQtyAdj ,String.valueOf(data.get_intQtyAdj()));
-					item1.put(data.Property_intQtyAvailable ,String.valueOf(data.get_intQtyAvailable()));
-					item1.put(data.Property_intQtyIn ,String.valueOf(data.get_intQtyIn()));
-					item1.put(data.Property_intQtyOut ,String.valueOf(data.get_intQtyOut()));
-					item1.put(data.Property_intSaldoAwal ,String.valueOf(data.get_intSaldoAwal()));
-					item1.put(data.Property_intWeek ,String.valueOf(data.get_intWeek()));
-					item1.put(data.Property_txtBranchCode ,String.valueOf(data.get_txtBranchCode()));
-					item1.put(data.Property_txtDataId ,String.valueOf(data.get_txtDataId()));
-					item1.put(data.Property_txtPeriode ,String.valueOf(data.get_txtPeriode()));
-					item1.put(data.Property_txtNoTransaction ,String.valueOf(data.get_txtNoTransaction()));
-					item1.put(data.Property_txtOutletCode ,String.valueOf(data.get_txtOutletCode()));
-					item1.put(data.Property_txtOutletName ,String.valueOf(data.get_txtOutletName()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put("ListOfmItemSalesPack_StockLogData", new JSONArray(itemsListJquey));
-			}
-			if(this.get_ListOfmItemSalesPack_StockData()!=null){
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (mItemSalesPack_StockData data : this.get_ListOfmItemSalesPack_StockData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(data.Property_intProductCode ,String.valueOf(data.get_intProductCode()));
-					item1.put(data.Property_intQtyAdj ,String.valueOf(data.get_intQtyAdj()));
-					item1.put(data.Property_intQtyAvailable ,String.valueOf(data.get_intQtyAvailable()));
-					item1.put(data.Property_intQtyIn ,String.valueOf(data.get_intQtyIn()));
-					item1.put(data.Property_intQtyOut ,String.valueOf(data.get_intQtyOut()));
-					item1.put(data.Property_intSaldoAwal ,String.valueOf(data.get_intSaldoAwal()));
-					item1.put(data.Property_intWeek ,String.valueOf(data.get_intWeek()));
-					item1.put(data.Property_txtBranchCode ,String.valueOf(data.get_txtBranchCode()));
-					item1.put(data.Property_txtDataId ,String.valueOf(data.get_txtDataId()));
-					item1.put(data.Property_txtPeriode ,String.valueOf(data.get_txtPeriode()));
-					item1.put(data.Property_txtNoTransaction ,String.valueOf(data.get_txtNoTransaction()));
-					item1.put(data.Property_txtOutletCode ,String.valueOf(data.get_txtOutletCode()));
-					item1.put(data.Property_txtOutletName ,String.valueOf(data.get_txtOutletName()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put("ListOfmItemSalesPack_StockData", new JSONArray(itemsListJquey));
-			}
-			if(this.get_ListOftGRNDetail_mobileData()!=null){
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tGRNDetail_mobileData data : this.get_ListOftGRNDetail_mobileData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(data.Property_intProductCode ,String.valueOf(data.get_intProductCode()));
-					item1.put(data.Property_dtED ,String.valueOf(data.get_dtED()));
-					item1.put(data.Property_intQty ,String.valueOf(data.get_intQty()));
-					item1.put(data.Property_txtBatchNo ,String.valueOf(data.get_txtBatchNo()));
-					item1.put(data.Property_txtDataId ,String.valueOf(data.get_txtDataId()));
-					item1.put(data.Property_txtNoGRN ,String.valueOf(data.get_txtNoGRN()));
-					item1.put(data.Property_intReason ,String.valueOf(data.get_intReason()));
-					item1.put(data.Property_txtProductName ,String.valueOf(data.get_txtProductName()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put("ListOftGRNDetail_mobileData", new JSONArray(itemsListJquey));
-			}
-			if(this.get_ListOftGRNHeader_mobileData()!=null){
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tGRNHeader_mobileData data : this.get_ListOftGRNHeader_mobileData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(data.Property_dtDate ,String.valueOf(data.get_dtDate()));
-					item1.put(data.Property_txtBranchCode ,String.valueOf(data.get_txtBranchCode()));
-					item1.put(data.Property_txtDeviceId ,String.valueOf(data.get_txtDeviceId()));
-					item1.put(data.Property_txtNoGRN ,String.valueOf(data.get_txtNoGRN()));
-					item1.put(data.Property_txtNoMO ,String.valueOf(data.get_txtNoMO()));
-					item1.put(data.Property_txtNoPO ,String.valueOf(data.get_txtNoPO()));
-					item1.put(data.Property_txtOutletCode ,String.valueOf(data.get_txtOutletCode()));
-					item1.put(data.Property_txtOutletName ,String.valueOf(data.get_txtOutletName()));
-					item1.put(data.Property_txtSource ,String.valueOf(data.get_txtSource()));
-					item1.put(data.Property_txtUserId ,String.valueOf(data.get_txtUserId()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put("ListOftGRNHeader_mobileData", new JSONArray(itemsListJquey));
-			}
-			if(this.get_ListOftPenguaranDetail_MobileData()!=null){
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tPenguaranDetail_MobileData data : this.get_ListOftPenguaranDetail_MobileData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(data.Property_dtED ,String.valueOf(data.get_dtED()));
-					item1.put(data.Property_intProductCode ,String.valueOf(data.get_intProductCode()));
-					item1.put(data.Property_intQty ,String.valueOf(data.get_intQty()));
-					item1.put(data.Property_txtBatchNo ,String.valueOf(data.get_txtBatchNo()));
-					item1.put(data.Property_txtDataId ,String.valueOf(data.get_txtDataId()));
-					item1.put(data.Property_txtDesc ,String.valueOf(data.get_txtDesc()));
-					item1.put(data.Property_intReason ,String.valueOf(data.get_intReason()));
-					item1.put(data.Property_txtNoPenguaran ,String.valueOf(data.get_txtNoPenguaran()));
-					item1.put(data.Property_txtProductName ,String.valueOf(data.get_txtProductName()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put("ListOftPenguaranDetail_MobileData", new JSONArray(itemsListJquey));
-			}
-			if(this.get_ListOftPenguaranHeader_MobileData()!=null){
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tPenguaranHeader_MobileData data : this.get_ListOftPenguaranHeader_MobileData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(data.Property_dtDate ,String.valueOf(data.get_dtDate()));
-					item1.put(data.Property_intTypePenguaran ,String.valueOf(data.get_intTypePenguaran()));
-					item1.put(data.Property_txtBranchCode ,String.valueOf(data.get_txtBranchCode()));
-					item1.put(data.Property_txtDesc ,String.valueOf(data.get_txtDesc()));
-					item1.put(data.Property_txtDeviceId ,String.valueOf(data.get_txtDeviceId()));
-					item1.put(data.Property_bitPO ,String.valueOf(data.get_bitPO()));
-					item1.put(data.Property_txtNoPenguaran ,String.valueOf(data.get_txtNoPenguaran()));
-					item1.put(data.Property_txtOutletCode ,String.valueOf(data.get_txtOutletCode()));
-					item1.put(data.Property_txtOutletName ,String.valueOf(data.get_txtOutletName()));
-					item1.put(data.Property_txtOutletCodeDestination ,String.valueOf(data.get_txtOutletCodeDestination()));
-					item1.put(data.Property_txtOutletNameDestination ,String.valueOf(data.get_txtOutletNameDestination()));
-					item1.put(data.Property_txtUserId ,String.valueOf(data.get_txtUserId()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put("ListOftPenguaranHeader_MobileData", new JSONArray(itemsListJquey));
-			}
-			if(this.get_ListOftPenguaranStatus_MobileData()!=null){
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tPenguaranStatus_MobileData data : this.get_ListOftPenguaranStatus_MobileData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(data.Property_txtNoPenguaran ,String.valueOf(data.get_txtNoPenguaran()));
-					item1.put(data.Property_txtDataId ,String.valueOf(data.get_txtDataId()));
-					item1.put(data.Property_txtStatus ,String.valueOf(data.get_txtStatus()));
-					item1.put(data.Property_intStatus ,String.valueOf(data.get_intStatus()));
-					item1.put(data.Property_bitActive ,String.valueOf(data.get_bitActive()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put("ListOftPenguaranStatus_MobileData", new JSONArray(itemsListJquey));
-			}
-			
-			if(this.get_ListOftPODetail_mobileData()!=null){
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tPODetail_mobileData data : this.get_ListOftPODetail_mobileData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(data.Property_intProductCode ,String.valueOf(data.get_intProductCode()));
-					item1.put(data.Property_txtDataId ,String.valueOf(data.get_txtDataId()));
-					item1.put(data.Property_intQty ,String.valueOf(data.get_intQty()));
-					item1.put(data.Property_txtNoPO ,String.valueOf(data.get_txtNoPO()));
-					item1.put(data.Property_txtProductName ,String.valueOf(data.get_txtProductName()));
-					item1.put(data.Property_bitActive ,String.valueOf(data.get_bitActive()));
-					item1.put(data.Property_intQtyGRN ,String.valueOf(data.get_intQtyGRN()));
-					item1.put(data.Property_intQtySisa ,String.valueOf(data.get_intQtySisa()));
-					item1.put(data.Property_intStockAwal ,String.valueOf(data.get_intStockAwal()));
-					item1.put(data.Property_txtNoDoc ,String.valueOf(data.get_txtNoDoc()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put("ListOftPODetail_mobileData", new JSONArray(itemsListJquey));
-			}
-			if(this.get_ListOftPOHeader_mobileData()!=null){
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tPOHeader_mobileData data : this.get_ListOftPOHeader_mobileData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(data.Property_dtDate ,String.valueOf(data.get_dtDate()));
-					item1.put(data.Property_txtBranchCode ,String.valueOf(data.get_txtBranchCode()));
-					item1.put(data.Property_txtDesc ,String.valueOf(data.get_txtDesc()));
-					item1.put(data.Property_txtDeviceId ,String.valueOf(data.get_txtDeviceId()));
-					item1.put(data.Property_txtNoPO ,String.valueOf(data.get_txtNoPO()));
-					item1.put(data.Property_txtOutletCode ,String.valueOf(data.get_txtOutletCode()));
-					item1.put(data.Property_txtOutletName ,String.valueOf(data.get_txtOutletName()));
-					item1.put(data.Property_txtUserId ,String.valueOf(data.get_txtUserId()));
-					item1.put(data.Property_intStockAwal ,String.valueOf(data.get_intStockAwal()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put("ListOftPOHeader_mobileData", new JSONArray(itemsListJquey));
-			}
-			if(this.get_ListOftPOStatus_mobileData()!=null){
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tPOStatus_mobileData data : this.get_ListOftPOStatus_mobileData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(data.Property_txtDataId ,String.valueOf(data.get_txtDataId()));
-					item1.put(data.Property_intStatus ,String.valueOf(data.get_intStatus()));
-					item1.put(data.Property_txtStatus ,String.valueOf(data.get_txtStatus()));
-					item1.put(data.Property_txtNoPO ,String.valueOf(data.get_txtNoPO()));
-					item1.put(data.Property_txtNoDoc ,String.valueOf(data.get_txtNoDoc()));
-					item1.put(data.Property_bitActive ,String.valueOf(data.get_intBitActive()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put("ListOftPOStatus_mobileData", new JSONArray(itemsListJquey));
-			}
-			if(this.get_ListOftSalesOrderDetail_MobileData()!=null){
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tSalesOrderDetail_MobileData data : this.get_ListOftSalesOrderDetail_MobileData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(data.Property_dtED ,String.valueOf(data.get_dtED()));
-					item1.put(data.Property_intProductCode ,String.valueOf(data.get_intProductCode()));
-					item1.put(data.Property_intQty ,String.valueOf(data.get_intQty()));
-					item1.put(data.Property_txtBatchNo ,String.valueOf(data.get_txtBatchNo()));
-					item1.put(data.Property_txtDataId ,String.valueOf(data.get_txtDataId()));
-					item1.put(data.Property_txtNoSalesOrder ,String.valueOf(data.get_txtNoSalesOrder()));
-					item1.put(data.Property_txtProductName ,String.valueOf(data.get_txtProductName()));
-					item1.put(data.Property_intItemPriceID ,String.valueOf(data.get_intItemPriceID()));
-					item1.put(data.Property_decPrice ,String.valueOf(data.get_decPrice()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put("ListOftSalesOrderDetail_MobileData", new JSONArray(itemsListJquey));
-			}
-			if(this.get_ListOftSalesOrderHeader_MobileData()!=null){
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tSalesOrderHeader_MobileData data : this.get_ListOftSalesOrderHeader_MobileData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(data.Property_dtDate ,String.valueOf(data.get_dtDate()));
-					item1.put(data.Property_txtBranchCode ,String.valueOf(data.get_txtBranchCode()));
-					item1.put(data.Property_txtDeviceId ,String.valueOf(data.get_txtDeviceId()));
-					item1.put(data.Property_txtNoSalesOrder ,String.valueOf(data.get_txtNoSalesOrder()));
-					item1.put(data.Property_txtOutletCode ,String.valueOf(data.get_txtOutletCode()));
-					item1.put(data.Property_txtOutletName ,String.valueOf(data.get_txtOutletName()));
-					item1.put(data.Property_txtUserId ,String.valueOf(data.get_txtUserId()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put("ListOftSalesOrderHeader_MobileData", new JSONArray(itemsListJquey));
-			}
-			if(this.get_ListOftStockOpnameDetail_mobileData()!=null){
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tStockOpnameDetail_mobileData data : this.get_ListOftStockOpnameDetail_mobileData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(data.Property_dtED ,String.valueOf(data.get_dtED()));
-					item1.put(data.Property_intProductCode ,String.valueOf(data.get_intProductCode()));
-					item1.put(data.Property_intQty ,String.valueOf(data.get_intQty()));
-					item1.put(data.Property_intQtyAdj ,String.valueOf(data.get_intQtyAdj()));
-					item1.put(data.Property_intQtyStock ,String.valueOf(data.get_intQtyStock()));
-					item1.put(data.Property_txtBatchNo ,String.valueOf(data.get_txtBatchNo()));
-					item1.put(data.Property_txtDataId ,String.valueOf(data.get_txtDataId()));
-					item1.put(data.Property_txtNoAdj ,String.valueOf(data.get_txtNoAdj()));
-					item1.put(data.Property_txtProductName ,String.valueOf(data.get_txtProductName()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put("ListOftStockOpnameDetail_mobileData", new JSONArray(itemsListJquey));
-			}
-			if(this.get_ListOftStockOpnameHeader_mobileData()!=null){
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tStockOpnameHeader_mobileData data : this.get_ListOftStockOpnameHeader_mobileData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(data.Property_dtDate ,String.valueOf(data.get_dtDate()));
-					item1.put(data.Property_txtBranchCode ,String.valueOf(data.get_txtBranchCode()));
-					item1.put(data.Property_txtDeviceId ,String.valueOf(data.get_txtDeviceId()));
-					item1.put(data.Property_txtNoAdj ,String.valueOf(data.get_txtNoAdj()));
-					item1.put(data.Property_txtOutletCode ,String.valueOf(data.get_txtOutletCode()));
-					item1.put(data.Property_txtOutletName ,String.valueOf(data.get_txtOutletName()));
-					item1.put(data.Property_txtUserId ,String.valueOf(data.get_txtUserId()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put("ListOftStockOpnameHeader_mobileData", new JSONArray(itemsListJquey));
-			}
-			if(this.get_ListOftTransactionDetailData()!=null){
-				itemsListJquey = new ArrayList<JSONObject>();
-				for (tTransactionDetailData data : this.get_ListOftTransactionDetailData()) {
-					JSONObject item1 = new JSONObject();
-					item1.put(data.Property_dtDate ,String.valueOf(data.get_dtDate()));
-					item1.put(data.Property_dtED ,String.valueOf(data.get_dtED()));
-					item1.put(data.Property_intProductCode ,String.valueOf(data.get_intProductCode()));
-					item1.put(data.Property_intWeek ,String.valueOf(data.get_intWeek()));
-					item1.put(data.Property_txtBatchNo ,String.valueOf(data.get_txtBatchNo()));
-					item1.put(data.Property_txtBranchCode ,String.valueOf(data.get_txtBranchCode()));
-					item1.put(data.Property_txtNoDoc ,String.valueOf(data.get_txtNoDoc()));
-					item1.put(data.Property_intQty ,String.valueOf(data.get_intQty()));
-					item1.put(data.Property_txtNoMO ,String.valueOf(data.get_txtNoMO()));
-					item1.put(data.Property_txtOutletCode ,String.valueOf(data.get_txtOutletCode()));
-					item1.put(data.Property_txtOutletName ,String.valueOf(data.get_txtOutletName()));
-					item1.put(data.Property_txtTransId ,String.valueOf(data.get_txtTransId()));
-					item1.put(data.Property_txtType ,String.valueOf(data.get_txtType()));
-					itemsListJquey.add(item1);
-				}
-				resJson.put("ListOftTransactionDetailData", new JSONArray(itemsListJquey));
-			}
 		}
 		catch(Exception ex)
 		{
@@ -1011,68 +541,6 @@ public class dataJson {
 		item1.put(data.Property_OutletCode, String.valueOf(data.get_OutletCode()));
 		item1.put(data.Property_OutletName, String.valueOf(data.get_OutletName()));
 		item1.put(data.Property_UserId, String.valueOf(data.get_UserId()));
-		return item1;
-	}
-	
-	public JSONObject GenerateJsontInventorySPGDetail_mobile(tInventorySPGDetail_mobileData data) throws JSONException{
-		JSONObject item1 = new JSONObject();
-		item1.put(data.Property_dtDate, String.valueOf(data.get_dtDate()));
-		item1.put(data.Property_intActive, String.valueOf(data.get_intActive()));
-		item1.put(data.Property_intId, String.valueOf(data.get_intId()));
-		item1.put(data.Property_intQtyDisplay, String.valueOf(data.get_intQtyDisplay()));
-		item1.put(data.Property_intQtyGudang, String.valueOf(data.get_intQtyGudang()));
-		item1.put(data.Property_intTotal, String.valueOf(data.get_intTotal()));
-		item1.put(data.Property_txtCodeProduct, String.valueOf(data.get_txtCodeProduct()));
-		item1.put(data.Property_txtKeterangan, String.valueOf(data.get_txtKeterangan()));
-		item1.put(data.Property_txtNameProduct, String.valueOf(data.get_txtNameProduct()));
-		item1.put(data.Property_txtNIK, String.valueOf(data.get_txtNIK()));
-		item1.put(data.Property_txtNoInv, String.valueOf(data.get_txtNoInv()));
-		return item1;
-	}
-	public JSONObject GenerateJsontInventorySPGHeader_mobile(tInventorySPGHeader_mobileData data) throws JSONException{
-		JSONObject item1 = new JSONObject();
-		item1.put(data.Property_intId, String.valueOf(data.get_intId()));
-		item1.put(data.Property_txtKeterangan, String.valueOf(data.get_txtKeterangan()));
-		item1.put(data.Property_txtNIK, String.valueOf(data.get_txtNIK()));
-		item1.put(data.Property_txtBranchCode, String.valueOf(data.get_txtBranchCode()));
-		item1.put(data.Property_txtBranchName, String.valueOf(data.get_txtBranchName()));
-		item1.put(data.Property_txtDate, String.valueOf(data.get_dtDate()));
-		item1.put(data.Property_intIdAbsenUser, String.valueOf(data.get_intIdAbsenUser()));
-		item1.put(data.Property_intSumAmount, String.valueOf(data.get_intSumAmount()));
-		item1.put(data.Property_intSumItem, String.valueOf(data.get_intSumItem()));
-		item1.put(data.Property_OutletCode, String.valueOf(data.get_OutletCode()));
-		item1.put(data.Property_OutletName, String.valueOf(data.get_OutletName()));
-		item1.put(data.Property_UserId, String.valueOf(data.get_UserId()));
-		return item1;
-	}
-	
-	
-	
-	public JSONObject GenerateJsontCustomerBaseDetailData(tCustomerBaseDetailData data) throws JSONException{
-		JSONObject item1 = new JSONObject();
-		item1.put(data.Property_intCustomerId, String.valueOf(data.get_intCustomerId()));
-		item1.put(data.Property_intQty, String.valueOf(data.get_intQty()));
-		item1.put(data.Property_txtProductBrandCode, String.valueOf(data.get_txtProductBrandCode()));
-		item1.put(data.Property_txtProductBrandName, String.valueOf(data.get_txtProductBrandName()));
-		return item1;
-	}
-	
-	public JSONObject GenerateJsontCustomerBaseData(tCustomerBaseData data) throws JSONException{
-		JSONObject item1 = new JSONObject();
-		item1.put(data.Property_bitActive, String.valueOf(data.get_bitActive()));
-		item1.put(data.Property_dtDate, String.valueOf(data.get_dtDate()));
-		item1.put(data.Property_intCustomerId, String.valueOf(data.get_intCustomerId()));
-		item1.put(data.Property_intCustomerIdSync, String.valueOf(data.get_intCustomerIdSync()));
-		item1.put(data.Property_intSubmit, String.valueOf(data.get_intSubmit()));
-		item1.put(data.Property_txtAlamat, String.valueOf(data.get_txtAlamat()));
-		item1.put(data.Property_txtBranchId, String.valueOf(data.get_txtBranchId()));
-		item1.put(data.Property_txtDeviceId, String.valueOf(data.get_txtDeviceId()));
-		item1.put(data.Property_txtNama, String.valueOf(data.get_txtNama()));
-		item1.put(data.Property_txtOutletId, String.valueOf(data.get_txtOutletId()));
-		item1.put(data.Property_txtProductBrandCode, String.valueOf(data.get_txtProductBrandCode()));
-		item1.put(data.Property_txtSex, String.valueOf(data.get_txtSex()));
-		item1.put(data.Property_txtTelp, String.valueOf(data.get_txtTelp()));
-		item1.put(data.Property_txtUserId, String.valueOf(data.get_txtUserId()));
 		return item1;
 	}
 	
@@ -1123,144 +591,21 @@ public class dataJson {
 	private List<tErrorLogData> ListOftErrorLogData;
 	private List<tAbsenUserData> ListOftAbsenUserData;
 	private List<mGeolocationOutletSPGData> ListOfmGeolocationOutletSPGData;
-	private List<tReportSalesSOData> ListOftReportSalesSOData;
-	private List<tReportInventorySPGData> ListOftReportInventorySPGData;
 	private List<tActivityData> ListOftActivityData;
-	private List<tCustomerBaseData> ListOftCustomerBase;
-	private List<tCustomerBaseDetailData> ListOftCustomerBaseDetailData;
 	private List<mProductBrandHeaderData> ListOfmProductBrandHeaderData;
 	private List<tLeaveMobileData> ListOftLeaveMobileData;
 	private List<mTypeLeaveMobileData> ListOfmTypeLeaveMobileData;
-	private List<tCustomerBaseInfoData> ListOftCustomerBaseInfoData;
-	private List<tInventorySPGDetail_mobileData> ListOftInventorySPGDetail_mobileData;
-	private List<tInventorySPGHeader_mobileData> ListOftInventorySPGHeader_mobileData;
 	private List<tEmployeeBRWithLOBData> ListOftEmployeeBRWithLOBData;
-	
-	private List<tPenguaranDetail_MobileData> _ListOftPenguaranDetail_MobileData;
-	private List<tPenguaranHeader_MobileData> _ListOftPenguaranHeader_MobileData;
-	private List<tPenguaranStatus_MobileData> _ListOftPenguaranStatus_MobileData;
-	private List<tPOHeader_mobileData> _ListOftPOHeader_mobileData;
-	private List<tPODetail_mobileData> _ListOftPODetail_mobileData;
-	private List<tPOStatus_mobileData> _ListOftPOStatus_mobileData;
-	private List<tTransactionDetailData> _ListOftTransactionDetailData;
-	
-	private List<tSalesOrderDetail_MobileData> _ListOftSalesOrderDetail_MobileData;
-	private List<tSalesOrderHeader_MobileData> _ListOftSalesOrderHeader_MobileData;
-	private List<tGRNHeader_mobileData> _ListOftGRNHeader_mobileData;
-	private List<tGRNDetail_mobileData> _ListOftGRNDetail_mobileData;
-	private List<mProductBarcodeData> _ListOfmProductBarcodeData;
-	private List<mItemSalesPack_StockData> _ListOfmItemSalesPack_StockData;
-	private List<mItemSalesPack_StockLogData> _ListOfmItemSalesPack_StockLogData;
-	private List<mStockAwalData> _ListOfmStockAwalData;
-	public List<mStockAwalData> get_ListOfmStockAwalData() {
-		return _ListOfmStockAwalData;
-	}
-	public void set_ListOfmStockAwalData(List<mStockAwalData> _ListOfmStockAwalData) {
-		this._ListOfmStockAwalData = _ListOfmStockAwalData;
-	}
-	public List<tPenguaranDetail_MobileData> get_ListOftPenguaranDetail_MobileData() {
-		return _ListOftPenguaranDetail_MobileData;
-	}
-	public void set_ListOftPenguaranDetail_MobileData(
-			List<tPenguaranDetail_MobileData> _ListOftPenguaranDetail_MobileData) {
-		this._ListOftPenguaranDetail_MobileData = _ListOftPenguaranDetail_MobileData;
-	}
-	public List<tPenguaranHeader_MobileData> get_ListOftPenguaranHeader_MobileData() {
-		return _ListOftPenguaranHeader_MobileData;
-	}
-	public void set_ListOftPenguaranHeader_MobileData(
-			List<tPenguaranHeader_MobileData> _ListOftPenguaranHeader_MobileData) {
-		this._ListOftPenguaranHeader_MobileData = _ListOftPenguaranHeader_MobileData;
-	}
-	public List<tPenguaranStatus_MobileData> get_ListOftPenguaranStatus_MobileData() {
-		return _ListOftPenguaranStatus_MobileData;
-	}
-	public void set_ListOftPenguaranStatus_MobileData(
-			List<tPenguaranStatus_MobileData> _ListOftPenguaranStatus_MobileData) {
-		this._ListOftPenguaranStatus_MobileData = _ListOftPenguaranStatus_MobileData;
-	}
-	public List<tPOHeader_mobileData> get_ListOftPOHeader_mobileData() {
-		return _ListOftPOHeader_mobileData;
-	}
-	public void set_ListOftPOHeader_mobileData(List<tPOHeader_mobileData> _ListOftPOHeader_mobileData) {
-		this._ListOftPOHeader_mobileData = _ListOftPOHeader_mobileData;
-	}
-	public List<tPODetail_mobileData> get_ListOftPODetail_mobileData() {
-		return _ListOftPODetail_mobileData;
-	}
-	public void set_ListOftPODetail_mobileData(List<tPODetail_mobileData> _ListOftPODetail_mobileData) {
-		this._ListOftPODetail_mobileData = _ListOftPODetail_mobileData;
-	}
-	public List<tPOStatus_mobileData> get_ListOftPOStatus_mobileData() {
-		return _ListOftPOStatus_mobileData;
-	}
-	public void set_ListOftPOStatus_mobileData(List<tPOStatus_mobileData> _ListOftPOStatus_mobileData) {
-		this._ListOftPOStatus_mobileData = _ListOftPOStatus_mobileData;
-	}
-	public List<tTransactionDetailData> get_ListOftTransactionDetailData() {
-		return _ListOftTransactionDetailData;
-	}
-	public void set_ListOftTransactionDetailData(List<tTransactionDetailData> _ListOftTransactionDetailData) {
-		this._ListOftTransactionDetailData = _ListOftTransactionDetailData;
-	}
 
-	private List<tStockOpnameDetail_mobileData> _ListOftStockOpnameDetail_mobileData;
-	private List<tStockOpnameHeader_mobileData> _ListOftStockOpnameHeader_mobileData;
-	
-	public List<tSalesOrderDetail_MobileData> get_ListOftSalesOrderDetail_MobileData() {
-		return _ListOftSalesOrderDetail_MobileData;
-	}
-	public void set_ListOftSalesOrderDetail_MobileData(
-			List<tSalesOrderDetail_MobileData> _ListOftSalesOrderDetail_MobileData) {
-		this._ListOftSalesOrderDetail_MobileData = _ListOftSalesOrderDetail_MobileData;
-	}
-	public List<tSalesOrderHeader_MobileData> get_ListOftSalesOrderHeader_MobileData() {
-		return _ListOftSalesOrderHeader_MobileData;
-	}
-	public void set_ListOftSalesOrderHeader_MobileData(
-			List<tSalesOrderHeader_MobileData> _ListOftSalesOrderHeader_MobileData) {
-		this._ListOftSalesOrderHeader_MobileData = _ListOftSalesOrderHeader_MobileData;
-	}
-	public List<tGRNHeader_mobileData> get_ListOftGRNHeader_mobileData() {
-		return _ListOftGRNHeader_mobileData;
-	}
-	public void set_ListOftGRNHeader_mobileData(List<tGRNHeader_mobileData> _ListOftGRNHeader_mobileData) {
-		this._ListOftGRNHeader_mobileData = _ListOftGRNHeader_mobileData;
-	}
-	public List<tGRNDetail_mobileData> get_ListOftGRNDetail_mobileData() {
-		return _ListOftGRNDetail_mobileData;
-	}
-	public void set_ListOftGRNDetail_mobileData(List<tGRNDetail_mobileData> _ListOftGRNDetail_mobileData) {
-		this._ListOftGRNDetail_mobileData = _ListOftGRNDetail_mobileData;
-	}
+	private List<mProductBarcodeData> _ListOfmProductBarcodeData;
+
 	public List<mProductBarcodeData> get_ListOfmProductBarcodeData() {
 		return _ListOfmProductBarcodeData;
 	}
 	public void set_ListOfmProductBarcodeData(List<mProductBarcodeData> _ListOfmProductBarcodeData) {
 		this._ListOfmProductBarcodeData = _ListOfmProductBarcodeData;
 	}
-	public List<mItemSalesPack_StockData> get_ListOfmItemSalesPack_StockData() {
-		return _ListOfmItemSalesPack_StockData;
-	}
-	public void set_ListOfmItemSalesPack_StockData(List<mItemSalesPack_StockData> _ListOfmItemSalesPack_StockData) {
-		this._ListOfmItemSalesPack_StockData = _ListOfmItemSalesPack_StockData;
-	}
-	public List<tStockOpnameDetail_mobileData> get_ListOftStockOpnameDetail_mobileData() {
-		return _ListOftStockOpnameDetail_mobileData;
-	}
-	public void set_ListOftStockOpnameDetail_mobileData(
-			List<tStockOpnameDetail_mobileData> _ListOftStockOpnameDetail_mobileData) {
-		this._ListOftStockOpnameDetail_mobileData = _ListOftStockOpnameDetail_mobileData;
-	}
-	public List<tStockOpnameHeader_mobileData> get_ListOftStockOpnameHeader_mobileData() {
-		return _ListOftStockOpnameHeader_mobileData;
-	}
-	public void set_ListOftStockOpnameHeader_mobileData(
-			List<tStockOpnameHeader_mobileData> _ListOftStockOpnameHeader_mobileData) {
-		this._ListOftStockOpnameHeader_mobileData = _ListOftStockOpnameHeader_mobileData;
-	}
 
-	private List<tUserLOBData> ListOftUserLOBData;
 	private String _txtSessionLoginId;
 	public String get_txtSessionLoginId() {
 		return _txtSessionLoginId;
@@ -1275,13 +620,6 @@ public class dataJson {
 	}
 	public void set_txtUserId(String _txtUserId) {
 		this._txtUserId = _txtUserId;
-	}
-
-	public List<mItemSalesPack_StockLogData> get_ListOfmItemSalesPack_StockLogData() {
-		return _ListOfmItemSalesPack_StockLogData;
-	}
-	public void set_ListOfmItemSalesPack_StockLogData(List<mItemSalesPack_StockLogData> _ListOfmItemSalesPack_StockLogData) {
-		this._ListOfmItemSalesPack_StockLogData = _ListOfmItemSalesPack_StockLogData;
 	}
 
 	private String Property_txtUserId="txtUserId";
