@@ -151,7 +151,6 @@ public class MainMenu extends AppCompatActivity {
             header.removeItem(R.id.checkout);
         }
         else{
-            //
             mMenuData data = new mMenuBL().getMenuDataByMenuName("mnAbsenSPG");
             menuId = Integer.parseInt(data.get_IntMenuID());
             statusAbsen = menuId;

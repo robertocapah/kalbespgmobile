@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -139,7 +138,7 @@ public class FragmentViewReso extends Fragment implements IXListViewListener {
         final  TextView tv_amount = (TextView) promptView.findViewById(R.id.tvSumAmount) ;
         tv_amount.setTypeface(null, Typeface.BOLD);
         tv_amount.setText(": " + new clsMainActivity().convertNumberDec(Double.valueOf(dt.get(position).get_intSumAmount())));
-        final  TextView tv_status = (TextView) promptView.findViewById(R.id.tvPinBbm);
+        final  TextView tv_status = (TextView) promptView.findViewById(R.id.tvStatus);
         tv_status.setTypeface(null, Typeface.BOLD);
         tv_status.setText(": Submit");
 
