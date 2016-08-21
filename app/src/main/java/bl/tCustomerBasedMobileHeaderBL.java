@@ -9,10 +9,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import library.salesforce.common.clsHelper;
 import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
+import library.salesforce.common.tSalesProductHeaderData;
+import library.salesforce.dal.enumCounterData;
 import library.salesforce.dal.tCustomerBasedMobileHeaderDA;
+import library.salesforce.dal.tSalesProductHeaderDA;
 
 public class tCustomerBasedMobileHeaderBL extends clsMainBL{
 	SQLiteDatabase db;
@@ -32,9 +36,23 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL{
 		String mm = split[1];
 		String dd = split[2];
 
-		String txtSubmissionCode = "LPUJKT";
+		String txtSubmissionCode = new tUserLoginBL().getUserActive().get_txtSubmissionID();
 
-		String txtSubmissionId = txtSubmissionCode + "." + dd + mm + yy.substring(2) + ".007";
+		List<tCustomerBasedMobileHeaderData> dtta = new tCustomerBasedMobileHeaderBL().getAllData();
+
+        String noCustomerBase = null;
+
+//        if(dtta==null || dtta.size() == 0) {
+//            noCustomerBase = ".001";
+//
+//        } else {
+//            List<tCustomerBasedMobileHeaderData> dttas = getLastData();
+//            clsHelper _clsHelper=new clsHelper();
+//            String oldVersion = dttas.get(0).get_intTrCustomerId();
+//            noCustomerBase = _clsHelper.generateNewId(oldVersion, "." , "3");
+//        }
+
+		String txtSubmissionId = txtSubmissionCode + "." + dd + mm + yy.substring(2) + ".001";
 
 		dt.set_txtSubmissionId(txtSubmissionId);
 		dt.set_txtSubmissionCode(txtSubmissionCode);
@@ -107,4 +125,11 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL{
 		}
 		return dt ;
 	}
+
+    public List<tCustomerBasedMobileHeaderData> getLastData(){
+        SQLiteDatabase _db =getDb();
+        tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(_db);
+        List<tCustomerBasedMobileHeaderData> dt = _tCustomerBasedMobileHeaderDA.getLastData(_db);
+        return dt ;
+    }
 }

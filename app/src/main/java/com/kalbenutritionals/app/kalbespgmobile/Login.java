@@ -352,6 +352,12 @@ public class Login extends clsMainActivity {
                         _tUserLoginData.set_txtOutletName((String) innerObj.get("TxtOutletName"));
                         _tUserLoginData.set_txtBranchCode((String) innerObj.get("TxtBranchCode"));
 
+
+                        //hardcode untuk submission
+                        _tUserLoginData.set_txtSubmissionID("LPUJKT");
+
+
+
                         new tDeviceInfoUserBL().SaveInfoDevice(_tUserLoginData.get_TxtEmpId(), _tUserLoginData.get_txtDeviceId());
                         new tUserLoginBL().saveData(_tUserLoginData);
 

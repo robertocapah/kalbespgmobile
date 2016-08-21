@@ -74,7 +74,7 @@ public class tUserLoginData {
 	}
 	public tUserLoginData(int _intId, String _txtUserId, String _txtRoleId,
 						  String _txtRoleName, String _txtPassword, String _txtUserName, String _txtName, String _txtPathImage,String _TxtEmail,String _TxtEmpId,String _dtLastLogin,
-						  String _txtDeviceId,String _dtCheckIn,String _dtCheckOut,String _dtLogOut,String _txtCab,String _DataId, String _txtOutletCode, String _txtOutletName, String _txtBranchCode) {
+						  String _txtDeviceId,String _dtCheckIn,String _dtCheckOut,String _dtLogOut,String _txtCab,String _DataId, String _txtOutletCode, String _txtOutletName, String _txtBranchCode, String _txtSubmissionID) {
 		this._intId = _intId;
 		this._txtUserId = _txtUserId;
 		this._txtRoleId = _txtRoleId;
@@ -95,6 +95,7 @@ public class tUserLoginData {
 		this._txtOutletCode=_txtOutletCode;
 		this._txtOutletName=_txtOutletName;
 		this._txtBranchCode=_txtBranchCode;
+        this._txtSubmissionID=_txtSubmissionID;
 	}
 	public int get_intId() {
 		return _intId;
@@ -170,6 +171,7 @@ public class tUserLoginData {
 	private String _txtOutletCode;
 	private String _txtOutletName;
 	private String _txtBranchCode;
+	private String _txtSubmissionID;
 
 	public String Property_txtOutletCode="txtOutletCode";
 	public String Property_txtOutletName="txtOutletName";
@@ -192,6 +194,7 @@ public class tUserLoginData {
 	public String Property_DtCheckOut = "dtCheckOut";
 	public String Property_DtLogOut = "dtLogOut";
 	public String Property_ListOftUserLoginData="ListOftUserLoginData";
+    public String Property_txtSubmissionID = "txtSubmissionID";
 	public String Property_All=Property_intId +","+
 			Property_txtUserId +","+
 			Property_txtRoleId +","+
@@ -211,5 +214,14 @@ public class tUserLoginData {
 			Property_txtDataId+","+
 			Property_txtOutletCode+","+
 			Property_txtOutletName+","+
-			Property_txtBranchCode;
+			Property_txtBranchCode+","+
+            Property_txtSubmissionID;
+
+    public String get_txtSubmissionID() {
+        return _txtSubmissionID;
+    }
+
+    public void set_txtSubmissionID(String _txtSubmissionID) {
+        this._txtSubmissionID = _txtSubmissionID;
+    }
 }

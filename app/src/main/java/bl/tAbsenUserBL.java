@@ -43,6 +43,15 @@ public class tAbsenUserBL extends clsMainBL {
 		ListData=_tAbsenUserDA.getAllDataToPushData(db);
 		return ListData;
 	}
+
+	public List<tAbsenUserData>  getAllDataActive(){
+		SQLiteDatabase db=getDb();
+		tAbsenUserDA _tAbsenUserDA=new tAbsenUserDA(db);
+		List<tAbsenUserData> ListData=new ArrayList<tAbsenUserData>();
+		ListData=_tAbsenUserDA.getAllDataActive(db);
+		return ListData;
+	}
+
 	public int  getContactsCount(){
 		SQLiteDatabase db=getDb();
 		tAbsenUserDA _tAbsenUserDA=new tAbsenUserDA(db);

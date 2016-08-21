@@ -541,7 +541,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                                             Calendar cal = Calendar.getInstance();
                                             datatAbsenUserData.set_dtDateCheckIn(dateFormat.format(cal.getTime()));
                                             datatAbsenUserData.set_intId(txtHDId.getText().toString());
-                                            datatAbsenUserData.set_intSubmit("1");
+                                            datatAbsenUserData.set_intSubmit("0");
                                             datatAbsenUserData.set_intSync("0");
                                             datatAbsenUserData.set_txtAbsen("0");//
                                             datatAbsenUserData.set_txtBranchCode(HMbranch.get(nameBranch));
@@ -795,7 +795,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
             }
             dttAbsenUserData.set_intSubmit("0");
             dttAbsenUserData.set_intSync("0");
-            dttAbsenUserData.set_txtAbsen("0");//
+            dttAbsenUserData.set_txtAbsen("0");
             List<tAbsenUserData> Listdata = new ArrayList<tAbsenUserData>();
             Listdata.add(dttAbsenUserData);
             _tAbsenUserBL.saveData(Listdata);
@@ -807,7 +807,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
 
     private void previewCapturedImage2(Bitmap photo) {
         try {
-            dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
+//            dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
             imgPrevNoImg2.setVisibility(View.VISIBLE);
             ByteArrayOutputStream out = null;
             try {

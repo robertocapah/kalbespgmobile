@@ -44,7 +44,8 @@ public class tUserLoginDA {
 				+ dt.Property_txtDataId + " TEXT NULL,"
 				+ dt.Property_txtOutletCode + " TEXT NULL,"
 				+ dt.Property_txtOutletName + " TEXT NULL,"
-				+ dt.Property_txtBranchCode + " TEXT NULL"
+				+ dt.Property_txtBranchCode + " TEXT NULL,"
+				+ dt.Property_txtSubmissionID + " TEXT NULL"
 				+ ")";
 		db.execSQL(CREATE_CONTACTS_TABLE);
 	}
@@ -88,7 +89,8 @@ public class tUserLoginDA {
 				+dt.Property_txtOutletCode+","
 				+dt.Property_txtOutletName+","
 				+dt.Property_txtBranchCode+","
-				+dt.Property_txtUserId+") "+
+				+dt.Property_txtUserId+","
+				+dt.Property_txtSubmissionID+") "+
 				"values("	+ strVal +",'"
 				+String.valueOf(data.get_txtPassword())+"','"
 				+String.valueOf(data.get_txtUserName())+"','"
@@ -108,7 +110,8 @@ public class tUserLoginDA {
 				+String.valueOf(data.get_txtOutletCode())+"','"
 				+String.valueOf(data.get_txtOutletName())+"','"
 				+String.valueOf(data.get_txtBranchCode())+"','"
-				+String.valueOf(data.get_txtUserId())+"')");
+				+String.valueOf(data.get_txtUserId())+"','"
+				+String.valueOf(data.get_txtSubmissionID())+"')");
 	}
 
 	// Getting single contact
@@ -119,14 +122,14 @@ public class tUserLoginDA {
 		Cursor cursor = db.query(TABLE_CONTACTS, new String[] { dt.Property_intId,
 						dt.Property_txtUserId, dt.Property_txtRoleId, dt.Property_txtRoleName, dt.Property_txtPassword,dt.Property_txtUserName,
 						dt.Property_txtName, dt.Property_txtPathImage, dt.Property_TxtEmail, dt.Property_TxtEmpId,dt.Property_DtLastLogin,
-						dt.Property_TxtDeviceId,dt.Property_DtCheckIn,dt.Property_DtCheckOut,dt.Property_DtLogOut,dt.Property_TxtCab,dt.Property_txtDataId, dt.Property_txtOutletCode, dt.Property_txtOutletName, dt.Property_txtBranchCode }, dt.Property_intId + "=?",
+						dt.Property_TxtDeviceId,dt.Property_DtCheckIn,dt.Property_DtCheckOut,dt.Property_DtLogOut,dt.Property_TxtCab,dt.Property_txtDataId, dt.Property_txtOutletCode, dt.Property_txtOutletName, dt.Property_txtBranchCode, dt.Property_txtSubmissionID }, dt.Property_intId + "=?",
 				new String[] { String.valueOf(id) }, null, null, null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
 		if(cursor.getCount()>0){
 			contact = new tUserLoginData(Integer.parseInt(cursor.getString(0)),
 					(cursor.getString(1)), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7),
-					cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14),cursor.getString(15),cursor.getString(16), cursor.getString(17), cursor.getString(18), cursor.getString(19));
+					cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14),cursor.getString(15),cursor.getString(16), cursor.getString(17), cursor.getString(18), cursor.getString(19), cursor.getString(20));
 			// return contact
 		}
 		cursor.close();
@@ -146,7 +149,7 @@ public class tUserLoginDA {
 
 		tUserLoginData contact = new tUserLoginData(Integer.parseInt(cursor.getString(0)),
 				(cursor.getString(1)), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7),
-				cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getString(15), cursor.getString(16), cursor.getString(17), cursor.getString(18), cursor.getString(19));
+				cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getString(15), cursor.getString(16), cursor.getString(17), cursor.getString(18), cursor.getString(19), cursor.getString(20));
 		// return contact
 		cursor.close();
 		return contact;
@@ -253,6 +256,7 @@ public class tUserLoginDA {
 				contact.set_txtOutletCode((cursor.getString(17)));
 				contact.set_txtOutletName((cursor.getString(18)));
 				contact.set_txtBranchCode((cursor.getString(19)));
+				contact.set_txtSubmissionID(cursor.getString(20));
 				// Adding contact to list
 				contactList.add(contact);
 			} while (cursor.moveToNext());

@@ -283,8 +283,20 @@ public class MainMenu extends AppCompatActivity {
 
                         return true;
 
+                    case R.id.historyAbsen:
+                        toolbar.setTitle("History Absen");
+
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+
+                        FragmentViewHistoryAbsen fragmentViewHistoryAbsen = new FragmentViewHistoryAbsen();
+                        android.support.v4.app.FragmentTransaction fragmentTransactionHistoryAbsen = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactionHistoryAbsen.replace(R.id.frame,fragmentViewHistoryAbsen);
+                        fragmentTransactionHistoryAbsen.commit();
+                        selectedId=99;
+
+                        return true;
+
                     case R.id.checkout:
-                        Toast.makeText(getApplicationContext(),"Check Out",Toast.LENGTH_SHORT).show();
                         LayoutInflater _layoutInflater = LayoutInflater.from(MainMenu.this);
                         final View _promptView = _layoutInflater.inflate(R.layout.confirm_data, null);
 
@@ -317,7 +329,7 @@ public class MainMenu extends AppCompatActivity {
                                             datatAbsenUserData.set_dtDateCheckOut(_clsMainActivity.FormatDateDB().toString());
                                             datatAbsenUserData.set_intSubmit("1");
                                             datatAbsenUserData.set_intSync("0");
-                                            datatAbsenUserData.set_txtAbsen("0");//
+                                            datatAbsenUserData.set_txtAbsen("0");
                                             absenUserDatas.add(datatAbsenUserData);
                                             new tAbsenUserBL().saveData(absenUserDatas);
 
@@ -355,6 +367,7 @@ public class MainMenu extends AppCompatActivity {
                                 fragment = (android.support.v4.app.Fragment) fragmentClass.newInstance();
                                 android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                                 fragmentTransaction.replace(R.id.frame,fragment);
+                                fragmentTransaction.addToBackStack(fragment.getClass().getName());
                                 fragmentTransaction.commit();
                                 selectedId = menuItem.getItemId();
                                 isSubMenu = false;
@@ -450,14 +463,18 @@ public class MainMenu extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.clear();
         if(listMenu.length <= selectedId){
-            menu.add(4, 0, 0, "Default");
+            menu.add(4, 0, 0, "-");
             menu.setGroupEnabled(4,false);
         }
-        else if(!isSubMenu){
+        else if(!isSubMenu && dtAbsens != null){
             menu.add(0, selectedId, 0, "Add " + listMenu[selectedId]);
         }
-        else if(isSubMenu){
+        else if(isSubMenu && dtAbsens != null){
             menu.add(1, selectedId, 0, "View " + listMenu[selectedId]);
+        }
+        else{
+            menu.add(4, 0, 0, "-");
+            menu.setGroupEnabled(4,false);
         }
 
 //
