@@ -133,6 +133,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                     if (isValidEmail(etEmail.getText().toString())) {
                         LinearLayout lnTop = (LinearLayout) v.findViewById(R.id.linearLayoutTop);
                         LinearLayout lnBottom = (LinearLayout) v.findViewById(R.id.linearLayoutBottom);
+                        TextView tvCode = (TextView) v.findViewById(R.id.tvCode);
                         TextView tvNama = (TextView) v.findViewById(R.id.tvNamaPreview);
                         TextView tvTelp = (TextView) v.findViewById(R.id.tvTelpPreview);
                         TextView tvAlamat = (TextView) v.findViewById(R.id.tvAlamatPreview);
@@ -141,12 +142,14 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         lnTop.setVisibility(View.GONE);
                         lnBottom.setVisibility(View.VISIBLE);
 
+                        saveCustomerBaseHeader();
+
+                        tvCode.setText("Code : " + new tCustomerBasedMobileHeaderBL().getDataByBitActive().get_txtSubmissionId());
                         tvNama.setText("Nama : " + etNama.getText().toString());
                         tvTelp.setText("Telp : " + etTelpon.getText().toString());
                         tvAlamat.setText("Alamat : " + etAlamat.getText().toString());
                         tvEmail.setText("Email : " + etEmail.getText().toString());
 
-                        saveCustomerBaseHeader();
                     } else {
                         Toast.makeText(getContext(), "Email not valid", Toast.LENGTH_SHORT).show();
                     }

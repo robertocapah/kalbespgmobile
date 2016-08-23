@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,24 +39,30 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL{
 
 		String txtSubmissionCode = new tUserLoginBL().getUserActive().get_txtSubmissionID();
 
-		List<tCustomerBasedMobileHeaderData> dtta = new tCustomerBasedMobileHeaderBL().getAllData();
+		List<tCustomerBasedMobileHeaderData> dttas = getLastData();
 
         String noCustomerBase = null;
 
-//        if(dtta==null || dtta.size() == 0) {
-//            noCustomerBase = ".001";
-//
-//        } else {
-//            List<tCustomerBasedMobileHeaderData> dttas = getLastData();
-//            clsHelper _clsHelper=new clsHelper();
-//            String oldVersion = dttas.get(0).get_intTrCustomerId();
-//            noCustomerBase = _clsHelper.generateNewId(oldVersion, "." , "3");
-//        }
+        if(dttas==null || dttas.size() == 0) {
+            noCustomerBase = "1";
+        } else {
+            String oldVersion = dttas.get(0).get_txtSubmissionId();
+            String[] splitSubmission = oldVersion.split("\\.");
+            if((dd+mm+yy.substring(2)).equals(splitSubmission[1])){
+                String lastCount = oldVersion.substring(oldVersion.length() - 3);
+                noCustomerBase = String.valueOf(Integer.parseInt(lastCount) + 1);
+            }
+            else{
+                noCustomerBase = "1";
+            }
+		}
 
-		String txtSubmissionId = txtSubmissionCode + "." + dd + mm + yy.substring(2) + ".001";
+        if(getDataByBitActive().get_txtSubmissionId() == null) {
+            String txtSubmissionId = txtSubmissionCode + "." + dd + mm + yy.substring(2) + "." + String.format("%03d", Integer.parseInt(noCustomerBase));
 
-		dt.set_txtSubmissionId(txtSubmissionId);
-		dt.set_txtSubmissionCode(txtSubmissionCode);
+            dt.set_txtSubmissionId(txtSubmissionId);
+            dt.set_txtSubmissionCode(txtSubmissionCode);
+        }
 
 		_tCustomerBasedMobileHeaderDA.SaveDatatCustomerBasedMobileHeaderData(_db, dt);
 	}
