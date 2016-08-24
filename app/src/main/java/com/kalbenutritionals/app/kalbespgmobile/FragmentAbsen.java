@@ -704,16 +704,17 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
 
     protected void captureImage1() {
         Intent intentCamera1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intentCamera1, CAMERA_CAPTURE_IMAGE1_REQUEST_CODE);
+        getActivity().startActivityForResult(intentCamera1, CAMERA_CAPTURE_IMAGE1_REQUEST_CODE);
     }
 
     protected void captureImage2() {
         Intent intentCamera2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intentCamera2, CAMERA_CAPTURE_IMAGE2_REQUEST_CODE);
+        getActivity().startActivityForResult(intentCamera2, CAMERA_CAPTURE_IMAGE2_REQUEST_CODE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         // if the result is capturing Image
         if (requestCode == CAMERA_CAPTURE_IMAGE1_REQUEST_CODE) {
             if (resultCode == -1 && (data.getExtras().get("data") != null || data.getData() != null)) {

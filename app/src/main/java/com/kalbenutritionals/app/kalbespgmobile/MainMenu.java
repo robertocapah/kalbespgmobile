@@ -3,15 +3,21 @@ package com.kalbenutritionals.app.kalbespgmobile;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -23,7 +29,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +36,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -38,20 +45,25 @@ import java.util.List;
 import bl.clsHelperBL;
 import bl.mMenuBL;
 import bl.tAbsenUserBL;
+import bl.tActivityBL;
 import bl.tDeviceInfoUserBL;
+import bl.tDisplayPictureBL;
 import bl.tNotificationBL;
 import bl.tUserLoginBL;
 import come.example.viewbadger.ShortcutBadger;
+import de.hdodenhof.circleimageview.CircleImageView;
 import library.salesforce.common.clsPushData;
 import library.salesforce.common.mMenuData;
 import library.salesforce.common.tAbsenUserData;
+import library.salesforce.common.tActivityData;
 import library.salesforce.common.tDeviceInfoUserData;
+import library.salesforce.common.tDisplayPictureData;
 import library.salesforce.common.tNotificationData;
 import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 import service.MyServiceNative;
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity implements View.OnClickListener {
 
     //Defining Variables
     private Toolbar toolbar;
@@ -61,8 +73,12 @@ public class MainMenu extends AppCompatActivity {
     private tAbsenUserData dttAbsenUserData;
     private tAbsenUserData dtAbsens;
 
+    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 200;
+
     private TextView tvUsername, tvEmail;
-    private ImageView ivProfile;
+    private CircleImageView ivProfile;
+    private tDisplayPictureData tDisplayPictureData;
+    private tActivityData _tActivityData;
 
     PackageInfo pInfo = null;
 
@@ -130,11 +146,24 @@ public class MainMenu extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         View vwHeader = navigationView.getHeaderView(0);
 
-        ivProfile = (ImageView) vwHeader.findViewById(R.id.profile_image);
+        ivProfile = (CircleImageView) vwHeader.findViewById(R.id.profile_image);
         tvUsername = (TextView) vwHeader.findViewById(R.id.username);
         tvEmail = (TextView) vwHeader.findViewById(R.id.email);
         tvUsername.setText("Welcome, " + dt.get_txtName());
         tvEmail.setText(dt.get_TxtEmail());
+
+        _tActivityData = new tActivityBL().getDataByBitActive();
+        tDisplayPictureData = new tDisplayPictureBL().getData();
+
+        if(tDisplayPictureData.get_image()!=null){
+            Bitmap bitmap = BitmapFactory.decodeByteArray(tDisplayPictureData.get_image(), 0 , tDisplayPictureData.get_image().length);
+            ivProfile.setImageBitmap(bitmap);
+        } else {
+            ivProfile.setImageBitmap(BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                    R.drawable.profile));
+        }
+
+        ivProfile.setOnClickListener(this);
 
         dtAbsens = new tAbsenUserBL().getDataCheckInActive();
         Menu header = navigationView.getMenu();
@@ -520,6 +549,120 @@ public class MainMenu extends AppCompatActivity {
 
     int intProcesscancel = 0;
     private clsHardCode clsHardcode = new clsHardCode();
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.profile_image:
+                pickImage();
+                break;
+        }
+    }
+
+    protected void pickImage() {
+
+        // Camera.
+        final List<Intent> cameraIntents = new ArrayList<Intent>();
+        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        final PackageManager packageManager = getPackageManager();
+        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for(ResolveInfo res : listCam) {
+            final String packageName = res.activityInfo.packageName;
+            final Intent intent = new Intent(captureIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(packageName);
+            cameraIntents.add(intent);
+        }
+
+        // Filesystem.
+        final Intent galleryIntent = new Intent();
+        galleryIntent.setType("image/*");
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+        // Chooser of filesystem options.
+        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
+
+        // Add the camera options.
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
+
+        startActivityForResult(chooserIntent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+//        super.onActivityResult(requestCode, resultCode, data);
+//        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+//            fragment.onActivityResult(requestCode, resultCode, data);
+//        }
+
+        Bitmap photo = null;
+        if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                final boolean isCamera;
+                if (data == null) {
+
+                    isCamera = true;
+                } else {
+                    final String action = data.getAction();
+                    if (action == null) {
+                        isCamera = true;
+                    } else {
+                        photo = (Bitmap) data.getExtras().get("data");
+                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    }
+                }
+
+                if (isCamera) {
+                    try {
+                        photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                previewPickImage(photo);
+            }
+        }
+    }
+
+    private void previewPickImage(Bitmap photo) {
+        try {
+            ByteArrayOutputStream out = null;
+            try {
+                out = new ByteArrayOutputStream();
+                photo.compress(Bitmap.CompressFormat.JPEG, 100, out); // bmp is your Bitmap instance
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (out != null) {
+                        out.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            ByteArrayOutputStream blob = new ByteArrayOutputStream();
+            photo.compress(Bitmap.CompressFormat.JPEG, 0 /*ignored for PNG*/, blob);
+            Bitmap bitmap = Bitmap.createScaledBitmap(photo, 150, 150, false);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, blob);
+            byte[] pht = out.toByteArray();
+            ivProfile.setImageBitmap(photo);
+
+                tDisplayPictureData.set_intID("1");
+                tDisplayPictureData.set_image(pht);
+                tDisplayPictureData.set_intPush("1");
+
+                List<tDisplayPictureData> dtList = new ArrayList<>();
+                dtList.add(tDisplayPictureData);
+
+                new tDisplayPictureBL().saveData(dtList);
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
     private class AsyncCallLogOut extends AsyncTask<JSONArray, Void, JSONArray> {
         @Override
         protected JSONArray doInBackground(JSONArray... params) {

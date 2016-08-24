@@ -1,5 +1,6 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -87,6 +89,10 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
         tv_date = (TextView) v.findViewById(R.id.txtviewDate);
         edketerangan = (EditText) v.findViewById(R.id.etKeterangan);
         searchProduct = (EditText) v.findViewById(R.id.searchProduct);
+
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(edketerangan.getWindowToken(), 0);
+
         List<tSalesProductHeaderData> dtta = new tSalesProductHeaderBL().getAllSalesProductHeader();
         if(dtta==null) {
             noso = new mCounterNumberBL().getData(enumCounterData.NoDataSO);
@@ -144,6 +150,8 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
         searchProduct.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(searchProduct) {
             @Override
             public boolean onDrawableClick() {
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(searchProduct.getWindowToken(), 0);
                 CharSequence s = searchProduct.getText();
                 if(s.length()>0){
                     dataAdapter.getFilter().filter(s.toString());
@@ -152,9 +160,31 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                 }
 
 
-                return false;
+                return true;
             }
         });
+
+//        searchProduct.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if(event.getAction() == MotionEvent.ACTION_UP) {
+//                    if(event.getRawX() >= searchProduct.getRight() - searchProduct.getTotalPaddingRight()) {
+//                        // your action for drawable click event
+//                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                        imm.hideSoftInputFromWindow(searchProduct.getWindowToken(), 0);
+//                        CharSequence s = searchProduct.getText();
+//                        if(s.length()>0){
+//                            dataAdapter.getFilter().filter(s.toString());
+//                        } else {
+//                            Collections.sort(modelItems, ModelListview.StuRollno);
+//                        }
+//
+//                        return true;
+//                    }
+//                }
+//                return true;
+//            }
+//        });
 
         return v;
     }
@@ -713,6 +743,14 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
             setListViewHeightBasedOnItems(listView);
 
             progressDialog.dismiss();
+        }
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        View v = activity.getWindow().getCurrentFocus();
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
     }
 

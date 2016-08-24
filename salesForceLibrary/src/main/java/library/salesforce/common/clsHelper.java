@@ -1,9 +1,19 @@
 package library.salesforce.common;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.os.Environment;
+import android.os.StatFs;
+import android.util.Log;
+
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,13 +27,6 @@ import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.UUID;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.os.Environment;
-import android.os.StatFs;
-import android.util.Log;
 import library.salesforce.dal.clsHardCode;
 import library.salesforce.dal.enumConfigData;
 import library.salesforce.dal.mCounterNumberDA;
@@ -44,14 +47,12 @@ import library.salesforce.dal.tCustomerBasedMobileDetailDA;
 import library.salesforce.dal.tCustomerBasedMobileDetailProductDA;
 import library.salesforce.dal.tCustomerBasedMobileHeaderDA;
 import library.salesforce.dal.tDeviceInfoUserDA;
+import library.salesforce.dal.tDisplayPictureDA;
 import library.salesforce.dal.tLeaveMobileDA;
 import library.salesforce.dal.tNotificationDA;
 import library.salesforce.dal.tSalesProductDetailDA;
 import library.salesforce.dal.tSalesProductHeaderDA;
 import library.salesforce.dal.tUserLoginDA;
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class clsHelper {
 	public void InitlizeDB(){
@@ -60,10 +61,12 @@ public class clsHelper {
 		db=SQLiteDatabase.openOrCreateDatabase(clsdthc.txtDatabaseName, null);
 		mconfigDA _mconfigDA=new mconfigDA(db);
 		tUserLoginDA _tUserLoginDA=new tUserLoginDA(db);
+		tDisplayPictureDA _tDisplayPictureDA = new tDisplayPictureDA(db);
 		_mconfigDA.DropTable(db);
 		_tUserLoginDA.DropTable(db);
 		_mconfigDA=new mconfigDA(db);
 		_tUserLoginDA=new tUserLoginDA(db);
+		_tDisplayPictureDA= new tDisplayPictureDA(db);
 		db.close();
 	}
 	public String GenerateGuid(){
@@ -210,11 +213,15 @@ public class clsHelper {
 		mUserRoleDA _mUserRoleDA=new mUserRoleDA(db);
 		mPriceInOutletDA _mPriceInOutletDA=new mPriceInOutletDA(db);
 		mProductBarcodeDA _mProductBarcodeDA=new mProductBarcodeDA(db);
+		tDisplayPictureDA _tDisplayPictureDA = new tDisplayPictureDA(db);
 
 		tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(db);
 		tCustomerBasedMobileDetailDA _tCustomerBasedMobileDetailDA = new tCustomerBasedMobileDetailDA(db);
 		tCustomerBasedMobileDetailProductDA _tCustomerBasedMobileDetailProductDA = new tCustomerBasedMobileDetailProductDA(db);
+		_tDisplayPictureDA = new tDisplayPictureDA(db);
 
+
+		_tDisplayPictureDA.DropTable(db);
 		_tCustomerBasedMobileHeaderDA.DropTable(db);
 		_tCustomerBasedMobileDetailDA.DropTable(db);
 		_tCustomerBasedMobileDetailProductDA.DropTable(db);
@@ -241,6 +248,7 @@ public class clsHelper {
 		_tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(db);
 		_tCustomerBasedMobileDetailDA = new tCustomerBasedMobileDetailDA(db);
 		_tCustomerBasedMobileDetailProductDA = new tCustomerBasedMobileDetailProductDA(db);
+		_tDisplayPictureDA = new tDisplayPictureDA(db);
 
 		_mPriceInOutletDA=new mPriceInOutletDA(db);
 		_mUserRoleDA=new mUserRoleDA(db);

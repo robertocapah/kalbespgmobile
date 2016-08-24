@@ -12,7 +12,7 @@
     <item
         android:id="@+id/action_sort"
         android:orderInCategory="200"
-        android:icon="@drawable/ic_arrow_back"
+        android:icon="@drawable/ic_bbm_notif"
         android:title=""
         app:showAsAction="always" />
 
