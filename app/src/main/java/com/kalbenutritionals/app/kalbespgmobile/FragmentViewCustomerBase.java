@@ -73,8 +73,8 @@ public class FragmentViewCustomerBase extends Fragment implements IXListViewList
 
         for(int i = 0; i < dt.size(); i++){
             swplist = new clsSwipeList();
-            swplist.set_txtTitle("Nama : " + dt.get(i).get_txtNamaDepan());
-            swplist.set_txtDescription("No telp : " + dt.get(i).get_txtTelp());
+            swplist.set_txtTitle("Code : " + dt.get(i).get_txtSubmissionId());
+            swplist.set_txtDescription("Nama : " + dt.get(i).get_txtNamaDepan());
             swipeList.add(swplist);
         }
 
@@ -140,6 +140,7 @@ public class FragmentViewCustomerBase extends Fragment implements IXListViewList
         LayoutInflater layoutInflater = LayoutInflater.from(this.getContext());
         final View promptView = layoutInflater.inflate(R.layout.activity_preview_customerbase, null);
 
+        final TextView _tvSubmissionId = (TextView) promptView.findViewById(R.id.tvSubmissionId);
         final TextView _tvNama = (TextView) promptView.findViewById(R.id.tvNama);
         final TextView _tvTelp = (TextView) promptView.findViewById(R.id.tvTelp);
         final TextView _tvTelpKantor = (TextView) promptView.findViewById(R.id.tvTelpKantor);
@@ -149,6 +150,7 @@ public class FragmentViewCustomerBase extends Fragment implements IXListViewList
         final TextView _tvPicPelanggan = (TextView) promptView.findViewById(R.id.tvPicPelanggan);
 //        final ListView _lvProduk = (ListView) promptView.findViewById(R.id.lvProduks);
 
+        _tvSubmissionId.setText(dt.get(position).get_txtSubmissionId());
         _tvNama.setText(dt.get(position).get_txtNamaDepan());
         _tvTelp.setText(dt.get(position).get_txtTelp());
         _tvTelpKantor.setText(dt.get(position).get_txtTelpKantor());
