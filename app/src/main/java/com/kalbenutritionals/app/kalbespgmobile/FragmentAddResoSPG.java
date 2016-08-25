@@ -397,8 +397,8 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
         dt.set_intSumItem(String.valueOf(arrdataPriv.size()));
         dt.set_intSumAmount(String.valueOf(qntySum));
         dt.set_UserId(absenUserData.get_txtUserId());
-        dt.set_intSubmit("0");
-        dt.set_intSync("1");
+        dt.set_intSubmit("1");
+        dt.set_intSync("0");
         dt.set_txtBranchCode(absenUserData.get_txtBranchCode());
         dt.set_txtBranchName(absenUserData.get_txtBranchName());
         dt.set_intIdAbsenUser(absenUserData.get_intId());

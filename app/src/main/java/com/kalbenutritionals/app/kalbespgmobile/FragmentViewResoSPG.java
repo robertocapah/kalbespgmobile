@@ -62,9 +62,9 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
             for (int i = 0; i < dt.size(); i++) {
                 swplist = new clsSwipeList();
                 swplist.set_txtTitle(dt.get(i).get_intId());
-                if (dt.get(i).get_intSubmit().equals("0")&&dt.get(i).get_intSync().equals("1")){
+                if (dt.get(i).get_intSubmit().equals("1")&&dt.get(i).get_intSync().equals("0")){
                     swplist.set_txtDescription("Submit");
-                } else if (dt.get(i).get_intSubmit().equals("0")&&dt.get(i).get_intSync().equals("0")){
+                } else if (dt.get(i).get_intSubmit().equals("1")&&dt.get(i).get_intSync().equals("1")){
                     swplist.set_txtDescription("Sync");
                 }
 
@@ -146,9 +146,9 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
         final  TextView tv_status = (TextView) promptView.findViewById(R.id.tvStatus);
         tv_status.setTypeface(null, Typeface.BOLD);
 
-        if (dt.get(position).get_intSubmit().equals("0")&&dt.get(position).get_intSync().equals("1")){
+        if (dt.get(position).get_intSubmit().equals("1")&&dt.get(position).get_intSync().equals("0")){
             tv_status.setText(": Submit");
-        } else if (dt.get(position).get_intSubmit().equals("0")&&dt.get(position).get_intSync().equals("0")){
+        } else if (dt.get(position).get_intSubmit().equals("1")&&dt.get(position).get_intSync().equals("1")){
             tv_status.setText(": Sync");
         }
 
