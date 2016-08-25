@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -13,11 +12,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 
 import bl.tAbsenUserBL;
-import bl.tActivityBL;
 import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView;
 import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.bean.SwipeMenu;
@@ -44,7 +38,6 @@ import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
 import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tAbsenUserData;
-import library.salesforce.common.tActivityData;
 
 public class FragmentViewHistoryAbsen extends Fragment implements IXListViewListener {
 
@@ -68,12 +61,15 @@ public class FragmentViewHistoryAbsen extends Fragment implements IXListViewList
 
         swipeList.clear();
 
-        for (int i = 0; i < dt.size(); i++) {
-            swplist = new clsSwipeList();
-            swplist.set_txtTitle("Outlet : " + dt.get(i).get_txtOutletName());
-            swplist.set_txtDescription("Check in : " + dt.get(i).get_dtDateCheckIn() + "\n" + "Check out : " + dt.get(i).get_dtDateCheckOut());
-            swipeList.add(swplist);
+        if (dt!=null){
+            for (int i = 0; i < dt.size(); i++) {
+                swplist = new clsSwipeList();
+                swplist.set_txtTitle("Outlet : " + dt.get(i).get_txtOutletName());
+                swplist.set_txtDescription("Check in : " + dt.get(i).get_dtDateCheckIn() + "\n" + "Check out : " + dt.get(i).get_dtDateCheckOut());
+                swipeList.add(swplist);
+            }
         }
+
 
         clsMainActivity clsMain = new clsMainActivity();
 

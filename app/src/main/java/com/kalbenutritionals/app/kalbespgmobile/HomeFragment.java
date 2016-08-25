@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment {
         if(dtAbsen != null){
             branch.setText(dtAbsen.get_txtBranchName());
             outlet.setText(dtAbsen.get_txtOutletName());
-            statusAbsen.setText("Active" + ", " + new clsMainActivity().giveFormatDateTime(dtAbsen.get_dtDateCheckIn()));
+            statusAbsen.setText("Active" + " " + new clsMainActivity().giveFormatDateTime(dtAbsen.get_dtDateCheckIn()));
         }
         else{
             branch.setText("Inactive");

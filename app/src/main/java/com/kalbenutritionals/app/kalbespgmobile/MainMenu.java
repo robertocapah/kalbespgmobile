@@ -194,7 +194,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
             if(i_view!=null)
                 try{
-                    Class<?> fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view.replaceAll("\\s+","") );
+                    Class<?> fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view.replaceAll("\\s+","") +"SPG");
                     try {
                         for(int i = 0; i < listMenu.length; i++){
                             if(("View " + listMenu[i]).equals(i_view + " SPG")){
@@ -591,10 +591,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-//        super.onActivityResult(requestCode, resultCode, data);
-//        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-//            fragment.onActivityResult(requestCode, resultCode, data);
-//        }
+        super.onActivityResult(requestCode, resultCode, data);
 
         Bitmap photo = null;
         if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
@@ -621,6 +618,10 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                     }
                 }
                 previewPickImage(photo);
+            }
+        } else {
+            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                fragment.onActivityResult(requestCode, resultCode, data);
             }
         }
     }

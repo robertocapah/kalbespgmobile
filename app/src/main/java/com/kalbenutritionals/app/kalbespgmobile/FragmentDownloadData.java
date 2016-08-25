@@ -447,6 +447,7 @@ public class FragmentDownloadData extends Fragment {
                 }
 
             }
+            checkingDataTable();
             Dialog.dismiss();
         }
 
@@ -510,6 +511,7 @@ public class FragmentDownloadData extends Fragment {
                 }
 
             }
+            checkingDataTable();
             Dialog.dismiss();
         }
 
@@ -577,6 +579,7 @@ public class FragmentDownloadData extends Fragment {
     private class AsyncCallOutlet extends AsyncTask<JSONArray, Void, JSONArray> {
         @Override
         protected JSONArray doInBackground(JSONArray... params) {
+            //android.os.Debug.waitForDebugger();
             JSONArray Json = null;
             try {
                 Json = new mEmployeeAreaBL().DownloadEmployeeArea2(pInfo.versionName);
@@ -615,6 +618,7 @@ public class FragmentDownloadData extends Fragment {
                 }
 
             }
+            checkingDataTable();
             Dialog.dismiss();
         }
 
@@ -642,7 +646,7 @@ public class FragmentDownloadData extends Fragment {
     private class AsyncCallBranch extends AsyncTask<JSONArray, Void, JSONArray> {
         @Override
         protected JSONArray doInBackground(JSONArray... params) {
-//            android.os.Debug.waitForDebugger();
+            //android.os.Debug.waitForDebugger();
             JSONArray Json = null;
             try {
                 Json = new mEmployeeBranchBL().DownloadEmployeeBranch2(pInfo.versionName);
@@ -681,6 +685,7 @@ public class FragmentDownloadData extends Fragment {
                 }
 
             }
+            checkingDataTable();
             Dialog.dismiss();
         }
 
@@ -705,6 +710,46 @@ public class FragmentDownloadData extends Fragment {
         }
 
     }
+
+    private void checkingDataTable() {
+        List<mEmployeeBranchData> mEmployeeBranchDataList = new ArrayList<>();
+        List<mEmployeeSalesProductData> employeeSalesProductDataList = new ArrayList<>();
+        List<mEmployeeAreaData> mEmployeeAreaDataList = new ArrayList<>();
+        List<mProductBrandHeaderData> mProductBrandHeaderDataList = new ArrayList<>();
+        List<mTypeLeaveMobileData> mTypeLeaveMobileDataList = new ArrayList<>();
+
+        mEmployeeBranchBL _mEmployeeBranchBL = new mEmployeeBranchBL();
+        mEmployeeSalesProductBL _mEmployeeSalesProductBL = new mEmployeeSalesProductBL();
+        mEmployeeAreaBL _mEmployeeAreaBL = new mEmployeeAreaBL();
+        mProductBrandHeaderBL _mProductBrandHeaderBL = new mProductBrandHeaderBL();
+        mTypeLeaveBL _mTypeLeaveBL = new mTypeLeaveBL();
+
+
+        employeeSalesProductDataList = _mEmployeeSalesProductBL.GetAllData();
+        mEmployeeBranchDataList = _mEmployeeBranchBL.GetAllData();
+        mEmployeeAreaDataList = _mEmployeeAreaBL.GetAllData();
+        mProductBrandHeaderDataList = _mProductBrandHeaderBL.GetAllData();
+        mTypeLeaveMobileDataList = _mTypeLeaveBL.GetAllData();
+
+
+        if (mEmployeeBranchDataList.size()>0
+                && employeeSalesProductDataList.size()>0
+                && mEmployeeAreaDataList.size()>0
+                && mProductBrandHeaderDataList.size()>0
+                && mTypeLeaveMobileDataList.size()>0){
+
+            goToMainMenu();
+        }
+        return;
+    }
+
+    private void goToMainMenu() {
+        Intent myIntent = new Intent(getContext(), MainMenu.class);
+        getActivity().finish();
+        startActivity(myIntent);
+        return;
+    }
+
     private List<String> SaveDatamTypeLeaveMobileData(JSONArray JData){
         List<String> _array=new ArrayList<String>();
         APIData dtAPIDATA = new APIData();
@@ -773,6 +818,7 @@ public class FragmentDownloadData extends Fragment {
                 }
 
             }
+            checkingDataTable();
             Dialog.dismiss();
         }
 

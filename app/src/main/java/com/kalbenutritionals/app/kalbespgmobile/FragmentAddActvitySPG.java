@@ -43,8 +43,8 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
     EditText etDescription;
     RadioGroup rdFlag;
 
-    private static final int CAMERA_CAPTURE_IMAGE1_REQUEST_CODE = 100;
-    private static final int CAMERA_CAPTURE_IMAGE2_REQUEST_CODE = 130;
+    private static final int CAMERA_CAPTURE_IMAGE1_ACTIVITY_REQUEST_CODE = 100;
+    private static final int CAMERA_CAPTURE_IMAGE2_ACTIVITY_REQUEST_CODE = 130;
     private static final String IMAGE_DIRECTORY_NAME = "Image Activity";
 
     private Uri uriImage;
@@ -161,7 +161,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
                 } else {
 
                     final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                    alertDialog.setTitle("Save Reso...?");
+                    alertDialog.setTitle("Save Activity...?");
                     alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -217,7 +217,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_CAPTURE_IMAGE1_REQUEST_CODE) {
+        if (requestCode == CAMERA_CAPTURE_IMAGE1_ACTIVITY_REQUEST_CODE) {
             if (resultCode == -1 && (data.getExtras().get("data") != null || data.getData() != null))
                 if (data.getExtras().get("data") != null) {
                     photo1 = (Bitmap) data.getExtras().get("data");
@@ -262,7 +262,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
             else if (resultCode == 0) {
                 Toast.makeText(getActivity().getApplicationContext(), "User canceled to capture image", Toast.LENGTH_SHORT).show();
             }
-        } else if (requestCode == CAMERA_CAPTURE_IMAGE2_REQUEST_CODE) {
+        } else if (requestCode == CAMERA_CAPTURE_IMAGE2_ACTIVITY_REQUEST_CODE) {
             if (resultCode == -1 && (data.getExtras().get("data") != null || data.getData() != null))
                 if (data.getExtras().get("data") != null) {
                     photo2 = (Bitmap) data.getExtras().get("data");
@@ -307,7 +307,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
                 Toast.makeText(getActivity().getApplicationContext(), "User canceled to capture image", Toast.LENGTH_SHORT).show();
             }
         }else {
-            Toast.makeText(getActivity().getApplicationContext(), "Sorry! Failed to capture image", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity().getApplicationContext(), "Sorry! Failed to capture image", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -439,18 +439,18 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
 
     public void viewActivityFragment(){
         Intent intent = new Intent(getContext(),MainMenu.class);
-        intent.putExtra("key_view", "View Activity");
+        intent.putExtra("key_view", "View Actvity");
         getActivity().finish();
         startActivity(intent);
         return;
     }
     protected void captureImage1() {
         Intent intentCamera1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intentCamera1, CAMERA_CAPTURE_IMAGE1_REQUEST_CODE);
+        startActivityForResult(intentCamera1, CAMERA_CAPTURE_IMAGE1_ACTIVITY_REQUEST_CODE);
     }
 
     protected void captureImage2() {
         Intent intentCamera2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intentCamera2, CAMERA_CAPTURE_IMAGE2_REQUEST_CODE);
+        startActivityForResult(intentCamera2, CAMERA_CAPTURE_IMAGE2_ACTIVITY_REQUEST_CODE);
     }
 }

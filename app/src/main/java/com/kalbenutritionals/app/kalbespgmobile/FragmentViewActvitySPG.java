@@ -34,7 +34,7 @@ import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tActivityData;
 
-public class FragmentViewActivity extends Fragment implements IXListViewListener {
+public class FragmentViewActvitySPG extends Fragment implements IXListViewListener {
 
     private static List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
     private AppAdapter mAdapter;
@@ -57,12 +57,12 @@ public class FragmentViewActivity extends Fragment implements IXListViewListener
         swipeList.clear();
 
 
-            for(int i = 0; i < dt.size(); i++){
-                swplist = new clsSwipeList();
-                swplist.set_txtTitle("Type : " + dt.get(i).get_intFlag());
-                swplist.set_txtDescription("Description : " + dt.get(i).get_txtDesc());
-                swipeList.add(swplist);
-            }
+        for(int i = 0; i < dt.size(); i++){
+            swplist = new clsSwipeList();
+            swplist.set_txtTitle("Type : " + dt.get(i).get_intFlag());
+            swplist.set_txtDescription("Description : " + dt.get(i).get_txtDesc());
+            swipeList.add(swplist);
+        }
 
         clsMainActivity clsMain = new clsMainActivity();
 

@@ -34,6 +34,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -291,30 +292,24 @@ public class clsMainActivity extends Activity {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return sdf.format(cal.getTime());
 	}
-	public String giveFormatDateTime(String DateYYMMDD) {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	public String giveFormatDateTime(String dateYYMMDD) {
 
-		DateFormat formatYY = new SimpleDateFormat("yyyy");
-		DateFormat formatMM = new SimpleDateFormat("MM");
-		DateFormat formatDD = new SimpleDateFormat("dd");
-		DateFormat HH = new SimpleDateFormat("HH");
-		DateFormat mm = new SimpleDateFormat("mm");
-		DateFormat ss = new SimpleDateFormat("ss");
-		String txtDate="";
+		String date = dateYYMMDD;
+		String pattern = "yyyy-MM-dd HH:mm:ss";
+		Date newdate = null;
 		try {
-			Date dtdate = (Date)dateFormat.parse(DateYYMMDD);
-			int year = Integer.valueOf(formatYY.format(dtdate));
-			int month = Integer.valueOf(formatMM.format(dtdate));
-			int day  = Integer.valueOf(formatDD.format(dtdate));
-			int hr = Integer.valueOf(HH.format(dtdate));
-			int mnt = Integer.valueOf(mm.format(dtdate));
-			int scnd = Integer.valueOf(ss.format(dtdate));
-			txtDate=String.valueOf(day)+" "+String.valueOf(months[month])+" "+String.valueOf(year)+" " + String.valueOf(hr)+":"+String.valueOf(mnt)+":"+String.valueOf(scnd);
+			newdate = new SimpleDateFormat(pattern).parse(date);
 		} catch (ParseException e) {
-			txtDate=DateYYMMDD;
+			e.printStackTrace();
 		}
-	   
-	    return txtDate;
+
+		String formattedDate = "";
+		formattedDate = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss", Locale.getDefault()).format(newdate);
+		//System.out.println(newdate); // Wed Mar 09 03:02:10 BOT 2011
+
+		//String txtDate = dateFormat.format(dateYYMMDD);
+
+		return formattedDate;
 	 }
 	public String giveFormatDate(String DateYYMMDD) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");

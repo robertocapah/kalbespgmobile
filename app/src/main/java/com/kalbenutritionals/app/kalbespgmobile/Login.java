@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -124,11 +125,7 @@ public class Login extends clsMainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-//        setTitleForm("Login");
-//        RelativeLayout contents = (RelativeLayout) findViewById(R.id.rlContent);
-//        getLayoutInflater().inflate(R.layout.activity_login, contents);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-//        setContentView(R.layout.activity_login);
 
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -194,6 +191,34 @@ public class Login extends clsMainActivity {
                 return true;
             }
        });
+
+        txtLoginPassword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(event.getAction()==KeyEvent.ACTION_DOWN){
+                    if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER ||
+                            keyCode == KeyEvent.KEYCODE_ENTER){
+                        btnLogin.performClick();
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        });
+
+        txtLoginPassword.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    btnLogin.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
         txtVersionLogin = (TextView) findViewById(R.id.txtVersionLogin);
         txtVersionLogin.setText(pInfo.versionName);
         spnRole=(Spinner)findViewById(R.id.spnType);

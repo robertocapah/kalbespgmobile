@@ -482,6 +482,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
         btnCheckIn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 myClass = "com.kalbenutritionals.app.kalbespgmobile.MainMenu";
                 ;
                 MenuID = "mnCheckinKBN";
@@ -705,6 +706,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
     protected void captureImage1() {
         Intent intentCamera1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         getActivity().startActivityForResult(intentCamera1, CAMERA_CAPTURE_IMAGE1_REQUEST_CODE);
+        //getActivity().startActivityFromFragment(getParentFragment(),intentCamera1,CAMERA_CAPTURE_IMAGE1_REQUEST_CODE);
     }
 
     protected void captureImage2() {

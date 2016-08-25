@@ -12,8 +12,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -38,7 +36,7 @@ import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
 
-public class FragmentViewCustomerBase extends Fragment implements IXListViewListener {
+public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewListener {
 
     private static List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
     private AppAdapter mAdapter;
@@ -51,12 +49,13 @@ public class FragmentViewCustomerBase extends Fragment implements IXListViewList
 
     View v;
 
-    public static FragmentViewCustomerBase getInstance() {
-        if(instance == null){
-            instance = new FragmentViewCustomerBase();
-        }
-        return instance;
-    }
+//    public static FragmentViewCustomerBaseSPG getInstance() {
+//        if(instance == null){
+//            instance = new FragmentViewCustomerBaseSPG();
+//            instance = new FragmentViewCustomerBaseSPG();
+//        }
+//        return instance;
+//    }
 
     @Nullable
     @Override
@@ -64,7 +63,7 @@ public class FragmentViewCustomerBase extends Fragment implements IXListViewList
 
         v = inflater.inflate(R.layout.fragment_customerbase_view,container,false);
 
-        instance = this;
+        //instance = this;
 
         clsSwipeList swplist;
         dt = new tCustomerBasedMobileHeaderBL().getAllData();

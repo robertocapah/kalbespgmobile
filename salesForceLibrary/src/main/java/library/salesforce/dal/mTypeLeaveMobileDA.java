@@ -1,10 +1,10 @@
 package library.salesforce.dal;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import library.salesforce.common.mTypeLeaveMobileData;
 
@@ -72,14 +72,13 @@ public class mTypeLeaveMobileDA {
 	
 	// Getting All Contacts
 	public List<mTypeLeaveMobileData> getAllData(SQLiteDatabase db) {
-		List<mTypeLeaveMobileData> contactList = null;
+		List<mTypeLeaveMobileData> contactList = new ArrayList<mTypeLeaveMobileData>();
 		// Select All Query
 		mTypeLeaveMobileData dt = new mTypeLeaveMobileData();
 		String selectQuery = "SELECT  " + dt.PropertyAll + " FROM " + TABLE_CONTACTS;
 		Cursor cursor = db.rawQuery(selectQuery, null);
 		// looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
-			contactList=new ArrayList<mTypeLeaveMobileData>();
 			do {
 				mTypeLeaveMobileData contact = new mTypeLeaveMobileData();
 				contact.set_intTipeLeave(String.valueOf( cursor.getString(0)));

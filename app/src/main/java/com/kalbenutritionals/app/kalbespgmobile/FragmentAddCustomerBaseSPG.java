@@ -4,9 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -18,8 +16,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -27,11 +23,7 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -168,6 +160,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         saveCustomerBase();
+                        viewCustomerBaseFragment();
                     }
                 });
 
@@ -182,6 +175,14 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 alert.show();
                 break;
         }
+    }
+
+    private void viewCustomerBaseFragment() {
+        Intent intent = new Intent(getContext(),MainMenu.class);
+        intent.putExtra("key_view", "View Customer Base");
+        getActivity().finish();
+        startActivity(intent);
+        return;
     }
 
     private void saveCustomerBase() {

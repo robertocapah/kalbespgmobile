@@ -37,7 +37,7 @@ import library.salesforce.common.tSalesProductHeaderData;
 /**
  * Created by ASUS ZE on 26/07/2016.
  */
-public class FragmentViewReso extends Fragment implements IXListViewListener {
+public class FragmentViewResoSPG extends Fragment implements IXListViewListener {
     private static List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
     private AppAdapter mAdapter;
     private PullToRefreshSwipeMenuListView mListView;
@@ -58,14 +58,19 @@ public class FragmentViewReso extends Fragment implements IXListViewListener {
 
         swipeList.clear();
 
-    if(dt!=null) {
-        for (int i = 0; i < dt.size(); i++) {
-            swplist = new clsSwipeList();
-            swplist.set_txtTitle(dt.get(i).get_intId());
-            swplist.set_txtDescription("Submit");
-            swipeList.add(swplist);
+        if(dt!=null) {
+            for (int i = 0; i < dt.size(); i++) {
+                swplist = new clsSwipeList();
+                swplist.set_txtTitle(dt.get(i).get_intId());
+                if (dt.get(i).get_intSubmit().equals("0")&&dt.get(i).get_intSync().equals("1")){
+                    swplist.set_txtDescription("Submit");
+                } else if (dt.get(i).get_intSubmit().equals("0")&&dt.get(i).get_intSync().equals("0")){
+                    swplist.set_txtDescription("Sync");
+                }
+
+                swipeList.add(swplist);
+            }
         }
-    }
 
         clsMainActivity clsMain = new clsMainActivity();
 
@@ -140,7 +145,13 @@ public class FragmentViewReso extends Fragment implements IXListViewListener {
         tv_amount.setText(": " + new clsMainActivity().convertNumberDec(Double.valueOf(dt.get(position).get_intSumAmount())));
         final  TextView tv_status = (TextView) promptView.findViewById(R.id.tvStatus);
         tv_status.setTypeface(null, Typeface.BOLD);
-        tv_status.setText(": Submit");
+
+        if (dt.get(position).get_intSubmit().equals("0")&&dt.get(position).get_intSync().equals("1")){
+            tv_status.setText(": Submit");
+        } else if (dt.get(position).get_intSubmit().equals("0")&&dt.get(position).get_intSync().equals("0")){
+            tv_status.setText(": Sync");
+        }
+
 
         data = new tSalesProductDetailBL().GetDataByNoSO(dt.get(position).get_intId());
         TableLayout tl = new TableLayout(getContext());

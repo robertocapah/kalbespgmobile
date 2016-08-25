@@ -221,7 +221,7 @@ public class clsHelper {
 		_tDisplayPictureDA = new tDisplayPictureDA(db);
 
 
-		_tDisplayPictureDA.DropTable(db);
+		//_tDisplayPictureDA.DropTable(db);
 		_tCustomerBasedMobileHeaderDA.DropTable(db);
 		_tCustomerBasedMobileDetailDA.DropTable(db);
 		_tCustomerBasedMobileDetailProductDA.DropTable(db);
