@@ -45,7 +45,7 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
     private static Map<String, HashMap> mapMenu;
 
     static List<tCustomerBasedMobileHeaderData> dt;
-    static FragmentViewCustomerBase instance;
+//    static FragmentViewCustomerBase instance;
 
     View v;
 
