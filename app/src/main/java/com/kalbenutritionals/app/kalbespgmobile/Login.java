@@ -190,7 +190,7 @@ public class Login extends clsMainActivity {
 
                 return true;
             }
-       });
+        });
 
         txtLoginPassword.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -330,7 +330,7 @@ public class Login extends clsMainActivity {
             String nameRole = selectedRole;
             String nameOutlet = selectedOutlet;
             try {
-                Json= new tUserLoginBL().LoginNew(String.valueOf(txtEmail1), String.valueOf(txtPassword1), HMRole.get(nameRole), HMOutletCode.get(nameOutlet), HMOutletName.get(nameOutlet), HMBranchCode.get(nameOutlet), pInfo.versionName);
+                Json= new tUserLoginBL().LoginNew(String.valueOf(txtEmail1), String.valueOf(txtPassword1), HMRole.get(nameRole), null, null, HMBranchCode.get(nameOutlet), pInfo.versionName);
             } catch (ParseException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

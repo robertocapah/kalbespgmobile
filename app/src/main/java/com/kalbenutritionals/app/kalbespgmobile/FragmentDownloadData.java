@@ -579,7 +579,6 @@ public class FragmentDownloadData extends Fragment {
     private class AsyncCallOutlet extends AsyncTask<JSONArray, Void, JSONArray> {
         @Override
         protected JSONArray doInBackground(JSONArray... params) {
-            //android.os.Debug.waitForDebugger();
             JSONArray Json = null;
             try {
                 Json = new mEmployeeAreaBL().DownloadEmployeeArea2(pInfo.versionName);
