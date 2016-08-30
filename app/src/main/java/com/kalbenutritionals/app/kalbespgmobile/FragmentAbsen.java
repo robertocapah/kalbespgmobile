@@ -41,12 +41,15 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.ByteArrayOutputStream;
@@ -100,6 +103,8 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
     private static final String IMAGE_DIRECTORY_NAME = "Image Sales";
     private HashMap<String, String> HMbranch = new HashMap<String, String>();
     private HashMap<String, String> HMoutlet = new HashMap<String, String>();
+    private HashMap<String, String> HMoutletLang = new HashMap<String, String>();
+    private HashMap<String, String> HMoutletLat = new HashMap<String, String>();
     final String finalFile = null;
     private TextView lblLong;
     private TextView lblLang;
@@ -291,12 +296,37 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                     double longitude = Double.parseDouble(String.valueOf(lblLong.getText()));
                     double accurate = Double.parseDouble(String.valueOf(lblAcc.getText()));
 
-                    MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Location");
+                    double latitudeOutlet = Double.parseDouble(HMoutletLat.get(spnOutlet.getSelectedItem().toString()));
+                    double longitudeOutlet = Double.parseDouble(HMoutletLang.get(spnOutlet.getSelectedItem().toString()));
+
+                    MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Your Location");
+
+                    MarkerOptions markerOutlet = new MarkerOptions().position(new LatLng(latitudeOutlet, longitudeOutlet)).title("Outlet Location");
+
                     marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+
+                    final LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                    builder.include(marker.getPosition());
+                    builder.include(markerOutlet.getPosition());
+                    LatLngBounds bounds = builder.build();
+
                     mMap.clear();
                     mMap.addMarker(marker);
-                    CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(latitude, longitude)).zoom(19).build();
-                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    mMap.addMarker(markerOutlet);
+                    //CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(latitude, longitude)).zoom(19).build();
+
+                    final GoogleMap finalMMap = mMap;
+                    mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+
+                        @Override
+                        public void onCameraChange(CameraPosition arg0) {
+                            // Move camera.
+                            finalMMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 60));
+                            // Remove listener to prevent position reset on camera move.
+                            finalMMap.setOnCameraChangeListener(null);
+                        }
+                    });
+
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                     alertDialogBuilder.setView(promptView);
@@ -319,7 +349,20 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                                         }
                                     });
                     final AlertDialog alertD = alertDialogBuilder.create();
-                    alertD.setTitle("Your Location");
+
+                    Location locationA = new Location("point A");
+
+                    locationA.setLatitude(latitude);
+                    locationA.setLongitude(longitude);
+
+                    Location locationB = new Location("point B");
+
+                    locationB.setLatitude(latitudeOutlet);
+                    locationB.setLongitude(longitudeOutlet);
+
+                    float distance = locationA.distanceTo(locationB);
+
+                    alertD.setTitle(String.valueOf((int) Math.ceil(distance)) + " meters");
                     alertD.show();
                 }
 
@@ -416,6 +459,8 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
             for (mEmployeeAreaData dt : listDataArea) {
                 arrData.add(dt.get_txtOutletName());
                 HMoutlet.put(dt.get_txtOutletName(), dt.get_txtOutletCode());
+                HMoutletLang.put(dt.get_txtOutletName(), dt.get_txtLongitude());
+                HMoutletLat.put(dt.get_txtOutletName(), dt.get_txtLatitude());
             }
             dataAdapterOutlet = new MyAdapter(getContext(), R.layout.custom_spinner, arrData);
             spnOutlet.setAdapter(dataAdapterOutlet);
@@ -525,58 +570,81 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                                             }
                                         }
                                         if (pRes) {
-                                            nameBranch = spnBranch.getSelectedItem().toString();
-                                            nameOutlet = spnOutlet.getSelectedItem().toString();
-                                            branchCode = HMbranch.get(nameBranch);
-                                            outletCode = HMoutlet.get(nameOutlet);
-                                            if (dttAbsenUserData == null) {
-                                                dttAbsenUserData = new tAbsenUserData();
+                                            double latitude = Double.parseDouble(String.valueOf(lblLang.getText()));
+                                            double longitude = Double.parseDouble(String.valueOf(lblLong.getText()));
+                                            double latitudeOutlet = Double.parseDouble(HMoutletLat.get(spnOutlet.getSelectedItem().toString()));
+                                            double longitudeOutlet = Double.parseDouble(HMoutletLang.get(spnOutlet.getSelectedItem().toString()));
+
+                                            Location locationA = new Location("point A");
+
+                                            locationA.setLatitude(latitude);
+                                            locationA.setLongitude(longitude);
+
+                                            Location locationB = new Location("point B");
+
+                                            locationB.setLatitude(latitudeOutlet);
+                                            locationB.setLongitude(longitudeOutlet);
+
+                                            float distance = locationA.distanceTo(locationB);
+
+                                            if((int) Math.ceil(distance) > 200){
+                                                Toast.makeText(getContext(), "Failed checkin: Your location too far from outlet", Toast.LENGTH_SHORT).show();
                                             }
-                                            tAbsenUserData datatAbsenUserData = dttAbsenUserData;
-                                            tUserLoginData dataUserActive = new tUserLoginBL().getUserActive();
-                                            String idUserActive = String.valueOf(dataUserActive.get_txtUserId());
-                                            List<tDeviceInfoUserData> dataDeviceInfoUser = new tDeviceInfoUserBL().getData(1);
-                                            String deviceInfo = String.valueOf(dataDeviceInfoUser.get(0).get_txtDeviceId());
-                                            List<tAbsenUserData> absenUserDatas = new ArrayList<tAbsenUserData>();
-                                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                            Calendar cal = Calendar.getInstance();
-                                            datatAbsenUserData.set_dtDateCheckIn(dateFormat.format(cal.getTime()));
-                                            datatAbsenUserData.set_intId(txtHDId.getText().toString());
-                                            datatAbsenUserData.set_intSubmit("0");
-                                            datatAbsenUserData.set_intSync("0");
-                                            datatAbsenUserData.set_txtAbsen("0");//
-                                            datatAbsenUserData.set_txtBranchCode(HMbranch.get(nameBranch));
-                                            datatAbsenUserData.set_txtBranchName(spnBranch.getSelectedItem().toString());
-                                            datatAbsenUserData.set_txtAccuracy(lblAcc.getText().toString());
-                                            datatAbsenUserData.set_txtLatitude(lblLang.getText().toString());
-                                            datatAbsenUserData.set_txtLongitude(lblLong.getText().toString());
-                                            datatAbsenUserData.set_txtOutletCode(outletCode);
-                                            datatAbsenUserData.set_txtOutletName(nameOutlet);
-                                            datatAbsenUserData.set_txtDeviceId(deviceInfo);
-                                            datatAbsenUserData.set_txtUserId(idUserActive);
-                                            datatAbsenUserData.set_dtDateCheckOut(null);
-                                            absenUserDatas.add(datatAbsenUserData);
-                                            new tAbsenUserBL().saveData(absenUserDatas);
-                                            spnBranch.setEnabled(false);
-                                            spnOutlet.setEnabled(false);
-                                            imgPrevNoImg1.setClickable(false);
-                                            imgPrevNoImg2.setClickable(false);
-                                            btnRefreshMaps.setClickable(false);
-                                            btnRefreshMaps.setVisibility(View.GONE);
+                                            else{
+                                                nameBranch = spnBranch.getSelectedItem().toString();
+                                                nameOutlet = spnOutlet.getSelectedItem().toString();
+                                                branchCode = HMbranch.get(nameBranch);
+                                                outletCode = HMoutlet.get(nameOutlet);
+                                                if (dttAbsenUserData == null) {
+                                                    dttAbsenUserData = new tAbsenUserData();
+                                                }
+                                                tAbsenUserData datatAbsenUserData = dttAbsenUserData;
+                                                tUserLoginData dataUserActive = new tUserLoginBL().getUserActive();
+                                                String idUserActive = String.valueOf(dataUserActive.get_txtUserId());
+                                                List<tDeviceInfoUserData> dataDeviceInfoUser = new tDeviceInfoUserBL().getData(1);
+                                                String deviceInfo = String.valueOf(dataDeviceInfoUser.get(0).get_txtDeviceId());
+                                                List<tAbsenUserData> absenUserDatas = new ArrayList<tAbsenUserData>();
+                                                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                Calendar cal = Calendar.getInstance();
+                                                datatAbsenUserData.set_dtDateCheckIn(dateFormat.format(cal.getTime()));
+                                                datatAbsenUserData.set_intId(txtHDId.getText().toString());
+                                                datatAbsenUserData.set_intSubmit("0");
+                                                datatAbsenUserData.set_intSync("0");
+                                                datatAbsenUserData.set_txtAbsen("0");//
+                                                datatAbsenUserData.set_txtBranchCode(HMbranch.get(nameBranch));
+                                                datatAbsenUserData.set_txtBranchName(spnBranch.getSelectedItem().toString());
+                                                datatAbsenUserData.set_txtAccuracy(lblAcc.getText().toString());
+                                                datatAbsenUserData.set_txtLatitude(lblLang.getText().toString());
+                                                datatAbsenUserData.set_txtLongitude(lblLong.getText().toString());
+                                                datatAbsenUserData.set_txtOutletCode(outletCode);
+                                                datatAbsenUserData.set_txtOutletName(nameOutlet);
+                                                datatAbsenUserData.set_txtDeviceId(deviceInfo);
+                                                datatAbsenUserData.set_txtUserId(idUserActive);
+                                                datatAbsenUserData.set_dtDateCheckOut(null);
+                                                absenUserDatas.add(datatAbsenUserData);
+                                                new tAbsenUserBL().saveData(absenUserDatas);
+                                                spnBranch.setEnabled(false);
+                                                spnOutlet.setEnabled(false);
+                                                imgPrevNoImg1.setClickable(false);
+                                                imgPrevNoImg2.setClickable(false);
+                                                btnRefreshMaps.setClickable(false);
+                                                btnRefreshMaps.setVisibility(View.GONE);
 
 
-                                            Toast.makeText(getContext(), "Saved", Toast.LENGTH_LONG).show();
-                                            try {
-                                                clazz = Class.forName(myClass);
-                                                Intent myIntent = new Intent(getContext(), MainMenu.class);
-                                                myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
-                                                myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
-                                                myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);
-                                                startActivity(myIntent);
-                                            } catch (ClassNotFoundException e) {
-                                                // TODO Auto-generated catch block
-                                                e.printStackTrace();
+                                                Toast.makeText(getContext(), "Saved", Toast.LENGTH_LONG).show();
+                                                try {
+                                                    clazz = Class.forName(myClass);
+                                                    Intent myIntent = new Intent(getContext(), MainMenu.class);
+                                                    myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
+                                                    myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
+                                                    myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);
+                                                    startActivity(myIntent);
+                                                } catch (ClassNotFoundException e) {
+                                                    // TODO Auto-generated catch block
+                                                    e.printStackTrace();
+                                                }
                                             }
+
                                         } else {
                                             Toast.makeText(getContext(), "Please Photo at least 1 photo..", Toast.LENGTH_SHORT).show();
                                         }
