@@ -3,12 +3,12 @@ package com.kalbenutritionals.app.kalbespgmobile;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -155,6 +155,56 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
 
         data = new tSalesProductDetailBL().GetDataByNoSO(dt.get(position).get_intId());
         TableLayout tl = new TableLayout(getContext());
+        //tl.setBackgroundColor(Color.GREEN);
+
+        int i=0;
+
+        for (i=0; i<1;i++){
+            TableRow tr = new TableRow(getContext());
+            TableLayout.LayoutParams tableRowParams=
+                    new TableLayout.LayoutParams
+                            (TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
+
+            int leftMargin=10;
+            int topMargin=2;
+            int rightMargin=10;
+            int bottomMargin=2;
+
+            tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
+
+            tr.setLayoutParams(tableRowParams);
+
+            TextView product = new TextView(getContext());
+            product.setTextSize(12);
+            product.setWidth(200);
+            product.setText("Name");
+            tr.addView(product);
+
+            TextView qty = new TextView(getContext());
+            qty.setTextSize(12);
+            qty.setPadding(15, 0, 0, 0);
+            qty.setText("Qty");
+            tr.addView(qty);
+
+            TextView price = new TextView(getContext());
+            price.setTextSize(12);
+            price.setPadding(15, 0, 0, 0);
+            price.setText("Price");
+            tr.addView(price);
+
+            TextView amount = new TextView(getContext());
+            amount.setTextSize(12);
+            amount.setPadding(15, 0, 0, 0);
+            amount.setText("Amount");
+            tr.addView(amount);
+
+            tl.addView(tr, tableRowParams);
+        }
+        TableLayout tlbn = (TableLayout) promptView.findViewById(R.id.tlProduct) ;
+        tlbn.addView(tl);
+
+        TableLayout tln = new TableLayout(getContext());
+
         double qtySum=0;
         double qtyNum;
         for(tSalesProductDetailData dat : data){
@@ -174,27 +224,31 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
 
             TextView product = new TextView(getContext());
             product.setTextSize(12);
-            product.setWidth(300);
-            product.setText(dat.get_txtCodeProduct() + " " + dat.get_txtNameProduct());
+            product.setWidth(200);
+            product.setText(dat.get_txtNameProduct());
             tr.addView(product);
 
             TextView qty = new TextView(getContext());
             qty.setTextSize(12);
-            qty.setPadding(15, 0, 0, 0);
+            qty.setWidth(100);
+            qty.setGravity(Gravity.LEFT);
+            qty.setPadding(10, 0, 0, 0);
             qty.setText(String.valueOf(dat.get_intQty()));
             tr.addView(qty);
 
             TextView price = new TextView(getContext());
-            price.setTextColor(Color.GREEN);
+            qty.setGravity(Gravity.CENTER);
             price.setTextSize(12);
-            price.setPadding(15, 0, 0, 0);
+            qty.setWidth(100);
+            price.setPadding(10, 0, 0, 0);
             price.setText(new clsMainActivity().convertNumberDec(Double.valueOf(dat.get_intPrice())));
             tr.addView(price);
 
             TextView amount = new TextView(getContext());
-            amount.setTextColor(Color.RED);
+            qty.setGravity(Gravity.CENTER);
             amount.setTextSize(12);
-            amount.setPadding(15, 0, 0, 0);
+            qty.setWidth(100);
+            amount.setPadding(10, 0, 0, 0);
             double prc = Double.valueOf(dat.get_intPrice());
             double itm = Double.valueOf(dat.get_intQty());
             qtyNum = prc*itm;
@@ -202,10 +256,10 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
             amount.setText(new clsMainActivity().convertNumberDec(qtyNum));
             tr.addView(amount);
 
-            tl.addView(tr, tableRowParams);
+            tln.addView(tr, tableRowParams);
         }
         TableLayout tlb = (TableLayout) promptView.findViewById(R.id.tlProduct) ;
-        tlb.addView(tl);
+        tlb.addView(tln);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.getContext());
         alertDialogBuilder.setView(promptView);

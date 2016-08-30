@@ -84,7 +84,7 @@
                 android:background="@drawable/bg_rounded_normal">
 
                 <TableRow
-                    android:background="#8bd9ff"
+                    android:background="#27ae5f"
                     android:padding="5dp"
                     android:gravity="center_horizontal">
                     <TextView

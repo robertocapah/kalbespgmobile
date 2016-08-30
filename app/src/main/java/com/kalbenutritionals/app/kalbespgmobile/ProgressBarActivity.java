@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,8 +30,9 @@ public class ProgressBarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress_bar);
+        int c_green = 0xFFCCCCCC;
             final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-            progressBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+            progressBar.getProgressDrawable().setColorFilter(c_green, PorterDuff.Mode.SRC_IN);
 
         Intent myIntent = new Intent(ProgressBarActivity.this, ProgressBarActivity.class);
         int hasWriteContactsPermission = ContextCompat.checkSelfPermission(ProgressBarActivity.this,

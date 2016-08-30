@@ -177,6 +177,7 @@ public class clsHardCode  {
 	public String txtMessCancelRequest = "Canceled Request Data";
 	public String txtMessDataNotFound = "Data Not Found";
 	public String txtMessSuccessDownload = "Success Download";
+	public String txtMessUnableToConnect = "Unable To Connect";
 	public String txtTokenAPI = "129195202189197196195202189175";
 	
 	public String intSuccess = "1";

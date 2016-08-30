@@ -17,10 +17,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import bl.tCustomerBasedMobileDetailBL;
+import bl.tCustomerBasedMobileHeaderBL;
 import bl.tSalesProductDetailBL;
 import bl.tSalesProductHeaderBL;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 import library.salesforce.common.ReportTable;
+import library.salesforce.common.tCustomerBasedMobileDetailData;
+import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tSalesProductDetailData;
 import library.salesforce.common.tSalesProductHeaderData;
 
@@ -72,9 +76,9 @@ public class ReportingFragment extends Fragment {
             case "Reso":
                 header = new String[6];
                 header[1] = "SO";
-                header[2] = "Total Product";
-                header[3] = "Total Item";
-                header[4] = "Total Price";
+                header[2] = "Tot. Product";
+                header[3] = "Tot. Item";
+                header[4] = "Tot. Price";
                 header[5] = "Status";
 
                 ReportTableView.setColumnCount(header.length);
@@ -94,7 +98,7 @@ public class ReportingFragment extends Fragment {
                 ReportTableView.setColumnWeight(1, 2);
                 ReportTableView.setColumnWeight(2, 1);
                 ReportTableView.setColumnWeight(3, 1);
-                ReportTableView.setColumnWeight(4, 1);
+                ReportTableView.setColumnWeight(4, 2);
                 ReportTableView.setColumnWeight(5, 1);
 
                 ReportTableView.setHeaderAdapter(simpleTableHeaderAdapter);
@@ -103,16 +107,20 @@ public class ReportingFragment extends Fragment {
                 reportList = new ArrayList<>();
 
                 if(dt_so != null){
-                    for(i = 0; i < dt_so.size(); i++){
+                    for(tSalesProductHeaderData datas : dt_so ){
                         ReportTable rt = new ReportTable();
 
                         rt.set_report_type("Reso");
-                        rt.set_no_so(dt_so.get(i).get_intId());
-                        rt.set_total_product(dt_so.get(i).get_intSumItem());
-                        rt.set_total_price("Rp " + new clsMainActivity().convertNumberDec(Double.valueOf(dt_so.get(i).get_intSumAmount())));
-                        rt.set_status(dt_so.get(i).get_intSubmit());
+                        rt.set_no_so(datas.get_intId());
+                        rt.set_total_product(datas.get_intSumItem());
+                        rt.set_total_price(new clsMainActivity().convertNumberDec(Double.valueOf(datas.get_intSumAmount())));
+                        if (datas.get_intSubmit().equals("1")&&datas.get_intSync().equals("0")){
+                            rt.set_status("Submit");
+                        } else if (datas.get_intSubmit().equals("1")&&datas.get_intSync().equals("1")){
+                            rt.set_status("Sync");
+                        }
 
-                        List<tSalesProductDetailData> dt_detail = new tSalesProductDetailBL().GetDataByNoSO(dt_so.get(i).get_intId());
+                        List<tSalesProductDetailData> dt_detail = new tSalesProductDetailBL().GetDataByNoSO(datas.get_intId());
 
                         int total_item = 0;
 
@@ -131,11 +139,13 @@ public class ReportingFragment extends Fragment {
                 break;
 
             case "Customer Base":
-                header = new String[5];
-                header[1] = "Name";
-                header[2] = "Sex";
-                header[3] = "Number";
-                header[4] = "Total Product";
+                header = new String[7];
+                header[1] = "Sub. Id";
+                header[2] = "Name";
+                header[3] = "No Telp";
+                header[4] = "PIC";
+                header[5] = "Tot. Member";
+                header[6] = "Tot. Product";
 
                 ReportTableView.setColumnCount(header.length);
 
@@ -145,17 +155,51 @@ public class ReportingFragment extends Fragment {
                 simpleTableHeaderAdapter.setPaddingBottom(20);
                 simpleTableHeaderAdapter.setPaddingTop(20);
 
-                ReportTableView.setColumnComparator(1, ReportComparators.getCustomerNameComparator());
-                ReportTableView.setColumnComparator(2, ReportComparators.getCustomerSexComparator());
-                ReportTableView.setColumnComparator(3, ReportComparators.getCustomerNumberComparator());
-                ReportTableView.setColumnComparator(4, ReportComparators.getTotalProductComparator());
+                ReportTableView.setColumnComparator(1, ReportComparators.getNoCbComparator());
+                ReportTableView.setColumnComparator(2, ReportComparators.getCustomerNameComparator());
+                ReportTableView.setColumnComparator(3, ReportComparators.getNoTelpComparator());
+                ReportTableView.setColumnComparator(4, ReportComparators.getPICComparator());
+                ReportTableView.setColumnComparator(5, ReportComparators.getTotalMemberComparator());
+                ReportTableView.setColumnComparator(6, ReportComparators.getTotalProductComparator());
 
                 ReportTableView.setColumnWeight(1, 2);
                 ReportTableView.setColumnWeight(2, 1);
                 ReportTableView.setColumnWeight(3, 1);
                 ReportTableView.setColumnWeight(4, 1);
+                ReportTableView.setColumnWeight(5, 1);
+                ReportTableView.setColumnWeight(6, 1);
 
                 ReportTableView.setHeaderAdapter(simpleTableHeaderAdapter);
+
+                List<tCustomerBasedMobileHeaderData> data_cb = new tCustomerBasedMobileHeaderBL().getAllData();
+
+                reportList = new ArrayList<>();
+
+                if (data_cb!=null){
+
+                    for(tCustomerBasedMobileHeaderData datas : data_cb){
+
+                        ReportTable rt = new ReportTable();
+
+                        rt.set_report_type("Customer Base");
+                        rt.set_no_cb(datas.get_txtSubmissionId());
+                        rt.set_customer_name(datas.get_txtNamaDepan());
+                        rt.set_no_tlp(datas.get_txtTelp());
+                        if(datas.get_intPIC().equals("1")){
+                            rt.set_pic("Yes");
+                        } else {
+                            rt.set_pic("No");
+                        }
+
+                        final List<tCustomerBasedMobileDetailData> dtListDetail = new tCustomerBasedMobileDetailBL().getAllDataByHeaderId(datas.get_intTrCustomerId());
+                        rt.set_total_member(String.valueOf(dtListDetail.size()));
+                        rt.set_total_product("-");
+
+                        reportList.add(rt);
+                    }
+                }
+
+                ReportTableView.setDataAdapter(new ReportTableDataAdapter(getContext(), reportList));
 
                 break;
 

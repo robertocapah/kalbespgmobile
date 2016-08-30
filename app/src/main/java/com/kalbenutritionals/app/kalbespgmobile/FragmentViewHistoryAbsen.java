@@ -170,9 +170,17 @@ public class FragmentViewHistoryAbsen extends Fragment implements IXListViewList
         if (mMap == null) {
             mMap = ((MapFragment) (getActivity()).getFragmentManager().findFragmentById(R.id.map)).getMap();
         }
+        double latitude = 0;
+        double longitude = 0;
 
-        double latitude = Double.parseDouble(dt.get(position).get_txtLatitude());
-        double longitude = Double.parseDouble(dt.get(position).get_txtLongitude());
+        try{
+            latitude = Double.parseDouble(dt.get(position).get_txtLatitude());
+            longitude = Double.parseDouble(dt.get(position).get_txtLongitude());
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+        }
+
+
 
         MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Location");
         marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));

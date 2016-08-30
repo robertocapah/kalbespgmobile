@@ -12,7 +12,7 @@
 	android:background="#ffffff"
 	android:descendantFocusability="beforeDescendants"
 	android:focusableInTouchMode="true"
-    tools:context="com.kalbenutritionals.app.kalbespgmobile.DownloadData" >
+    tools:context="com.kalbenutritionals.app.kalbespgmobile.FragmentDownloadData" >
 	<ScrollView
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content">

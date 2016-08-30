@@ -1,11 +1,12 @@
 package library.salesforce.dal;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import library.salesforce.common.mEmployeeAreaData;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 public class mEmployeeAreaDA {
 
@@ -23,6 +24,8 @@ public class mEmployeeAreaDA {
 				+ dt.Property_txtBranchName + " TEXT  NULL,"
 				+ dt.Property_txtName + " TEXT  NULL,"
 				+ dt.Property_txtNIK + " TEXT  NULL,"
+				+ dt.Property_txtLatitude + " TEXT  NULL,"
+				+ dt.Property_txtLongitude + " TEXT  NULL,"
 				+ dt.Property_txtOutletCode + " TEXT  NULL,"
 				+ dt.Property_txtOutletName + " TEXT  NULL,"
 				+ dt.Property_txtRayonCode + " TEXT  NULL,"
@@ -62,6 +65,8 @@ public class mEmployeeAreaDA {
 				+ "," + dt.Property_txtBranchName
 				+ "," + dt.Property_txtName
 				+ "," + dt.Property_txtNIK
+				+ "," + dt.Property_txtLatitude
+				+ "," + dt.Property_txtLongitude
 				+ "," + dt.Property_txtOutletCode
 				+ "," + dt.Property_txtOutletName
 				+ "," + dt.Property_txtRayonCode
@@ -79,6 +84,8 @@ public class mEmployeeAreaDA {
 				+ String.valueOf(data.get_txtBranchName()) + "','"
 				+ String.valueOf(data.get_txtName()) + "','"
 				+ String.valueOf(data.get_txtNIK()) + "','"
+				+ String.valueOf(data.get_txtLatitude()) + "','"
+				+ String.valueOf(data.get_txtLongitude()) + "','"
 				+ String.valueOf(data.get_txtOutletCode()) + "','"
 				+ String.valueOf(data.get_txtOutletName()) + "','"
 				+ String.valueOf(data.get_txtRayonCode()) + "','"
@@ -106,6 +113,8 @@ public class mEmployeeAreaDA {
 				, dt.Property_txtBranchName
 				, dt.Property_txtName
 				, dt.Property_txtNIK
+				, dt.Property_txtLatitude
+				, dt.Property_txtLongitude
 				, dt.Property_txtOutletCode
 				, dt.Property_txtOutletName
 				, dt.Property_txtRayonCode
@@ -128,10 +137,13 @@ public class mEmployeeAreaDA {
 			contact.set_txtBranchName(cursor.getString(8));
 			contact.set_txtName(cursor.getString(9));
 			contact.set_txtNIK(cursor.getString(10));
-			contact.set_txtOutletCode(cursor.getString(11));
-			contact.set_txtOutletName(cursor.getString(12));
-			contact.set_txtRayonCode(cursor.getString(13));
-			contact.set_txtRayonName(cursor.getString(14));
+			contact.set_txtLatitude(cursor.getString(11));
+			contact.set_txtLongitude(cursor.getString(12));
+			contact.set_txtOutletCode(cursor.getString(13));
+			contact.set_txtOutletName(cursor.getString(14));
+			contact.set_txtRayonCode(cursor.getString(15));
+			contact.set_txtRayonName(cursor.getString(16));
+			contact.set_txtRegionName(cursor.getString(17));
 			// return contact
 		} else {
 			contact = null;
@@ -152,6 +164,8 @@ public class mEmployeeAreaDA {
 				, dt.Property_txtBranchName
 				, dt.Property_txtName
 				, dt.Property_txtNIK
+				, dt.Property_txtLatitude
+				, dt.Property_txtLongitude
 				, dt.Property_txtOutletCode
 				, dt.Property_txtOutletName
 				, dt.Property_txtRayonCode
@@ -174,10 +188,12 @@ public class mEmployeeAreaDA {
 			contact.set_txtBranchName(cursor.getString(8));
 			contact.set_txtName(cursor.getString(9));
 			contact.set_txtNIK(cursor.getString(10));
-			contact.set_txtOutletCode(cursor.getString(11));
-			contact.set_txtOutletName(cursor.getString(12));
-			contact.set_txtRayonCode(cursor.getString(13));
-			contact.set_txtRayonName(cursor.getString(14));
+			contact.set_txtLatitude(cursor.getString(11));
+			contact.set_txtLongitude(cursor.getString(12));
+			contact.set_txtOutletCode(cursor.getString(13));
+			contact.set_txtOutletName(cursor.getString(14));
+			contact.set_txtRayonCode(cursor.getString(15));
+			contact.set_txtRayonName(cursor.getString(16));
 			// return contact
 		} else {
 			contact = null;
@@ -199,6 +215,8 @@ public class mEmployeeAreaDA {
 				, dt.Property_txtBranchName
 				, dt.Property_txtName
 				, dt.Property_txtNIK
+				, dt.Property_txtLatitude
+				, dt.Property_txtLongitude
 				, dt.Property_txtOutletCode
 				, dt.Property_txtOutletName
 				, dt.Property_txtRayonCode
@@ -223,11 +241,12 @@ public class mEmployeeAreaDA {
 				contact.set_txtBranchName(cursor.getString(8));
 				contact.set_txtName(cursor.getString(9));
 				contact.set_txtNIK(cursor.getString(10));
-				contact.set_txtOutletCode(cursor.getString(11));
-				contact.set_txtOutletName(cursor.getString(12));
-				contact.set_txtRayonCode(cursor.getString(13));
-				contact.set_txtRayonName(cursor.getString(14));
-				contact.set_txtRegionName(cursor.getString(15));
+				contact.set_txtLatitude(cursor.getString(11));
+				contact.set_txtLongitude(cursor.getString(12));
+				contact.set_txtOutletCode(cursor.getString(13));
+				contact.set_txtOutletName(cursor.getString(14));
+				contact.set_txtRayonCode(cursor.getString(15));
+				contact.set_txtRayonName(cursor.getString(16));
 				// Adding contact to list
 				contactList.add(contact);
 			} while (cursor.moveToNext());
@@ -259,11 +278,13 @@ public class mEmployeeAreaDA {
 				contact.set_txtBranchName(cursor.getString(8));
 				contact.set_txtName(cursor.getString(9));
 				contact.set_txtNIK(cursor.getString(10));
-				contact.set_txtOutletCode(cursor.getString(11));
-				contact.set_txtOutletName(cursor.getString(12));
-				contact.set_txtRayonCode(cursor.getString(13));
-				contact.set_txtRayonName(cursor.getString(14));
-				contact.set_txtRegionName(cursor.getString(15));
+				contact.set_txtLatitude(cursor.getString(11));
+				contact.set_txtLongitude(cursor.getString(12));
+				contact.set_txtOutletCode(cursor.getString(13));
+				contact.set_txtOutletName(cursor.getString(14));
+				contact.set_txtRayonCode(cursor.getString(15));
+				contact.set_txtRayonName(cursor.getString(16));
+				contact.set_txtRegionName(cursor.getString(17));
 				// Adding contact to list
 				contactList.add(contact);
 			} while (cursor.moveToNext());

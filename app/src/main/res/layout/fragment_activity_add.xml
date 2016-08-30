@@ -102,6 +102,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@drawable/btn_download_all"
             android:text="Save"
             android:id="@+id/btnSave"
             android:layout_weight="1" />

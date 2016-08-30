@@ -99,6 +99,7 @@
                             android:background="@drawable/bg_edtext"/>
                         <Spinner
                             android:id="@+id/spnOutlet"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
@@ -140,7 +141,7 @@
                     android:layout_height="match_parent"
                     android:layout_below="@+id/linearLayout2"
                     android:id="@+id/linearLayout3"
-                    android:background="@color/green_old">
+                    android:background="@color/primary_color_theme">
                         <Button
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

@@ -105,6 +105,23 @@ public class mEmployeeAreaData {
 	public synchronized void set_txtOutletName(String _txtOutletName) {
 		this._txtOutletName = _txtOutletName;
 	}
+
+	public synchronized String get_txtLatitude() {
+		return _txtLatitude;
+	}
+
+	public synchronized void set_txtLatitude(String _txtLatitude) {
+		this._txtLatitude = _txtLatitude;
+	}
+
+	public synchronized String get_txtLongitude() {
+		return _txtLongitude;
+	}
+
+	public synchronized void set_txtLongitude(String _txtLongitude) {
+		this._txtLongitude = _txtLongitude;
+	}
+
 	private String _intEmployeeId;
 	private String _txtNIK;
 	private String _txtName;
@@ -122,6 +139,8 @@ public class mEmployeeAreaData {
 	private String _intOutletId;
 	private String _txtOutletCode;
 	private String _txtOutletName;
+	private String _txtLatitude;
+	private String _txtLongitude;
 
 	public String Property_intEmployeeId="intEmployeeId";
 	public String Property_txtNIK="txtNIK";
@@ -140,6 +159,8 @@ public class mEmployeeAreaData {
 	public String Property_intOutletId="intOutletId";
 	public String Property_txtOutletCode="txtOutletCode";
 	public String Property_txtOutletName="txtOutletName";
+	public String Property_txtLatitude="txtLatitude";
+	public String Property_txtLongitude ="txtLongitude";
 	public String Property_ListOfmEmployeeAreaData="ListOfmEmployeeAreaData";
 	public String Property_All=Property_intID +","+ Property_intBranchId 
 			+","+ Property_intChannelId 
@@ -151,6 +172,8 @@ public class mEmployeeAreaData {
 			+","+ Property_txtBranchName
 			+","+ Property_txtName
 			+","+ Property_txtNIK
+			+","+ Property_txtLatitude
+			+","+ Property_txtLongitude
 			+","+ Property_txtOutletCode
 			+","+ Property_txtOutletName
 			+","+ Property_txtRayonCode
@@ -162,7 +185,7 @@ public class mEmployeeAreaData {
 			String _intRegionId, String _txtRegionName, String _intBranchId,
 			String _txtBranchCode, String _txtBranchName, String _intRayonId,
 			String _txtRayonCode, String _txtRayonName, String _intChannelId,
-			String _intOutletId, String _txtOutletCode, String _txtOutletName) {
+			String _intOutletId, String _txtOutletCode, String _txtOutletName, String _txtLatitude,String _txtLongitude) {
 		this._intEmployeeId = _intEmployeeId;
 		this._txtNIK = _txtNIK;
 		this._txtName = _txtName;
@@ -180,6 +203,8 @@ public class mEmployeeAreaData {
 		this._intOutletId = _intOutletId;
 		this._txtOutletCode = _txtOutletCode;
 		this._txtOutletName = _txtOutletName;
+		this._txtLatitude = _txtLatitude;
+		this._txtLongitude = _txtLongitude;
 	}
 	public mEmployeeAreaData() {
 		super();

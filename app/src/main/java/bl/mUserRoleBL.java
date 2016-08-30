@@ -124,7 +124,7 @@ public class mUserRoleBL extends clsMainBL{
 					_data.set_txtRayonName(String.valueOf(innerObj_detail.get("TxtRayonName")));
 					_data.set_txtRegionName(String.valueOf(innerObj_detail.get("TxtRegionName")));
 
-					_mEmployeeAreaDA.SaveDataMConfig(db, _data);
+					//_mEmployeeAreaDA.SaveDataMConfig(db, _data);
 				}
 			}
 		}

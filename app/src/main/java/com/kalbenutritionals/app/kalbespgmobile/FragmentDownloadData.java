@@ -162,13 +162,13 @@ public class FragmentDownloadData extends Fragment {
             spnBranch.setEnabled(false);
         }
         arrData=new ArrayList<String>();
-        if(listDataLeave!=null){
+        if(listDataLeave.size()>0){
             for(mTypeLeaveMobileData dt :listDataLeave ){
                 arrData.add(dt.get_intTipeLeave()+" - "+ dt.get_txtTipeLeaveName());
             }
             spnLeave.setAdapter(new MyAdapter(getContext(), R.layout.custom_spinner, arrData));
             spnLeave.setEnabled(true);
-        }else if (listDataLeave==null){
+        }else if (listDataLeave.size()==0){
             ArrayAdapter<String> adapterspn = new ArrayAdapter<String>(getContext(),
                     android.R.layout.simple_spinner_item, strip);
             spnLeave.setAdapter(adapterspn);
@@ -272,6 +272,7 @@ public class FragmentDownloadData extends Fragment {
     private class AsyncCallDownloadAll extends AsyncTask<JSONArray, Void, List<dataJson>> {
         @Override
         protected List<dataJson> doInBackground(JSONArray... params) {
+            //android.os.Debug.waitForDebugger();
             JSONArray Json = null;
             List<dataJson> listDataJson=new ArrayList<dataJson>();
             dataJson dtdataJson=new dataJson();
@@ -286,10 +287,12 @@ public class FragmentDownloadData extends Fragment {
                 SaveDatamProductBarcodeData(Json);
                 Json = new mProductBrandHeaderBL().DownloadBrandHeader(pInfo.versionName);
                 SaveDatamProductBarcodeData(Json);
+                Json = new mEmployeeAreaBL().DownloadEmployeeArea2(pInfo.versionName);
+                SaveDatamEmployeeAreaData(Json);
                 dtdataJson.setIntResult("1");
             } catch (Exception e) {
                 dtdataJson.setIntResult("0");
-                dtdataJson.setTxtMessage(e.getMessage().toString());
+                //dtdataJson.setTxtMessage(e.getMessage().toString());
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -308,18 +311,28 @@ public class FragmentDownloadData extends Fragment {
         protected void onPostExecute(List<dataJson> listdataJson) {
             String txtMess=new clsHardCode().txtMessSuccessDownload;
             if(listdataJson.get(0).getIntResult().equals("0")){
-                txtMess=listdataJson.get(0).getTxtMessage();
+                //txtMess=listdataJson.get(0).getTxtMessage();
+                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessUnableToConnect,
+                        Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP, 25, 400);
+                toast.show();
+                Dialog.dismiss();
+
             }else{
                 loadData();
+                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
+                        Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP, 25, 400);
+                toast.show();
+                Dialog.dismiss();
+                getActivity().finish();
+                Intent nextScreen = new Intent(getContext(), MainMenu.class);
+                nextScreen.putExtra(clsParameterPutExtra.MenuID, MenuID);
+                startActivity(nextScreen);
             }
-            Toast toast = Toast.makeText(getContext(), txtMess, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 25, 400);
-            toast.show();
-            Dialog.dismiss();
-            getActivity().finish();
-            Intent nextScreen = new Intent(getContext(), MainMenu.class);
-            nextScreen.putExtra(clsParameterPutExtra.MenuID, MenuID);
-            startActivity(nextScreen);
+//            Toast toast = Toast.makeText(getContext(), txtMess, Toast.LENGTH_LONG);
+//            toast.setGravity(Gravity.TOP, 25, 400);
+//            toast.show();
         }
 
         @Override
@@ -430,7 +443,7 @@ public class FragmentDownloadData extends Fragment {
 
         @Override
         protected void onPostExecute(JSONArray roledata) {
-            if (roledata.size() > 0) {
+            if (roledata!=null&&roledata.size() > 0) {
                 loadData();
                 Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
                         Toast.LENGTH_LONG);
@@ -494,7 +507,7 @@ public class FragmentDownloadData extends Fragment {
 
         @Override
         protected void onPostExecute(JSONArray roledata) {
-            if (roledata.size() > 0) {
+            if (roledata!=null&&roledata.size() > 0) {
                 loadData();
                 Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
                         Toast.LENGTH_LONG);
@@ -565,6 +578,8 @@ public class FragmentDownloadData extends Fragment {
                 _data.set_txtRayonCode((String) innerObj.get("TxtRayonCode"));
                 _data.set_txtRayonName((String) innerObj.get("TxtRayonName"));
                 _data.set_txtRegionName((String) innerObj.get("TxtRegionName"));
+                _data.set_txtLatitude("-6.150726");
+                _data.set_txtLongitude("106.887543");
                 _array.add(_data.get_txtOutletCode() +" - "+ _data.get_txtOutletName());
                 _Listdata.add(_data);
             } else {
@@ -579,6 +594,7 @@ public class FragmentDownloadData extends Fragment {
     private class AsyncCallOutlet extends AsyncTask<JSONArray, Void, JSONArray> {
         @Override
         protected JSONArray doInBackground(JSONArray... params) {
+            //android.os.Debug.waitForDebugger();
             JSONArray Json = null;
             try {
                 Json = new mEmployeeAreaBL().DownloadEmployeeArea2(pInfo.versionName);
@@ -598,7 +614,7 @@ public class FragmentDownloadData extends Fragment {
         private ProgressDialog Dialog = new ProgressDialog(getContext());
         @Override
         protected void onPostExecute(JSONArray roledata) {
-            if (roledata.size() > 0) {
+            if (roledata!=null&&roledata.size() > 0) {
                 arrData=SaveDatamEmployeeAreaData(roledata);
                 loadData();
                 //spnOutlet.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
@@ -665,7 +681,8 @@ public class FragmentDownloadData extends Fragment {
         private ProgressDialog Dialog = new ProgressDialog(getContext());
         @Override
         protected void onPostExecute(JSONArray roledata) {
-            if (roledata.size() > 0) {
+
+            if (roledata!=null && roledata.size() > 0) {
                 arrData=SaveDatamEmployeeBranchData(roledata);
                 //spnBranch.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
                 loadData();
@@ -729,6 +746,10 @@ public class FragmentDownloadData extends Fragment {
         mEmployeeAreaDataList = _mEmployeeAreaBL.GetAllData();
         mProductBrandHeaderDataList = _mProductBrandHeaderBL.GetAllData();
         mTypeLeaveMobileDataList = _mTypeLeaveBL.GetAllData();
+
+        List<mEmployeeAreaData> data = _mEmployeeAreaBL.GetAllData();
+        mEmployeeAreaData _data = new mEmployeeAreaData();
+        String a = _data.get_txtLatitude();
 
 
         if (mEmployeeBranchDataList.size()>0
@@ -798,7 +819,7 @@ public class FragmentDownloadData extends Fragment {
 
         @Override
         protected void onPostExecute(JSONArray roledata) {
-            if (roledata.size() > 0) {
+            if (roledata!=null&&roledata.size() > 0) {
                 arrData=SaveDatamTypeLeaveMobileData(roledata);
                 //spnLeave.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
                 loadData();

@@ -296,7 +296,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 if (!nama.getText().toString().equals("")) {
                     Boolean status = false;
                     for (int i = 0; i < modelItems.size(); i++) {
-                        if (modelItems.get(i).is_selected() && modelItems.get(i).get_value() > 0) {
+                        if (modelItems.get(i).is_selected()) {
                             status = true;
                             break;
                         }
@@ -633,6 +633,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         CheckBox cb = (CheckBox) v;
                         ModelListview _state = (ModelListview) cb.getTag();
                         _state.set_selected(cb.isChecked());
+                        //moveCursor();
                         for (int i = 0; i < mOriginalValues.size(); i++) {
                             if (cb.getText().equals(mOriginalValues.get(i).get_name())) {
                                 mOriginalValues.get(i).set_selected(cb.isChecked());
@@ -641,6 +642,12 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         }
                     }
                 });
+
+//                private void moveCursor() {
+//                    EditText ed = (EditText) v;
+//                    ModelListview _states = (ModelListview) ed.getTag();
+//                    _states.set_selected(ed.isFocused());
+//                }
 
                 holder.values.setSelectAllOnFocus(true);
 

@@ -26,7 +26,7 @@
                 android:layout_below="@+id/view2">
 
                 <TableRow
-                    android:background="#8bd9ff"
+                    android:background="#27ae5f"
                     android:padding="5dp"
                     android:gravity="center_horizontal">
                     <TextView
@@ -143,6 +143,8 @@
         android:layout_marginTop="10dp"
         android:layout_below="@+id/ll1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></TableLayout>
+        android:layout_height="match_parent">
+
+    </TableLayout>
         </LinearLayout>
     </ScrollView>

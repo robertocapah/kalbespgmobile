@@ -4,16 +4,13 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings.RenderPriority;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
 import java.util.List;
 
-import library.salesforce.common.ReportTable;
-
-import de.codecrafters.tableview.TableColumnModel;
 import de.codecrafters.tableview.TableDataAdapter;
+import library.salesforce.common.ReportTable;
 
 
 public class ReportTableDataAdapter extends TableDataAdapter<ReportTable> {
@@ -37,10 +34,10 @@ public class ReportTableDataAdapter extends TableDataAdapter<ReportTable> {
                     renderedView = renderString(data.get_no_so(), "left");
                     break;
                 case 2:
-                    renderedView = renderString(data.get_total_product(), "left");
+                    renderedView = renderString(data.get_total_product(), "right");
                     break;
                 case 3:
-                    renderedView = renderString(data.get_total_item(), "left");
+                    renderedView = renderString(data.get_total_item(), "right");
                     break;
                 case 4:
                     renderedView = renderString(data.get_total_price(), "right");
@@ -56,16 +53,22 @@ public class ReportTableDataAdapter extends TableDataAdapter<ReportTable> {
         if(data.get_report_type() == "Customer Base"){
 	        switch (columnIndex) {
 	            case 1:
-	                renderedView = renderString(data.get_customer_name(), "left");
+	                renderedView = renderString(data.get_no_cb(), "left");
 	                break;
 	            case 2:
-	                renderedView = renderString(data.get_customer_sex(), "left");
+	                renderedView = renderString(data.get_customer_name(), "left");
 	                break;
 	            case 3:
-	            	renderedView = renderString(data.get_customer_number(), "left");
+	            	renderedView = renderString(data.get_no_tlp(), "right");
 	            	break;
                 case 4:
-                    renderedView = renderString(data.get_total_product(), "left");
+                    renderedView = renderString(data.get_pic(), "left");
+                    break;
+                case 5:
+                    renderedView = renderString(data.get_total_member(), "right");
+                    break;
+                case 6:
+                    renderedView = renderString(data.get_total_product(),"right");
                     break;
                 default:
                     break;

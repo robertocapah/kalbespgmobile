@@ -19,6 +19,46 @@ public class ReportTable implements Serializable {
     private String _total_item;
     private String _total_price;
     private String _status;
+    private String _no_cb;
+
+    public String get_total_member() {
+        return _total_member;
+    }
+
+    public void set_total_member(String _total_member) {
+        this._total_member = _total_member;
+    }
+
+    private  String _total_member;
+
+    public String get_pic() {
+        return _pic;
+    }
+
+    public void set_pic(String _pic) {
+        this._pic = _pic;
+    }
+
+    private  String  _pic;
+
+    public String get_no_tlp() {
+        return _no_tlp;
+    }
+
+    public void set_no_tlp(String _no_tlp) {
+        this._no_tlp = _no_tlp;
+    }
+
+    private  String _no_tlp;
+
+    public String get_no_cb() {
+        return _no_cb;
+    }
+
+    public void set_no_cb(String _no_cb) {
+        this._no_cb = _no_cb;
+    }
+
 
     public String get_customer_name() {
         return _customer_name;

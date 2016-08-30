@@ -11,17 +11,12 @@ import java.util.List;
 import library.salesforce.common.APIData;
 import library.salesforce.common.clsHelper;
 import library.salesforce.common.linkAPI;
-import library.salesforce.common.mCounterNumberData;
 import library.salesforce.common.mEmployeeAreaData;
-import library.salesforce.common.mEmployeeSalesProductData;
 import library.salesforce.common.mconfigData;
 import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 import library.salesforce.dal.enumConfigData;
-import library.salesforce.dal.enumCounterData;
-import library.salesforce.dal.mCounterNumberDA;
 import library.salesforce.dal.mEmployeeAreaDA;
-import library.salesforce.dal.mEmployeeSalesProductDA;
 import library.salesforce.dal.mconfigDA;
 import library.salesforce.dal.tUserLoginDA;
 
@@ -82,7 +77,7 @@ public class mEmployeeAreaBL extends clsMainBL{
 		JSONObject resJson = new JSONObject();
 		resJson.put("txtNIK", _dataUserLogin.get_TxtEmpId());
 		resJson.put("txtOutletCode", null);
-		resJson.put("txtBranchCode", _dataUserLogin.get_txtBranchCode());
+		resJson.put("txtBranchCode", null);
 		dtlinkAPI.set_txtMethod(txtMethod);
 		dtlinkAPI.set_txtParam(_dataUserLogin.get_TxtEmpId()+"|||");
 		dtlinkAPI.set_txtToken(new clsHardCode().txtTokenAPI);

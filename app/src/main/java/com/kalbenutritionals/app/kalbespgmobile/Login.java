@@ -56,7 +56,6 @@ import bl.mMenuBL;
 import bl.mUserRoleBL;
 import bl.tDeviceInfoUserBL;
 import bl.tUserLoginBL;
-import library.salesforce.common.mEmployeeAreaData;
 import library.salesforce.common.mMenuData;
 import library.salesforce.common.mUserRoleData;
 import library.salesforce.common.tUserLoginData;
@@ -326,11 +325,12 @@ public class Login extends clsMainActivity {
     private class AsyncCallLogin extends AsyncTask<JSONArray, Void, JSONArray> {
         @Override
         protected JSONArray doInBackground(JSONArray... params) {
+//            android.os.Debug.waitForDebugger();
             JSONArray Json=null;
             String nameRole = selectedRole;
             String nameOutlet = selectedOutlet;
             try {
-                Json= new tUserLoginBL().LoginNew(String.valueOf(txtEmail1), String.valueOf(txtPassword1), HMRole.get(nameRole), null, null, HMBranchCode.get(nameOutlet), pInfo.versionName);
+                Json= new tUserLoginBL().LoginNew(String.valueOf(txtEmail1), String.valueOf(txtPassword1), HMRole.get(nameRole), null, null, HMBranchCode.get(0), pInfo.versionName);
             } catch (ParseException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -379,7 +379,7 @@ public class Login extends clsMainActivity {
 
 
                         //hardcode untuk submission
-                        _tUserLoginData.set_txtSubmissionID("LPUJKT");
+                        _tUserLoginData.set_txtSubmissionID((String) innerObj.get("TxtSubmissonId"));
 
 
 
@@ -502,6 +502,7 @@ public class Login extends clsMainActivity {
     private class AsyncCallRole extends AsyncTask<List<mUserRoleData>, Void, List<mUserRoleData>> {
         @Override
         protected List<mUserRoleData> doInBackground(List<mUserRoleData>... params) {
+            //android.os.Debug.waitForDebugger();
             List<mUserRoleData> roledata = new ArrayList<mUserRoleData>();
             try {
                 //EditText txt = (EditText) findViewById(R.id.txtLoginEmail);
@@ -537,18 +538,18 @@ public class Login extends clsMainActivity {
                 spnRole.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrrole));
                 spnRole.setEnabled(true);
 
-                List<mEmployeeAreaData> dataOutlet = new mEmployeeAreaBL().GetAllData();
-
-                arroutlet = new ArrayList<String>();
-                for (mEmployeeAreaData dtOutlet : dataOutlet) {
-                    arroutlet.add(dtOutlet.get_txtOutletName());
-                    HMOutletCode.put(dtOutlet.get_txtOutletName(), dtOutlet.get_txtOutletCode());
-                    HMOutletName.put(dtOutlet.get_txtOutletName(), dtOutlet.get_txtOutletName());
-                    HMBranchCode.put(dtOutlet.get_txtOutletName(), dtOutlet.get_txtBranchCode());
-                }
-
-                spnOutlet.setAdapter(new MyAdapter2(getApplicationContext(), R.layout.custom_spinner, arroutlet));
-                spnOutlet.setEnabled(true);
+//                List<mEmployeeAreaData> dataOutlet = new mEmployeeAreaBL().GetAllData();
+//
+//                arroutlet = new ArrayList<String>();
+//                for (mEmployeeAreaData dtOutlet : dataOutlet) {
+//                    arroutlet.add(dtOutlet.get_txtOutletName());
+//                    HMOutletCode.put(dtOutlet.get_txtOutletName(), dtOutlet.get_txtOutletCode());
+//                    HMOutletName.put(dtOutlet.get_txtOutletName(), dtOutlet.get_txtOutletName());
+//                    HMBranchCode.put(dtOutlet.get_txtOutletName(), dtOutlet.get_txtBranchCode());
+//                }
+//
+//                spnOutlet.setAdapter(new MyAdapter2(getApplicationContext(), R.layout.custom_spinner, arroutlet));
+//                spnOutlet.setEnabled(true);
             } else {
                 if (intProcesscancel == 1) {
                     onCancelled();

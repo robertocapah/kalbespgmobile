@@ -20,4 +20,6 @@
     <color name="table_header_text">#FFFFFF</color>
     <color name="table_data_row_even">#FFFFFF</color>
     <color name="table_data_row_odd">#ecf0f1</color>
+
+    <color name="primary_color_theme">#27ae5f</color>
 </resources>

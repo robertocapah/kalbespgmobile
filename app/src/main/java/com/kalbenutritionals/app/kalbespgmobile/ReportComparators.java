@@ -30,6 +30,22 @@ public final class ReportComparators {
         return new totalProductComparator();
     }
 
+    public  static  Comparator<ReportTable> getNoCbComparator(){
+        return  new NoCbComparator();
+    }
+
+    public  static  Comparator<ReportTable> getNoTelpComparator(){
+        return new NoTelpComparator();
+    }
+
+    public  static  Comparator<ReportTable> getPICComparator(){
+        return  new PICComparator();
+    }
+
+    public  static  Comparator<ReportTable> getTotalMemberComparator(){
+        return new TotalMemberComparator();
+    }
+
     public static Comparator<ReportTable> getNoSoComparator() {
         return new noSoComparator();
     }
@@ -112,4 +128,33 @@ public final class ReportComparators {
         }
     }
 
+    private static class NoCbComparator implements Comparator<ReportTable> {
+        @Override
+        public int compare(ReportTable data1, ReportTable data2) {
+
+
+            return data1.get_no_cb().compareTo(data2.get_no_cb());
+        }
+    }
+
+    private static class NoTelpComparator implements Comparator<ReportTable> {
+        @Override
+        public int compare(ReportTable data1, ReportTable data2) {
+            return data1.get_no_tlp().compareTo(data2.get_no_tlp());
+        }
+    }
+
+    private static class PICComparator implements Comparator<ReportTable> {
+        @Override
+        public int compare(ReportTable data1, ReportTable data2) {
+            return data1.get_pic().compareTo(data2.get_pic());
+        }
+    }
+
+    private static class TotalMemberComparator implements Comparator<ReportTable> {
+        @Override
+        public int compare(ReportTable data1, ReportTable data2) {
+            return data1.get_total_member().compareTo(data2.get_total_member());
+        }
+    }
 }

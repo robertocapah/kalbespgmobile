@@ -14,12 +14,14 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +33,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -80,14 +87,25 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     private tDisplayPictureData tDisplayPictureData;
     private tActivityData _tActivityData;
 
+    private Uri mCropImageUri;
+    private CropImageView mCropImageView;
+
+    private boolean requirePermissions = false;
+
     PackageInfo pInfo = null;
 
     int selectedId;
+    int saskak;
     private static int menuId = 0;
     Boolean isSubMenu = false;
 
     String[] listMenu;
     String[] linkMenu;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     public void onBackPressed() {
@@ -121,7 +139,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         selectedId = 0;
 
         try {
-            pInfo=getApplicationContext().getPackageManager().getPackageInfo(getApplicationContext().getPackageName(),0);
+            pInfo = getApplicationContext().getPackageManager().getPackageInfo(getApplicationContext().getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -133,15 +151,15 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         setSupportActionBar(toolbar);
 
         HomeFragment homeFragment = new HomeFragment();
-        android.support.v4.app.FragmentTransaction fragmentTransactionHome = getSupportFragmentManager().beginTransaction();
-        fragmentTransactionHome.replace(R.id.frame,homeFragment);
+        FragmentTransaction fragmentTransactionHome = getSupportFragmentManager().beginTransaction();
+        fragmentTransactionHome.replace(R.id.frame, homeFragment);
         fragmentTransactionHome.commit();
-        selectedId=99;
+        selectedId = 99;
 
         //set menu masih manual untuk create db nya
 //        new mMenuBL().setMenuManual();
 
-        tUserLoginData dt=new tUserLoginBL().getUserActive();
+        tUserLoginData dt = new tUserLoginBL().getUserActive();
 
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         View vwHeader = navigationView.getHeaderView(0);
@@ -152,11 +170,13 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         tvUsername.setText("Welcome, " + dt.get_txtName());
         tvEmail.setText(dt.get_TxtEmail());
 
+        mCropImageView = new CropImageView(this);
+
         _tActivityData = new tActivityBL().getDataByBitActive();
         tDisplayPictureData = new tDisplayPictureBL().getData();
 
-        if(tDisplayPictureData.get_image()!=null){
-            Bitmap bitmap = BitmapFactory.decodeByteArray(tDisplayPictureData.get_image(), 0 , tDisplayPictureData.get_image().length);
+        if (tDisplayPictureData.get_image() != null) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(tDisplayPictureData.get_image(), 0, tDisplayPictureData.get_image().length);
             ivProfile.setImageBitmap(bitmap);
         } else {
             ivProfile.setImageBitmap(BitmapFactory.decodeResource(getApplicationContext().getResources(),
@@ -174,12 +194,12 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         int statusAbsen = 0;
         int menuActive = 0;
 
-        if(dtAbsens == null){
+        if (dtAbsens == null) {
             statusAbsen = 1;
             menuActive = R.id.groupListMenu;
             header.removeItem(R.id.checkout);
-        }
-        else{
+        } else {
+            header.removeItem(R.id.logout);
             mMenuData data = new mMenuBL().getMenuDataByMenuName("mnAbsenSPG");
             menuId = Integer.parseInt(data.get_IntMenuID());
             statusAbsen = menuId;
@@ -188,24 +208,24 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             List<mMenuData> menu = new mMenuBL().getDatabyParentId(statusAbsen);
             listMenu = new String[menu.size()];
 
-            for(int i = 0; i < menu.size(); i++){
+            for (int i = 0; i < menu.size(); i++) {
                 listMenu[i] = menu.get(i).get_TxtMenuName();
             }
 
-            if(i_view!=null)
-                try{
-                    Class<?> fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view.replaceAll("\\s+","") +"SPG");
+            if (i_view != null)
+                try {
+                    Class<?> fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view.replaceAll("\\s+", "") + "SPG");
                     try {
-                        for(int i = 0; i < listMenu.length; i++){
-                            if(("View " + listMenu[i]).equals(i_view + " SPG")){
-                                 selectedId = i;
+                        for (int i = 0; i < listMenu.length; i++) {
+                            if (("View " + listMenu[i]).equals(i_view + " SPG")) {
+                                selectedId = i;
                                 break;
                             }
                         }
                         toolbar.setTitle(i_view);
-                        Fragment fragment = (android.support.v4.app.Fragment) fragmentClass.newInstance();
-                        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.frame,fragment);
+                        Fragment fragment = (Fragment) fragmentClass.newInstance();
+                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frame, fragment);
                         fragmentTransaction.commit();
                     } catch (InstantiationException e) {
                         e.printStackTrace();
@@ -215,21 +235,20 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-            }
+        }
 
         List<mMenuData> menu;
 
-        if(dtAbsens == null){
+        if (dtAbsens == null) {
             menu = new mMenuBL().getDatabyParentId(0);
-        }
-        else{
+        } else {
             menu = new mMenuBL().getDatabyParentId(211);
         }
 
         linkMenu = new String[menu.size()];
         listMenu = new String[menu.size()];
 
-        if(menu != null) {
+        if (menu != null) {
             for (int i = 0; i < menu.size(); i++) {
 
                 int resId = getResources().getIdentifier(String.valueOf(menu.get(i).get_TxtDescription().toLowerCase()), "drawable", MainMenu.this.getPackageName());
@@ -251,10 +270,10 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
                 drawerLayout.closeDrawers();
 
-                android.support.v4.app.Fragment fragment = null;
+                Fragment fragment = null;
 
-                switch (menuItem.getItemId()){
-                    case R.id.logout :
+                switch (menuItem.getItemId()) {
+                    case R.id.logout:
                         //funcLogOut();
                         LayoutInflater layoutInflater = LayoutInflater.from(MainMenu.this);
                         final View promptView = layoutInflater.inflate(R.layout.confirm_data, null);
@@ -292,23 +311,23 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
 
                         ReportingFragment reportingFragment = new ReportingFragment();
-                        android.support.v4.app.FragmentTransaction fragmentTransactionReport = getSupportFragmentManager().beginTransaction();
-                        fragmentTransactionReport.replace(R.id.frame,reportingFragment);
+                        FragmentTransaction fragmentTransactionReport = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactionReport.replace(R.id.frame, reportingFragment);
                         fragmentTransactionReport.commit();
-                        selectedId=0;
+                        selectedId = 100;
 
                         return true;
 
                     case R.id.home:
                         toolbar.setTitle("Home");
 
-                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
                         HomeFragment homeFragment = new HomeFragment();
-                        android.support.v4.app.FragmentTransaction fragmentTransactionHome = getSupportFragmentManager().beginTransaction();
-                        fragmentTransactionHome.replace(R.id.frame,homeFragment);
+                        FragmentTransaction fragmentTransactionHome = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactionHome.replace(R.id.frame, homeFragment);
                         fragmentTransactionHome.commit();
-                        selectedId=99;
+                        selectedId = 99;
 
                         return true;
 
@@ -318,10 +337,10 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
 
                         FragmentViewHistoryAbsen fragmentViewHistoryAbsen = new FragmentViewHistoryAbsen();
-                        android.support.v4.app.FragmentTransaction fragmentTransactionHistoryAbsen = getSupportFragmentManager().beginTransaction();
-                        fragmentTransactionHistoryAbsen.replace(R.id.frame,fragmentViewHistoryAbsen);
+                        FragmentTransaction fragmentTransactionHistoryAbsen = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactionHistoryAbsen.replace(R.id.frame, fragmentViewHistoryAbsen);
                         fragmentTransactionHistoryAbsen.commit();
-                        selectedId=99;
+                        selectedId = 99;
 
                         return true;
 
@@ -329,8 +348,8 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                         LayoutInflater _layoutInflater = LayoutInflater.from(MainMenu.this);
                         final View _promptView = _layoutInflater.inflate(R.layout.confirm_data, null);
 
-                        final TextView tvConfirm=(TextView) _promptView.findViewById(R.id.tvTitle);
-                        final TextView tvDesc=(TextView) _promptView.findViewById(R.id.tvDesc);
+                        final TextView tvConfirm = (TextView) _promptView.findViewById(R.id.tvTitle);
+                        final TextView tvDesc = (TextView) _promptView.findViewById(R.id.tvDesc);
                         tvDesc.setVisibility(View.INVISIBLE);
                         tvConfirm.setText("Check Out Data ?");
 
@@ -339,11 +358,11 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                         _alertDialogBuilder
                                 .setCancelable(false)
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,	int id) {
-                                        _tAbsenUserBL=new tAbsenUserBL();
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        _tAbsenUserBL = new tAbsenUserBL();
                                         dttAbsenUserData = new tAbsenUserData();
 
-                                        dttAbsenUserData=_tAbsenUserBL.getDataCheckInActive();
+                                        dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
                                         tAbsenUserData datatAbsenUserData = dttAbsenUserData;
                                         tUserLoginData dataUserActive = new tUserLoginBL().getUserActive();
                                         String idUserActive = String.valueOf(dataUserActive.get_txtUserId());
@@ -353,7 +372,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                                         List<tAbsenUserData> absenUserDatas = new ArrayList<tAbsenUserData>();
                                         clsMainActivity _clsMainActivity = new clsMainActivity();
 
-                                        if (dttAbsenUserData!=null){
+                                        if (dttAbsenUserData != null) {
                                             datatAbsenUserData.set_intId(dttAbsenUserData.get_intId());
                                             datatAbsenUserData.set_dtDateCheckOut(_clsMainActivity.FormatDateDB().toString());
                                             datatAbsenUserData.set_intSubmit("1");
@@ -371,7 +390,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                                     }
                                 })
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,	int id) {
+                                    public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
                                     }
                                 });
@@ -381,21 +400,20 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                         return true;
                     default:
                         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
-                        try{
+                        try {
                             Class<?> fragmentClass = Class.forName(linkMenu[menuItem.getItemId()]);
                             try {
-                                if(dtAbsens != null){
-                                    toolbar.setTitle("View "+menuItem.getTitle().toString());
-                                }
-                                else{
+                                if (dtAbsens != null) {
+                                    toolbar.setTitle("View " + menuItem.getTitle().toString());
+                                } else {
                                     toolbar.setTitle(menuItem.getTitle().toString());
                                 }
 
 //                                menuId = Integer.parseInt(new mMenuBL().getMenuDataByMenuName2(menuItem.getTitle().toString()).get_IntMenuID());
 
-                                fragment = (android.support.v4.app.Fragment) fragmentClass.newInstance();
-                                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                                fragmentTransaction.replace(R.id.frame,fragment);
+                                fragment = (Fragment) fragmentClass.newInstance();
+                                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                                fragmentTransaction.replace(R.id.frame, fragment);
                                 fragmentTransaction.addToBackStack(fragment.getClass().getName());
                                 fragmentTransaction.commit();
                                 selectedId = menuItem.getItemId();
@@ -417,7 +435,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.openDrawer, R.string.closeDrawer){
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -440,7 +458,9 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         actionBarDrawerToggle.syncState();
 
 
-
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -466,15 +486,17 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
         Class<?> fragmentClass = null;
         try {
-            android.support.v4.app.Fragment fragment = null;
+            Fragment fragment = null;
 
-            fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + String.valueOf(item.getTitle()).replaceAll("\\s+",""));
-            fragment = (android.support.v4.app.Fragment) fragmentClass.newInstance();
-            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame,fragment);
+            fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + String.valueOf(item.getTitle()).replaceAll("\\s+", ""));
+            fragment = (Fragment) fragmentClass.newInstance();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame, fragment);
             fragmentTransaction.commit();
 
-            if(!isSubMenu) isSubMenu = true;
+            selectedId=id;
+
+            if (!isSubMenu) isSubMenu = true;
             else isSubMenu = false;
 
         } catch (ClassNotFoundException e) {
@@ -491,19 +513,38 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.clear();
-        if(listMenu.length <= selectedId){
-            menu.add(4, 0, 0, "-");
-            menu.setGroupEnabled(4,false);
-        }
-        else if(!isSubMenu && dtAbsens != null){
+        String[] data = listMenu;
+        if (listMenu.length <= selectedId) {
+            if (toolbar.getTitle().equals("Reporting")&&!isSubMenu||isSubMenu && dtAbsens != null&&listMenu.length>0&&toolbar.getTitle()=="Reporting"){
+                for(String s : listMenu){
+                    if(s.contains("Reso SPG")) {
+                        int a = listMenu.length;
+                        for (int i=0; i<a; i++ ){
+                            if (i==1){
+                                menu.removeItem(i);
+                            } else {
+                                menu.add(0, i, 0, "Add " + listMenu[i]);
+                            }
+                        }
+                    } else {
+                        menu.add(4, 0, 0, "-");
+                        menu.setGroupEnabled(4, false);
+                        break;
+                    }
+                    break;
+                }
+            } else {
+                menu.add(4, 0, 0, "-");
+                menu.setGroupEnabled(4, false);
+            }
+        } else if (!isSubMenu && dtAbsens != null) {
             menu.add(0, selectedId, 0, "Add " + listMenu[selectedId]);
-        }
-        else if(isSubMenu && dtAbsens != null){
+        } else if (isSubMenu && dtAbsens != null) {
             menu.add(1, selectedId, 0, "View " + listMenu[selectedId]);
         }
-        else{
+        else {
             menu.add(4, 0, 0, "-");
-            menu.setGroupEnabled(4,false);
+            menu.setGroupEnabled(4, false);
         }
 
 //
@@ -552,7 +593,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.profile_image:
                 pickImage();
                 break;
@@ -586,9 +627,53 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
 
         startActivityForResult(chooserIntent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+
+//        if (CropImage.isExplicitCameraPermissionRequired(this)) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                requestPermissions(new String[]{Manifest.permission.CAMERA}, CropImage.CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE);
+//            }
+//        } else {
+//            CropImage.startPickImageActivity(this);
+//        }
+//        drawerLayout.closeDrawers();
+
     }
 
-    @Override
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK) {
+//            Uri imageUri = CropImage.getPickImageResultUri(this, data);
+//
+//            // For API >= 23 we need to check specifically that we have permissions to read external storage,
+//            // but we don't know if we need to for the URI so the simplest is to try open the stream and see if we get error.
+//            if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
+//
+//                // request permissions and handle the result in onRequestPermissionsResult()
+//                requirePermissions = true;
+//
+//                mCropImageUri = imageUri;
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
+//                }
+//            } else {
+//
+//                setImageUri(imageUri);
+//            }
+//        }
+//    }
+
+    /**
+     * Set the image to show for cropping.
+     */
+    public void setImageUri(Uri imageUri) {
+        mCropImageView.setImageUriAsync(imageUri);
+        //        CropImage.activity(imageUri)
+        //                .start(getContext(), this);
+    }
+
+        @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -620,9 +705,9 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 previewPickImage(photo);
             }
         } else {
-            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-                fragment.onActivityResult(requestCode, resultCode, data);
-            }
+                for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                    fragment.onActivityResult(requestCode, resultCode, data);
+                }
         }
     }
 
@@ -650,18 +735,58 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             byte[] pht = out.toByteArray();
             ivProfile.setImageBitmap(photo);
 
-                tDisplayPictureData.set_intID("1");
-                tDisplayPictureData.set_image(pht);
-                tDisplayPictureData.set_intPush("1");
+            tDisplayPictureData.set_intID("1");
+            tDisplayPictureData.set_image(pht);
+            tDisplayPictureData.set_intPush("1");
 
-                List<tDisplayPictureData> dtList = new ArrayList<>();
-                dtList.add(tDisplayPictureData);
+            List<tDisplayPictureData> dtList = new ArrayList<>();
+            dtList.add(tDisplayPictureData);
 
-                new tDisplayPictureBL().saveData(dtList);
+            new tDisplayPictureBL().saveData(dtList);
 
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "MainMenu Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.kalbenutritionals.app.kalbespgmobile/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "MainMenu Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.kalbenutritionals.app.kalbespgmobile/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
     }
 
     private class AsyncCallLogOut extends AsyncTask<JSONArray, Void, JSONArray> {

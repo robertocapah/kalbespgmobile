@@ -332,7 +332,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
             Bitmap bitmap1 = Bitmap.createScaledBitmap(photo, 150, 150, false);
             pht1 = output.toByteArray();
             imgActivity1.setImageBitmap(bitmap1);
-            String uriForSave = String.valueOf(uriImage.getPath().toString());
+            //String uriForSave = String.valueOf(uriImage.getPath().toString());
 
             dtActivityData = new tActivityBL().getDataByBitActive();
 

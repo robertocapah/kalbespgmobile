@@ -64,6 +64,7 @@ public class HomeFragment extends Fragment {
         List<mProductBrandHeaderData> dtBrand = new mProductBrandHeaderBL().GetAllData();
         List<mEmployeeSalesProductData> dtProduct = new mEmployeeSalesProductBL().GetAllData();
         List<tSalesProductHeaderData> dtReso = new tSalesProductHeaderBL().getAllSalesProductHeader();
+        List<tCustomerBasedMobileHeaderData> dtCbase = new tCustomerBasedMobileHeaderBL().getAllData();
         List<tActivityData> dtActivity = new tActivityBL().getAllData();
 
         username.setText(dt.get_txtName());
@@ -91,6 +92,7 @@ public class HomeFragment extends Fragment {
 
         if(dtReso != null) totalReso.setText(String.valueOf(dtReso.size()));
         if(dtActivity != null) totalActivity.setText(String.valueOf(dtActivity.size()));
+        if(dtCbase!=null) totalCustomerBase.setText(String.valueOf(dtCbase.size()));
 
         List<tSalesProductHeaderData> dt_reso_unpush = new tSalesProductHeaderBL().getAllDataByIntSyc("0");
         List<tSalesProductHeaderData> dt_reso_push = new tSalesProductHeaderBL().getAllDataByIntSyc("1");
@@ -98,9 +100,6 @@ public class HomeFragment extends Fragment {
         List<tActivityData> dt_act_push = new tActivityBL().getAllDataByIntSyc("1");
         List<tCustomerBasedMobileHeaderData> dt_cb_unpush = new tCustomerBasedMobileHeaderBL().getAllDataByIntSyc("0");
         List<tCustomerBasedMobileHeaderData> dt_cb_push = new tCustomerBasedMobileHeaderBL().getAllDataByIntSyc("1");
-
-        if(dtReso != null) totalReso.setText(String.valueOf(dtReso.size()));
-        if(dtActivity != null) totalActivity.setText(String.valueOf(dtActivity.size()));
 
         tv_reso1.setText(String.valueOf(dt_reso_unpush.size()));
         tv_reso2.setText(String.valueOf(dt_reso_push.size()));
