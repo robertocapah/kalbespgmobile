@@ -30,6 +30,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -259,6 +260,16 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 linkMenu[i] = menu.get(i).get_TxtLink();
                 listMenu[i] = menu.get(i).get_TxtMenuName();
             }
+        }
+
+        TextView view = (TextView) navigationView.getMenu().findItem(R.id.home).getActionView();
+        view.setText("99");
+
+        SubMenu subMenuVersion = header.addSubMenu(R.id.groupVersion, 0, 3, "Version");
+        try {
+            subMenuVersion.add(getPackageManager().getPackageInfo(getPackageName(), 0).versionName + " \u00a9 KN-IT").setIcon(R.drawable.ic_android).setEnabled(false);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
         }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
