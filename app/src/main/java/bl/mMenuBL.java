@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import library.salesforce.common.mEmployeeAreaData;
 import library.salesforce.common.mMenuData;
 import library.salesforce.common.tLeaveMobileData;
 import library.salesforce.dal.mEmployeeAreaDA;
@@ -67,8 +68,25 @@ public class mMenuBL extends clsMainBL {
 				mEmployeeSalesProductDA _mEmployeeSalesProductDA = new mEmployeeSalesProductDA(db);
 				if (_mEmployeeAreaDA.getContactsCount(db) > 0 && _mEmployeeBranchDA.getContactsCount(db) > 0) {
 					if (listDataLeave.size() == 0 && _mEmployeeAreaDA.getContactsCount(db) > 0 && _mEmployeeBranchDA.getContactsCount(db) > 0) {
-						tmpData.add(data);
+
+						int validate = 1;
+						if(data.get_TxtDescription().contains("mnAbsenSPG")){
+
+						List<mEmployeeAreaData> datamEmployeeArea = new mEmployeeAreaBL().GetAllData();
+
+							for(mEmployeeAreaData dt : datamEmployeeArea){
+								if(dt.get_txtLatitude()==""||dt.get_txtLatitude()==null||dt.get_txtLatitude().equals("")
+										&&dt.get_txtLongitude()==""||dt.get_txtLongitude()==null||dt.get_txtLongitude().equals("")){
+									validate = 0;
+								}
+							}
+						}
+
+						if(validate==1){
+							tmpData.add(data);
+						}
 					}
+
 				} else if (data.get_TxtDescription().contains("mnLeave")) {
 					mTypeLeaveMobileDA _mTypeLeaveMobileDA = new mTypeLeaveMobileDA(db);
 					tAbsenUserDA _tAbsenUserDA = new tAbsenUserDA(db);

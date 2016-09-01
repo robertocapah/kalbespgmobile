@@ -8,7 +8,6 @@
             android:gravity="center_vertical|center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
             android:orientation="vertical">
         <LinearLayout
             android:id="@+id/ll1"
@@ -43,6 +42,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginLeft="5dp"
                         android:text="No SO" />
                     <TextView
                         android:id="@+id/tvnoSOtbl"
@@ -63,6 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginLeft="5dp"
                         android:text="Keterangan" />
                     <TextView
                         android:id="@+id/tvkettbl"
@@ -83,6 +84,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginLeft="5dp"
                         android:text="Item" />
                     <TextView
                         android:id="@+id/tvItemtbl"
@@ -103,6 +105,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginLeft="5dp"
                         android:text="Sum Amount" />
                     <TextView
                         android:id="@+id/tvSumAmount"
@@ -123,6 +126,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginLeft="5dp"
                         android:text="Status" />
                     <TextView
                         android:id="@+id/tvStatus"
@@ -138,13 +142,18 @@
                 </TableRow>
             </TableLayout>
             </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <TableLayout
         android:id="@+id/tlProduct"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/ll1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
     </TableLayout>
+        </LinearLayout>
         </LinearLayout>
     </ScrollView>

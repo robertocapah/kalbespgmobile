@@ -318,17 +318,19 @@ public class FragmentDownloadData extends Fragment {
                 toast.show();
                 Dialog.dismiss();
 
-            }else{
+            }
+            else{
                 loadData();
                 Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
                         Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP, 25, 400);
                 toast.show();
                 Dialog.dismiss();
-                getActivity().finish();
-                Intent nextScreen = new Intent(getContext(), MainMenu.class);
-                nextScreen.putExtra(clsParameterPutExtra.MenuID, MenuID);
-                startActivity(nextScreen);
+//                getActivity().finish();
+                checkingDataTable();
+//                Intent nextScreen = new Intent(getContext(), MainMenu.class);
+//                nextScreen.putExtra(clsParameterPutExtra.MenuID, MenuID);
+//                startActivity(nextScreen);
             }
 //            Toast toast = Toast.makeText(getContext(), txtMess, Toast.LENGTH_LONG);
 //            toast.setGravity(Gravity.TOP, 25, 400);
@@ -560,6 +562,22 @@ public class FragmentDownloadData extends Fragment {
             org.json.simple.JSONObject innerObj = (org.json.simple.JSONObject) i.next();
             int boolValid = Integer.valueOf(String.valueOf(innerObj.get(dtAPIDATA.boolValid)));
             if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
+                String latitude = (String) innerObj.get("txtLatitude");
+                String longitude = (String) innerObj.get("txtLongitude");
+                if((latitude.equals("")||latitude==null
+                        ||longitude.equals("")||longitude==null)){
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast toast = Toast.makeText(getContext(), "Location Outlet Can't be Found...",
+                                    Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.TOP, 25, 400);
+                            toast.show();
+                        }
+                    });
+
+
+                }
                 mEmployeeAreaData _data = new mEmployeeAreaData();
                 _data.set_intBranchId((String) innerObj.get("IntBranchId"));
                 _data.set_intChannelId((String) innerObj.get("IntChannelId"));
@@ -578,8 +596,13 @@ public class FragmentDownloadData extends Fragment {
                 _data.set_txtRayonCode((String) innerObj.get("TxtRayonCode"));
                 _data.set_txtRayonName((String) innerObj.get("TxtRayonName"));
                 _data.set_txtRegionName((String) innerObj.get("TxtRegionName"));
-                _data.set_txtLatitude("-6.150726");
+//                _data.set_txtLatitude((String) innerObj.get("txtLatitude"));
+//                _data.set_txtLongitude((String) innerObj.get("txtLongitude"));
+
+                //hardcode cui..
+                _data.set_txtLatitude("-6.150721");
                 _data.set_txtLongitude("106.887543");
+
                 _array.add(_data.get_txtOutletCode() +" - "+ _data.get_txtOutletName());
                 _Listdata.add(_data);
             } else {
@@ -748,9 +771,8 @@ public class FragmentDownloadData extends Fragment {
         mTypeLeaveMobileDataList = _mTypeLeaveBL.GetAllData();
 
         List<mEmployeeAreaData> data = _mEmployeeAreaBL.GetAllData();
-        mEmployeeAreaData _data = new mEmployeeAreaData();
-        String a = _data.get_txtLatitude();
 
+        int validate = 0;
 
         if (mEmployeeBranchDataList.size()>0
                 && employeeSalesProductDataList.size()>0
@@ -759,7 +781,19 @@ public class FragmentDownloadData extends Fragment {
                 && mTypeLeaveMobileDataList.size()>0){
 
             goToMainMenu();
+            //validate = 1;
+
+//            for(mEmployeeAreaData dt : data){
+//                if(dt.get_txtLatitude()==""||dt.get_txtLatitude()==null&&dt.get_txtLongitude()==""||dt.get_txtLongitude()==null){
+//                    validate = 0;
+//                }
+//            }
         }
+
+//        if(validate==1){
+//            goToMainMenu();
+//        }
+
         return;
     }
 

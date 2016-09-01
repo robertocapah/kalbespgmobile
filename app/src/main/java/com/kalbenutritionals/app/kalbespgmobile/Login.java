@@ -175,8 +175,8 @@ public class Login extends clsMainActivity {
         });
 
 
-        //AsyncCallAppVesion task1 = new AsyncCallAppVesion();
-        //task1.execute();
+        AsyncCallAppVesion task1 = new AsyncCallAppVesion();
+        task1.execute();
         txtLoginPassword.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(txtLoginPassword) {
             public boolean onDrawableClick() {
                 if (intSet == 1) {
@@ -319,6 +319,10 @@ public class Login extends clsMainActivity {
                 android.R.layout.simple_spinner_item, arrdefaultOutlet);
         spnOutlet.setAdapter(adapterspnOutlet);
         spnOutlet.setEnabled(false);
+
+
+        AsyncCallAppVesion task = new AsyncCallAppVesion();
+        task.execute();
     }
 
     int intProcesscancel = 0;
@@ -662,6 +666,7 @@ public class Login extends clsMainActivity {
     private class AsyncCallAppVesion extends AsyncTask<JSONArray, Void, JSONArray> {
         @Override
         protected JSONArray doInBackground(JSONArray... params) {
+//            android.os.Debug.waitForDebugger();
             JSONArray JsonData = null;
             try {
                 JsonData = new clsHelperBL().GetDatamversionAppPostData(pInfo.versionName);
@@ -701,7 +706,9 @@ public class Login extends clsMainActivity {
                     JSONObject innerObj = (JSONObject) i.next();
                     int boolValid = Integer.valueOf(String.valueOf(innerObj.get("_pboolValid")));
                     if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
-                        if (pInfo.versionName.equals(innerObj.get("TxtVersion").toString())) {
+                        if (pInfo.versionName.equals("TAND.2016.003")) {
+                            //TAND.2016.003
+                            //innerObj.get("TxtVersion").toString())
                             resUpdate = false;
                         } else {
                             resUpdate = true;
@@ -798,7 +805,7 @@ public class Login extends clsMainActivity {
                         return null;
                     }
                 }
-                output = new FileOutputStream(txtPath + "salesforce.apk");
+                output = new FileOutputStream(txtPath + "kalbespgmobile.apk");
 
                 byte data[] = new byte[4096];
                 long total = 0;
@@ -864,7 +871,7 @@ public class Login extends clsMainActivity {
             else {
                 showToast(context, "File downloaded" + result);
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                String txtPath = new clsHardCode().txtPathUserData + "salesforce.apk";
+                String txtPath = new clsHardCode().txtPathUserData + "kalbespgmobile.apk";
                 intent.setDataAndType(Uri.fromFile(new File(txtPath)), "application/vnd.android.package-archive");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
