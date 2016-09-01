@@ -12,6 +12,7 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -27,8 +29,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -79,17 +83,20 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
     //private Toolbar toolbar;
     List<mEmployeeSalesProductData> employeeSalesProductDataList = null;
     JSONArray array_Product = null;
+    View v;
+    FloatingActionButton fab;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         selectedId = 0;
-        View v = inflater.inflate(R.layout.coordinator_layout,container,false);
+        v = inflater.inflate(R.layout.coordinator_layout,container,false);
         tv_noso = (TextView) v.findViewById(R.id.txtNoreso);
         tv_date = (TextView) v.findViewById(R.id.txtviewDate);
         edketerangan = (EditText) v.findViewById(R.id.etKeterangan);
         searchProduct = (EditText) v.findViewById(R.id.searchProduct);
+        fab = (FloatingActionButton) v.findViewById(R.id.fab);
 
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(edketerangan.getWindowToken(), 0);
@@ -133,6 +140,36 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
 //                }
 //
 
+
+        final ScrollView scrollView = (ScrollView) v.findViewById(R.id.scroll_reso);
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View vi, MotionEvent event) {
+                LinearLayout lnLayout = (LinearLayout) v.findViewById(R.id.lnReso);
+
+                int coords[]={0,0};
+                lnLayout.getLocationInWindow(coords);
+
+                int absoluteTop = coords[1];
+
+                if(absoluteTop < 90){
+                    fab.setVisibility(View.VISIBLE);
+                }
+                else{
+                    fab.setVisibility(View.INVISIBLE);
+                }
+
+                return false;
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollView.fullScroll(ScrollView.FOCUS_UP);
+                fab.setVisibility(View.INVISIBLE);
+            }
+        });
 
         searchProduct.addTextChangedListener(new TextWatcher() {
 
