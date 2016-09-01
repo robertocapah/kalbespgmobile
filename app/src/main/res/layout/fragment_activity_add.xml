@@ -11,6 +11,27 @@
         android:padding="15dp"
         android:orientation="vertical">
 
+        <TableLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view2">
+
+        <TableRow
+            android:id="@+id/tr_header_act"
+            android:background="#4CAF50"
+            android:padding="5dp"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Preview Activity"
+                android:textColor="@color/white"
+                />
+        </TableRow>
+        </TableLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="0dp"

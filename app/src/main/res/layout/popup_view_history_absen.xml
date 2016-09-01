@@ -8,14 +8,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TableLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/tl_history_abs"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TableRow
+            android:background="#4CAF50"
+            android:padding="5dp"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Preview History Absen"
+                android:textSize="@dimen/text_size_medium"
+                android:textColor="@color/white"
+                />
+        </TableRow>
+        </TableLayout>
+
         <TextView
+            android:layout_below="@+id/tl_history_abs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Username"
             android:id="@+id/textView20"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:layout_alignLeft="@+id/tl_history_abs"
+            android:layout_alignStart="@+id/tl_history_abs"
             android:layout_margin="10dp" />
 
         <TextView

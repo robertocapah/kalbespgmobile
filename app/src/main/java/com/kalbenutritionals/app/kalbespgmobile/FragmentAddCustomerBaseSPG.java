@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -109,6 +110,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         btnAdd.setOnClickListener(this);
         btnAddPerson.setOnClickListener(this);
         btnSave.setOnClickListener(this);
+
+        etPinBBM.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
 
         return v;
     }
@@ -628,9 +631,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
                 convertView.setTag(holder);
 
+                final ViewHolder finalHolder1 = holder;
                 holder.name.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v;
+                        finalHolder1.values.requestFocus();
                         ModelListview _state = (ModelListview) cb.getTag();
                         _state.set_selected(cb.isChecked());
                         //moveCursor();
@@ -642,12 +647,6 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         }
                     }
                 });
-
-//                private void moveCursor() {
-//                    EditText ed = (EditText) v;
-//                    ModelListview _states = (ModelListview) ed.getTag();
-//                    _states.set_selected(ed.isFocused());
-//                }
 
                 holder.values.setSelectAllOnFocus(true);
 

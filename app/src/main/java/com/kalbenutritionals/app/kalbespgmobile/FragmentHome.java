@@ -28,7 +28,7 @@ import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.common.tUserLoginData;
 
-public class HomeFragment extends Fragment {
+public class FragmentHome extends Fragment {
 
     View v;
     private Toolbar toolbar;
@@ -82,10 +82,10 @@ public class HomeFragment extends Fragment {
 
         Snackbar.make(coordinatorLayout, "Welcome " + dt.get_txtName(), Snackbar.LENGTH_LONG)
                 .setAction("Dismiss", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                }
-        }).show();
+                    @Override
+                    public void onClick(View v) {
+                    }
+                }).show();
 
         totalBrand.setText(String.valueOf(dtBrand.size()));
         totalProduct.setText(String.valueOf(dtProduct.size()));

@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TableRow;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -73,6 +74,9 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
 
         etDescription = (EditText) v.findViewById(R.id.etNama);
         rdFlag = (RadioGroup) v.findViewById(R.id.radioFlag);
+
+        TableRow tableRow = (TableRow) v.findViewById(R.id.tr_header_act);
+        tableRow.setVisibility(View.GONE);
 
         countActivity = new tActivityBL().getCountActivity();
         dtActivityData = new tActivityBL().getDataByBitActive();

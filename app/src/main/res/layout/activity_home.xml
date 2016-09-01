@@ -197,7 +197,7 @@
             android:layout_below="@+id/textView19">
 
             <TableRow
-                android:background="#27ae60"
+                android:background="#4CAF50"
                 android:padding="5dp"
                 android:gravity="center_horizontal">
                 <TextView
@@ -221,7 +221,7 @@
             </TableRow>
 
             <TableRow
-                android:background="#bfbfbf"
+                android:background="#f0f0f0"
                 android:padding="5dp"
                 android:gravity="center_horizontal">
                 <TextView
@@ -246,7 +246,7 @@
                     />
             </TableRow>
             <TableRow
-                android:background="#bfbfbf"
+                android:background="#f0f0f0"
                 android:padding="5dp"
                 android:gravity="center_horizontal">
                 <TextView
@@ -271,7 +271,7 @@
                     />
             </TableRow>
             <TableRow
-                android:background="#bfbfbf"
+                android:background="#f0f0f0"
                 android:padding="5dp"
                 android:gravity="center_horizontal">
                 <TextView

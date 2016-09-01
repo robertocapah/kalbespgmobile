@@ -33,6 +33,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Preview Customer Base"
+                        android:textColor="@color/white"
                         />
                 </TableRow>
 
@@ -142,36 +143,37 @@
                         android:layout_weight="1" />
                 </TableRow>
             </TableLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tlPerson">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:background="@color/colorAccent"
+                        android:textColor="#fff"
+                        android:text="Nama"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:background="@color/colorAccent"
+                        android:textColor="#fff"
+                        android:text="Produk"
+                        android:gravity="center"/>
+                </TableRow>
+            </TableLayout>
         </LinearLayout>
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tlPerson">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="10dp"
-                android:background="@color/colorAccent"
-                android:textColor="#fff"
-                android:text="Nama"
-                android:gravity="center"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="10dp"
-                android:background="@color/colorAccent"
-                android:textColor="#fff"
-                android:text="Produk"
-                android:gravity="center"/>
-        </TableRow>
-    </TableLayout>
 </ScrollView>
