@@ -27,7 +27,6 @@ import bl.clsHelperBL;
 import bl.mProductBarcodeBL;
 import library.salesforce.common.clsPushData;
 import library.salesforce.common.dataJson;
-import library.salesforce.common.mProductBarcodeData;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tLeaveMobileData;
 import library.salesforce.dal.clsHardCode;
@@ -35,15 +34,9 @@ import library.salesforce.dal.clsHardCode;
 public class PushData extends clsMainActivity {
 	
 	
-	private TableLayout tlGRN;
-	private TableLayout tlPO;
-	private TableLayout tlSales;
-	private TableLayout tlPengeluaran;
-	private TableLayout tlStockOpname;
-	private TableLayout tlStockAwal;
-	private TableLayout tlSalesPackStock;
-	private TableLayout tlSalesPackStockLog;
-	private TableLayout tlTransactionDetail;
+	private TableLayout tlSO;
+	private TableLayout tlActivity;
+	private TableLayout tlCustomerBase;
 	private TableLayout tlAbesen;
 	private TableLayout tlLeave;
 	
@@ -56,17 +49,17 @@ public class PushData extends clsMainActivity {
 		ScrollView scrollable_contents = (ScrollView) findViewById(R.id.scrollableContents);
 		getLayoutInflater().inflate(R.layout.activity_push_data, scrollable_contents);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		 tlGRN=(TableLayout)findViewById(R.id.tlGRN);
-		 tlPO=(TableLayout)findViewById(R.id.tlPO);
-		 tlSales=(TableLayout)findViewById(R.id.tlSales);
-		 tlPengeluaran=(TableLayout)findViewById(R.id.tlPengeluaran);
-		 tlStockOpname=(TableLayout)findViewById(R.id.tlStockOpname);
-		 tlStockAwal=(TableLayout)findViewById(R.id.tlStockAwal);
-		 tlSalesPackStock=(TableLayout)findViewById(R.id.tlSalesPackStock);
-		 tlSalesPackStockLog=(TableLayout)findViewById(R.id.tlSalesPackStockLog);
-		 tlTransactionDetail=(TableLayout)findViewById(R.id.tlTransactionDetail);
+//		 tlGRN=(TableLayout)findViewById(R.id.tlGRN);
+//		 tlPO=(TableLayout)findViewById(R.id.tlPO);
+//		 tlSales=(TableLayout)findViewById(R.id.tlSales);
+//		 tlPengeluaran=(TableLayout)findViewById(R.id.tlPengeluaran);
+//		 tlStockOpname=(TableLayout)findViewById(R.id.tlStockOpname);
+//		 tlStockAwal=(TableLayout)findViewById(R.id.tlStockAwal);
+//		 tlSalesPackStock=(TableLayout)findViewById(R.id.tlSalesPackStock);
+//		 tlSalesPackStockLog=(TableLayout)findViewById(R.id.tlSalesPackStockLog);
+//		 tlTransactionDetail=(TableLayout)findViewById(R.id.tlTransactionDetail);
 		 tlAbesen=(TableLayout)findViewById(R.id.tlAbesen);
-		 tlLeave=(TableLayout)findViewById(R.id.tlLeave);
+//		 tlLeave=(TableLayout)findViewById(R.id.tlLeave);
 		 Button btnPush=(Button) findViewById(R.id.btnPush);
 		 btnPush.setOnClickListener(new View.OnClickListener() {
 				//int intProcesscancel=0;
@@ -151,7 +144,7 @@ public class PushData extends clsMainActivity {
 	}
 
 	public void inittLeave(Context _ctx,List<tLeaveMobileData> ListData){
-		tlLeave = (TableLayout) findViewById(R.id.tlLeave);
+//		tlLeave = (TableLayout) findViewById(R.id.tlLeave);
 		TableRow.LayoutParams paramTextView = new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f);
 
 		// Tittle

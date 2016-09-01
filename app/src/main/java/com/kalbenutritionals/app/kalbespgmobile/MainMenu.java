@@ -321,7 +321,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
                         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
 
-                        ReportingFragment reportingFragment = new ReportingFragment();
+                        FragmentReporting reportingFragment = new FragmentReporting();
                         FragmentTransaction fragmentTransactionReport = getSupportFragmentManager().beginTransaction();
                         fragmentTransactionReport.replace(R.id.frame, reportingFragment);
                         fragmentTransactionReport.commit();

@@ -28,7 +28,7 @@ import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tSalesProductDetailData;
 import library.salesforce.common.tSalesProductHeaderData;
 
-public class ReportingFragment extends Fragment {
+public class FragmentReporting extends Fragment {
 
     private SortableReportTableView ReportTableView;
     private Spinner spnTypeReport;
