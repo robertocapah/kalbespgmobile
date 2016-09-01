@@ -85,7 +85,7 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         selectedId = 0;
-        View v = inflater.inflate(R.layout.activity_reso,container,false);
+        View v = inflater.inflate(R.layout.coordinator_layout,container,false);
         tv_noso = (TextView) v.findViewById(R.id.txtNoreso);
         tv_date = (TextView) v.findViewById(R.id.txtviewDate);
         edketerangan = (EditText) v.findViewById(R.id.etKeterangan);
