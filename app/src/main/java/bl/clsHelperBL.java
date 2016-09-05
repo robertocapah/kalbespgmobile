@@ -2,13 +2,11 @@ package bl;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,22 +18,24 @@ import library.salesforce.common.clsPushData;
 import library.salesforce.common.dataJson;
 import library.salesforce.common.linkAPI;
 import library.salesforce.common.mCounterNumberData;
-import library.salesforce.common.mProductBarcodeData;
 import library.salesforce.common.mconfigData;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
+import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tLeaveMobileData;
-import library.salesforce.common.tNotificationData;
+import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 import library.salesforce.dal.enumConfigData;
 import library.salesforce.dal.enumCounterData;
 import library.salesforce.dal.mCounterNumberDA;
-import library.salesforce.dal.mProductBarcodeDA;
 import library.salesforce.dal.mconfigDA;
 import library.salesforce.dal.tAbsenUserDA;
 import library.salesforce.dal.tActivityDA;
+import library.salesforce.dal.tCustomerBasedMobileHeaderDA;
 import library.salesforce.dal.tLeaveMobileDA;
+import library.salesforce.dal.tSalesProductDetailDA;
+import library.salesforce.dal.tSalesProductHeaderDA;
 import library.salesforce.dal.tUserLoginDA;
 
 //import org.xml.sax.DTDHandler;
@@ -247,13 +247,19 @@ public class clsHelperBL extends clsMainBL{
 			tAbsenUserDA _tAbsenUserDA =new tAbsenUserDA (db);
 			tActivityDA _tActivityDA =new tActivityDA (db);
 			tLeaveMobileDA _tLeaveMobileDA =new tLeaveMobileDA(db);
+			tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(db);
+			tSalesProductDetailDA _tSalesProductDetailDA = new tSalesProductDetailDA(db);
+			tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(db);
+
+			List<tCustomerBasedMobileHeaderData> ListOftCustomerBasedMobileHeader = _tCustomerBasedMobileHeaderDA.getPushData(db);
+			List<tSalesProductHeaderData> ListOfSalesProductHeader = _tSalesProductHeaderDA.getAllDataToPushData(db);
 			List<tLeaveMobileData> ListOftLeaveData=_tLeaveMobileDA.getAllDataPushData(db);
 			List<tAbsenUserData> ListOftAbsenUserData=_tAbsenUserDA.getAllDataToPushData(db);
 			List<tActivityData> ListOftActivityData=_tActivityDA.getAllDataToPushData(db);
 
 			FileUpload=new HashMap<String, String>();
-//			if(ListOftAbsenUserData!= null){
-//				dtPush.setListOftAbsenUserData(ListOftAbsenUserData);
+			if(ListOftAbsenUserData!= null){
+				dtPush.setListOftAbsenUserData(ListOftAbsenUserData);
 //				for (tAbsenUserData dttAbsenUserData : ListOftAbsenUserData) {
 //					if(dttAbsenUserData.get_txtImg1().equals("null")==false){
 //						FileUpload.put("FUAbsen"+dttAbsenUserData.get_intId()+"-1", String.valueOf(dttAbsenUserData.get_txtImg1()));
@@ -262,21 +268,30 @@ public class clsHelperBL extends clsMainBL{
 //						FileUpload.put("FUAbsen"+dttAbsenUserData.get_intId()+"-2", String.valueOf(dttAbsenUserData.get_txtImg2()));
 //					}
 //				}
-//			}
+			}
 			if(ListOftActivityData!=null){
 				dtPush.setListOftActivityData(ListOftActivityData);
-				for (tActivityData dttActivityData : ListOftActivityData) {
-					FileUpload.put("idUploadActivity", "FUAbsen"+dttActivityData.get_intId());
-					if(dttActivityData.get_txtImg1()!=null){
-						FileUpload.put("FUActivity"+dttActivityData.get_intId()+"-1", "file://"+dttActivityData.get_txtImg1());
-					}
-					if(dttActivityData.get_txtImg2()!=null){
-						FileUpload.put("FUActivity"+dttActivityData.get_intId()+"-2", "file://"+dttActivityData.get_txtImg2());	
-					}
-				}
+//				for (tActivityData dttActivityData : ListOftActivityData) {
+//					FileUpload.put("idUploadActivity", "FUAbsen"+dttActivityData.get_intId());
+//					if(dttActivityData.get_txtImg1()!=null){
+//						FileUpload.put("FUActivity"+dttActivityData.get_intId()+"-1", "file://"+dttActivityData.get_txtImg1());
+//					}
+//					if(dttActivityData.get_txtImg2()!=null){
+//						FileUpload.put("FUActivity"+dttActivityData.get_intId()+"-2", "file://"+dttActivityData.get_txtImg2());
+//					}
+//				}
 			}
+
 			if(ListOftLeaveData!=null){
 				dtPush.setListOftLeaveMobileData(ListOftLeaveData);
+			}
+
+			if(ListOfSalesProductHeader!=null){
+				dtPush.setListOftSalesProductHeaderData(ListOfSalesProductHeader);
+			}
+
+			if(ListOftCustomerBasedMobileHeader!=null){
+				dtPush.set_ListOftCustomerBasedMobileHeaderData(ListOftCustomerBasedMobileHeader);
 			}
 		}
 		else{

@@ -16,25 +16,34 @@
        android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:textColor="#000"
-      android:text="Reso" />
+      android:text="Sales" />
     
     <TableLayout
-        android:id="@+id/tlSO"
+        android:id="@+id/tlSOHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
        </TableLayout>
-       
-     <View
-          android:id="@+id/view1"
-          android:layout_width="fill_parent"
-          android:layout_height="1dp"
-          android:background="#bfbfbf" />
+
+    <!--<TextView-->
+        <!--android:id="@+id/tv11"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="#000"-->
+        <!--android:text="Sales Detail" />-->
+
+    <!--<TableLayout-->
+        <!--android:id="@+id/tlSODetail"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" >-->
+
+    <!--</TableLayout>-->
      
     <TextView
       android:id="@+id/tv2"
        android:layout_width="match_parent"
       android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
       android:textColor="#000"
       android:text="Activity" />
     
@@ -43,17 +52,12 @@
         android:layout_width="match_parent"
        android:layout_height="wrap_content" >
        </TableLayout>
-       
-     <View
-          android:id="@+id/view2"
-          android:layout_width="fill_parent"
-          android:layout_height="1dp"
-          android:background="#bfbfbf" />
      
     <TextView
       android:id="@+id/tv3"
        android:layout_width="match_parent"
       android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
       android:textColor="#000"
       android:text="Customer Base" />
     
@@ -62,17 +66,12 @@
         android:layout_width="match_parent"
        android:layout_height="wrap_content" >
        </TableLayout>
-
-    <View
-          android:id="@+id/view3"
-          android:layout_width="fill_parent"
-          android:layout_height="1dp"
-          android:background="#bfbfbf" />
      
     <TextView
       android:id="@+id/tv4"
        android:layout_width="match_parent"
       android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
       android:textColor="#000"
       android:text="Absen" />
     
@@ -81,17 +80,12 @@
         android:layout_width="match_parent"
        android:layout_height="wrap_content" >
        </TableLayout>
-       
-    <View
-          android:id="@+id/view4"
-          android:layout_width="fill_parent"
-          android:layout_height="1dp"
-          android:background="#bfbfbf" />
      
     <TextView
       android:id="@+id/tv5"
        android:layout_width="match_parent"
       android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
       android:textColor="#000"
       android:text="Leave" />
     
@@ -100,18 +94,12 @@
         android:layout_width="match_parent"
        android:layout_height="wrap_content" >
        </TableLayout>
-       
-    <View
-          android:id="@+id/view5"
-          android:layout_width="fill_parent"
-          android:layout_height="1dp"
-          android:background="#bfbfbf" />
 
         <Button
             android:id="@+id/btnPush"
              android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:gravity="center"
             android:background="@drawable/btn_download_all"
             android:text="Push Data" />

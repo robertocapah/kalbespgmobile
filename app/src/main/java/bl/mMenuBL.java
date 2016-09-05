@@ -85,6 +85,9 @@ public class mMenuBL extends clsMainBL {
 						if(validate==1){
 							tmpData.add(data);
 						}
+					} else if (data.get_TxtDescription().contains("mnLeave")&&listDataLeave.size() > 0 && _mEmployeeAreaDA.getContactsCount(db) > 0 && _mEmployeeBranchDA.getContactsCount(db) > 0){
+						tmpData.add(data);
+
 					}
 
 				} else if (data.get_TxtDescription().contains("mnLeave")) {

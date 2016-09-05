@@ -1,22 +1,30 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PointF;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +51,25 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
     private static Map<String, HashMap> mapMenu;
 
     static List<tActivityData> dt;
+
+    // These matrices will be used to move and zoom image
+    android.graphics.Matrix matrix = new android.graphics.Matrix();
+    android.graphics.Matrix savedMatrix = new android.graphics.Matrix();
+
+    // We can be in one of these 3 states
+    static final int NONE = 0;
+    static final int DRAG = 1;
+    static final int ZOOM = 2;
+    int mode = NONE;
+
+    // Remember some things for zooming
+    PointF start = new PointF();
+    PointF mid = new PointF();
+    float oldDist = 1f;
+    String savedItemClicked;
+    private static final String TAG = "TouchImageView";
+    private static Bitmap mybitmap1;
+    private static Bitmap mybitmap2;
 
     View v;
 
@@ -146,34 +173,56 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
         rbKalbe.setEnabled(false);
         rbCompetitor.setEnabled(false);
 
-        img1.setEnabled(false);
-        img2.setEnabled(false);
+        img1.setEnabled(true);
+        img2.setEnabled(true);
 
         btnSave.setVisibility(View.GONE);
         etDesc.setText(dt.get(position).get_txtDesc());
         etDesc.setTextColor(Color.BLACK);
         etDesc.setEnabled(false);
 
-        byte[] imgFile = dt.get(position).get_txtImg1();
+        final byte[] imgFile = dt.get(position).get_txtImg1();
         if(imgFile!=null){
-            Bitmap myBitmap = BitmapFactory.decodeByteArray(imgFile, 0 , imgFile.length);
-            img1.setImageBitmap(myBitmap);
+            mybitmap1 = BitmapFactory.decodeByteArray(imgFile, 0 , imgFile.length);
+            img1.setImageBitmap(mybitmap1);
         }
         else{
             img1.setVisibility(View.GONE);
         }
-        byte[] imgFile2 = dt.get(position).get_txtImg2();
+        final byte[] imgFile2 = dt.get(position).get_txtImg2();
         if(imgFile2!=null){
-            Bitmap myBitmap = BitmapFactory.decodeByteArray(imgFile2, 0 , imgFile2.length);
-            img2.setImageBitmap(myBitmap);
+            mybitmap2 = BitmapFactory.decodeByteArray(imgFile2, 0 , imgFile2.length);
+            img2.setImageBitmap(mybitmap2);
         }
         else{
             img2.setVisibility(View.GONE);
         }
 
+        img1.setClickable(true);
+        img1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImage(mybitmap1);
+
+            }
+        });
+        img2.setClickable(true);
+        img2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImage(mybitmap2);
+            }
+        });
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.getContext());
         alertDialogBuilder.setView(promptView);
         alertDialogBuilder
+//                .setNeutralButton("Preview", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Toast.makeText(getActivity().getApplicationContext(), "tes", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
                 .setCancelable(false)
                 .setNegativeButton("Close", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -182,5 +231,115 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
                 });
         final AlertDialog alertD = alertDialogBuilder.create();
         alertD.show();
+    }
+        public boolean onTouch(View v, MotionEvent event) {
+                ImageView view = (ImageView) v;
+            dumpEvent(event);
+
+            // Handle touch events here...
+            switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_DOWN:
+                    savedMatrix.set(matrix);
+                    start.set(event.getX(), event.getY());
+                    Log.d(TAG, "mode=DRAG");
+                    mode = DRAG;
+                    break;
+                case MotionEvent.ACTION_POINTER_DOWN:
+                    oldDist = spacing(event);
+                    Log.d(TAG, "oldDist=" + oldDist);
+                    if (oldDist > 10f) {
+                        savedMatrix.set(matrix);
+                        midPoint(mid, event);
+                        mode = ZOOM;
+                        Log.d(TAG, "mode=ZOOM");
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_POINTER_UP:
+                    mode = NONE;
+                    Log.d(TAG, "mode=NONE");
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    if (mode == DRAG) {
+                        // ...
+                        matrix.set(savedMatrix);
+                        matrix.postTranslate(event.getX() - start.x, event.getY()
+                                - start.y);
+                    } else if (mode == ZOOM) {
+                        float newDist = spacing(event);
+                        Log.d(TAG, "newDist=" + newDist);
+                        if (newDist > 10f) {
+                            matrix.set(savedMatrix);
+                            float scale = newDist / oldDist;
+                            matrix.postScale(scale, scale, mid.x, mid.y);
+                        }
+                    }
+                    break;
+            }
+
+            view.setImageMatrix(matrix);
+            return true;
+        }
+
+    private void dumpEvent(MotionEvent event) {
+        String names[] = { "DOWN", "UP", "MOVE", "CANCEL", "OUTSIDE",
+                "POINTER_DOWN", "POINTER_UP", "7?", "8?", "9?" };
+        StringBuilder sb = new StringBuilder();
+        int action = event.getAction();
+        int actionCode = action & MotionEvent.ACTION_MASK;
+        sb.append("event ACTION_").append(names[actionCode]);
+        if (actionCode == MotionEvent.ACTION_POINTER_DOWN
+                || actionCode == MotionEvent.ACTION_POINTER_UP) {
+            sb.append("(pid ").append(
+                    action >> MotionEvent.ACTION_POINTER_ID_SHIFT);
+            sb.append(")");
+        }
+        sb.append("[");
+        for (int i = 0; i < event.getPointerCount(); i++) {
+            sb.append("#").append(i);
+            sb.append("(pid ").append(event.getPointerId(i));
+            sb.append(")=").append((int) event.getX(i));
+            sb.append(",").append((int) event.getY(i));
+            if (i + 1 < event.getPointerCount())
+                sb.append(";");
+        }
+        sb.append("]");
+        Log.d(TAG, sb.toString());
+    }
+
+    /** Determine the space between the first two fingers */
+    private float spacing(MotionEvent event) {
+        float x = event.getX(0) - event.getX(1);
+        float y = event.getY(0) - event.getY(1);
+        return (float)Math.sqrt(x * x + y * y);
+    }
+
+    /** Calculate the mid point of the first two fingers */
+    private void midPoint(PointF point, MotionEvent event) {
+        float x = event.getX(0) + event.getX(1);
+        float y = event.getY(0) + event.getY(1);
+        point.set(x / 2, y / 2);
+    }
+
+    public void showImage(Bitmap mybitmap) {
+        Dialog builder = new Dialog(getActivity());
+        builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        builder.getWindow().setBackgroundDrawable(
+                new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                //nothing;
+            }
+        });
+
+        ImageView imageView = new ImageView(getActivity());
+        imageView.setImageBitmap(mybitmap);
+//        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+//        imageView.setAdjustViewBounds(true);
+        builder.addContentView(imageView, new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        builder.show();
     }
 }
