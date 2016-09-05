@@ -1,12 +1,12 @@
 package library.salesforce.common;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class dataJson {
 
@@ -59,6 +59,9 @@ public class dataJson {
 			List<tAbsenUserData> listOftAbsenUserData) {
 		ListOftAbsenUserData = listOftAbsenUserData;
 	}
+
+
+
 	public synchronized List<mEmployeeAreaData> getListOfmEmployeeAreaData() {
 		return ListOfmEmployeeAreaData;
 	}
@@ -598,6 +601,16 @@ public class dataJson {
 	private List<tEmployeeBRWithLOBData> ListOftEmployeeBRWithLOBData;
 
 	private List<mProductBarcodeData> _ListOfmProductBarcodeData;
+
+	public List<tCustomerBasedMobileHeaderData> get_ListOftCustomerBasedMobileHeaderData() {
+		return _ListOftCustomerBasedMobileHeaderData;
+	}
+
+	public void set_ListOftCustomerBasedMobileHeaderData(List<tCustomerBasedMobileHeaderData> _ListOftCustomerBasedMobileHeaderData) {
+		this._ListOftCustomerBasedMobileHeaderData = _ListOftCustomerBasedMobileHeaderData;
+	}
+
+	private List<tCustomerBasedMobileHeaderData> _ListOftCustomerBasedMobileHeaderData;
 
 	public List<mProductBarcodeData> get_ListOfmProductBarcodeData() {
 		return _ListOfmProductBarcodeData;

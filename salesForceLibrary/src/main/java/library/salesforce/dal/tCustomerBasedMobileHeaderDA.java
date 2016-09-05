@@ -1,13 +1,12 @@
 package library.salesforce.dal;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
-import library.salesforce.common.tSalesProductHeaderData;
 
 public class tCustomerBasedMobileHeaderDA {
 	// All Static variables
@@ -188,7 +187,7 @@ public class tCustomerBasedMobileHeaderDA {
 				List<tCustomerBasedMobileHeaderData> contactList = null;
 				// Select All Query
 				tCustomerBasedMobileHeaderData dt=new tCustomerBasedMobileHeaderData();
-				String selectQuery = "SELECT  "+dt.Property_ALL+" FROM " + TABLE_NAME+" WHERE "+dt.Property_intSubmit+"='0' AND "+dt.Property_intSync+"='0'";
+				String selectQuery = "SELECT  "+dt.Property_ALL+" FROM " + TABLE_NAME+" WHERE "+dt.Property_intSubmit+"='1' AND "+dt.Property_intSync+"='0'";
 
 				Cursor cursor = db.rawQuery(selectQuery, null);
 
