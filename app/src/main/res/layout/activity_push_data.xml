@@ -15,6 +15,7 @@
       android:id="@+id/tv1"
        android:layout_width="match_parent"
       android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_medium"
       android:textColor="#000"
       android:text="Sales" />
     
@@ -43,6 +44,7 @@
       android:id="@+id/tv2"
        android:layout_width="match_parent"
       android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_medium"
         android:layout_marginTop="5dp"
       android:textColor="#000"
       android:text="Activity" />
@@ -57,6 +59,7 @@
       android:id="@+id/tv3"
        android:layout_width="match_parent"
       android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_medium"
         android:layout_marginTop="5dp"
       android:textColor="#000"
       android:text="Customer Base" />
@@ -71,6 +74,7 @@
       android:id="@+id/tv4"
        android:layout_width="match_parent"
       android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_medium"
         android:layout_marginTop="5dp"
       android:textColor="#000"
       android:text="Absen" />
@@ -85,6 +89,7 @@
       android:id="@+id/tv5"
        android:layout_width="match_parent"
       android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_medium"
         android:layout_marginTop="5dp"
       android:textColor="#000"
       android:text="Leave" />

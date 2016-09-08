@@ -2,6 +2,7 @@ package com.kalbenutritionals.app.kalbespgmobile;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,17 +59,27 @@ public class AppAdapterNotif extends BaseAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_list_app2, null);
             holder = new ViewHolder();
-            holder.txtDesc = (TextView) convertView.findViewById(R.id.title);
+            holder.txtDesc = (TextView) convertView.findViewById(R.id.description);
             holder.txtTitle = (TextView) convertView.findViewById(R.id.title);
             holder.imageView = (ImageView) convertView.findViewById(R.id.icon);
+            holder.txtTitle.setTypeface(holder.txtTitle.getTypeface(), Typeface.BOLD);
             convertView.setTag(holder);
         } else
             holder = (ViewHolder) convertView.getTag();
-                
-        holder.txtDesc.setText(rowItem.get_desc());
-        holder.txtTitle.setText(rowItem.get_title());
-        holder.imageView.setImageResource(Integer.parseInt(rowItem.get_imageId()));
-         
+
+//        if(rowItem.get_txtId().equals("1")){
+//            holder.txtDesc.setText("Unread");
+//            holder.txtTitle.setText(rowItem.get_title());
+//            holder.imageView.setImageResource(Integer.parseInt(rowItem.get_imageId()));
+//        } else if (rowItem.get_txtId().equals("0")){
+//            holder.txtDesc.setText("Read");
+//            holder.txtTitle.setText(rowItem.get_title());
+//            holder.imageView.setImageResource(Integer.parseInt(rowItem.get_imageId()));
+//        }
+            holder.txtTitle.setText(rowItem.get_title());
+            holder.txtDesc.setText(rowItem.get_desc());
+            holder.imageView.setImageResource(Integer.parseInt(rowItem.get_imageId()));
+
         return convertView;
     }
     

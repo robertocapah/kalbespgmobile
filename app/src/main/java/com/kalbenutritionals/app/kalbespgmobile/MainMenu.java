@@ -192,6 +192,30 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         Intent intent = getIntent();
         String i_view = intent.getStringExtra("key_view");
 
+                if(i_view!=null){
+                    if (i_view.equals("Notifcation")){
+                        Class<?> fragmentClass = null;
+                        try {
+                            fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view);
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        toolbar.setTitle("Information");
+                        Fragment fragment = null;
+                        try {
+                            fragment = (Fragment) fragmentClass.newInstance();
+                        } catch (InstantiationException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frame, fragment);
+                        fragmentTransaction.commit();
+                        selectedId = 99;
+                    }
+                }
+
         int statusAbsen = 0;
         int menuActive = 0;
 
@@ -213,29 +237,31 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 listMenu[i] = menu.get(i).get_TxtMenuName();
             }
 
-            if (i_view != null)
-                try {
-                    Class<?> fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view.replaceAll("\\s+", "") + "SPG");
+            if (i_view != null){
                     try {
-                        for (int i = 0; i < listMenu.length; i++) {
-                            if (("View " + listMenu[i]).equals(i_view + " SPG")) {
-                                selectedId = i;
-                                break;
+                        Class<?> fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view.replaceAll("\\s+", "") + "SPG");
+                        try {
+                            for (int i = 0; i < listMenu.length; i++) {
+                                if (("View " + listMenu[i]).equals(i_view + " SPG")) {
+                                    selectedId = i;
+                                    break;
+                                }
                             }
+                            toolbar.setTitle(i_view);
+                            Fragment fragment = (Fragment) fragmentClass.newInstance();
+                            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                            fragmentTransaction.replace(R.id.frame, fragment);
+                            fragmentTransaction.commit();
+                        } catch (InstantiationException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
                         }
-                        toolbar.setTitle(i_view);
-                        Fragment fragment = (Fragment) fragmentClass.newInstance();
-                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.frame, fragment);
-                        fragmentTransaction.commit();
-                    } catch (InstantiationException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
+                    } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
+            }
+
         }
 
         List<mMenuData> menu;
@@ -264,6 +290,10 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
         TextView view = (TextView) navigationView.getMenu().findItem(R.id.home).getActionView();
         view.setText("99");
+
+//        TextView view = (TextView) navigationView.getMenu().findItem(R.id.information).getActionView();
+//        List<tNotificationData> ListData=new tNotificationBL().getAllDataWillAlert("2");
+//        view.setText("1");
 
         SubMenu subMenuVersion = header.addSubMenu(R.id.groupVersion, 0, 3, "Version");
         try {
@@ -332,7 +362,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                     case R.id.home:
                         toolbar.setTitle("Home");
 
-                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
 
                         FragmentHome homeFragment = new FragmentHome();
                         FragmentTransaction fragmentTransactionHome = getSupportFragmentManager().beginTransaction();
@@ -354,6 +384,19 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                         selectedId = 99;
 
                         return true;
+
+                    case R.id.information:
+                        toolbar.setTitle("Information");
+
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+
+                        FragmentNotifcation fragmentNotifcation = new FragmentNotifcation();
+                        FragmentTransaction fragmentTransactionNotifcation = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactionNotifcation.replace(R.id.frame, fragmentNotifcation);
+                        fragmentTransactionNotifcation.commit();
+                        selectedId = 99;
+
+                        return  true;
 
                     case R.id.checkout:
                         LayoutInflater _layoutInflater = LayoutInflater.from(MainMenu.this);

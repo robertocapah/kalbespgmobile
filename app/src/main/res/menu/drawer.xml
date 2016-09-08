@@ -44,6 +44,12 @@
             android:title="History Absen" />
 
         <item
+            android:id="@+id/information"
+            android:checked="false"
+            android:orderInCategory="2"
+            android:title="Information" />
+
+        <item
             android:id="@+id/logout"
             android:checked="false"
             android:orderInCategory="2"

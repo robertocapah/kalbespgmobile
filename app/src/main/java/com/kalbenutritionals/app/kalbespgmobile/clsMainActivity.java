@@ -516,11 +516,12 @@ public class clsMainActivity extends Activity {
 
 	    List<clsRowItem> mAppList = new ArrayList<clsRowItem>();
 
-	    for(int i = 0; i < items.size(); i++){
-	    	clsRowItem getswipeList = items.get(i);
-	    	mAppList.add(i, getswipeList);
-	    }
-
+		if (items!=null){
+			for(int i = 0; i < items.size(); i++){
+				clsRowItem getswipeList = items.get(i);
+				mAppList.add(i, getswipeList);
+			}
+		}
         mAdapter = new AppAdapterNotif(context, items);
 
         return mAdapter;
@@ -528,7 +529,7 @@ public class clsMainActivity extends Activity {
 	
 
 
-	public edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener mmenuSwipeListener(final Context _ctx, final String action, final Map<String, HashMap> mapMenu, final List<clsSwipeList> swipeList){
+	public edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener mmenuSwipeListener(final Context _ctx, final String action, final Map<String, HashMap> mapMenu, final List<clsRowItem> swipeList){
 	edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener listener = new edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener(){
 
 		@SuppressWarnings("unchecked")
@@ -536,10 +537,10 @@ public class clsMainActivity extends Activity {
 		public void onMenuItemClick(int position, SwipeMenu menu, int index) {
 			HashMap<String, String> selectedMenu = mapMenu.get(String.valueOf(index));
 
-			clsSwipeList getswipeList = swipeList.get(position);
+			clsRowItem getswipeList = swipeList.get(position);
 			if (action =="LNotifi"){
 				String uuid = getswipeList.get_txtId();
-				Intent intent = new Intent(getApplicationContext(),TableNotif.class);
+				Intent intent = new Intent(getApplicationContext(),FragmentNotifcation.class);
 				intent.putExtra("From", "Notif");
 				intent.putExtra(TAG_UUID, String.valueOf(uuid));
 				startActivity(intent);

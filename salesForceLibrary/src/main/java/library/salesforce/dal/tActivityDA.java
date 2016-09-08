@@ -399,7 +399,7 @@ public class tActivityDA {
 				List<tActivityData> contactList = null;
 				// Select All Query
 				tActivityData dt=new tActivityData();
-				String selectQuery = "SELECT  "+dt.Property_All+" FROM " + TABLE_CONTACTS +" WHERE "+dt.Property_intSubmit+"='1' AND "+dt.Property_intIdSyn+"=''";
+				String selectQuery = "SELECT  "+dt.Property_All+" FROM " + TABLE_CONTACTS +" WHERE "+dt.Property_intSubmit+"='1' AND "+dt.Property_intIdSyn+"='0'";
 
 				Cursor cursor = db.rawQuery(selectQuery, null);
 

@@ -19,12 +19,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,6 +61,7 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
     static final int DRAG = 1;
     static final int ZOOM = 2;
     int mode = NONE;
+    private int zoomControler=20;
 
     // Remember some things for zooming
     PointF start = new PointF();
@@ -149,6 +150,8 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
         LayoutInflater layoutInflater = LayoutInflater.from(this.getContext());
         final View promptView = layoutInflater.inflate(R.layout.fragment_activity_add, null);
 
+//        final CustomZoomView customImageView = (CustomZoomView) promptView.findViewById(R.id.customZoomView);
+
         final EditText etDesc = (EditText) promptView.findViewById(R.id.etNama);
         final ImageButton img1 = (ImageButton) promptView.findViewById(R.id.imageButton);
         final ImageButton img2 = (ImageButton) promptView.findViewById(R.id.imageButton2);
@@ -184,7 +187,8 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
         final byte[] imgFile = dt.get(position).get_txtImg1();
         if(imgFile!=null){
             mybitmap1 = BitmapFactory.decodeByteArray(imgFile, 0 , imgFile.length);
-            img1.setImageBitmap(mybitmap1);
+            Bitmap bitmap = Bitmap.createScaledBitmap(mybitmap1, 150, 150, true);
+            img1.setImageBitmap(bitmap);
         }
         else{
             img1.setVisibility(View.GONE);
@@ -192,29 +196,14 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
         final byte[] imgFile2 = dt.get(position).get_txtImg2();
         if(imgFile2!=null){
             mybitmap2 = BitmapFactory.decodeByteArray(imgFile2, 0 , imgFile2.length);
-            img2.setImageBitmap(mybitmap2);
+            Bitmap bitmap = Bitmap.createScaledBitmap(mybitmap2, 150, 150, true);
+            img2.setImageBitmap(bitmap);
         }
         else{
             img2.setVisibility(View.GONE);
         }
 
-        img1.setClickable(true);
-        img1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showImage(mybitmap1);
-
-            }
-        });
-        img2.setClickable(true);
-        img2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showImage(mybitmap2);
-            }
-        });
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.getContext());
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.getContext());
         alertDialogBuilder.setView(promptView);
         alertDialogBuilder
 //                .setNeutralButton("Preview", new DialogInterface.OnClickListener() {
@@ -231,6 +220,24 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
                 });
         final AlertDialog alertD = alertDialogBuilder.create();
         alertD.show();
+
+        img1.setClickable(true);
+        img1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                alertD.dismiss();
+                showImage(mybitmap1);
+//                zoomImage(mybitmap1);
+            }
+        });
+
+        img2.setClickable(true);
+        img2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImage(mybitmap2);
+            }
+        });
     }
         public boolean onTouch(View v, MotionEvent event) {
                 ImageView view = (ImageView) v;
@@ -322,24 +329,52 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
     }
 
     public void showImage(Bitmap mybitmap) {
-        Dialog builder = new Dialog(getActivity());
+        Dialog builder = new Dialog(getActivity(),R.style.AppTheme_PopupOverlay);
+
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
         builder.getWindow().setBackgroundDrawable(
                 new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        builder.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        LayoutInflater layoutInflater = LayoutInflater.from(this.getContext());
+
+        View promptView = layoutInflater.inflate(R.layout.custom_zoom_image, null);
+        CustomZoomView customZoomView;
+        customZoomView = (CustomZoomView)promptView.findViewById(R.id.customImageVIew1);
+        customZoomView.setBitmap(mybitmap);
+        builder.setContentView(promptView);
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 //nothing;
             }
         });
-
-        ImageView imageView = new ImageView(getActivity());
-        imageView.setImageBitmap(mybitmap);
-//        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-//        imageView.setAdjustViewBounds(true);
-        builder.addContentView(imageView, new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
         builder.show();
     }
+
+    public void zoomImage (Bitmap bitmap){
+        LayoutInflater layoutInflater = LayoutInflater.from(this.getContext());
+        final View promptView = layoutInflater.inflate(R.layout.custom_zoom_image, null);
+        CustomZoomView customZoomView = new CustomZoomView(getActivity());
+        customZoomView = (CustomZoomView)promptView.findViewById(R.id.customImageVIew1);
+        customZoomView.setBitmap(bitmap);
+
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.getContext());
+        alertDialogBuilder.setView(promptView);
+        alertDialogBuilder
+//                .setNeutralButton("Preview", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Toast.makeText(getActivity().getApplicationContext(), "tes", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+                .setCancelable(false);
+        final AlertDialog alertD = alertDialogBuilder.create();
+        alertD.show();
+
+
+
+    }
+
 }
