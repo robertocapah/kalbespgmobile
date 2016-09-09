@@ -20,7 +20,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -204,30 +203,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         Intent intent = getIntent();
         String i_view = intent.getStringExtra("key_view");
 
-                if(i_view!=null){
-                    if (i_view.equals("Notifcation")){
-                        Class<?> fragmentClass = null;
-                        try {
-                            fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view);
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                        toolbar.setTitle("Information");
-                        Fragment fragment = null;
-                        try {
-                            fragment = (Fragment) fragmentClass.newInstance();
-                        } catch (InstantiationException e) {
-                            e.printStackTrace();
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.frame, fragment);
-                        fragmentTransaction.commit();
-                        selectedId = 99;
-                    }
-                }
-
         int statusAbsen = 0;
         int menuActive = 0;
 
@@ -250,27 +225,50 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             }
 
             if (i_view != null){
-                    try {
-                        Class<?> fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view.replaceAll("\\s+", "") + "SPG");
+
+                    if (i_view.equals("Notifcation")){
+                        Class<?> fragmentClass = null;
                         try {
-                            for (int i = 0; i < listMenu.length; i++) {
-                                if (("View " + listMenu[i]).equals(i_view + " SPG")) {
-                                    selectedId = i;
-                                    break;
-                                }
-                            }
-                            toolbar.setTitle(i_view);
-                            Fragment fragment = (Fragment) fragmentClass.newInstance();
-                            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.frame, fragment);
-                            fragmentTransaction.commit();
+                            fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view);
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        toolbar.setTitle("Information");
+                        Fragment fragment = null;
+                        try {
+                            fragment = (Fragment) fragmentClass.newInstance();
                         } catch (InstantiationException e) {
                             e.printStackTrace();
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         }
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
+                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frame, fragment);
+                        fragmentTransaction.commit();
+                        selectedId = 99;
+                    } else {
+                        try {
+                            Class<?> fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view.replaceAll("\\s+", "") + "SPG");
+                            try {
+                                for (int i = 0; i < listMenu.length; i++) {
+                                    if (("View " + listMenu[i]).equals(i_view + " SPG")) {
+                                        selectedId = i;
+                                        break;
+                                    }
+                                }
+                                toolbar.setTitle(i_view);
+                                Fragment fragment = (Fragment) fragmentClass.newInstance();
+                                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                                fragmentTransaction.replace(R.id.frame, fragment);
+                                fragmentTransaction.commit();
+                            } catch (InstantiationException e) {
+                                e.printStackTrace();
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
                     }
             }
 
@@ -300,8 +298,20 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             }
         }
 
-        TextView view = (TextView) navigationView.getMenu().findItem(R.id.home).getActionView();
-        view.setText("99");
+//        TextView view = (TextView) navigationView.getMenu().findItem(R.id.home).getActionView();
+//        view.setText("99");
+            if (i_view!=null){
+                if (i_view.equals("View Reso")){
+                    navigationView.getMenu().findItem(0).setChecked(true);
+                } else if (i_view.equals("View Actvity")){
+                    navigationView.getMenu().findItem(1).setChecked(true);
+                } else if (i_view.equals("View Customer Base")){
+                    navigationView.getMenu().findItem(2).setChecked(true);
+                } else if (i_view.equals("Notifcation")){
+                    navigationView.getMenu().findItem(R.id.information).setChecked(true);
+                }
+            }
+
 
 //        TextView view = (TextView) navigationView.getMenu().findItem(R.id.information).getActionView();
 //        List<tNotificationData> ListData=new tNotificationBL().getAllDataWillAlert("2");
@@ -695,7 +705,12 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 intent.putExtra("STRING_I_NEED", strName);
                 startActivity(intent);
             }
+        } else if (requestCode==100 || requestCode == 130){
+            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                    fragment.onActivityResult(requestCode, resultCode, data);
+                }
         }
+
     }
 
 

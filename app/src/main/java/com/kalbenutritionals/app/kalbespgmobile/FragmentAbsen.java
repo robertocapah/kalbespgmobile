@@ -51,14 +51,16 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import bl.mEmployeeAreaBL;
 import bl.mEmployeeBranchBL;
@@ -72,6 +74,7 @@ import library.salesforce.common.mMenuData;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tDeviceInfoUserData;
 import library.salesforce.common.tUserLoginData;
+import library.salesforce.dal.clsHardCode;
 
 public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
@@ -126,6 +129,9 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
     private String outletCode;
     private String myClass;
     private Class<?> clazz = null;
+
+    private Uri uriImage;
+    private int countActivity;
 
     View v;
     /**
@@ -769,62 +775,86 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
         checkPlayServices();
     }
 
+    private Uri getOutputMediaFileUri() {
+        return Uri.fromFile(getOutputMediaFile());
+    }
+
+    private File getOutputMediaFile() {
+        // External sdcard location
+
+        File mediaStorageDir = new File(new clsHardCode().txtFolderAbsen + String.valueOf(countActivity) + File.separator);
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d(IMAGE_DIRECTORY_NAME, "Failed create " + IMAGE_DIRECTORY_NAME + " directory");
+                return null;
+            }
+        }
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        File mediaFile;
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG" + "_" + timeStamp + ".jpg");
+        return mediaFile;
+    }
+
     protected void captureImage1() {
+        uriImage = getOutputMediaFileUri();
         Intent intentCamera1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intentCamera1.putExtra(MediaStore.EXTRA_OUTPUT, uriImage);
         getActivity().startActivityForResult(intentCamera1, CAMERA_CAPTURE_IMAGE1_REQUEST_CODE);
-        //getActivity().startActivityFromFragment(getParentFragment(),intentCamera1,CAMERA_CAPTURE_IMAGE1_REQUEST_CODE);
     }
 
     protected void captureImage2() {
+        uriImage = getOutputMediaFileUri();
         Intent intentCamera2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intentCamera2.putExtra(MediaStore.EXTRA_OUTPUT, uriImage);
         getActivity().startActivityForResult(intentCamera2, CAMERA_CAPTURE_IMAGE2_REQUEST_CODE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+//        super.onActivityResult(requestCode, resultCode, data);
         // if the result is capturing Image
         if (requestCode == CAMERA_CAPTURE_IMAGE1_REQUEST_CODE) {
-            if (resultCode == -1 && (data.getExtras().get("data") != null || data.getData() != null)) {
-                Bitmap photo = null;
-                if (data.getExtras().get("data") != null) {
-                    photo = (Bitmap) data.getExtras().get("data");
-                } else {
-                    try {
-                        photo = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), data.getData());
-                    } catch (FileNotFoundException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
+            if (resultCode == -1) {
+                try {
+
+                    Bitmap bitmap;
+                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                    String uri = uriImage.getPath().toString();
+
+                    bitmap = BitmapFactory.decodeFile(uri, bitmapOptions);
+
+                    previewCapturedImage1(bitmap);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                previewCapturedImage1(photo);
+
             } else if (resultCode == 0) {
                 Toast.makeText(getContext(), "User canceled photo", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContext(), "Something error", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == CAMERA_CAPTURE_IMAGE2_REQUEST_CODE) {
-            if (resultCode == -1 && (data.getExtras().get("data") != null || data.getData() != null)) {
-                Bitmap photo = null;
-                if (data.getExtras().get("data") != null) {
-                    photo = (Bitmap) data.getExtras().get("data");
-                } else {
-                    try {
-                        photo = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), data.getData());
-                    } catch (FileNotFoundException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
+            if (resultCode == -1) {
+                try {
+
+                    Bitmap bitmap;
+                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                    String uri = uriImage.getPath().toString();
+
+                    bitmap = BitmapFactory.decodeFile(uri, bitmapOptions);
+
+                    previewCapturedImage2(bitmap);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                previewCapturedImage2(photo);
             } else if (resultCode == 0) {
+                Toast.makeText(getContext(), "User canceled photo", Toast.LENGTH_SHORT).show();
             } else {
+                Toast.makeText(getContext(), "Something error", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -833,11 +863,12 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
     private void previewCapturedImage1(Bitmap photo) {
         try {
 //            dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
+            Bitmap bitmap = Bitmap.createScaledBitmap(photo, 800, 800, true);
             imgPrevNoImg1.setVisibility(View.VISIBLE);
             ByteArrayOutputStream out = null;
             try {
                 out = new ByteArrayOutputStream();
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, out); // bmp is your Bitmap instance
+                bitmap.compress(Bitmap.CompressFormat.PNG, 0, out); // bmp is your Bitmap instance
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -849,12 +880,13 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                     e.printStackTrace();
                 }
             }
+            Bitmap photo_view = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
             ByteArrayOutputStream blob = new ByteArrayOutputStream();
-            photo.compress(Bitmap.CompressFormat.JPEG, 0 /*ignored for PNG*/, blob);
-            Bitmap bitmap1 = Bitmap.createScaledBitmap(photo, 150, 150, false);
-            bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, blob);
+//            photo.compress(Bitmap.CompressFormat.JPEG, 0 /*ignored for PNG*/, blob);
+//            Bitmap bitmap1 = Bitmap.createScaledBitmap(photo, 150, 150, false);
+//            bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, blob);
             byte[] pht = out.toByteArray();
-            imgPrevNoImg1.setImageBitmap(bitmap1);
+            imgPrevNoImg1.setImageBitmap(photo_view);
             if (dttAbsenUserData != null) {
                 dttAbsenUserData.set_txtImg1(pht);
             } else {
@@ -877,11 +909,12 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
     private void previewCapturedImage2(Bitmap photo) {
         try {
 //            dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
+            Bitmap bitmap = Bitmap.createScaledBitmap(photo, 800, 800, true);
             imgPrevNoImg2.setVisibility(View.VISIBLE);
             ByteArrayOutputStream out = null;
             try {
                 out = new ByteArrayOutputStream();
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, out); // bmp is your Bitmap instance
+                bitmap.compress(Bitmap.CompressFormat.PNG, 0, out); // bmp is your Bitmap instance
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -893,12 +926,14 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                     e.printStackTrace();
                 }
             }
+
+            Bitmap photo_view = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
             ByteArrayOutputStream blob = new ByteArrayOutputStream();
-            photo.compress(Bitmap.CompressFormat.JPEG, 0 /*ignored for PNG*/, blob);
-            Bitmap bitmap1 = Bitmap.createScaledBitmap(photo, 150, 150, false);
-            bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, blob);
+//            photo.compress(Bitmap.CompressFormat.JPEG, 0 /*ignored for PNG*/, blob);
+//            Bitmap bitmap1 = Bitmap.createScaledBitmap(photo, 150, 150, false);
+//            bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, blob);
             byte[] pht = out.toByteArray();
-            imgPrevNoImg2.setImageBitmap(bitmap1);
+            imgPrevNoImg2.setImageBitmap(photo_view);
             if (dttAbsenUserData != null) {
                 dttAbsenUserData.set_txtImg2(pht);
             } else {
