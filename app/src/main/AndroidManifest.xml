@@ -81,7 +81,18 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".CropDisplayPicture"
+            android:label=""
+            android:theme="@style/Theme.AppCompat"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"/>
+
+        <activity
             android:name=".MainMenu"
+            android:label=""
+            android:configChanges="orientation|screenSize"/>
+        <activity
+            android:name=".CropResultActivity"
             android:label=""
             android:configChanges="orientation|screenSize"/>
 
@@ -110,6 +121,7 @@
         <activity
             android:name=".TableNotif"
             android:label="@string/title_activity_login"></activity>
+
 
         <meta-data
             android:name="com.google.android.gms.version"

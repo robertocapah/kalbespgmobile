@@ -1,5 +1,7 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
@@ -32,12 +34,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.simple.JSONArray;
@@ -183,6 +187,14 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             ivProfile.setImageBitmap(BitmapFactory.decodeResource(getApplicationContext().getResources(),
                     R.drawable.profile));
         }
+
+        LayoutInflater inflater = getLayoutInflater();
+        View toastLayout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.custom_toast_layout));
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(toastLayout);
+        toast.show();
 
         ivProfile.setOnClickListener(this);
 
@@ -649,10 +661,43 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.profile_image:
-                pickImage();
+                pickImage2();
                 break;
         }
     }
+
+    public void pickImage2()
+    {
+        CropImage.startPickImageActivity(this);
+    }
+
+    @Override
+    @SuppressLint("NewApi")
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK) {
+            Uri imageUri = CropImage.getPickImageResultUri(this, data);
+
+            // For API >= 23 we need to check specifically that we have permissions to read external storage,
+            // but we don't know if we need to for the URI so the simplest is to try open the stream and see if we get error.
+            boolean requirePermissions = false;
+            if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
+
+                // request permissions and handle the result in onRequestPermissionsResult()
+                requirePermissions = true;
+                mCropImageUri = imageUri;
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
+            } else {
+
+                Intent intent = new Intent(this, CropDisplayPicture.class);
+                String strName = imageUri.toString();
+                intent.putExtra("STRING_I_NEED", strName);
+                startActivity(intent);
+            }
+        }
+    }
+
 
     protected void pickImage() {
 
@@ -727,43 +772,43 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         //                .start(getContext(), this);
     }
 
-        @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-
-        Bitmap photo = null;
-        if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                final boolean isCamera;
-                if (data == null) {
-
-                    isCamera = true;
-                } else {
-                    final String action = data.getAction();
-                    if (action == null) {
-                        isCamera = true;
-                    } else {
-                        photo = (Bitmap) data.getExtras().get("data");
-                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    }
-                }
-
-                if (isCamera) {
-                    try {
-                        photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                previewPickImage(photo);
-            }
-        } else {
-                for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-                    fragment.onActivityResult(requestCode, resultCode, data);
-                }
-        }
-    }
+//        @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        Bitmap photo = null;
+//        if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
+//            if (resultCode == RESULT_OK) {
+//                final boolean isCamera;
+//                if (data == null) {
+//
+//                    isCamera = true;
+//                } else {
+//                    final String action = data.getAction();
+//                    if (action == null) {
+//                        isCamera = true;
+//                    } else {
+//                        photo = (Bitmap) data.getExtras().get("data");
+//                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//                    }
+//                }
+//
+//                if (isCamera) {
+//                    try {
+//                        photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                previewPickImage(photo);
+//            }
+//        } else {
+//                for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+//                    fragment.onActivityResult(requestCode, resultCode, data);
+//                }
+//        }
+//    }
 
     private void previewPickImage(Bitmap photo) {
         try {
