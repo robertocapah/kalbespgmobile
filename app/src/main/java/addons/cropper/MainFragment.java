@@ -216,12 +216,14 @@ public final class MainFragment extends Fragment
     }
 
     private void handleCropResult(CropImageView.CropResult result) {
+
         if (result.getError() == null) {
+            Bitmap bitmap = Bitmap.createScaledBitmap(result.getBitmap(), 600, 600, true);
 
             ByteArrayOutputStream out;
 
             out = new ByteArrayOutputStream();
-            result.getBitmap().compress(Bitmap.CompressFormat.JPEG, 100, out);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
             byte[] pht = out.toByteArray();
 
             tDisplayPictureData tDisplayPictureData = new tDisplayPictureData();
