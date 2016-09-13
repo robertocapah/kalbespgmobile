@@ -29,7 +29,6 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -146,10 +145,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         tvEmail.setText("Email : " + etEmail.getText().toString());
 
                     } else {
-                        Toast.makeText(getContext(), "Email not valid", Toast.LENGTH_SHORT).show();
+                        new clsMainActivity().showCustomToast(getContext(), "Email not valid", false);
                     }
                 } else {
-                    Toast.makeText(getContext(), "Nama, telp, or email cannot empty", Toast.LENGTH_SHORT).show();
+                    new clsMainActivity().showCustomToast(getContext(), "Nama, telp, or email cannot empty", false);
                 }
 
                 break;
@@ -163,7 +162,6 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         saveCustomerBase();
-                        viewCustomerBaseFragment();
                     }
                 });
 
@@ -192,12 +190,13 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         Boolean status = new tCustomerBasedMobileHeaderBL().submit();
 
         if (status) {
-            Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
-            getActivity().finish();
-            Intent intent = new Intent(getContext(), MainMenu.class);
-            startActivity(intent);
+//            new clsMainActivity().showCustomToast(getContext(), "Saved", true);
+//            getActivity().finish();
+//            Intent intent = new Intent(getContext(), MainMenu.class);
+//            startActivity(intent);
+            viewCustomerBaseFragment();
         } else {
-            Toast.makeText(getContext(), "Failed to save", Toast.LENGTH_SHORT).show();
+            new clsMainActivity().showCustomToast(getContext(), "Failed to save", false);
         }
     }
 
@@ -346,10 +345,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         alertD.dismiss();
                         setTablePerson();
                     } else {
-                        Toast.makeText(getContext(), "Select at least 1 product with value", Toast.LENGTH_SHORT).show();
+                        new clsMainActivity().showCustomToast(getContext(), "Select at least 1 product with value", false);
                     }
                 } else {
-                    Toast.makeText(getContext(), "Nama cannot empty", Toast.LENGTH_SHORT).show();
+                    new clsMainActivity().showCustomToast(getContext(), "Nama cannot empty", false);
                 }
             }
         });

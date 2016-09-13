@@ -133,6 +133,8 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
     private Uri uriImage;
     private int countActivity;
 
+    clsMainActivity _clsMainActivity = new clsMainActivity();
+
     View v;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -591,8 +593,8 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
 
                                             float distance = locationA.distanceTo(locationB);
 
-                                            if((int) Math.ceil(distance) > 200){
-                                                Toast.makeText(getContext(), "Failed checkin: Your location too far from outlet", Toast.LENGTH_SHORT).show();
+                                            if((int) Math.ceil(distance) > 100){
+                                                _clsMainActivity.showCustomToast(getContext(), "Failed checkin: Your location too far from outlet", false);
                                             }
                                             else{
                                                 nameBranch = spnBranch.getSelectedItem().toString();
@@ -635,7 +637,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                                                 btnRefreshMaps.setVisibility(View.GONE);
 
 
-                                                Toast.makeText(getContext(), "Saved", Toast.LENGTH_LONG).show();
+                                                _clsMainActivity.showCustomToast(getContext(), "Saved", true);
                                                 try {
                                                     clazz = Class.forName(myClass);
                                                     Intent myIntent = new Intent(getContext(), MainMenu.class);
@@ -650,7 +652,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                                             }
 
                                         } else {
-                                            Toast.makeText(getContext(), "Please Photo at least 1 photo..", Toast.LENGTH_SHORT).show();
+                                            _clsMainActivity.showCustomToast(getContext(), "Please Photo at least 1 photo..", false);
                                         }
                                     }
                                 })
@@ -832,9 +834,9 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                 }
 
             } else if (resultCode == 0) {
-                Toast.makeText(getContext(), "User canceled photo", Toast.LENGTH_SHORT).show();
+                _clsMainActivity.showCustomToast(getContext(), "User canceled photo", false);
             } else {
-                Toast.makeText(getContext(), "Something error", Toast.LENGTH_SHORT).show();
+                _clsMainActivity.showCustomToast(getContext(), "Something error", false);
             }
         } else if (requestCode == CAMERA_CAPTURE_IMAGE2_REQUEST_CODE) {
             if (resultCode == -1) {
@@ -852,9 +854,9 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                     e.printStackTrace();
                 }
             } else if (resultCode == 0) {
-                Toast.makeText(getContext(), "User canceled photo", Toast.LENGTH_SHORT).show();
+                _clsMainActivity.showCustomToast(getContext(), "User canceled photo", false);
             } else {
-                Toast.makeText(getContext(), "Something error", Toast.LENGTH_SHORT).show();
+                _clsMainActivity.showCustomToast(getContext(), "Something error", false);
             }
         }
 

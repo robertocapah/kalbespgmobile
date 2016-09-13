@@ -20,7 +20,6 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TableRow;
-import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -40,9 +39,6 @@ import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
 import library.salesforce.dal.clsHardCode;
 
-/**
- * Created by Admin on 04-06-2015.
- */
 public class FragmentAddActvitySPG extends Fragment implements View.OnClickListener {
     View v;
     ImageButton imgActivity1, imgActivity2;
@@ -101,7 +97,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
 
             byte[] imgFile2 = dtActivityData.get_txtImg2();
             if(imgFile2!=null){
-                Bitmap myBitmap = BitmapFactory.decodeByteArray(imgFile2, 0 , imgFile2.length);;
+                Bitmap myBitmap = BitmapFactory.decodeByteArray(imgFile2, 0 , imgFile2.length);
                 imgActivity2.setImageBitmap(myBitmap);
             }
         }
@@ -164,9 +160,9 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
             case R.id.btnSave:
 
                 if(etDescription.getText().toString().equals("")&&etDescription.getText().toString().length()==0){
-                    Toast.makeText(getActivity(), "Please give Description...", Toast.LENGTH_LONG).show();
+                    new clsMainActivity().showCustomToast(getContext(), "Please give Description", false);
                 } else if(pht1 == null && pht2 == null) {
-                    Toast.makeText(getContext(), "Failed to save: Please take at least 1 photo", Toast.LENGTH_LONG).show();
+                    new clsMainActivity().showCustomToast(getContext(), "Please take at least 1 photo", false);
                 } else {
 
                     final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
@@ -203,7 +199,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
 
                             new tActivityBL().saveData(dtList);
 
-                            Toast.makeText(getActivity().getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+                            new clsMainActivity().showCustomToast(getContext(), "Saved", true);
                             viewActivityFragment();
                             photo1 = null;
                             photo2 = null;
@@ -244,7 +240,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
             }
 
             else if (resultCode == 0) {
-                Toast.makeText(getActivity().getApplicationContext(), "User canceled to capture image", Toast.LENGTH_SHORT).show();
+                new clsMainActivity().showCustomToast(getContext(), "User canceled to capture image", false);
             }  else {
                 try {
                     photo1 = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), data.getData());
@@ -272,7 +268,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
             }
 
             else if (resultCode == 0) {
-                Toast.makeText(getActivity().getApplicationContext(), "User canceled to capture image", Toast.LENGTH_SHORT).show();
+                new clsMainActivity().showCustomToast(getContext(), "User canceled to capture image", false);
             }  else {
                 try {
                     photo2 = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), data.getData());

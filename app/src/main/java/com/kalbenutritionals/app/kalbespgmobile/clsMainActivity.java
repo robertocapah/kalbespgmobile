@@ -590,25 +590,19 @@ public class clsMainActivity extends Activity {
         ImageView icon = (ImageView) promptView.findViewById(R.id.custom_toast_image);
         tvTextToast.setText(message);
 
-        Drawable background = promptView.getBackground();
+        GradientDrawable bgShape = (GradientDrawable)promptView.getBackground();
 
         if (status) {
-            if (background instanceof ShapeDrawable) {
-                ((ShapeDrawable)background).getPaint().setColor(Color.parseColor("#2ecc71"));
-            }
-//            promptView.setBackgroundColor(Color.parseColor("#2ecc71"));
+            bgShape.setColor(Color.parseColor("#6dc066"));
             icon.setImageResource(R.drawable.ic_checklist);
 
         } else {
-            if (background instanceof ShapeDrawable) {
-                ((ShapeDrawable)background).getPaint().setColor(Color.parseColor("#e74c3c"));
-            }
-//            promptView.setBackgroundColor(Color.parseColor("#e74c3c"));
+            bgShape.setColor(Color.parseColor("#e74c3c"));
             icon.setImageResource(R.drawable.ic_error);
         }
 
         Toast toast = new Toast(context);
-        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(promptView);
         toast.show();
     }
