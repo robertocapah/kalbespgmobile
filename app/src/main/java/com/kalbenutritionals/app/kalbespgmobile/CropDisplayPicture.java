@@ -73,7 +73,7 @@ public class CropDisplayPicture extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
 //        mDrawerToggle.syncState();
         Bundle extras = getIntent().getExtras();
-        mCurrentFragment.setImageUri(Uri.parse(extras.getString("STRING_I_NEED")));
+        mCurrentFragment.setImageUri(Uri.parse(extras.getString("uriPicture")));
 
         mCropImageViewOptions.autoZoomEnabled = true;
         mCropImageViewOptions.fixAspectRatio = true;

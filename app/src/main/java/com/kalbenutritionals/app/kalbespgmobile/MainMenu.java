@@ -33,7 +33,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +55,6 @@ import java.util.List;
 import bl.clsHelperBL;
 import bl.mMenuBL;
 import bl.tAbsenUserBL;
-import bl.tActivityBL;
 import bl.tDeviceInfoUserBL;
 import bl.tDisplayPictureBL;
 import bl.tNotificationBL;
@@ -66,7 +64,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import library.salesforce.common.clsPushData;
 import library.salesforce.common.mMenuData;
 import library.salesforce.common.tAbsenUserData;
-import library.salesforce.common.tActivityData;
 import library.salesforce.common.tDeviceInfoUserData;
 import library.salesforce.common.tDisplayPictureData;
 import library.salesforce.common.tNotificationData;
@@ -76,7 +73,6 @@ import service.MyServiceNative;
 
 public class MainMenu extends AppCompatActivity implements View.OnClickListener {
 
-    //Defining Variables
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -89,26 +85,20 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     private TextView tvUsername, tvEmail;
     private CircleImageView ivProfile;
     private tDisplayPictureData tDisplayPictureData;
-    private tActivityData _tActivityData;
 
-    private Uri mCropImageUri;
     private CropImageView mCropImageView;
-
-    private boolean requirePermissions = false;
 
     PackageInfo pInfo = null;
 
     int selectedId;
-    int saskak;
     private static int menuId = 0;
     Boolean isSubMenu = false;
 
+    clsMainActivity _clsMainActivity = new clsMainActivity();
+
     String[] listMenu;
     String[] linkMenu;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
+
     private GoogleApiClient client;
 
     @Override
@@ -160,9 +150,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         fragmentTransactionHome.commit();
         selectedId = 99;
 
-        //set menu masih manual untuk create db nya
-//        new mMenuBL().setMenuManual();
-
         tUserLoginData dt = new tUserLoginBL().getUserActive();
 
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -176,7 +163,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
         mCropImageView = new CropImageView(this);
 
-        _tActivityData = new tActivityBL().getDataByBitActive();
         tDisplayPictureData = new tDisplayPictureBL().getData();
 
         if (tDisplayPictureData.get_image() != null) {
@@ -186,14 +172,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             ivProfile.setImageBitmap(BitmapFactory.decodeResource(getApplicationContext().getResources(),
                     R.drawable.profile));
         }
-
-        LayoutInflater inflater = getLayoutInflater();
-        View toastLayout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.custom_toast_layout));
-
-        Toast toast = new Toast(getApplicationContext());
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setView(toastLayout);
-        toast.show();
 
         ivProfile.setOnClickListener(this);
 
@@ -207,7 +185,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         int menuActive = 0;
 
         if (dtAbsens == null) {
-            statusAbsen = 1;
             menuActive = R.id.groupListMenu;
             header.removeItem(R.id.checkout);
         } else {
@@ -352,7 +329,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                                 .setCancelable(false)
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        //PushData
                                         stopService(new Intent(getApplicationContext(), MyServiceNative.class));
                                         AsyncCallLogOut task = new AsyncCallLogOut();
                                         task.execute();
@@ -446,7 +422,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                                         List<tDeviceInfoUserData> dataDeviceInfoUser = new tDeviceInfoUserBL().getData(1);
                                         String deviceInfo = String.valueOf(dataDeviceInfoUser.get(0).get_txtDeviceId());
                                         List<tAbsenUserData> absenUserDatas = new ArrayList<tAbsenUserData>();
-                                        clsMainActivity _clsMainActivity = new clsMainActivity();
 
                                         if (dttAbsenUserData != null) {
                                             datatAbsenUserData.set_intId(dttAbsenUserData.get_intId());
@@ -485,8 +460,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                                     toolbar.setTitle(menuItem.getTitle().toString());
                                 }
 
-//                                menuId = Integer.parseInt(new mMenuBL().getMenuDataByMenuName2(menuItem.getTitle().toString()).get_IntMenuID());
-
                                 fragment = (Fragment) fragmentClass.newInstance();
                                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                                 fragmentTransaction.replace(R.id.frame, fragment);
@@ -509,54 +482,33 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             }
         });
 
-        // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
-                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
                 super.onDrawerClosed(drawerView);
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-
                 super.onDrawerOpened(drawerView);
             }
         };
 
-        //Setting the actionbarToggle to drawer layout
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
-
-        //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
-
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-//        MenuItem menuItem = null;
-//        if(menuItem.getItemId()==R.id.view_reso){
-//            menu.add(0, 1, Menu.CATEGORY_ALTERNATIVE, "Add Reso");
-//        }
-//        else {
-//            menu.add(0, 2, Menu.NONE, "Setting");
-//        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        int idd = item.getGroupId();
 
         toolbar.setTitle(item.getTitle());
 
@@ -623,49 +575,12 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             menu.setGroupEnabled(4, false);
         }
 
-//
-//        if(selectedId == 1) {
-//
-//            menu.add(0, 1, 0, "Add Reso");
-//
-//        } else if(selectedId == 2) {
-//
-//            menu.add(0, 2, 0, "Add Activity");
-//
-//        } else if(selectedId == 3){
-//
-//            menu.add(0, 3, 0, "Add Customer Base");
-//
-//        } else if (selectedId==4){
-//
-//            menu.add(1, 4, 0, "View Reso");
-//            menu.setGroupEnabled(1,false);
-//
-//        } else if (selectedId==5){
-//
-//            menu.add(2, 5, 0, "View Activity");
-//            menu.setGroupEnabled(2,false);
-//
-//        } else if (selectedId==6){
-//
-//            menu.add(3, 6, 0, "View Customer Base");
-//            menu.setGroupEnabled(3,false);
-//
-//        }
-//        else if(selectedId == 0){
-//
-//            menu.add(4, 0, 0, "De");
-//            menu.setGroupEnabled(1,false);
-//        }
-
-        //Toast.makeText(this, String.valueOf(selectedId), Toast.LENGTH_LONG).show();
         return super.onPrepareOptionsMenu(menu);
 
     }
 
 
     int intProcesscancel = 0;
-    private clsHardCode clsHardcode = new clsHardCode();
 
     @Override
     public void onClick(View v) {
@@ -689,21 +604,14 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK) {
             Uri imageUri = CropImage.getPickImageResultUri(this, data);
 
-            // For API >= 23 we need to check specifically that we have permissions to read external storage,
-            // but we don't know if we need to for the URI so the simplest is to try open the stream and see if we get error.
-            boolean requirePermissions = false;
             if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
-
-                // request permissions and handle the result in onRequestPermissionsResult()
-                requirePermissions = true;
-                mCropImageUri = imageUri;
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
             } else {
-
                 Intent intent = new Intent(this, CropDisplayPicture.class);
                 String strName = imageUri.toString();
-                intent.putExtra("STRING_I_NEED", strName);
+                intent.putExtra("uriPicture", strName);
                 startActivity(intent);
+                finish();
             }
         } else if (requestCode==100 || requestCode == 130){
             for (Fragment fragment : getSupportFragmentManager().getFragments()) {
@@ -713,162 +621,9 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
     }
 
-
-    protected void pickImage() {
-
-        // Camera.
-        final List<Intent> cameraIntents = new ArrayList<Intent>();
-        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        final PackageManager packageManager = getPackageManager();
-        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-        for(ResolveInfo res : listCam) {
-            final String packageName = res.activityInfo.packageName;
-            final Intent intent = new Intent(captureIntent);
-            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-            intent.setPackage(packageName);
-            cameraIntents.add(intent);
-        }
-
-        // Filesystem.
-        final Intent galleryIntent = new Intent();
-        galleryIntent.setType("image/*");
-        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-
-        // Chooser of filesystem options.
-        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
-
-        // Add the camera options.
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
-
-        startActivityForResult(chooserIntent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
-
-//        if (CropImage.isExplicitCameraPermissionRequired(this)) {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                requestPermissions(new String[]{Manifest.permission.CAMERA}, CropImage.CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE);
-//            }
-//        } else {
-//            CropImage.startPickImageActivity(this);
-//        }
-//        drawerLayout.closeDrawers();
-
-    }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK) {
-//            Uri imageUri = CropImage.getPickImageResultUri(this, data);
-//
-//            // For API >= 23 we need to check specifically that we have permissions to read external storage,
-//            // but we don't know if we need to for the URI so the simplest is to try open the stream and see if we get error.
-//            if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
-//
-//                // request permissions and handle the result in onRequestPermissionsResult()
-//                requirePermissions = true;
-//
-//                mCropImageUri = imageUri;
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
-//                }
-//            } else {
-//
-//                setImageUri(imageUri);
-//            }
-//        }
-//    }
-
-    /**
-     * Set the image to show for cropping.
-     */
-    public void setImageUri(Uri imageUri) {
-        mCropImageView.setImageUriAsync(imageUri);
-        //        CropImage.activity(imageUri)
-        //                .start(getContext(), this);
-    }
-
-//        @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        Bitmap photo = null;
-//        if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
-//            if (resultCode == RESULT_OK) {
-//                final boolean isCamera;
-//                if (data == null) {
-//
-//                    isCamera = true;
-//                } else {
-//                    final String action = data.getAction();
-//                    if (action == null) {
-//                        isCamera = true;
-//                    } else {
-//                        photo = (Bitmap) data.getExtras().get("data");
-//                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//                    }
-//                }
-//
-//                if (isCamera) {
-//                    try {
-//                        photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//                previewPickImage(photo);
-//            }
-//        } else {
-//                for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-//                    fragment.onActivityResult(requestCode, resultCode, data);
-//                }
-//        }
-//    }
-
-    private void previewPickImage(Bitmap photo) {
-        try {
-            ByteArrayOutputStream out = null;
-            try {
-                out = new ByteArrayOutputStream();
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, out); // bmp is your Bitmap instance
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (out != null) {
-                        out.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            ByteArrayOutputStream blob = new ByteArrayOutputStream();
-            photo.compress(Bitmap.CompressFormat.JPEG, 0 /*ignored for PNG*/, blob);
-            Bitmap bitmap = Bitmap.createScaledBitmap(photo, 150, 150, false);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, blob);
-            byte[] pht = out.toByteArray();
-            ivProfile.setImageBitmap(photo);
-
-            tDisplayPictureData.set_intID("1");
-            tDisplayPictureData.set_image(pht);
-            tDisplayPictureData.set_intPush("1");
-
-            List<tDisplayPictureData> dtList = new ArrayList<>();
-            dtList.add(tDisplayPictureData);
-
-            new tDisplayPictureBL().saveData(dtList);
-
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void onStart() {
         super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         client.connect();
         Action viewAction = Action.newAction(
                 Action.TYPE_VIEW, // TODO: choose an action type.
@@ -912,7 +667,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 List<tAbsenUserData> listAbsenData = new ArrayList<tAbsenUserData>();
                 tAbsenUserData dtTabsenData = new tAbsenUserBL().getDataCheckInActive();
                 if (dtTabsenData != null) {
-                    dtTabsenData.set_dtDateCheckOut(new clsMainActivity().FormatDateComplete().toString());
+                    dtTabsenData.set_dtDateCheckOut(_clsMainActivity.FormatDateComplete().toString());
                     dtTabsenData.set_intSubmit("1");
                     dtTabsenData.set_intSync("0");
                     listAbsenData.add(dtTabsenData);
@@ -1018,8 +773,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
         @Override
         protected void onPreExecute() {
-            //Make ProgressBar invisible
-            //pg.setVisibility(View.VISIBLE);
             Dialog.setMessage(new clsHardCode().txtMessLogOut);
             Dialog.setCancelable(false);
             Dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {

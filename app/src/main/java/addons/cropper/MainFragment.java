@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.kalbenutritionals.app.kalbespgmobile.CropDisplayPicture;
 import com.kalbenutritionals.app.kalbespgmobile.MainMenu;
 import com.kalbenutritionals.app.kalbespgmobile.R;
+import com.kalbenutritionals.app.kalbespgmobile.clsMainActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -158,7 +159,7 @@ public final class MainFragment extends Fragment
             if (mDemoPreset == CropDemoPreset.SCALE_CENTER_INSIDE) {
                 mCropImageView.setImageResource(R.drawable.profile);
             } else {
-                mCropImageView.setImageResource(R.drawable.profile2);
+                mCropImageView.setImageResource(R.drawable.profile);
             }
         }
     }
@@ -194,7 +195,7 @@ public final class MainFragment extends Fragment
     @Override
     public void onSetImageUriComplete(CropImageView view, Uri uri, Exception error) {
         if (error == null) {
-            Toast.makeText(getActivity(), "Image load successful", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), "Image load successful", Toast.LENGTH_SHORT).show();
         } else {
             Log.e("AIC", "Failed to load image by URI", error);
             Toast.makeText(getActivity(), "Image load failed: " + error.getMessage(), Toast.LENGTH_LONG).show();
@@ -236,19 +237,11 @@ public final class MainFragment extends Fragment
 
             new tDisplayPictureBL().saveData(dtList);
 
+            new clsMainActivity().showCustomToast(getContext(), "Saved", true);
+
             Intent intent = new Intent(getActivity(), MainMenu.class);
             startActivity(intent);
-
-//            Intent intent = new Intent(getActivity(), CropResultActivity.class);
-//            intent.putExtra("SAMPLE_SIZE", result.getSampleSize());
-//            if (result.getUri() != null) {
-//                intent.putExtra("URI", result.getUri());
-//            } else {
-//                CropResultActivity.mImage = mCropImageView.getCropShape() == CropImageView.CropShape.OVAL
-//                        ? CropImage.toOvalBitmap(result.getBitmap())
-//                        : result.getBitmap();
-//            }
-//            startActivity(intent);
+            getActivity().finish();
         } else {
             Log.e("AIC", "Failed to crop image", result.getError());
             Toast.makeText(getActivity(), "Image crop failed: " + result.getError().getMessage(), Toast.LENGTH_LONG).show();

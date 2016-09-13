@@ -80,12 +80,12 @@ public class FragmentHome extends Fragment {
             statusAbsen.setText("Inactive");
         }
 
-        Snackbar.make(coordinatorLayout, "Welcome " + dt.get_txtName(), Snackbar.LENGTH_LONG)
-                .setAction("Dismiss", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                    }
-                }).show();
+//        Snackbar.make(coordinatorLayout, "Welcome " + dt.get_txtName(), Snackbar.LENGTH_LONG)
+//                .setAction("Dismiss", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                    }
+//                }).show();
 
         totalBrand.setText(String.valueOf(dtBrand.size()));
         totalProduct.setText(String.valueOf(dtProduct.size()));

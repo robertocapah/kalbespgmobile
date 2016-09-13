@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/custom_toast_layout"
-    android:background="#21ab29"
+    android:background="@drawable/bg_rounded_layout"
     android:orientation="horizontal"
     android:padding="10dp">
 
@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:paddingLeft="10dp"
+        android:paddingLeft="5dp"
         android:text="This is my custom toast message"
         android:textColor="#fff" />
 </LinearLayout>
