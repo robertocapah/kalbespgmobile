@@ -83,7 +83,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
         TableRow tableRow = (TableRow) v.findViewById(R.id.tr_header_act);
         tableRow.setVisibility(View.GONE);
 
-        countActivity = new tActivityBL().getCountActivity();
+//        countActivity = new tActivityBL().getCountActivity();
         dtActivityData = new tActivityBL().getDataByBitActive();
 
         _tActivityBL = new tActivityBL();
@@ -289,7 +289,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
     }
 
     private void previewCapturedImage1(Bitmap photo) {
-        Bitmap bitmap = Bitmap.createScaledBitmap(photo, 600, 800, true);
+        Bitmap bitmap = Bitmap.createScaledBitmap(photo, 800, 800, true);
         try {
             try {
                 output = new ByteArrayOutputStream();
@@ -333,7 +333,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
     }
 
     private void previewCapturedImage2(Bitmap photo) {
-        Bitmap bitmap = Bitmap.createScaledBitmap(photo, 600, 800, true);
+        Bitmap bitmap = Bitmap.createScaledBitmap(photo, 800, 800, true);
         try {
             try {
                 output = new ByteArrayOutputStream();
@@ -377,7 +377,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
     private File getOutputMediaFile() {
         // External sdcard location
 
-        File mediaStorageDir = new File(new clsHardCode().txtFolderActivity + String.valueOf(countActivity) + File.separator);
+        File mediaStorageDir = new File(new clsHardCode().txtFolderActivity + File.separator);
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
@@ -388,7 +388,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         File mediaFile;
-        mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG" + "_" + timeStamp + ".jpg");
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + "tmp_act"  + ".png");
         return mediaFile;
     }
 

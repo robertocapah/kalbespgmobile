@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,12 +74,17 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
     private static Bitmap mybitmap1;
     private static Bitmap mybitmap2;
 
+    private NavigationView navigationView;
+
     View v;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_customerbase_view,container,false);
+
+        navigationView = (NavigationView) v.findViewById(R.id.navigation_view);
+//        navigationView.getMenu().getItem(0).setChecked(true);
 
         clsSwipeList swplist;
         dt = new tActivityBL().getAllData();
@@ -146,7 +153,7 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
         }, 1);
     }
 
-    private void viewList(Context ctx, int position) {
+    private void viewList(Context ctx, final int position) {
         LayoutInflater layoutInflater = LayoutInflater.from(this.getContext());
         final View promptView = layoutInflater.inflate(R.layout.fragment_activity_add, null);
 
@@ -226,8 +233,9 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
             @Override
             public void onClick(View v) {
 //                alertD.dismiss();
-                showImage(mybitmap1);
-//                zoomImage(mybitmap1);
+//                showImage(mybitmap1);
+                String desc = dt.get(position).get_txtDesc();
+                zoomImage(mybitmap1, desc);
             }
         });
 
@@ -235,7 +243,8 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
         img2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showImage(mybitmap2);
+                String desc = dt.get(position).get_txtDesc();
+                zoomImage(mybitmap2, desc);
             }
         });
     }
@@ -344,6 +353,7 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
         customZoomView = (CustomZoomView)promptView.findViewById(R.id.customImageVIew1);
         customZoomView.setBitmap(mybitmap);
         builder.setContentView(promptView);
+        builder.setCancelable(true);
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
@@ -353,23 +363,27 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
         builder.show();
     }
 
-    public void zoomImage (Bitmap bitmap){
+    public void zoomImage (Bitmap bitmap, String description){
         LayoutInflater layoutInflater = LayoutInflater.from(this.getContext());
         final View promptView = layoutInflater.inflate(R.layout.custom_zoom_image, null);
+        final TextView tv_desc = (TextView) promptView.findViewById(R.id.desc_act);
+
         CustomZoomView customZoomView = new CustomZoomView(getActivity());
         customZoomView = (CustomZoomView)promptView.findViewById(R.id.customImageVIew1);
         customZoomView.setBitmap(bitmap);
 
+//        tv_desc.setText(description);
+
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.getContext());
         alertDialogBuilder.setView(promptView);
         alertDialogBuilder
-//                .setNeutralButton("Preview", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Toast.makeText(getActivity().getApplicationContext(), "tes", Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-                .setCancelable(false);
+                .setCancelable(false)
+                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
         final AlertDialog alertD = alertDialogBuilder.create();
         alertD.show();
 

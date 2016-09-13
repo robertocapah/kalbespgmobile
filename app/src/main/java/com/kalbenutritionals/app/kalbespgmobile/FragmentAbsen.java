@@ -782,7 +782,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
     private File getOutputMediaFile() {
         // External sdcard location
 
-        File mediaStorageDir = new File(new clsHardCode().txtFolderAbsen + String.valueOf(countActivity) + File.separator);
+        File mediaStorageDir = new File(new clsHardCode().txtFolderAbsen + File.separator);
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
@@ -793,7 +793,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         File mediaFile;
-        mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG" + "_" + timeStamp + ".jpg");
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + "tmp_absen" + ".jpg");
         return mediaFile;
     }
 

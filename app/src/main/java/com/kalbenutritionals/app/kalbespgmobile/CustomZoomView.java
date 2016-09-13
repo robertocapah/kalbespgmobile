@@ -33,6 +33,7 @@ public class CustomZoomView extends View implements View.OnTouchListener, View.O
     Rect src;
     Rect mTempDst = new Rect();
     Rect dst = new Rect();
+    Rect tsd = new Rect();
 
     Bitmap mBitmap;
 
@@ -54,6 +55,8 @@ public class CustomZoomView extends View implements View.OnTouchListener, View.O
     private int mViewHeight = -1;
 
     private boolean mDraggable = false;
+
+    private boolean firstTouch = false;
 
     public CustomZoomView(Context context) {
         this(context, null, 0);
@@ -93,10 +96,15 @@ public class CustomZoomView extends View implements View.OnTouchListener, View.O
             mBitmapHeight = bitmap.getHeight() * 1;
 
             dst = new Rect();
-            dst.left = (mViewWidth / 2) - (mBitmapWidth / 2);
-            dst.top = (mViewHeight / 2) - (mBitmapHeight / 2);
-            dst.right = (mViewWidth / 2) + (mBitmapWidth / 2);
-            dst.bottom = (mViewHeight / 2) + (mBitmapHeight / 2);
+//            dst.left = (mViewWidth / 2) - (mBitmapWidth / 2);
+//            dst.top = (mViewHeight / 2) - (mBitmapHeight / 2);
+//            dst.right = (mViewWidth / 2) + (mBitmapWidth / 2);
+//            dst.bottom = (mViewHeight / 2) + (mBitmapHeight / 2);
+            dst = new Rect();
+            dst.left = 0;
+            dst.top = 0;
+            dst.right = bitmap.getWidth();
+            dst.bottom = bitmap.getHeight();
         }
     }
 
@@ -271,7 +279,14 @@ public class CustomZoomView extends View implements View.OnTouchListener, View.O
             canvas.drawBitmap(mBitmap, src, dst, mPaint);
         } else {
             canvas.drawBitmap(mBitmap, src, dst, null);
+//            canvas.drawBitmap(mBitmap, (canvas.getWidth()/2-(mBitmap.getWidth()/2)), (float) (canvas.getHeight() * .25), null);
+//            canvas.drawRect(
+//                    getLeft()+(getRight()-getLeft())/3,
+//                    getTop()+(getBottom()-getTop())/3,
+//                    getRight()-(getRight()-getLeft())/3,
+//                    getBottom()-(getBottom()-getTop())/3,null);
         }
 
     }
+
 }
