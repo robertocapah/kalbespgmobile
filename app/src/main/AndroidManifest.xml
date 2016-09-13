@@ -72,7 +72,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".ProgressBarActivity"
+            android:name=".Splash"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -91,10 +91,10 @@
             android:name=".MainMenu"
             android:label=""
             android:configChanges="orientation|screenSize"/>
-        <activity
-            android:name=".CropResultActivity"
-            android:label=""
-            android:configChanges="orientation|screenSize"/>
+        <!--<activity-->
+            <!--android:name=".CropResultActivity"-->
+            <!--android:label=""-->
+            <!--android:configChanges="orientation|screenSize"/>-->
 
         <service android:name="service.MyServiceNative">
             <intent-filter>
@@ -118,9 +118,9 @@
         <activity
             android:name=".LNotifi"
             android:label="@string/title_activity_login"></activity>
-        <activity
-            android:name=".TableNotif"
-            android:label="@string/title_activity_login"></activity>
+        <!--<activity-->
+            <!--android:name=".TableNotif"-->
+            <!--android:label="@string/title_activity_login"></activity>-->
 
 
         <meta-data
