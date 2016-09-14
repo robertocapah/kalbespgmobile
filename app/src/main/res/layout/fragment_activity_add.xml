@@ -129,12 +129,6 @@
             android:id="@+id/btnSave"
             android:layout_weight="1" />
 
-        <!--<com.kalbenutritionals.app.kalbespgmobile.CustomZoomView-->
-            <!--android:id="@+id/customZoomView"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:longClickable="true"/>-->
-
     </LinearLayout>
 
 </ScrollView>
