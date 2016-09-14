@@ -1,4 +1,4 @@
-package com.kalbenutritionals.app.kalbespgmobile;
+package addons.tableview;
 
 import java.util.Comparator;
 

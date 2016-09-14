@@ -256,7 +256,7 @@ public class Login extends clsMainActivity {
             public void onClick(View arg0) {
                 intProcesscancel=0;
                 if(txtLoginEmail.getText().length()==0){
-                    Toast.makeText(getApplicationContext(), "Please input username", Toast.LENGTH_SHORT);
+                    showCustomToast(getApplicationContext(), "Please input username", false);
 
                 } else {
                     if(spnRole.getCount()==0){
@@ -346,10 +346,7 @@ public class Login extends clsMainActivity {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            Toast toast = Toast.makeText(Login.this,
-                    new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 25, 400);
-            toast.show();
+            showCustomToast(getApplicationContext(), new clsHardCode().txtMessCancelRequest, false);
         }
         @Override
         protected void onPostExecute(JSONArray roledata) {
@@ -415,10 +412,7 @@ public class Login extends clsMainActivity {
                         myIntent.putExtra("keyMainMenu", "main_menu");
                         startActivity(myIntent);
                     }else{
-                        Toast toast = Toast.makeText(Login.this,
-                                PstrMessage, Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.TOP, 25, 400);
-                        toast.show();
+                        showCustomToast(getApplicationContext(), PstrMessage, false);
                         txtLoginPassword.requestFocus();
                     }
                 }
@@ -427,10 +421,7 @@ public class Login extends clsMainActivity {
                 if(intProcesscancel==1){
                     onCancelled();
                 }else{
-                    Toast toast = Toast.makeText(Login.this,
-                            new clsHardCode().txtMessDataNotFound, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 25, 400);
-                    toast.show();
+                    showCustomToast(getApplicationContext(), new clsHardCode().txtMessDataNotFound, false);
                     txtLoginEmail.requestFocus();
                 }
 
@@ -525,10 +516,7 @@ public class Login extends clsMainActivity {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            Toast toast = Toast.makeText(Login.this,
-                    new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 25, 400);
-            toast.show();
+            showCustomToast(getApplicationContext(), new clsHardCode().txtMessCancelRequest, false);
         }
 
         @Override
@@ -558,10 +546,7 @@ public class Login extends clsMainActivity {
                 if (intProcesscancel == 1) {
                     onCancelled();
                 } else {
-                    Toast toast = Toast.makeText(Login.this,
-                            clsHardcode.txtMessNetworkOffline, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 25, 400);
-                    toast.show();
+                    showCustomToast(getApplicationContext(), clsHardcode.txtMessNetworkOffline, false);
 
                     spnRole.setAdapter(null);
                     spnOutlet.setAdapter(null);
@@ -687,10 +672,7 @@ public class Login extends clsMainActivity {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            Toast toast = Toast.makeText(Login.this,
-                    new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 25, 400);
-            toast.show();
+            showCustomToast(getApplicationContext(), new clsHardCode().txtMessCancelRequest, false);
         }
 
         @Override
@@ -736,7 +718,7 @@ public class Login extends clsMainActivity {
                     });
                 }
             } else {
-                showToast(Login.this, clsHardcode.txtMessNetworkOffline);
+                showCustomToast(getApplicationContext(), clsHardcode.txtMessNetworkOffline, false);
             }
             Dialog.dismiss();
         }
@@ -867,7 +849,7 @@ public class Login extends clsMainActivity {
             mWakeLock.release();
             mProgressDialog.dismiss();
             if (result != null)
-                showToast(context, "Download error: " + result);
+                showCustomToast(getApplicationContext(), "Download error: " + result, false);
             else {
                 showToast(context, "File downloaded" + result);
                 Intent intent = new Intent(Intent.ACTION_VIEW);

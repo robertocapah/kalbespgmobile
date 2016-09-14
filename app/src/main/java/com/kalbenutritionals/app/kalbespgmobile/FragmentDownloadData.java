@@ -312,19 +312,13 @@ public class FragmentDownloadData extends Fragment {
             String txtMess=new clsHardCode().txtMessSuccessDownload;
             if(listdataJson.get(0).getIntResult().equals("0")){
                 //txtMess=listdataJson.get(0).getTxtMessage();
-                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessUnableToConnect,
-                        Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 25, 400);
-                toast.show();
+                new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessUnableToConnect, false);
                 Dialog.dismiss();
 
             }
             else{
                 loadData();
-                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
-                        Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 25, 400);
-                toast.show();
+                new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessSuccessDownload, true);
                 Dialog.dismiss();
 //                getActivity().finish();
                 checkingDataTable();

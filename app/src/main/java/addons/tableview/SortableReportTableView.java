@@ -1,8 +1,10 @@
-package com.kalbenutritionals.app.kalbespgmobile;
+package addons.tableview;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+
+import com.kalbenutritionals.app.kalbespgmobile.R;
 
 import de.codecrafters.tableview.SortableTableView;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;

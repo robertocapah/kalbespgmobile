@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -285,11 +287,13 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
     }
 
     private void previewCapturedImage1(Bitmap photo) {
-        Bitmap bitmap = Bitmap.createScaledBitmap(photo, 800, 800, true);
+
+        Bitmap bitmap = new clsMainActivity().resizeImageForBlob(photo);
+
         try {
             try {
                 output = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 0, output); // bmp is your Bitmap instance
+                bitmap.compress(Bitmap.CompressFormat.PNG, 0, output);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -329,7 +333,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
     }
 
     private void previewCapturedImage2(Bitmap photo) {
-        Bitmap bitmap = Bitmap.createScaledBitmap(photo, 800, 800, true);
+        Bitmap bitmap = new clsMainActivity().resizeImageForBlob(photo);
         try {
             try {
                 output = new ByteArrayOutputStream();

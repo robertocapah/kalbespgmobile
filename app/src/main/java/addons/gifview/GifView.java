@@ -1,4 +1,4 @@
-package com.kalbenutritionals.app.kalbespgmobile;
+package addons.gifview;
 
 import android.content.Context;
 import android.graphics.Canvas;

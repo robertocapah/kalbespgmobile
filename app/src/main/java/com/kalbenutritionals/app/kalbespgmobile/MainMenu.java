@@ -5,21 +5,18 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -46,8 +43,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -80,13 +75,9 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     private tAbsenUserData dttAbsenUserData;
     private tAbsenUserData dtAbsens;
 
-    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 200;
-
     private TextView tvUsername, tvEmail;
     private CircleImageView ivProfile;
     private tDisplayPictureData tDisplayPictureData;
-
-    private CropImageView mCropImageView;
 
     PackageInfo pInfo = null;
 
@@ -160,8 +151,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         tvEmail = (TextView) vwHeader.findViewById(R.id.email);
         tvUsername.setText("Welcome, " + dt.get_txtName());
         tvEmail.setText(dt.get_TxtEmail());
-
-        mCropImageView = new CropImageView(this);
 
         tDisplayPictureData = new tDisplayPictureBL().getData();
 
@@ -416,11 +405,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
                                         dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
                                         tAbsenUserData datatAbsenUserData = dttAbsenUserData;
-                                        tUserLoginData dataUserActive = new tUserLoginBL().getUserActive();
-                                        String idUserActive = String.valueOf(dataUserActive.get_txtUserId());
-
-                                        List<tDeviceInfoUserData> dataDeviceInfoUser = new tDeviceInfoUserBL().getData(1);
-                                        String deviceInfo = String.valueOf(dataDeviceInfoUser.get(0).get_txtDeviceId());
                                         List<tAbsenUserData> absenUserDatas = new ArrayList<tAbsenUserData>();
 
                                         if (dttAbsenUserData != null) {
@@ -512,9 +496,9 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
         toolbar.setTitle(item.getTitle());
 
-        Class<?> fragmentClass = null;
+        Class<?> fragmentClass;
         try {
-            Fragment fragment = null;
+            Fragment fragment;
 
             fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + String.valueOf(item.getTitle()).replaceAll("\\s+", ""));
             fragment = (Fragment) fragmentClass.newInstance();
@@ -541,7 +525,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.clear();
-        String[] data = listMenu;
         if (listMenu.length <= selectedId) {
             if (toolbar.getTitle().equals("Reporting")&&!isSubMenu||isSubMenu && dtAbsens != null&&listMenu.length>0&&toolbar.getTitle()=="Reporting"){
                 for(String s : listMenu){
@@ -748,7 +731,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                         }
                         new clsHelperBL().DeleteAllDB();
                         finish();
-                        Intent nextScreen = new Intent(MainMenu.this, ProgressBarActivity.class);
+                        Intent nextScreen = new Intent(MainMenu.this, Splash.class);
                         startActivity(nextScreen);
                     } else {
                         Toast toast = Toast.makeText(MainMenu.this,
@@ -762,9 +745,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 if (intProcesscancel == 1) {
                     onCancelled();
                 } else {
-                    Toast toast = Toast.makeText(MainMenu.this, "Offline", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 25, 400);
-                    toast.show();
+                    _clsMainActivity.showCustomToast(getApplicationContext(), "Offline", false);
                 }
 
             }

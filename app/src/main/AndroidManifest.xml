@@ -85,7 +85,7 @@
             android:label=""
             android:theme="@style/Theme.AppCompat"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden"/>
+            android:configChanges="orientation|keyboardHidden"/>.,.
 
         <activity
             android:name=".MainMenu"

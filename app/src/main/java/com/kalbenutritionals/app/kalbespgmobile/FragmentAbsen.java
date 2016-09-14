@@ -865,7 +865,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
     private void previewCapturedImage1(Bitmap photo) {
         try {
 //            dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
-            Bitmap bitmap = Bitmap.createScaledBitmap(photo, 800, 800, true);
+            Bitmap bitmap = new clsMainActivity().resizeImageForBlob(photo);
             imgPrevNoImg1.setVisibility(View.VISIBLE);
             ByteArrayOutputStream out = null;
             try {
@@ -911,7 +911,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
     private void previewCapturedImage2(Bitmap photo) {
         try {
 //            dttAbsenUserData = _tAbsenUserBL.getDataCheckInActive();
-            Bitmap bitmap = Bitmap.createScaledBitmap(photo, 800, 800, true);
+            Bitmap bitmap = new clsMainActivity().resizeImageForBlob(photo);
             imgPrevNoImg2.setVisibility(View.VISIBLE);
             ByteArrayOutputStream out = null;
             try {

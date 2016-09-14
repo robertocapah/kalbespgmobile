@@ -1,4 +1,4 @@
-package com.kalbenutritionals.app.kalbespgmobile;
+package addons.maps;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
