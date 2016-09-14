@@ -593,7 +593,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
 
                                             float distance = locationA.distanceTo(locationB);
 
-                                            if((int) Math.ceil(distance) > 100){
+                                            if((int) Math.ceil(distance) > 150){
                                                 _clsMainActivity.showCustomToast(getContext(), "Failed checkin: Your location too far from outlet", false);
                                             }
                                             else{

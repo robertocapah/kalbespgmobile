@@ -2,23 +2,18 @@ package com.kalbenutritionals.app.kalbespgmobile;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Movie;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
-import java.io.InputStream;
 import java.text.ParseException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,6 +28,9 @@ import service.MyServiceNative;
 public class Splash extends AppCompatActivity {
     long delay = 5000;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    private static int result = 0;
+
+    private TextView version;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +39,19 @@ public class Splash extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_progress_bar);
+        version = (TextView) findViewById(R.id.tv_version);
+
+        try {
+            version.setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName + " \u00a9 KN-IT");
+//            version.setTypeface(Typeface.SERIF);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
 //        int c_green = 0xFFCCCCCC;
 
         GifView gifView = (GifView) findViewById(R.id.imageView) ;
-        gifView.loadGIFResource(this, R.drawable.tes);
+        gifView.loadGIFResource(this, R.drawable.loading);
 
 //        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
 //        progressBar.getProgressDrawable().setColorFilter(c_green, PorterDuff.Mode.SRC_IN);
@@ -55,7 +62,7 @@ public class Splash extends AppCompatActivity {
         int hasReadContactsPermission = ContextCompat.checkSelfPermission(Splash.this,
                 Manifest.permission.READ_EXTERNAL_STORAGE);
         if (Build.VERSION.SDK_INT >= 23&&hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
-            checkPermission();
+            boolean a = checkPermission();
 
         } else if (Build.VERSION.SDK_INT >= 23&&hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED){
             doProcess();
@@ -65,75 +72,53 @@ public class Splash extends AppCompatActivity {
         }
     }
 
-    private class MYGIFView extends View {
-
-        Movie movie,movie1;
-        InputStream is=null,is1=null;
-        long moviestart;
-        public MYGIFView(Context context) {
-            super(context);
-
-            is=context.getResources().openRawResource(+ R.drawable.loading);
-            movie=Movie.decodeStream(is);
-
-        }
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-
-            canvas.drawColor(Color.WHITE);
-            super.onDraw(canvas);
-            long now=android.os.SystemClock.uptimeMillis();
-//            System.out.println("now="+now);
-            if (moviestart == 0) { // first time
-                moviestart = now;
-
-            }
-//            System.out.println("\tmoviestart="+moviestart);
-            int relTime = (int)((now - moviestart) % movie.duration()) ;
-//            System.out.println("time="+relTime+"\treltime="+movie.duration());
-            movie.setTime(relTime);
-            movie.draw(canvas,this.getWidth(),this.getHeight());
-            this.invalidate();
-        }
-    }
-
-    private void checkPermission() {
+    private boolean checkPermission() {
 
         int hasWriteContactsPermission = ContextCompat.checkSelfPermission(Splash.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int hasReadContactsPermission = ContextCompat.checkSelfPermission(Splash.this,
                 Manifest.permission.READ_EXTERNAL_STORAGE);
 
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(Splash.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            showMessageOKCancel("You need to allow access. . .",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(Splash.this,
-                                    new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA},
-                                    REQUEST_CODE_ASK_PERMISSIONS);
-                            doProcess();
-                        }
-                    });
-            return;
+        AlertDialog.Builder builder = new AlertDialog.Builder(Splash.this);
+        builder.setMessage("You need to allow access. . .");
+        builder.setCancelable(false);
 
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(Splash.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                    ActivityCompat.requestPermissions(Splash.this,
+                            new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA},
+                            REQUEST_CODE_ASK_PERMISSIONS);
+                    dialog.dismiss();
+
+                }
+                ActivityCompat.requestPermissions(Splash.this,
+                        new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA},
+                        REQUEST_CODE_ASK_PERMISSIONS);
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+
+        if (result==1){
+            return true;
+        } else {
+            return false;
         }
-        ActivityCompat.requestPermissions(Splash.this,
-                new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA},
-                REQUEST_CODE_ASK_PERMISSIONS);
-        return;
+    }
 
-    }
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(Splash.this)
-                .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", null)
-                .create()
-                .show();
-    }
     private void doProcess() {
 
         Timer runProgress = new Timer();
@@ -164,5 +149,24 @@ public class Splash extends AppCompatActivity {
         };
         runProgress.schedule(viewTask, delay);
     }
-}
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        int hasWriteContactsPermission = ContextCompat.checkSelfPermission(Splash.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (Build.VERSION.SDK_INT >= 23&&hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+            boolean a = checkPermission();
+
+        } else if (Build.VERSION.SDK_INT >= 23&&hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED){
+            doProcess();
+
+        } else {
+            doProcess();
+        }
+
+
+    }
+}
