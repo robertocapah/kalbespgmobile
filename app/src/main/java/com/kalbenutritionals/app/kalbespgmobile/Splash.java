@@ -12,13 +12,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import java.text.ParseException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import addons.gifview.GifView;
 import bl.clsMainBL;
 import library.salesforce.common.clsHelper;
 import library.salesforce.common.clsStatusMenuStart;
@@ -38,46 +39,49 @@ public class Splash extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_progress_bar);
+        setContentView(R.layout.anim_layout);
         version = (TextView) findViewById(R.id.tv_version);
 
         try {
             version.setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName + " \u00a9 KN-IT");
-//            version.setTypeface(Typeface.SERIF);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
 
-//        int c_green = 0xFFCCCCCC;
-
-        GifView gifView = (GifView) findViewById(R.id.imageView) ;
-        gifView.loadGIFResource(this, R.drawable.loading);
+//        GifView gifView = (GifView) findViewById(R.id.imageView) ;
+//        gifView.loadGIFResource(this, R.drawable.loading);
 
 //        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
 //        progressBar.getProgressDrawable().setColorFilter(c_green, PorterDuff.Mode.SRC_IN);
 
-        Intent myIntent = new Intent(Splash.this, Splash.class);
-        int hasWriteContactsPermission = ContextCompat.checkSelfPermission(Splash.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        int hasReadContactsPermission = ContextCompat.checkSelfPermission(Splash.this,
-                Manifest.permission.READ_EXTERNAL_STORAGE);
-        if (Build.VERSION.SDK_INT >= 23&&hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
-            boolean a = checkPermission();
+//        StartAnimations();
 
-        } else if (Build.VERSION.SDK_INT >= 23&&hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED){
-            doProcess();
+    }
 
-        } else {
-            doProcess();
-        }
+    private void StartAnimations() {
+
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.alpha);
+        anim.reset();
+//        LinearLayout l = (LinearLayout) findViewById(R.id.ll_1_a);
+//        l.clearAnimation();
+//        l.startAnimation(anim);
+
+        anim = AnimationUtils.loadAnimation(this, R.anim.translate);
+        anim.reset();
+        TextView iv = (TextView) findViewById(R.id.iv_anim);
+//        iv.setBackgroundResource(R.mipmap.ic_kalbe_phonegap);
+        iv.clearAnimation();
+        iv.startAnimation(anim);
+
+//        anim = AnimationUtils.loadAnimation(this, R.anim.translate);
+//        anim.reset();
+//        LinearLayout l2 = (LinearLayout) findViewById(R.id.ll_2_a);
+//        l2.setVisibility(View.VISIBLE);
+//        l2.clearAnimation();
+//        l2.startAnimation(anim);
     }
 
     private boolean checkPermission() {
-
-        int hasWriteContactsPermission = ContextCompat.checkSelfPermission(Splash.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        int hasReadContactsPermission = ContextCompat.checkSelfPermission(Splash.this,
-                Manifest.permission.READ_EXTERNAL_STORAGE);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(Splash.this);
         builder.setMessage("You need to allow access. . .");
@@ -87,7 +91,13 @@ public class Splash extends AppCompatActivity {
 
             public void onClick(DialogInterface dialog, int which) {
                 if (!ActivityCompat.shouldShowRequestPermissionRationale(Splash.this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        && !ActivityCompat.shouldShowRequestPermissionRationale(Splash.this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                        &&!ActivityCompat.shouldShowRequestPermissionRationale(Splash.this,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                        &&!ActivityCompat.shouldShowRequestPermissionRationale(Splash.this,
+                        Manifest.permission.CAMERA)){
                     ActivityCompat.requestPermissions(Splash.this,
                             new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA},
                             REQUEST_CODE_ASK_PERMISSIONS);
@@ -112,14 +122,10 @@ public class Splash extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
 
-        if (result==1){
             return true;
-        } else {
-            return false;
-        }
     }
 
-    private void doProcess() {
+    private void checkStatusMenu() {
 
         Timer runProgress = new Timer();
         TimerTask viewTask = new TimerTask() {
@@ -154,19 +160,38 @@ public class Splash extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        int hasWriteContactsPermission = ContextCompat.checkSelfPermission(Splash.this,
+        int hasWriteExternalStoragePermission = ContextCompat.checkSelfPermission(Splash.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int hasReadExternalStoragePermission = ContextCompat.checkSelfPermission(Splash.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+        int hasAccessFineLocationPermission = ContextCompat.checkSelfPermission(Splash.this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        int hasCameraPermission = ContextCompat.checkSelfPermission(Splash.this,
+                Manifest.permission.CAMERA);
 
-        if (Build.VERSION.SDK_INT >= 23&&hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
-            boolean a = checkPermission();
+        if (Build.VERSION.SDK_INT >= 23
+                && hasWriteExternalStoragePermission != PackageManager.PERMISSION_GRANTED
+                && hasReadExternalStoragePermission != PackageManager.PERMISSION_GRANTED
+                && hasAccessFineLocationPermission != PackageManager.PERMISSION_GRANTED
+                && hasCameraPermission != PackageManager.PERMISSION_GRANTED
+                ) {
+            boolean checkPermission = checkPermission();
 
-        } else if (Build.VERSION.SDK_INT >= 23&&hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED){
-            doProcess();
+        } else if (Build.VERSION.SDK_INT >= 23
+                && hasWriteExternalStoragePermission == PackageManager.PERMISSION_GRANTED
+                && hasReadExternalStoragePermission == PackageManager.PERMISSION_GRANTED
+                && hasAccessFineLocationPermission == PackageManager.PERMISSION_GRANTED
+                && hasCameraPermission == PackageManager.PERMISSION_GRANTED
+                ){
+            StartAnimations();
+            checkStatusMenu();
 
+        } else if (Build.VERSION.SDK_INT >= 23
+                && hasCameraPermission != PackageManager.PERMISSION_GRANTED){
+            boolean checkPermission = checkPermission();
         } else {
-            doProcess();
+            StartAnimations();
+            checkStatusMenu();
         }
-
-
     }
 }

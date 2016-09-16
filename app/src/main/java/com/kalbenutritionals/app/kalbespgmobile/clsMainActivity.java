@@ -2,7 +2,9 @@ package com.kalbenutritionals.app.kalbespgmobile;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -10,16 +12,13 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
@@ -46,6 +45,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.UUID;
 
+import addons.zoomview.CustomZoomView;
 import bl.mCounterNumberBL;
 import bl.tDeviceInfoUserBL;
 import bl.tUserLoginBL;
@@ -634,5 +634,33 @@ public class clsMainActivity extends Activity {
         bitmap = Bitmap.createScaledBitmap(photo, width, height, true);
 
         return bitmap;
+    }
+
+    public void zoomImage (Bitmap bitmap, Context context){
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        final View promptView = layoutInflater.inflate(R.layout.custom_zoom_image, null);
+        final TextView tv_desc = (TextView) promptView.findViewById(R.id.desc_act);
+
+        CustomZoomView customZoomView ;
+        customZoomView = (CustomZoomView)promptView.findViewById(R.id.customImageVIew1);
+        customZoomView.setBitmap(bitmap);
+
+//        tv_desc.setText(description);
+
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setView(promptView);
+        alertDialogBuilder
+                .setCancelable(false)
+                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        final AlertDialog alertD = alertDialogBuilder.create();
+        alertD.show();
+
+
+
     }
 }

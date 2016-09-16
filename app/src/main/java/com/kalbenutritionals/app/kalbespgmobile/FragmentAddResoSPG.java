@@ -1,6 +1,5 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -11,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -19,10 +19,10 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -36,9 +36,6 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONArray;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,25 +63,19 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
     TextView tv_date;
     TextView tv_noso;
 
-    //Button btn_preview;
     private EditText edketerangan, searchProduct;
-    private String prvKet, noso;
-    private List<String> arrdata;
+    private String noso;
     private ArrayList<ModelListview> modelItems;
-    private ArrayList<ModelListview> arrprview;
     private ArrayList<ModelListview> arrdataPriv;
-    private ArrayList<ModelListview> mDisplayedValues;
     MyAdapter dataAdapter;
-    PreviewAdapter dtAdapter;
-    ListView listView, listView2, listView3;
+    ListView listView;
     int selectedId;
     public static ArrayList<ModelListview> arr = new ArrayList<ModelListview>();
+
     ProgressDialog progressDialog;
-    //private Toolbar toolbar;
-    List<mEmployeeSalesProductData> employeeSalesProductDataList = null;
-    JSONArray array_Product = null;
     View v;
     FloatingActionButton fab;
+    clsMainActivity _clsMainActivity;
 
     @Nullable
     @Override
@@ -97,6 +88,10 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
         edketerangan = (EditText) v.findViewById(R.id.etKeterangan);
         searchProduct = (EditText) v.findViewById(R.id.searchProduct);
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
+
+        _clsMainActivity = new clsMainActivity();
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(edketerangan.getWindowToken(), 0);
@@ -123,23 +118,6 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
         listView = (ListView) v.findViewById(R.id.lvProduk);
 
         new GetAllemployeeSalesProductDataList().execute();
-
-//        List<mEmployeeSalesProductData> employeeSalesProductDataList = new mEmployeeSalesProductBL().GetAllData();
-//
-//                modelItems = new ArrayList<ModelListview>();
-//
-//                if (employeeSalesProductDataList.size() > 0) {
-//                    for (int i = 0; i < employeeSalesProductDataList.size(); i++) {
-//                        ModelListview dt = new ModelListview();
-//                        dt.set_id(employeeSalesProductDataList.get(i).get_txtBrandDetailGramCode());
-//                        dt.set_name(employeeSalesProductDataList.get(i).get_txtProductBrandDetailGramName());
-//                        dt.set_price((employeeSalesProductDataList.get(i).get_decHJD()));
-//                        dt.set_NIK(employeeSalesProductDataList.get(i).get_txtNIK());
-//                        modelItems.add(dt);
-//                    }
-//                }
-//
-
 
         final ScrollView scrollView = (ScrollView) v.findViewById(R.id.scroll_reso);
         scrollView.setOnTouchListener(new View.OnTouchListener() {
@@ -193,6 +171,7 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                 CharSequence s = searchProduct.getText();
                 if(s.length()>0){
                     dataAdapter.getFilter().filter(s.toString());
+
                 } else {
                     Collections.sort(modelItems, ModelListview.StuRollno);
                 }
@@ -201,28 +180,6 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                 return true;
             }
         });
-
-//        searchProduct.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if(event.getAction() == MotionEvent.ACTION_UP) {
-//                    if(event.getRawX() >= searchProduct.getRight() - searchProduct.getTotalPaddingRight()) {
-//                        // your action for drawable click event
-//                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                        imm.hideSoftInputFromWindow(searchProduct.getWindowToken(), 0);
-//                        CharSequence s = searchProduct.getText();
-//                        if(s.length()>0){
-//                            dataAdapter.getFilter().filter(s.toString());
-//                        } else {
-//                            Collections.sort(modelItems, ModelListview.StuRollno);
-//                        }
-//
-//                        return true;
-//                    }
-//                }
-//                return true;
-//            }
-//        });
 
         return v;
     }
@@ -251,10 +208,12 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                     }
                 }
                 if (edketerangan.getText().toString().equals("")) {
-                    Toast.makeText(getContext(), "Keterangan Belum Diisi", Toast.LENGTH_SHORT).show();
+                    _clsMainActivity.showCustomToast(getActivity(), "Please fill Description...", false);
+
                 } else
                 if (arrdataPriv.size()==0){
-                    Toast.makeText(getContext(), "Silahkan Input Quantity Product", Toast.LENGTH_SHORT).show();
+                    _clsMainActivity.showCustomToast(getActivity(), "Please fill Quantity Product...", false);
+
                 } else if (arrdataPriv.size()>0){
                     LayoutInflater layoutInflater = LayoutInflater.from(getContext());
                     final View promptView = layoutInflater.inflate(R.layout.activity_preview_so, null);
@@ -266,18 +225,6 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
 
                     arr = new ArrayList<ModelListview>();
                     arr = modelItems;
-
-//                    arrdataPriv = new ArrayList<ModelListview>();
-//                    for (int i = 0; i < a; i++) {
-//                        if (modelItems.get(i).get_value() > 0) {
-//                            ModelListview data = new ModelListview();
-//                            data.set_id(modelItems.get(i).get_id());
-//                            data.set_price(modelItems.get(i).get_price());
-//                            data.set_name(modelItems.get(i).get_name());
-//                            data.set_value(modelItems.get(i).get_value());
-//                            arrdataPriv.add(data);
-//                        }
-//                    }
 
                     TableLayout tlb = (TableLayout) promptView.findViewById(R.id.tlProduct);
                     tlb.removeAllViews();
@@ -392,7 +339,8 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                                            alertDialog.setTitle("Save Reso...?");
+                                            alertDialog.setTitle("Confirm");
+                                            alertDialog.setMessage("Are you sure?");
                                             alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
@@ -429,10 +377,6 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                     break;
                 }
         }
-    }
-
-    private void Sorting() {
-        Sorting();
     }
 
     private void saveReso() {
@@ -505,7 +449,7 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
 
         }
 
-        Toast.makeText(getActivity().getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+        _clsMainActivity.showCustomToast(getActivity(), "Saved", true);
     }
 
 
@@ -735,41 +679,6 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
 
     }
 
-    private class PreviewAdapter extends BaseAdapter{
-        @Override
-        public int getCount() {
-            return 0;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            return null;
-        }
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        menu.clear();
-
-        if(selectedId == 1) {
-
-            menu.add(0, 1, 0, "Add Reso");
-
-        }
-        super.onPrepareOptionsMenu(menu);
-    }
-
-
     private class GetAllemployeeSalesProductDataList extends AsyncTask<ArrayList<ModelListview>, Void, ArrayList<ModelListview>> {
 
 
@@ -817,17 +726,13 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
 
             setListViewHeightBasedOnItems(listView);
 
-            progressDialog.dismiss();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    progressDialog.dismiss();
+                }
+            }, 4000);
         }
     }
-
-    public static void hideKeyboard(Activity activity) {
-        View v = activity.getWindow().getCurrentFocus();
-        if (v != null) {
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-        }
-    }
-
 }
 

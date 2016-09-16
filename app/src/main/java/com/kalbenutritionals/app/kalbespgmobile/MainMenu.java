@@ -37,7 +37,6 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -50,7 +49,6 @@ import java.util.List;
 import bl.clsHelperBL;
 import bl.mMenuBL;
 import bl.tAbsenUserBL;
-import bl.tDeviceInfoUserBL;
 import bl.tDisplayPictureBL;
 import bl.tNotificationBL;
 import bl.tUserLoginBL;
@@ -59,7 +57,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import library.salesforce.common.clsPushData;
 import library.salesforce.common.mMenuData;
 import library.salesforce.common.tAbsenUserData;
-import library.salesforce.common.tDeviceInfoUserData;
 import library.salesforce.common.tDisplayPictureData;
 import library.salesforce.common.tNotificationData;
 import library.salesforce.common.tUserLoginData;
@@ -311,6 +308,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                         final TextView _tvDesc = (TextView) promptView.findViewById(R.id.tvDesc);
                         _tvDesc.setVisibility(View.INVISIBLE);
                         _tvConfirm.setText("Log Out Application ?");
+                        _tvConfirm.setTextSize(18);
 
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainMenu.this);
                         alertDialogBuilder.setView(promptView);
@@ -393,6 +391,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                         final TextView tvDesc = (TextView) _promptView.findViewById(R.id.tvDesc);
                         tvDesc.setVisibility(View.INVISIBLE);
                         tvConfirm.setText("Check Out Data ?");
+                        tvConfirm.setTextSize(18);
 
                         AlertDialog.Builder _alertDialogBuilder = new AlertDialog.Builder(MainMenu.this);
                         _alertDialogBuilder.setView(_promptView);

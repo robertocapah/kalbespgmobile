@@ -65,7 +65,7 @@
         android:layout_below="@id/view2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Keterangan"
+        android:text="Description"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="10dp"
         android:textColor="#000"/>

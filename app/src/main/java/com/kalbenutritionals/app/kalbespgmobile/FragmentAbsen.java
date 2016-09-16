@@ -550,6 +550,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                 final TextView _tvDesc = (TextView) promptView.findViewById(R.id.tvDesc);
                 _tvDesc.setVisibility(View.INVISIBLE);
                 _tvConfirm.setText("Check In Data ?");
+                _tvConfirm.setTextSize(18);
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                 alertDialogBuilder.setView(promptView);

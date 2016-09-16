@@ -173,7 +173,6 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
             tv.setText(text);
             tv.setGravity(Gravity.CENTER);
             tv.setBackgroundColor(Color.parseColor("#4CAF50"));
-
             tv.setTextColor(Color.WHITE);
             tr.addView(tv,params);
         }

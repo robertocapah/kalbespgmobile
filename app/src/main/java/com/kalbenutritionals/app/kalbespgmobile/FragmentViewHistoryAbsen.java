@@ -49,6 +49,9 @@ public class FragmentViewHistoryAbsen extends Fragment implements IXListViewList
 
     static List<tAbsenUserData> dt;
 
+    private static Bitmap mybitmap1;
+    private static Bitmap mybitmap2;
+
     View v;
 
     @Nullable
@@ -146,15 +149,17 @@ public class FragmentViewHistoryAbsen extends Fragment implements IXListViewList
 
         byte[] imgFile = dt.get(position).get_txtImg1();
         if (imgFile != null) {
-            Bitmap myBitmap = BitmapFactory.decodeByteArray(imgFile, 0, imgFile.length);
-            imgAbsen1.setImageBitmap(myBitmap);
+            mybitmap1 = BitmapFactory.decodeByteArray(imgFile, 0, imgFile.length);
+            Bitmap bitmap = Bitmap.createScaledBitmap(mybitmap1, 150, 150, true);
+            imgAbsen1.setImageBitmap(bitmap);
         } else {
             imgAbsen1.setVisibility(View.INVISIBLE);
         }
         byte[] imgFile2 = dt.get(position).get_txtImg2();
         if (imgFile2 != null && imgFile != null) {
-            Bitmap myBitmap = BitmapFactory.decodeByteArray(imgFile2, 0, imgFile2.length);
-            imgAbsen2.setImageBitmap(myBitmap);
+            mybitmap2 = BitmapFactory.decodeByteArray(imgFile2, 0, imgFile2.length);
+            Bitmap bitmap = Bitmap.createScaledBitmap(mybitmap2, 150, 150, true);
+            imgAbsen2.setImageBitmap(bitmap);
         }
         else if(imgFile2 != null && imgFile == null){
             Bitmap myBitmap = BitmapFactory.decodeByteArray(imgFile2, 0, imgFile2.length);
@@ -164,6 +169,23 @@ public class FragmentViewHistoryAbsen extends Fragment implements IXListViewList
         else{
             imgAbsen2.setVisibility(View.INVISIBLE);
         }
+
+        imgAbsen1.setClickable(true);
+        imgAbsen1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                new clsMainActivity().showCustomToast(getContext(), "tes", true);
+                new clsMainActivity().zoomImage(mybitmap1, getActivity());
+            }
+        });
+
+        imgAbsen2.setClickable(true);
+        imgAbsen2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new clsMainActivity().zoomImage(mybitmap2, getActivity());
+            }
+        });
 
         GoogleMap mMap = ((MapFragment) (getActivity()).getFragmentManager().findFragmentById(R.id.map)).getMap();
 
