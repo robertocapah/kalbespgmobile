@@ -162,9 +162,11 @@ public class FragmentViewHistoryAbsen extends Fragment implements IXListViewList
             imgAbsen2.setImageBitmap(bitmap);
         }
         else if(imgFile2 != null && imgFile == null){
-            Bitmap myBitmap = BitmapFactory.decodeByteArray(imgFile2, 0, imgFile2.length);
+            mybitmap1 = BitmapFactory.decodeByteArray(imgFile2, 0, imgFile2.length);
+            Bitmap bitmap = Bitmap.createScaledBitmap(mybitmap1, 150, 150, true);
             imgAbsen1.setVisibility(View.VISIBLE);
-            imgAbsen1.setImageBitmap(myBitmap);
+            imgAbsen1.setImageBitmap(bitmap);
+            imgAbsen2.setVisibility(View.INVISIBLE);
         }
         else{
             imgAbsen2.setVisibility(View.INVISIBLE);
