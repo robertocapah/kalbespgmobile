@@ -139,7 +139,7 @@ public class Splash extends AppCompatActivity {
                     if (_clsStatusMenuStart.get_intStatus() == enumStatusMenuStart.FormLogin) {
                         myIntent = new Intent(Splash.this, Login.class);
                     } else if (_clsStatusMenuStart.get_intStatus() == enumStatusMenuStart.PushDataSPGMobile) {
-//                        myIntent = new Intent(ProgressBarActivity.this, PushData.class);
+                        myIntent = new Intent(Splash.this, PushData.class);
                     } else if (_clsStatusMenuStart.get_intStatus() == enumStatusMenuStart.UserActiveLogin) {
 //                        myIntent = new Intent(ProgressBarActivity.this, Home.class);
                         myIntent = new Intent(Splash.this, MainMenu.class);

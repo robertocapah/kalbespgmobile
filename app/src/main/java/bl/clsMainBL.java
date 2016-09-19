@@ -77,8 +77,12 @@ public class clsMainBL {
 	}
 	public tUserLoginData getUserActive() {
 		this.db = getDb();
+		List<tUserLoginData> listData;
 		tUserLoginDA _tUserLoginDA=new tUserLoginDA(db);
-		List<tUserLoginData> listData=_tUserLoginDA.getUserLoginNow(db);
+		listData=_tUserLoginDA.getUserLoginNow(db);
+//		if (listData.size()==0){
+//			listData=_tUserLoginDA.getAllData(db);
+//		}
 		db.close();
 		return listData.get(0);
 	}
