@@ -658,6 +658,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 holder.values.setSelectAllOnFocus(true);
 
                 final ViewHolder finalHolder = holder;
+                final ViewHolder finalHolder2 = holder;
                 holder.values.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -675,6 +676,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
                                 } else {
                                     mOriginalValues.get(i).set_value(Integer.parseInt(et.getText().toString()));
+
+                                    if(!s.toString().equals("0")){
+                                        mOriginalValues.get(i).set_selected(true);
+                                        finalHolder2.name.setChecked(true);
+                                    }
                                     break;
                                 }
                             }

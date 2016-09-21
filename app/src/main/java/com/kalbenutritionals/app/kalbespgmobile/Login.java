@@ -750,7 +750,7 @@ public class Login extends clsMainActivity {
         protected void onPreExecute() {
             //Make ProgressBar invisible
             //pg.setVisibility(View.VISIBLE);
-            Dialog.setMessage("Checking Your Version SalesForce!!");
+            Dialog.setMessage("Checking Your SPG Mobile Version");
             Dialog.setCancelable(false);
             Dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
                 @Override
