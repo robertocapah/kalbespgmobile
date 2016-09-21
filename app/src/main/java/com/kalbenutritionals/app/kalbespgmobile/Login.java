@@ -12,8 +12,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.os.StrictMode;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -48,6 +51,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import bl.clsHelperBL;
+import bl.clsMainBL;
 import bl.mCounterNumberBL;
 import bl.mEmployeeAreaBL;
 import bl.mMenuBL;
@@ -58,7 +62,11 @@ import library.salesforce.common.mMenuData;
 import library.salesforce.common.mUserRoleData;
 import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
+import library.salesforce.dal.enumConfigData;
+import library.salesforce.dal.mconfigDA;
 import service.MyServiceNative;
+
+import static junit.framework.Assert.assertEquals;
 
 public class Login extends clsMainActivity {
     private String role = "Role";
@@ -278,7 +286,7 @@ public class Login extends clsMainActivity {
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
 
                 builder.setTitle("Exit");
                 builder.setMessage("Do you want to exit?");
@@ -306,7 +314,22 @@ public class Login extends clsMainActivity {
         btnPing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IsReachable(getApplicationContext());
+                String strUrl = new mconfigDA(new clsMainBL().getDb()).getData(new clsMainBL().getDb(), enumConfigData.ApiKalbe.getidConfigData()).get_txtValue();
+
+                try {
+                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                    StrictMode.setThreadPolicy(policy);
+
+                    URL url = new URL(strUrl);
+                    HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+                    urlConn.connect();
+
+                    assertEquals(HttpURLConnection.HTTP_OK, urlConn.getResponseCode());
+                    showCustomToast(Login.this, "Connected", true);
+
+                } catch (IOException e) {
+                    showCustomToast(Login.this, "Not connected", false);
+                }
             }
         });
         ArrayAdapter<String> adapterspnBranch = new ArrayAdapter<String>(this,

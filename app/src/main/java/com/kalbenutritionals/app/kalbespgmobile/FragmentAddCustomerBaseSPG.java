@@ -412,12 +412,17 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         mHandler = new Handler();
 
         HashMap<String, String> mapEdit = new HashMap<String, String>();
+        HashMap<String, String> mapDelete = new HashMap<String, String>();
 
         mapEdit.put("name", "Edit");
         mapEdit.put("bgColor", "#3498db");
 
+        mapDelete.put("name", "Delete");
+        mapDelete.put("bgColor", "#FF0000");
+
         mapMenu = new HashMap<String, HashMap>();
         mapMenu.put("0", mapEdit);
+        mapMenu.put("1", mapDelete);
 
         SwipeMenuCreator creator = clsMain.setCreator(getActivity().getApplicationContext(), mapMenu);
         mListView.setMenuCreator(creator);
@@ -428,6 +433,9 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 switch (index) {
                     case 0:
                         editList(getActivity().getApplicationContext(), position);
+                        break;
+                    case 1:
+                        deleteList(getActivity().getApplicationContext(), position);
                 }
             }
         });
@@ -762,5 +770,18 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
     private void editList(Context ctx, int position) {
         popUpAddPerson(dtListDetail.get(position));
+    }
+
+    private void deleteList(Context ctx, int position) {
+        tCustomerBasedMobileDetailData dtDetail = dtListDetail.get(position);
+
+        if(dtDetail.get_intPIC().equals("1")){
+            new clsMainActivity().showCustomToast(getContext(), "PIC tidak bisa dihapus", false);
+        }
+        else{
+            new tCustomerBasedMobileDetailProductBL().deleteData(dtDetail.get_intTrCustomerIdDetail());
+            new tCustomerBasedMobileDetailBL().deleteData(dtDetail);
+            setTablePerson();
+        }
     }
 }
