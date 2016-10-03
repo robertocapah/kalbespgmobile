@@ -20,7 +20,7 @@ public class tActivityDA {
 			public tActivityDA(SQLiteDatabase db) {
 				tActivityData dt=new tActivityData();
 				String CREATE_CONTACTS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CONTACTS + "("
-						+ dt.Property_intId + " TEXT PRIMARY KEY,"
+						+ dt.Property_intId + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 						+ dt.Property_dtActivity + " TEXT NULL,"
 						+ dt.Property_intActive + " TEXT NULL,"
 						+ dt.Property_intIdSyn + " TEXT NULL,"
@@ -53,8 +53,8 @@ public class tActivityDA {
 			public void SaveDatatActivityData(SQLiteDatabase db,tActivityData data) {
 				tActivityData dt=new tActivityData();
 				//ContentValues values = new ContentValues();
-				//values.put(dt.Property_intIdMenu, data.get_intIdMenu()); 
-				//values.put(dt.Property_txtRoleId, data.get_txtRoleId()); 
+				//values.put(dt.Property_intIdMenu, data.get_intIdMenu());
+				//values.put(dt.Property_txtRoleId, data.get_txtRoleId());
 				// Inserting Row
 				//db.insert(TABLE_CONTACTS, null, values);
 //				db.execSQL("INSERT OR REPLACE into "+TABLE_CONTACTS+" ("+dt.Property_All+") "+
@@ -76,7 +76,7 @@ public class tActivityDA {
 				ContentValues cv = new ContentValues();
 				cv.put(dt.Property_dtActivity, String.valueOf(data.get_dtActivity()));
 				cv.put(dt.Property_intActive, String.valueOf(data.get_intActive()));
-				cv.put(dt.Property_intId, String.valueOf(data.get_intId()));
+
 				cv.put(dt.Property_intIdSyn, String.valueOf(data.get_intIdSyn()));
 				cv.put(dt.Property_intSubmit, String.valueOf(data.get_intSubmit()));
 				cv.put(dt.Property_txtDesc, String.valueOf(data.get_txtDesc()));
@@ -88,9 +88,10 @@ public class tActivityDA {
 				cv.put(dt.Property_txtUserId, String.valueOf(data.get_txtUserId()));
 				cv.put(dt.Property_intFlag, data.get_intFlag());
 				cv.put(dt.Property_txtBranch, data.get_txtBranch());
-				if(TABLE_CONTACTS!=null){
+				if(data.get_intId() == null){
 					db.insert(TABLE_CONTACTS, null, cv);
 				} else {
+                    cv.put(dt.Property_intId, String.valueOf(data.get_intId()));
 					db.replace(TABLE_CONTACTS, null, cv);
 				}
 			}

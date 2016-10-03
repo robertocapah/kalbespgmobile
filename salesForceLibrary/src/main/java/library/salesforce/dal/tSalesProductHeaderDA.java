@@ -19,7 +19,8 @@ public class tSalesProductHeaderDA {
 	public tSalesProductHeaderDA(SQLiteDatabase db) {
 		tSalesProductHeaderData dt=new tSalesProductHeaderData();
 		String CREATE_CONTACTS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CONTACTS + "("
-				+ dt.Property_intId + " TEXT PRIMARY KEY," 
+				+ dt.Property_intId + " TEXT PRIMARY KEY,"
+				+ dt.Property_txtNoSo + " TEXT NULL,"
 				+ dt.Property_txtDate + " TEXT NULL,"
 				+ dt.Property_OutletCode + " TEXT NULL,"
 				+ dt.Property_OutletName + " TEXT NULL,"
@@ -56,6 +57,7 @@ public class tSalesProductHeaderDA {
 		// Inserting Row
 		//db.insert(TABLE_CONTACTS, null, values);
 		db.execSQL("INSERT OR REPLACE into "+TABLE_CONTACTS+" ("+dt.Property_intId+","
+				+dt.Property_txtNoSo+","
 				+dt.Property_OutletCode+","
 				+dt.Property_OutletName+","
 				+dt.Property_txtDate+","
@@ -70,6 +72,7 @@ public class tSalesProductHeaderDA {
 				+dt.Property_intIdAbsenUser+","
 				+dt.Property_txtNIK+") "+
 			"values('"	+String.valueOf(data.get_intId())+"','"
+				+String.valueOf(data.get_txtNoSo())+"','"
 				+String.valueOf(data.get_OutletCode())+"','"
 				+String.valueOf(data.get_OutletName())+"','"
 				+String.valueOf(data.get_dtDate())+"','"
@@ -168,19 +171,20 @@ public class tSalesProductHeaderDA {
 			do {
 				tSalesProductHeaderData contact = new tSalesProductHeaderData();
 				contact.set_intId(cursor.getString(0));
-				contact.set_OutletCode(cursor.getString(1));
-				contact.set_OutletName(cursor.getString(2));
-				contact.set_dtDate(cursor.getString(3));
-				contact.set_txtKeterangan(cursor.getString(4));
-				contact.set_txtNIK(cursor.getString(5));
-				contact.set_intSumAmount(cursor.getString(6));
-				contact.set_intSumItem(cursor.getString(7));
+				contact.set_txtNoSo(cursor.getString(1));
+				contact.set_dtDate(cursor.getString(2));
+				contact.set_OutletCode(cursor.getString(3));
+				contact.set_OutletName(cursor.getString(4));
+				contact.set_txtKeterangan(cursor.getString(5));
+				contact.set_intSumItem(cursor.getString(6));
+				contact.set_intSumAmount(cursor.getString(7));
 				contact.set_UserId(cursor.getString(8));
 				contact.set_intSubmit(cursor.getString(9));
 				contact.set_intSync(cursor.getString(10));
 				contact.set_txtBranchCode(cursor.getString(11));
 				contact.set_txtBranchName(cursor.getString(12));
 				contact.set_intIdAbsenUser(cursor.getString(13));
+				contact.set_txtNIK(cursor.getString(14));
 				// Adding contact to list
 				contactList.add(contact);
 			} while (cursor.moveToNext());
@@ -438,19 +442,20 @@ public class tSalesProductHeaderDA {
 			do {
 				tSalesProductHeaderData contact = new tSalesProductHeaderData();
 				contact.set_intId(cursor.getString(0));
-				contact.set_OutletCode(cursor.getString(1));
-				contact.set_OutletName(cursor.getString(2));
-				contact.set_dtDate(cursor.getString(3));
-				contact.set_txtKeterangan(cursor.getString(4));
-				contact.set_txtNIK(cursor.getString(5));
-				contact.set_intSumAmount(cursor.getString(6));
-				contact.set_intSumItem(cursor.getString(7));
+				contact.set_txtNoSo(cursor.getString(1));
+				contact.set_dtDate(cursor.getString(2));
+				contact.set_OutletCode(cursor.getString(3));
+				contact.set_OutletName(cursor.getString(4));
+				contact.set_txtKeterangan(cursor.getString(5));
+				contact.set_intSumItem(cursor.getString(6));
+				contact.set_intSumAmount(cursor.getString(7));
 				contact.set_UserId(cursor.getString(8));
 				contact.set_intSubmit(cursor.getString(9));
 				contact.set_intSync(cursor.getString(10));
 				contact.set_txtBranchCode(cursor.getString(11));
 				contact.set_txtBranchName(cursor.getString(12));
 				contact.set_intIdAbsenUser(cursor.getString(13));
+				contact.set_txtNIK(cursor.getString(14));
 				// Adding contact to list
 				contactList.add(contact);
 			} while (cursor.moveToNext());

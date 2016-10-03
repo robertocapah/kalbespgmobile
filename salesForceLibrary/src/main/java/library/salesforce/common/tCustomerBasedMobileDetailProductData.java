@@ -38,7 +38,7 @@ public class tCustomerBasedMobileDetailProductData{
 	public String Property_txtUpdatedBy="txtUpdatedBy";
     public String Property_txtProductBrandQty="txtProductBrandQty";
 	
-	public String Property_ListOftCustomerBasedMobileDetailProductData="Property_ListOftCustomerBasedMobileDetailProductData";
+	public String Property_ListOftCustomerBasedMobileDetailProductData="ListOftCustomerBasedMobileDetailProductData";
 	public String Property_ALL=Property_intTrCustomerIdDetailProduct + "," + 
 							   Property_intTrCustomerIdDetail + "," +
 							   Property_txtProductBrandCode + "," +

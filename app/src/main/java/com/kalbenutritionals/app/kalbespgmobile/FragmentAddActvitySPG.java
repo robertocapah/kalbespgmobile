@@ -181,7 +181,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
                             dtActivityData.set_intIdSyn("0");
                             dtActivityData.set_txtDesc(String.valueOf(etDescription.getText()));
                             dtActivityData.set_intFlag(String.valueOf(radioFlag.getText()));
-                            dtActivityData.set_intId(String.valueOf(new clsMainActivity().GenerateGuid()));
+//                            dtActivityData.set_intId(String.valueOf(new clsMainActivity().GenerateGuid()));
                             dtActivityData.set_intSubmit("1");
                             dtActivityData.set_txtOutletCode(dtAbsen.get_txtOutletCode());
                             dtActivityData.set_txtOutletName(dtAbsen.get_txtOutletName());

@@ -6,7 +6,9 @@ import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
+import library.salesforce.common.tCustomerBasedMobileHeaderData;
 
 public class tCustomerBasedMobileDetailProductDA {
 	// All Static variables
@@ -187,11 +189,23 @@ public class tCustomerBasedMobileDetailProductDA {
 			return contactList;
 	}
 	
-	public List<tCustomerBasedMobileDetailProductData> getPushData(SQLiteDatabase db) {
+	public List<tCustomerBasedMobileDetailProductData> getPushData(SQLiteDatabase db, List<tCustomerBasedMobileDetailData> ListOftCustomerBasedMobileDetail) {
 		List<tCustomerBasedMobileDetailProductData> contactList = null;
+
+		String tCustomerBasedMobileDetail = "()";
+
+		if (ListOftCustomerBasedMobileDetail != null) {
+			tCustomerBasedMobileDetail = "(";
+			for (int i = 0; i < ListOftCustomerBasedMobileDetail.size(); i++) {
+				tCustomerBasedMobileDetail = tCustomerBasedMobileDetail + "'" + ListOftCustomerBasedMobileDetail.get(i).get_intTrCustomerIdDetail() + "'";
+
+				tCustomerBasedMobileDetail = tCustomerBasedMobileDetail + ((i + 1) != ListOftCustomerBasedMobileDetail.size() ? "," : ")");
+			}
+		}
+
 		// Select All Query
-		tCustomerBasedMobileDetailProductData dt=new tCustomerBasedMobileDetailProductData();
-		String selectQuery = "SELECT  "+dt.Property_ALL+" FROM " + TABLE_NAME;
+		tCustomerBasedMobileDetailProductData dt = new tCustomerBasedMobileDetailProductData();
+		String selectQuery = "SELECT " + dt.Property_ALL + " FROM " + TABLE_NAME + " WHERE " + dt.Property_intTrCustomerIdDetail + " IN " + tCustomerBasedMobileDetail;
 
 		Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -203,11 +217,12 @@ public class tCustomerBasedMobileDetailProductDA {
 				contact.set_intTrCustomerIdDetail(cursor.getString(1));
 				contact.set_txtProductBrandCode(cursor.getString(2));
 				contact.set_txtProductBrandName(cursor.getString(3));
-				contact.set_bitActive(cursor.getString(4));
-				contact.set_dtInserted(cursor.getString(5));
-				contact.set_dtUpdated(cursor.getString(6));
-				contact.set_txtInsertedBy(cursor.getString(7));
-				contact.set_txtUpdatedBy(cursor.getString(8));
+				contact.set_txtProductBrandQty(cursor.getString(4));
+                contact.set_bitActive(cursor.getString(5));
+				contact.set_dtInserted(cursor.getString(6));
+				contact.set_dtUpdated(cursor.getString(7));
+				contact.set_txtInsertedBy(cursor.getString(8));
+				contact.set_txtUpdatedBy(cursor.getString(9));
                 contactList.add(contact);
 				} while (cursor.moveToNext());
 		}

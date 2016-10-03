@@ -398,12 +398,8 @@ public class Login extends clsMainActivity {
                         _tUserLoginData.set_txtOutletCode((String) innerObj.get("TxtOutletCode"));
                         _tUserLoginData.set_txtOutletName((String) innerObj.get("TxtOutletName"));
                         _tUserLoginData.set_txtBranchCode((String) innerObj.get("TxtBranchCode"));
-
-
-                        //hardcode untuk submission
                         _tUserLoginData.set_txtSubmissionID((String) innerObj.get("TxtSubmissonId"));
-
-
+                        _tUserLoginData.set_txtCheckLocation((String) innerObj.get("TDeviceInfoUser_mobile"));
 
                         new tDeviceInfoUserBL().SaveInfoDevice(_tUserLoginData.get_TxtEmpId(), _tUserLoginData.get_txtDeviceId());
                         new tUserLoginBL().saveData(_tUserLoginData);
@@ -518,7 +514,7 @@ public class Login extends clsMainActivity {
     private class AsyncCallRole extends AsyncTask<List<mUserRoleData>, Void, List<mUserRoleData>> {
         @Override
         protected List<mUserRoleData> doInBackground(List<mUserRoleData>... params) {
-            //android.os.Debug.waitForDebugger();
+//            android.os.Debug.waitForDebugger();
             List<mUserRoleData> roledata = new ArrayList<mUserRoleData>();
             try {
                 //EditText txt = (EditText) findViewById(R.id.txtLoginEmail);
@@ -672,7 +668,6 @@ public class Login extends clsMainActivity {
     private class AsyncCallAppVesion extends AsyncTask<JSONArray, Void, JSONArray> {
         @Override
         protected JSONArray doInBackground(JSONArray... params) {
-//            android.os.Debug.waitForDebugger();
             JSONArray JsonData = null;
             try {
                 JsonData = new clsHelperBL().GetDatamversionAppPostData(pInfo.versionName);

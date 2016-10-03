@@ -20,6 +20,7 @@ public class tCustomerBasedMobileHeaderData {
 	private String _dtDate;
 	private String _intSubmit;
 	private String _intSync;
+	private String _txtGender;
 
 	public String Property_intTrCustomerId="intTrCustomerId";
 	public String Property_txtSubmissionId="txtSubmissionId";
@@ -40,6 +41,7 @@ public class tCustomerBasedMobileHeaderData {
 	public String Property_bitActive="bitActive";
 	public String Property_intSubmit="intSubmit";
 	public String Property_intSync="intSync";
+	public String Property_txtGender="txtGender";
 
 	public String Property_ListOftCustomerBasedMobileHeaderData="ListOftCustomerBasedMobileHeaderData";
 	public String Property_ALL=Property_intTrCustomerId + "," +
@@ -49,6 +51,7 @@ public class tCustomerBasedMobileHeaderData {
 			Property_txtSumberData + "," +
 			Property_txtNamaSumberData + "," +
 			Property_txtNamaDepan + "," +
+			Property_txtGender + "," +
 			Property_txtTelp + "," +
 			Property_txtTelpKantor + "," +
 			Property_txtEmail + "," +
@@ -178,5 +181,13 @@ public class tCustomerBasedMobileHeaderData {
 	}
 	public void set_intSync(String _intSync) {
 		this._intSync = _intSync;
+	}
+
+	public String get_txtGender() {
+		return _txtGender;
+	}
+
+	public void set_txtGender(String _txtGender) {
+		this._txtGender = _txtGender;
 	}
 }

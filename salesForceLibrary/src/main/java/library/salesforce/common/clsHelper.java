@@ -14,6 +14,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -74,12 +75,16 @@ public class clsHelper {
 		 String randomUUIDString = uuid.toString();
 		 return randomUUIDString;
 	 }
-	public String PushDataWithFile(String urlToRead,String DataJson,Integer intTimeOut,HashMap<String,String> ListOfDataFile){
+	public String PushDataWithFile(String urlToRead,String DataJson,Integer intTimeOut,HashMap<String,byte[]> ListOfDataFile){
 		String charset = "UTF-8";
 	    
         String requestURL = urlToRead;
         String Result="";
         clsHelper _clsClsHelper = new clsHelper();
+
+        File folder = new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/Kalbespgmobile/tempdata");
+        folder.mkdir();
+
         try {
             MultipartUtility multipart = new MultipartUtility(requestURL, charset,intTimeOut);
              
@@ -88,10 +93,18 @@ public class clsHelper {
              
             multipart.addFormField("dataField",DataJson);
             //multipart.addFormField("keywords", "Java,upload,Spring");
-            for(Entry<String, String> entry : ListOfDataFile.entrySet()) {
+
+			for(Entry<String, byte[]> entry : ListOfDataFile.entrySet()) {
                 String key = entry.getKey();
-                String value = entry.getValue();
-                multipart.addFilePart(key, new File(value));
+//                String value = entry.getValue();
+
+                byte [] array = entry.getValue();
+                File file = File.createTempFile("image-", ".jpg", new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/Kalbespgmobile/tempdata"));
+                FileOutputStream out = new FileOutputStream( file );
+                out.write( array );
+                out.close();
+
+                multipart.addFilePart(key, new File(file.getAbsolutePath()));
             }
             List<String> response = multipart.finish();
             //System.out.println("SERVER REPLIED:");
@@ -103,6 +116,9 @@ public class clsHelper {
         } catch (IOException ex) {
             System.err.println(ex);
         }
+
+        folder.delete();
+
 		return _clsClsHelper.ResultJsonData(Result);
 	}
 	public String PushDataWithFile(String urlToRead,String DataJson,Integer intTimeOut,String File1,String File2){

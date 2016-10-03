@@ -492,7 +492,7 @@ public class PushData extends Activity {
     private class AsyncCallRole extends AsyncTask<List<dataJson>, Void, List<dataJson>> {
         @Override
         protected List<dataJson> doInBackground(List<dataJson>... params) {
-//            android.os.Debug.waitForDebugger();
+            android.os.Debug.waitForDebugger();
             List<dataJson> roledata=new ArrayList<dataJson>();
             clsPushData dtJson= new clsHelperBL().pushData();
             dataJson dtdataJson=new dataJson();

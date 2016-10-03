@@ -21,11 +21,40 @@
             android:id="@+id/linearLayoutTop">
 
             <TextView
+                android:text="Gender"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/textView2"
+                android:layout_weight="1" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioGender"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Laki-Laki"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/radioFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Perempuan" />
+
+            </RadioGroup>
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:text="Nama *"
                 android:id="@+id/tvNama"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginTop="10dp" />
 
             <EditText
                 android:layout_width="match_parent"

@@ -1,18 +1,18 @@
 [
     {
-        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\xlistview_footer.xml",
-        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\xlistview_footer.xml"
+        "merged": "D:\\workspace android studio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\item_list_app.xml",
+        "source": "D:\\workspace android studio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\item_list_app.xml"
     },
     {
-        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\item_list_app2.xml",
-        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\item_list_app2.xml"
+        "merged": "D:\\workspace android studio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\xlistview_footer.xml",
+        "source": "D:\\workspace android studio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\xlistview_footer.xml"
     },
     {
-        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\xlistview_header.xml",
-        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\xlistview_header.xml"
+        "merged": "D:\\workspace android studio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\item_list_app2.xml",
+        "source": "D:\\workspace android studio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\item_list_app2.xml"
     },
     {
-        "merged": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\item_list_app.xml",
-        "source": "D:\\Project\\AndroidStudio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\item_list_app.xml"
+        "merged": "D:\\workspace android studio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\xlistview_header.xml",
+        "source": "D:\\workspace android studio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\layout\\xlistview_header.xml"
     }
 ]

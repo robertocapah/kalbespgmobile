@@ -97,11 +97,11 @@ public class MyServiceNative extends Service{
     			e2.printStackTrace();
     		}
     		try {
-    			JSONArray JsonArrayResult=new clsHelperBL().callPushDataReturnJson(versionName,dtJson.getDtdataJson().txtJSON().toString(),dtJson.getFileUpload());
+//    			JSONArray JsonArrayResult=new clsHelperBL().callPushDataReturnJson(versionName,dtJson.getDtdataJson().txtJSON().toString(),dtJson.getFileUpload());
 //				new clsHelperBL().saveDataPush(dtJson.getDtdataJson(),JsonArrayResult);
-				Intent serviceIntent = new Intent(this,MyNotificationService.class);
-				serviceIntent.putExtra("From", "PUSHDATA");
-				startService(serviceIntent);
+//				Intent serviceIntent = new Intent(this,MyNotificationService.class);
+//				serviceIntent.putExtra("From", "PUSHDATA");
+//				startService(serviceIntent);
 		    
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

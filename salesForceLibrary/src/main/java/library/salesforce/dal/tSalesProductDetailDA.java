@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import library.salesforce.common.tSalesProductDetailData;
+import library.salesforce.common.tSalesProductHeaderData;
 
 public class tSalesProductDetailDA {
 	// All Static variables
@@ -226,4 +227,51 @@ public class tSalesProductDetailDA {
 				// return count
 				return intres;
 			}
+
+	public List<tSalesProductDetailData> getAllDataToPushData(SQLiteDatabase db, List<tSalesProductHeaderData> ListOfSalesProductHeader) {
+		List<tSalesProductDetailData> contactList = null;
+		// Select All Query
+		tSalesProductDetailData dt=new tSalesProductDetailData();
+		
+		String tSalesProductHeader = "()";
+		
+		if(ListOfSalesProductHeader != null){
+			tSalesProductHeader = "(";
+			for(int i = 0; i < ListOfSalesProductHeader.size(); i++){
+				tSalesProductHeader = tSalesProductHeader + "'" + ListOfSalesProductHeader.get(i).get_txtNoSo() + "'";
+
+				tSalesProductHeader = tSalesProductHeader + ((i + 1) != ListOfSalesProductHeader.size() ? "," : ")");
+			}
+//			tSalesProductHeader = tSalesProductHeader + "";
+		}
+		
+		String selectQuery = "SELECT "+dt.Property_All+" FROM " + TABLE_CONTACTS +" WHERE "+dt.Property_txtNoSo+" IN " + tSalesProductHeader;
+
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			contactList=new ArrayList<tSalesProductDetailData>();
+			do {
+				tSalesProductDetailData contact = new tSalesProductDetailData();
+				contact.set_intId(cursor.getString(0));
+				contact.set_dtDate(cursor.getString(1));
+				contact.set_intPrice(cursor.getString(2));
+				contact.set_intQty(cursor.getString(3));
+				contact.set_txtCodeProduct(cursor.getString(4));
+				contact.set_txtKeterangan(cursor.getString(5));
+				contact.set_txtNameProduct(cursor.getString(6));
+				contact.set_intTotal(cursor.getString(7));
+				contact.set_txtNoSo(cursor.getString(8));
+				contact.set_intActive(cursor.getString(9));
+				contact.set_txtNIK(cursor.getString(10));
+				// Adding contact to list
+				contactList.add(contact);
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+		// return contact list
+		return contactList;
+	}
+
 }

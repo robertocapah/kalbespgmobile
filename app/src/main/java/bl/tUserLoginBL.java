@@ -104,9 +104,16 @@ public class tUserLoginBL extends clsMainBL{
 		//String txtParam=
 		return res;
 	}
+
+
 	public void saveData(tUserLoginData data){
 		SQLiteDatabase db=getDb();
 		tUserLoginDA _tUserLoginDA=new tUserLoginDA(db);
 		_tUserLoginDA.SaveDatatUserLoginData(db, data);
 	}
+
+    public tUserLoginData getUserLogin(){
+        SQLiteDatabase db=getDb();
+        return new tUserLoginDA(db).getData(db, 1);
+    }
 }

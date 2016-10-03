@@ -7,6 +7,7 @@ public class clsSwipeList implements Serializable{
 	private String _txtId;
 	private String _txtTitle;
 	private String _txtDescription;
+	private String _intPIC;
 	
 	public String Property_txtId="txtId";
 	public String Property_txtTitle="txtTitle";
@@ -37,5 +38,12 @@ public class clsSwipeList implements Serializable{
 	public void set_txtDescription(String _txtDescription) {
 		this._txtDescription = _txtDescription;
 	}
-	
+
+	public String get_intPIC() {
+		return _intPIC;
+	}
+
+	public void set_intPIC(String _intPIC) {
+		this._intPIC = _intPIC;
+	}
 }

@@ -25,6 +25,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -66,6 +68,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     MyAdapter dataAdapter;
     EditText etEmail, etNama, etTelpon, etAlamat, etTelponKantor, etPinBBM;
     CheckBox cbPIC;
+    RadioGroup radioGenderGroup;
     View v;
 
     List<tCustomerBasedMobileDetailData> dtListDetail;
@@ -101,6 +104,18 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             etEmail.setText(dtHeader.get_txtEmail());
             etPinBBM.setText(dtHeader.get_txtPINBBM());
             cbPIC.setChecked(dtHeader.get_intPIC().equals("1") ? true : false);
+
+            RadioButton rbLaki = (RadioButton) v.findViewById(R.id.radioMale);
+            RadioButton rbPerempuan = (RadioButton) v.findViewById(R.id.radioFemale);
+
+            if (dtHeader.get_txtGender().equals("Perempuan")) {
+                rbPerempuan.setChecked(true);
+                rbLaki.setChecked(false);
+            } else {
+                rbLaki.setChecked(true);
+                rbPerempuan.setChecked(false);
+            }
+
         }
 
         Button btnAdd = (Button) v.findViewById(R.id.btnAdd);
@@ -110,7 +125,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         btnAddPerson.setOnClickListener(this);
         btnSave.setOnClickListener(this);
 
-        etPinBBM.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etPinBBM.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
 
         return v;
     }
@@ -123,29 +138,46 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 break;
 
             case R.id.btnAdd:
+                String notelp = etTelpon.getText().toString();
+                String notelpkantor = etTelponKantor.getText().toString();
+
+                String firstNotelp = notelp.substring(0, 1);
+                String firstNotelpkantor = null;
+
+                if(notelpkantor.length() > 0){
+                    firstNotelpkantor = notelpkantor.substring(0, 1);
+                }
+
                 if (!etNama.getText().toString().equals("") && !etTelpon.getText().toString().equals("") && !etEmail.getText().toString().equals("")) {
-                    if (isValidEmail(etEmail.getText().toString())) {
-                        LinearLayout lnTop = (LinearLayout) v.findViewById(R.id.linearLayoutTop);
-                        LinearLayout lnBottom = (LinearLayout) v.findViewById(R.id.linearLayoutBottom);
-                        TextView tvCode = (TextView) v.findViewById(R.id.tvCode);
-                        TextView tvNama = (TextView) v.findViewById(R.id.tvNamaPreview);
-                        TextView tvTelp = (TextView) v.findViewById(R.id.tvTelpPreview);
-                        TextView tvAlamat = (TextView) v.findViewById(R.id.tvAlamatPreview);
-                        TextView tvEmail = (TextView) v.findViewById(R.id.tvEmailPreview);
+                    if (firstNotelp.equals("0") && (firstNotelpkantor == null || firstNotelpkantor.equals("0"))) {
+                        if (isValidEmail(etEmail.getText().toString())) {
+                            LinearLayout lnTop = (LinearLayout) v.findViewById(R.id.linearLayoutTop);
+                            LinearLayout lnBottom = (LinearLayout) v.findViewById(R.id.linearLayoutBottom);
+                            TextView tvCode = (TextView) v.findViewById(R.id.tvCode);
+                            TextView tvNama = (TextView) v.findViewById(R.id.tvNamaPreview);
+                            TextView tvTelp = (TextView) v.findViewById(R.id.tvTelpPreview);
+                            TextView tvAlamat = (TextView) v.findViewById(R.id.tvAlamatPreview);
+                            TextView tvEmail = (TextView) v.findViewById(R.id.tvEmailPreview);
 
-                        lnTop.setVisibility(View.GONE);
-                        lnBottom.setVisibility(View.VISIBLE);
+                            radioGenderGroup = (RadioGroup) v.findViewById(R.id.radioGender);
 
-                        saveCustomerBaseHeader();
+                            lnTop.setVisibility(View.GONE);
+                            lnBottom.setVisibility(View.VISIBLE);
 
-                        tvCode.setText("Code : " + new tCustomerBasedMobileHeaderBL().getDataByBitActive().get_txtSubmissionId());
-                        tvNama.setText("Nama : " + etNama.getText().toString());
-                        tvTelp.setText("Telp : " + etTelpon.getText().toString());
-                        tvAlamat.setText("Alamat : " + etAlamat.getText().toString());
-                        tvEmail.setText("Email : " + etEmail.getText().toString());
+                            saveCustomerBaseHeader();
 
-                    } else {
-                        new clsMainActivity().showCustomToast(getContext(), "Email not valid", false);
+                            tvCode.setText("Code : " + new tCustomerBasedMobileHeaderBL().getDataByBitActive().get_txtSubmissionId());
+                            tvNama.setText("Nama : " + etNama.getText().toString());
+                            tvTelp.setText("Telp : " + etTelpon.getText().toString());
+                            tvAlamat.setText("Alamat : " + etAlamat.getText().toString());
+                            tvEmail.setText("Email : " + etEmail.getText().toString());
+
+                        } else {
+                            new clsMainActivity().showCustomToast(getContext(), "Email not valid", false);
+                        }
+                    }
+                    else{
+                        new clsMainActivity().showCustomToast(getContext(), "no telp atau no kantor diawali angka 0", false);
                     }
                 } else {
                     new clsMainActivity().showCustomToast(getContext(), "Nama, telp, or email cannot empty", false);
@@ -179,7 +211,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     }
 
     private void viewCustomerBaseFragment() {
-        Intent intent = new Intent(getContext(),MainMenu.class);
+        Intent intent = new Intent(getContext(), MainMenu.class);
         intent.putExtra("key_view", "View Customer Base");
         getActivity().finish();
         startActivity(intent);
@@ -206,6 +238,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         final EditText nama = (EditText) promptView.findViewById(R.id.etNama);
         final EditText searchProduct = (EditText) promptView.findViewById(R.id.searchProduct);
+        final RadioGroup radioGroupGender = (RadioGroup) promptView.findViewById(R.id.radioGender);
+
         listView = (ListView) promptView.findViewById(R.id.listView2);
 
         final List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetAllData();
@@ -215,10 +249,23 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         if (dataDetail.get_intTrCustomerIdDetail() != null) {
             nama.setText(dataDetail.get_txtNamaDepan());
 
+            RadioButton rbLaki = (RadioButton) promptView.findViewById(R.id.radioMale);
+            RadioButton rbPerempuan = (RadioButton) promptView.findViewById(R.id.radioFemale);
+
+            if (dataDetail.get_txtGender().equals("Perempuan")) {
+                rbLaki.setChecked(false);
+                rbPerempuan.setChecked(true);
+            } else {
+                rbLaki.setChecked(true);
+                rbPerempuan.setChecked(false);
+            }
+
             dataProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dataDetail.get_intTrCustomerIdDetail());
 
-            if(dataDetail.get_intPIC().equals("1")){
+            if (dataDetail.get_intPIC().equals("1")) {
                 nama.setEnabled(false);
+                rbLaki.setEnabled(false);
+                rbPerempuan.setEnabled(false);
             }
         }
 
@@ -229,7 +276,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 Boolean valid = false;
                 Integer total = 0;
 
-                if(dataProduct != null){
+                if (dataProduct != null) {
                     for (int j = 0; j < dataProduct.size(); j++) {
                         if (dataProduct.get(j).get_txtProductBrandCode().equals(data.get(i).get_txtBrandDetailGramCode())) {
                             valid = true;
@@ -313,14 +360,24 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         if (data.get_intTrCustomerIdDetail() == null) {
                             data = new tCustomerBasedMobileDetailData();
                             data.set_intTrCustomerIdDetail(new clsMainActivity().GenerateGuid());
-                            data.set_intPIC(dataDetail.get_intPIC());
+                            if (dataDetail.get_intPIC() == null) {
+                                data.set_intPIC("0");
+                            } else {
+                                data.set_intPIC(dataDetail.get_intPIC());
+                            }
+
+                            data.set_intNo(String.valueOf(dtListDetail.size() + 1));
                         }
 
                         data.set_intTrCustomerId(dtHeader.get_intTrCustomerId());
                         data.set_txtNamaDepan(nama.getText().toString());
-                        data.set_intNo(String.valueOf(dtDetail.size() + 1));
                         data.set_bitActive("1");
                         data.set_dtInserted(dateFormat.format(cal.getTime()));
+
+                        int selectedId = radioGroupGender.getCheckedRadioButtonId();
+                        RadioButton rbGender = (RadioButton) promptView.findViewById(selectedId);
+
+                        data.set_txtGender(rbGender.getText().toString());
 
                         dtDetail.add(data);
 
@@ -358,28 +415,6 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         ScrollView sv = (ScrollView) v.findViewById(R.id.scroll);
         sv.setFillViewport(true);
 
-        TableLayout tl = (TableLayout) v.findViewById(R.id.tlPerson);
-        tl.removeAllViews();
-
-        TableRow row = new TableRow(getContext());
-        row.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
-        String[] colTextHeader = {"Nama", "Produk", ""};
-
-        for (String text : colTextHeader) {
-            TextView tv = new TextView(getContext());
-            tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-
-            tv.setTextSize(14);
-            tv.setPadding(10, 10, 10, 10);
-            tv.setText(text);
-            tv.setGravity(Gravity.CENTER);
-            tv.setBackgroundColor(Color.parseColor("#4CAF50"));
-
-            tv.setTextColor(Color.WHITE);
-            row.addView(tv);
-        }
-        tl.addView(row);
-
         dtListDetail = new tCustomerBasedMobileDetailBL().getAllDataByHeaderId(dtHeader.get_intTrCustomerId());
 
         clsSwipeList swplist;
@@ -395,7 +430,13 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 totalProduct = dtListProduct.size();
             }
             swplist = new clsSwipeList();
-            swplist.set_txtTitle("Nama : " + dtListDetail.get(i).get_txtNamaDepan());
+
+            String PIC;
+
+            if (dtListDetail.get(i).get_intPIC().equals("1")) PIC = " (PIC)";
+            else PIC = "";
+
+            swplist.set_txtTitle("Nama : " + dtListDetail.get(i).get_txtNamaDepan() + PIC);
             swplist.set_txtDescription("Total Product : " + String.valueOf(totalProduct));
             swipeList.add(swplist);
 
@@ -440,60 +481,6 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             }
         });
 
-        for (int count = 0; count < dtListDetail.size(); count++) {
-
-            List<tCustomerBasedMobileDetailProductData> dtListProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dtListDetail.get(count).get_intTrCustomerIdDetail());
-
-            if (dtListProduct != null) {
-                row = new TableRow(getContext());
-                row.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
-
-                String product = "";
-                for (tCustomerBasedMobileDetailProductData dataproduct : dtListProduct) {
-                    product = product + "- " + dataproduct.get_txtProductBrandName() + " (" + dataproduct.get_txtProductBrandQty() + ")\n";
-                }
-                String[] colText = {dtListDetail.get(count).get_txtNamaDepan(), product, "Edit"};
-
-                int j = 1;
-
-                for (String text : colText) {
-                    TextView tv = new TextView(getContext());
-
-                    if (j % 2 == 0) {
-                        tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
-                    } else {
-                        tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1));
-                    }
-                    tv.setTextSize(14);
-                    tv.setPadding(10, 10, 10, 10);
-                    tv.setText(text);
-                    tv.setGravity(Gravity.LEFT);
-
-                    if (count % 2 == 0) {
-                        tv.setBackgroundColor(Color.parseColor("#F0F0F0"));
-                    } else {
-                        tv.setBackgroundColor(Color.GRAY);
-                    }
-
-                    tv.setTextColor(Color.BLACK);
-
-                    if (j == 3) {
-                        tv.setGravity(Gravity.CENTER_HORIZONTAL);
-                        final int finalCount = count;
-                        tv.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                popUpAddPerson(dtListDetail.get(finalCount));
-                            }
-                        });
-                    }
-
-                    row.addView(tv);
-                    j++;
-                }
-                tl.addView(row);
-            }
-        }
     }
 
     public final static boolean isValidEmail(CharSequence target) {
@@ -525,6 +512,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         dtHeader.set_txtALamat(etAlamat.getText().toString());
         dtHeader.set_txtUserId(new tAbsenUserBL().getDataCheckInActive().get_txtUserId());
 
+        int selectedId = radioGenderGroup.getCheckedRadioButtonId();
+        RadioButton rbGender = (RadioButton) v.findViewById(selectedId);
+
+        dtHeader.set_txtGender(rbGender.getText().toString());
+
         if (cbPIC.isChecked()) {
             tCustomerBasedMobileDetailData data = new tCustomerBasedMobileDetailBL().getAllDataByHeaderIdandintPIC(dtHeader.get_intTrCustomerId());
             dtHeader.set_intPIC("1");
@@ -540,6 +532,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             data.set_intPIC("1");
             data.set_bitActive("1");
             data.set_dtInserted(dateFormat.format(cal.getTime()));
+            data.set_txtGender(rbGender.getText().toString());
 
             dtDetail.add(data);
 
@@ -677,7 +670,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                                 } else {
                                     mOriginalValues.get(i).set_value(Integer.parseInt(et.getText().toString()));
 
-                                    if(!s.toString().equals("0")){
+                                    if (!s.toString().equals("0")) {
                                         mOriginalValues.get(i).set_selected(true);
                                         finalHolder2.name.setChecked(true);
                                     }
@@ -781,10 +774,9 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     private void deleteList(Context ctx, int position) {
         tCustomerBasedMobileDetailData dtDetail = dtListDetail.get(position);
 
-        if(dtDetail.get_intPIC().equals("1")){
+        if (dtDetail.get_intPIC().equals("1")) {
             new clsMainActivity().showCustomToast(getContext(), "PIC tidak bisa dihapus", false);
-        }
-        else{
+        } else {
             new tCustomerBasedMobileDetailProductBL().deleteData(dtDetail.get_intTrCustomerIdDetail());
             new tCustomerBasedMobileDetailBL().deleteData(dtDetail);
             setTablePerson();

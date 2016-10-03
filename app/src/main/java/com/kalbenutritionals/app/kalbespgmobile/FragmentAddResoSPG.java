@@ -103,7 +103,7 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
         } else {
             List<tSalesProductHeaderData> dttas = new tSalesProductHeaderBL().getLastData();
             clsHelper _clsHelper=new clsHelper();
-            String oldVersion = dttas.get(0).get_intId();
+            String oldVersion = dttas.get(0).get_txtNoSo();
             noso = _clsHelper.generateNewId(oldVersion, "-" , "5");
         }
 
@@ -408,7 +408,8 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
         mEmployeeSalesProductData _mEmployeeSalesProductData = new mEmployeeSalesProductData();
         tAbsenUserData absenUserData = new tAbsenUserBL().getDataCheckInActive();
 
-        dt.set_intId(tv_noso.getText().toString());
+        dt.set_intId(new clsMainActivity().GenerateGuid());
+        dt.set_txtNoSo(tv_noso.getText().toString());
         dt.set_dtDate(dateFormat.format(cal.getTime()));
         dt.set_OutletCode(absenUserData.get_txtOutletCode());
         dt.set_OutletName(absenUserData.get_txtOutletName());

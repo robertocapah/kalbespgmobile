@@ -36,6 +36,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.BooleanResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
@@ -594,7 +595,9 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
 
                                             float distance = locationA.distanceTo(locationB);
 
-                                            if((int) Math.ceil(distance) > 150){
+                                            tUserLoginData checkLocation = new tUserLoginBL().getUserLogin();
+
+                                            if((int) Math.ceil(distance) > 10 && checkLocation.get_txtCheckLocation().equals("1")){
                                                 _clsMainActivity.showCustomToast(getContext(), "Failed checkin: Your location too far from outlet", false);
                                             }
                                             else{

@@ -3,6 +3,7 @@ package com.kalbenutritionals.app.kalbespgmobile;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -33,6 +34,7 @@ import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tLeaveMobileData;
 import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.dal.clsHardCode;
+import service.MyServiceNative;
 
 public class FragmentPushData extends Fragment {
 
@@ -53,6 +55,9 @@ public class FragmentPushData extends Fragment {
 
 
         v = inflater.inflate(R.layout.activity_push_data, container, false);
+
+        Intent serviceIntentMyServiceNative = new Intent(getContext(), MyServiceNative.class);
+        getContext().stopService(serviceIntentMyServiceNative);
 
         tlSOHeader = (TableLayout) v.findViewById(R.id.tlSOHeader);
         tlActivity = (TableLayout) v.findViewById(R.id.tlActivity);
@@ -435,7 +440,7 @@ public class FragmentPushData extends Fragment {
                 outlet_code.setBackgroundColor(Color.parseColor("#f0f0f0"));
                 outlet_code.setTextColor(Color.BLACK);
                 outlet_code.setGravity(Gravity.CENTER);
-                outlet_code.setText(dat.get_intId());
+                outlet_code.setText(dat.get_txtNoSo());
                 tr.addView(outlet_code,params);
 
                 TextView outlet_name = new TextView(getContext());
@@ -444,7 +449,7 @@ public class FragmentPushData extends Fragment {
                 outlet_name.setBackgroundColor(Color.parseColor("#f0f0f0"));
                 outlet_name.setTextColor(Color.BLACK);
                 outlet_name.setGravity(Gravity.CENTER);
-                outlet_name.setText(dat.get_dtDate());
+                outlet_name.setText(new clsMainActivity().giveFormatDate(dat.get_dtDate()));
                 tr.addView(outlet_name,params);
 
                 TextView date = new TextView(getContext());
@@ -453,7 +458,7 @@ public class FragmentPushData extends Fragment {
                 date.setBackgroundColor(Color.parseColor("#f0f0f0"));
                 date.setTextColor(Color.BLACK);
                 date.setGravity(Gravity.CENTER);
-                date.setText(new clsMainActivity().giveFormatDate(dat.get_dtDate()));
+                date.setText(dat.get_OutletCode());
                 tr.addView(date,params);
 
                 tl.addView(tr, tableRowParams);
@@ -468,7 +473,7 @@ public class FragmentPushData extends Fragment {
     private class AsyncCallRole extends AsyncTask<List<dataJson>, Void, List<dataJson>> {
         @Override
         protected List<dataJson> doInBackground(List<dataJson>... params) {
-//            android.os.Debug.waitForDebugger();
+            android.os.Debug.waitForDebugger();
             List<dataJson> roledata=new ArrayList<dataJson>();
             clsPushData dtJson= new clsHelperBL().pushData();
             dataJson dtdataJson=new dataJson();
@@ -483,12 +488,13 @@ public class FragmentPushData extends Fragment {
                 }
                 try {
                     JSONArray Jresult= new clsHelperBL().callPushDataReturnJson(versionName,dtJson.getDtdataJson().txtJSON().toString(),dtJson.getFileUpload());
+                    new clsHelperBL().saveDataPush(dtJson.getDtdataJson(),Jresult);
+                    dtdataJson.setIntResult("1");
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
+                    dtdataJson.setIntResult("0");
                 }
-                dtdataJson.setIntResult("1");
-
             }
             else
             {

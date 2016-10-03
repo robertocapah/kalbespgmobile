@@ -319,12 +319,8 @@ public class tAbsenUserDA {
 				contact.set_txtDeviceId(cursor.getString(12));
 				contact.set_txtUserId(cursor.getString(13));
 				contact.set_dtDateCheckOut(cursor.getString(14));
-//					byte[] blob1 = cursor.getBlob(Integer.parseInt(cursor.getString(15)));
-//					Bitmap bmp1 = BitmapFactory.decodeByteArray(blob1, 0, blob1.length);
-//					contact.set_txtImg1(String.valueOf(bmp1));
-//					byte[] blob2 = cursor.getBlob(Integer.parseInt(cursor.getString(16)));
-//					Bitmap bmp2 = BitmapFactory.decodeByteArray(blob2, 0, blob2.length);
-//					contact.set_txtImg2(String.valueOf(bmp2));
+				contact.set_txtImg1(cursor.getBlob(15));
+				contact.set_txtImg2(cursor.getBlob(16));
 				// Adding contact to list
 				contactList.add(contact);
 			} while (cursor.moveToNext());
