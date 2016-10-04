@@ -181,7 +181,72 @@
 					android:layout_marginTop="5dp"
 					android:layout_gravity="center_horizontal"
 					android:background="@drawable/btn_on_click"/>
-				<View
+
+			<View
+				android:id="@+id/view10"
+				android:layout_below="@+id/btnLeave"
+				android:layout_width="fill_parent"
+				android:layout_height="1dp"
+				android:layout_marginTop="10dp"
+				android:background="#bfbfbf" />
+
+			<TextView
+				android:id="@+id/txtVwReso"
+				android:layout_below="@+id/view9"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Reso"
+				android:layout_marginTop="10dp"
+				android:layout_marginLeft="10dp"
+				android:textColor="#000" />
+			<Spinner
+				android:id="@+id/spnReso"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="5dp"
+				android:background="@drawable/bg_edtext"
+				/>
+			<Button
+				android:id="@+id/btnDlReso"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="Download Reso"
+				android:layout_marginTop="5dp"
+				android:layout_gravity="center_horizontal"
+				android:background="@drawable/btn_on_click"/>
+
+			<View
+				android:id="@+id/view11"
+				android:layout_width="fill_parent"
+				android:layout_height="1dp"
+				android:layout_marginTop="10dp"
+				android:background="#bfbfbf" />
+
+			<TextView
+				android:id="@+id/txtVwCustomerBase"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Customer base"
+				android:layout_marginTop="10dp"
+				android:layout_marginLeft="10dp"
+				android:textColor="#000" />
+			<Spinner
+				android:id="@+id/spnCustomerBase"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="5dp"
+				android:background="@drawable/bg_edtext"
+				/>
+			<Button
+				android:id="@+id/btnDlCustomerBase"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="Download Customer Base"
+				android:layout_marginTop="5dp"
+				android:layout_gravity="center_horizontal"
+				android:background="@drawable/btn_on_click"/>
+
+			<View
 					android:id="@+id/view5"
 					android:layout_below="@+id/btnLeave"
 					android:layout_width="fill_parent"

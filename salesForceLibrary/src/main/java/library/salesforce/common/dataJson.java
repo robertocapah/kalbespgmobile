@@ -325,6 +325,7 @@ public class dataJson {
                     item1.put(dttCustomerBasedHeaderData.Property_txtSumberData, String.valueOf(data.get_txtSumberData()));
                     item1.put(dttCustomerBasedHeaderData.Property_txtNamaSumberData, String.valueOf(data.get_txtNamaSumberData()));
                     item1.put(dttCustomerBasedHeaderData.Property_txtNamaDepan, String.valueOf(data.get_txtNamaDepan()));
+                    item1.put(dttCustomerBasedHeaderData.Property_txtGender, String.valueOf(data.get_txtGender()));
                     item1.put(dttCustomerBasedHeaderData.Property_txtTelp, String.valueOf(data.get_txtTelp()));
                     item1.put(dttCustomerBasedHeaderData.Property_txtTelpKantor, String.valueOf(data.get_txtTelpKantor()));
                     item1.put(dttCustomerBasedHeaderData.Property_txtEmail, String.valueOf(data.get_txtEmail()));
@@ -350,6 +351,7 @@ public class dataJson {
                     item1.put(dttCustomerBasedDetailData.Property_intTrCustomerIdDetail, String.valueOf(data.get_intTrCustomerIdDetail()));
                     item1.put(dttCustomerBasedDetailData.Property_intTrCustomerId, String.valueOf(data.get_intTrCustomerId()));
                     item1.put(dttCustomerBasedDetailData.Property_txtNamaDepan, String.valueOf(data.get_txtNamaDepan()));
+                    item1.put(dttCustomerBasedDetailData.Property_txtGender, String.valueOf(data.get_txtGender()));
                     item1.put(dttCustomerBasedDetailData.Property_intNo, String.valueOf(data.get_intNo()));
                     item1.put(dttCustomerBasedDetailData.Property_intPIC, String.valueOf(data.get_intPIC()));
                     item1.put(dttCustomerBasedDetailData.Property_bitActive, String.valueOf(data.get_bitActive()));

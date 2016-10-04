@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,11 +24,13 @@ import android.widget.Toast;
 
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import bl.clsMainBL;
 import bl.mEmployeeAreaBL;
 import bl.mEmployeeBranchBL;
 import bl.mEmployeeSalesProductBL;
@@ -35,7 +38,13 @@ import bl.mPriceInOutletBL;
 import bl.mProductBarcodeBL;
 import bl.mProductBrandHeaderBL;
 import bl.mTypeLeaveBL;
+import bl.tCustomerBasedMobileDetailBL;
+import bl.tCustomerBasedMobileDetailProductBL;
+import bl.tCustomerBasedMobileHeaderBL;
+import bl.tSalesProductDetailBL;
+import bl.tSalesProductHeaderBL;
 import library.salesforce.common.APIData;
+import library.salesforce.common.clsHelper;
 import library.salesforce.common.dataJson;
 import library.salesforce.common.mEmployeeAreaData;
 import library.salesforce.common.mEmployeeBranchData;
@@ -43,7 +52,13 @@ import library.salesforce.common.mEmployeeSalesProductData;
 import library.salesforce.common.mProductBarcodeData;
 import library.salesforce.common.mProductBrandHeaderData;
 import library.salesforce.common.mTypeLeaveMobileData;
+import library.salesforce.common.tCustomerBasedMobileDetailData;
+import library.salesforce.common.tCustomerBasedMobileDetailProductData;
+import library.salesforce.common.tCustomerBasedMobileHeaderData;
+import library.salesforce.common.tSalesProductDetailData;
+import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.dal.clsHardCode;
+import library.salesforce.dal.tSalesProductDetailDA;
 
 /**
  * Created by ASUS ZE on 27/07/2016.
@@ -62,6 +77,10 @@ public class FragmentDownloadData extends Fragment {
     private Button btnLeave;
     private Spinner spnBrand;
     private Button btnBrand;
+    private Spinner spnReso;
+    private Button btnReso;
+    private Spinner spnCustomerBase;
+    private Button btnCustomerBase;
 
     private PackageInfo pInfo = null;
     private List<String> arrData;
@@ -86,6 +105,10 @@ public class FragmentDownloadData extends Fragment {
         spnLeave = (Spinner) v.findViewById(R.id.spnLeave);
         spnBrand = (Spinner) v.findViewById(R.id.spnBrand);
         btnBrand = (Button) v.findViewById(R.id.btnDlBrand);
+        spnReso = (Spinner) v.findViewById(R.id.spnReso);
+        btnReso = (Button) v.findViewById(R.id.btnDlReso);
+        spnCustomerBase = (Spinner) v.findViewById(R.id.spnCustomerBase);
+        btnCustomerBase = (Button) v.findViewById(R.id.btnDlCustomerBase);
 
         loadData();
         btnAllDownload.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +154,20 @@ public class FragmentDownloadData extends Fragment {
                 task.execute();
             }
         });
+        btnReso.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                intProcesscancel = 0;
+                AsyncCallReso task = new AsyncCallReso();
+                task.execute();
+            }
+        });
+        btnCustomerBase.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                intProcesscancel = 0;
+                AsyncCallCustomerBase task = new AsyncCallCustomerBase();
+                task.execute();
+            }
+        });
 
 
         return v;
@@ -147,6 +184,8 @@ public class FragmentDownloadData extends Fragment {
         List<mEmployeeSalesProductData> listDataProduct=new mEmployeeSalesProductBL().GetAllData();
         List<mTypeLeaveMobileData> listDataLeave=new mTypeLeaveBL().GetAllData();
         List<mProductBrandHeaderData> listmProductBrandData = new mProductBrandHeaderBL().getData("");
+        List<tSalesProductHeaderData> listtSalesProductHeaderData = new tSalesProductHeaderBL().getAllSalesProductHeader();
+        List<tCustomerBasedMobileHeaderData> listtCustomerBasedHeaderData = new tCustomerBasedMobileHeaderBL().getAllData();
 
         arrData=new ArrayList<String>();
         if(listDataBranch.size()>0){
@@ -212,6 +251,32 @@ public class FragmentDownloadData extends Fragment {
                     android.R.layout.simple_spinner_item, strip);
             spnBrand.setAdapter(adapterspn);
             spnBrand.setEnabled(false);
+        }
+        arrData=new ArrayList<String>();
+        if(listtSalesProductHeaderData != null){
+            for(tSalesProductHeaderData dt :listtSalesProductHeaderData ){
+                arrData.add(dt.get_txtNoSo());
+            }
+            spnReso.setAdapter(new MyAdapter(getContext(), R.layout.custom_spinner, arrData));
+            spnReso.setEnabled(true);
+        } else if (listtSalesProductHeaderData == null){
+            ArrayAdapter<String> adapterspn = new ArrayAdapter<String>(getContext(),
+                    android.R.layout.simple_spinner_item, strip);
+            spnReso.setAdapter(adapterspn);
+            spnReso.setEnabled(false);
+        }
+        arrData=new ArrayList<String>();
+        if(listtCustomerBasedHeaderData != null){
+            for(tCustomerBasedMobileHeaderData dt :listtCustomerBasedHeaderData ){
+                arrData.add(dt.get_txtSubmissionId());
+            }
+            spnCustomerBase.setAdapter(new MyAdapter(getContext(), R.layout.custom_spinner, arrData));
+            spnCustomerBase.setEnabled(true);
+        } else if (listtCustomerBasedHeaderData == null){
+            ArrayAdapter<String> adapterspn = new ArrayAdapter<String>(getContext(),
+                    android.R.layout.simple_spinner_item, strip);
+            spnCustomerBase.setAdapter(adapterspn);
+            spnCustomerBase.setEnabled(false);
         }
     }
     public class MyAdapter extends ArrayAdapter<String>
@@ -384,6 +449,195 @@ public class FragmentDownloadData extends Fragment {
         new mEmployeeBranchBL().saveData(_Listdata);
         return _array;
     }
+
+    private List<String> SaveDatatSalesProductData(JSONArray JData){
+        List<String> _array;
+        APIData dtAPIDATA = new APIData();
+        _array= new ArrayList<>();
+        Iterator i = JData.iterator();
+        Boolean flag = true;
+        String ErrorMess = "";
+        List<tSalesProductHeaderData> ListdataHeader = new ArrayList<>();
+        while (i.hasNext()) {
+            org.json.simple.JSONObject innerObj = (org.json.simple.JSONObject) i.next();
+
+            try {
+                JSONArray JsonArray_header= new clsHelper().ResultJsonArray(String.valueOf(innerObj.get("ListDatatSalesProductHeader_mobile")));
+                Iterator j = JsonArray_header.iterator();
+
+                while(j.hasNext()){
+                    tSalesProductHeaderData _data =new tSalesProductHeaderData();
+                    org.json.simple.JSONObject innerObj_detail = (org.json.simple.JSONObject) j.next();
+                    _data.set_txtNoSo(String.valueOf(innerObj_detail.get("TxtNoSO")));
+                    _data.set_txtBranchCode(String.valueOf(innerObj_detail.get("TxtBranchCode")));
+                    _data.set_intSubmit("1");
+                    _data.set_intSync("1");
+                    _data.set_intSumAmount(String.valueOf(innerObj_detail.get("IntSumAmount")));
+                    _data.set_UserId(String.valueOf(innerObj_detail.get("txtUserId")));
+                    _data.set_intId(String.valueOf(innerObj_detail.get("TxtDataId")));
+                    _data.set_txtKeterangan(String.valueOf(innerObj_detail.get("TxtKeterangan")));
+                    _data.set_intSumItem(String.valueOf(innerObj_detail.get("IntSumItem")));
+                    _data.set_txtBranchName(String.valueOf(innerObj_detail.get("TxtBranchName")));
+                    _data.set_txtNIK(String.valueOf(innerObj_detail.get("TxtNik")));
+                    _data.set_OutletCode(String.valueOf(innerObj_detail.get("TxtOutletCode")));
+                    _data.set_OutletName(String.valueOf(innerObj_detail.get("TxtOutletName")));
+                    _data.set_dtDate(String.valueOf(innerObj_detail.get("DtDate")));
+                    new tSalesProductHeaderBL().SaveData(_data);
+                }
+
+                JSONArray JsonArray_detail= new clsHelper().ResultJsonArray(String.valueOf(innerObj.get("ListDatatSalesProductDetail_mobile")));
+                Iterator k = JsonArray_detail.iterator();
+
+                clsMainBL _clsMainBL = new clsMainBL();
+                SQLiteDatabase _db=_clsMainBL.getDb();
+
+                while(k.hasNext()){
+                    tSalesProductDetailData _data =new tSalesProductDetailData();
+                    org.json.simple.JSONObject innerObj_detail = (org.json.simple.JSONObject) k.next();
+                    _data.set_txtNoSo(String.valueOf(innerObj_detail.get("TxtNoSO")));
+                    _data.set_txtNameProduct(String.valueOf(innerObj_detail.get("TxtNameProduct")));
+                    _data.set_txtNoSo(String.valueOf(innerObj_detail.get("TxtNoSO")));
+                    _data.set_txtCodeProduct(String.valueOf(innerObj_detail.get("TxtCodeProduct")));
+                    _data.set_intTotal(String.valueOf(innerObj_detail.get("IntTotal")));
+                    _data.set_intPrice(String.valueOf(innerObj_detail.get("IntPrice")));
+                    _data.set_intQty(String.valueOf(innerObj_detail.get("IntQty")));
+                    _data.set_intId(String.valueOf(innerObj_detail.get("TxtDataId")));
+                    new tSalesProductDetailDA(_db).SaveDatatSalesProductDetailData(_db, _data);
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            int boolValid = Integer.valueOf(String.valueOf(innerObj.get(dtAPIDATA.boolValid)));
+            if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
+                mEmployeeBranchData _data = new mEmployeeBranchData();
+
+                _data.set_EmpId((String) innerObj.get("EmpId"));
+                _data.set_txtBranchCode((String) innerObj.get("IntBranchId"));
+                _data.set_intID((String) innerObj.get("IntID"));
+                _data.set_txtBranchCode((String) innerObj.get("TxtBranchCode"));
+                _data.set_txtBranchName((String) innerObj.get("TxtBranchName"));
+                _data.set_txtNIK((String) innerObj.get("TxtNIK"));
+                _data.set_txtName((String) innerObj.get("TxtName"));
+                _array.add(_data.get_txtBranchCode()+" - "+_data.get_txtBranchName());
+//                _Listdata.add(_data);
+            } else {
+                flag = false;
+                ErrorMess = (String) innerObj.get(dtAPIDATA.strMessage);
+                break;
+            }
+        }
+//        new mEmployeeBranchBL().saveData(_Listdata);
+        return _array;
+    }
+
+    private List<String> SaveDatatCustomerBasedData(JSONArray JData){
+        List<String> _array;
+        APIData dtAPIDATA = new APIData();
+        _array= new ArrayList<>();
+        Iterator i = JData.iterator();
+        Boolean flag = true;
+        String ErrorMess = "";
+        List<tCustomerBasedMobileHeaderData> ListdataHeader = new ArrayList<>();
+        while (i.hasNext()) {
+            org.json.simple.JSONObject innerObj = (org.json.simple.JSONObject) i.next();
+
+            try {
+                JSONArray JsonArray_header= new clsHelper().ResultJsonArray(String.valueOf(innerObj.get("ListDatatCustomerBasedHeader_mobile")));
+                Iterator j = JsonArray_header.iterator();
+
+                while(j.hasNext()){
+                    tCustomerBasedMobileHeaderData _data =new tCustomerBasedMobileHeaderData();
+                    org.json.simple.JSONObject innerObj_detail = (org.json.simple.JSONObject) j.next();
+                    _data.set_bitActive(String.valueOf(innerObj_detail.get("_bitActive")));
+                    _data.set_dtDate(String.valueOf(innerObj_detail.get("_dtDate")));
+                    _data.set_intSubmit("1");
+                    _data.set_intSync("1");
+                    _data.set_intPIC(String.valueOf(innerObj_detail.get("_intPIC")));
+                    _data.set_txtALamat(String.valueOf(innerObj_detail.get("_txtALamat")));
+                    _data.set_txtBranchCode(String.valueOf(innerObj_detail.get("_txtBranchCode")));
+                    _data.set_txtDeviceId(String.valueOf(innerObj_detail.get("_txtDeviceId")));
+                    _data.set_txtEmail(String.valueOf(innerObj_detail.get("_txtEmail")));
+                    _data.set_txtGender(String.valueOf(innerObj_detail.get("_txtGender")));
+                    _data.set_txtNamaDepan(String.valueOf(innerObj_detail.get("_txtNamaDepan")));
+                    _data.set_txtNamaSumberData(String.valueOf(innerObj_detail.get("_txtNamaSumberData")));
+                    _data.set_txtPINBBM(String.valueOf(innerObj_detail.get("_txtPINBBM")));
+                    _data.set_txtSubmissionCode(String.valueOf(innerObj_detail.get("_txtSubmissionCode")));
+                    _data.set_txtSubmissionId(String.valueOf(innerObj_detail.get("_txtSubmissionId")));
+                    _data.set_txtSumberData(String.valueOf(innerObj_detail.get("_txtSumberData")));
+                    _data.set_txtTelp(String.valueOf(innerObj_detail.get("_txtTelp")));
+                    _data.set_txtTelpKantor(String.valueOf(innerObj_detail.get("_txtTelpKantor")));
+                    _data.set_intTrCustomerId(String.valueOf(innerObj_detail.get("_txtTrCustomerId")));
+                    _data.set_txtUserId(String.valueOf(innerObj_detail.get("_txtUserId")));
+                    new tCustomerBasedMobileHeaderBL().saveData(_data);
+                }
+
+                JSONArray JsonArray_detail= new clsHelper().ResultJsonArray(String.valueOf(innerObj.get("ListDatatCustomerBasedDetail_mobile")));
+                Iterator k = JsonArray_detail.iterator();
+
+                while(k.hasNext()){
+                    tCustomerBasedMobileDetailData _data =new tCustomerBasedMobileDetailData();
+                    org.json.simple.JSONObject innerObj_detail = (org.json.simple.JSONObject) k.next();
+                    _data.set_bitActive(String.valueOf(innerObj_detail.get("_bitActive")));
+                    _data.set_dtInserted(String.valueOf(innerObj_detail.get("_dtInserted")));
+                    _data.set_dtUpdated(String.valueOf(innerObj_detail.get("_dtUpdated")));
+                    _data.set_intNo(String.valueOf(innerObj_detail.get("_intNo")));
+                    _data.set_intPIC(String.valueOf(innerObj_detail.get("_intPIC")));
+                    _data.set_txtGender(String.valueOf(innerObj_detail.get("_txtGender")));
+                    _data.set_txtInsertedBy(String.valueOf(innerObj_detail.get("_txtInsertedBy")));
+                    _data.set_txtNamaDepan(String.valueOf(innerObj_detail.get("_txtNamaDepan")));
+                    _data.set_intTrCustomerId(String.valueOf(innerObj_detail.get("_txtTrCustomerId")));
+                    _data.set_intTrCustomerIdDetail(String.valueOf(innerObj_detail.get("_txtTrCustomerIdDetail")));
+                    _data.set_txtUpdatedBy(String.valueOf(innerObj_detail.get("_txtUpdatedBy")));
+                    new tCustomerBasedMobileDetailBL().saveData(_data);
+                }
+
+                JSONArray JsonArray_detailProduct= new clsHelper().ResultJsonArray(String.valueOf(innerObj.get("ListDatatCustomerBasedDetailProduct_mobile")));
+                Iterator l = JsonArray_detailProduct.iterator();
+
+                while(l.hasNext()){
+                    tCustomerBasedMobileDetailProductData _data =new tCustomerBasedMobileDetailProductData();
+                    org.json.simple.JSONObject innerObj_detail = (org.json.simple.JSONObject) l.next();
+                    _data.set_bitActive(String.valueOf(innerObj_detail.get("_bitActive")));
+                    _data.set_dtInserted(String.valueOf(innerObj_detail.get("_dtInserted")));
+                    _data.set_dtUpdated(String.valueOf(innerObj_detail.get("_dtUpdated")));
+                    _data.set_txtProductBrandCode(String.valueOf(innerObj_detail.get("_txtProductBrandCode")));
+                    _data.set_txtProductBrandName(String.valueOf(innerObj_detail.get("_txtProductBrandName")));
+                    _data.set_intTrCustomerIdDetailProduct(String.valueOf(innerObj_detail.get("_txtTrCustomerIdDetailProduct")));
+                    _data.set_txtInsertedBy(String.valueOf(innerObj_detail.get("_txtInsertedBy")));
+                    _data.set_intTrCustomerIdDetail(String.valueOf(innerObj_detail.get("_txtTrCustomerIdDetail")));
+                    _data.set_txtUpdatedBy(String.valueOf(innerObj_detail.get("_txtUpdatedBy")));
+                    new tCustomerBasedMobileDetailProductBL().saveData(_data);
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            int boolValid = Integer.valueOf(String.valueOf(innerObj.get(dtAPIDATA.boolValid)));
+            if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
+                mEmployeeBranchData _data = new mEmployeeBranchData();
+
+                _data.set_EmpId((String) innerObj.get("EmpId"));
+                _data.set_txtBranchCode((String) innerObj.get("IntBranchId"));
+                _data.set_intID((String) innerObj.get("IntID"));
+                _data.set_txtBranchCode((String) innerObj.get("TxtBranchCode"));
+                _data.set_txtBranchName((String) innerObj.get("TxtBranchName"));
+                _data.set_txtNIK((String) innerObj.get("TxtNIK"));
+                _data.set_txtName((String) innerObj.get("TxtName"));
+                _array.add(_data.get_txtBranchCode()+" - "+_data.get_txtBranchName());
+//                _Listdata.add(_data);
+            } else {
+                flag = false;
+                ErrorMess = (String) innerObj.get(dtAPIDATA.strMessage);
+                break;
+            }
+        }
+//        new mEmployeeBranchBL().saveData(_Listdata);
+        return _array;
+    }
+
     private List<String> SaveDatamProductBarcodeData(JSONArray JData){
         List<String> _array=new ArrayList<String>();
         APIData dtAPIDATA = new APIData();
@@ -544,6 +798,142 @@ public class FragmentDownloadData extends Fragment {
             Dialog.dismiss();
         }
     }
+
+    private class AsyncCallReso extends AsyncTask<JSONArray, Void, JSONArray> {
+        @Override
+        protected JSONArray doInBackground(JSONArray... params) {
+            JSONArray Json = null;
+            try {
+                Json = new tSalesProductHeaderBL().DownloadReso(pInfo.versionName);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return Json;
+        }
+        private ProgressDialog Dialog = new ProgressDialog(getContext());
+        @Override
+        protected void onCancelled() {
+            Dialog.dismiss();
+            Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.TOP, 25, 400);
+            toast.show();
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray roledata) {
+            if (roledata!=null && roledata.size() > 0) {
+                arrData=SaveDatatSalesProductData(roledata);
+                //spnBranch.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
+                loadData();
+                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
+                        Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP, 25, 400);
+                toast.show();
+            } else {
+                if (intProcesscancel == 1) {
+                    onCancelled();
+                } else {
+                    Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessDataNotFound,
+                            Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP, 25, 400);
+                    toast.show();
+                }
+
+            }
+            checkingDataTable();
+            Dialog.dismiss();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // Make ProgressBar invisible
+            // pg.setVisibility(View.VISIBLE);
+            Dialog.setMessage("Getting Reso");
+            Dialog.setCancelable(false);
+            Dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    intProcesscancel = 1;
+                }
+            });
+            Dialog.show();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            Dialog.dismiss();
+        }
+    }
+
+    private class AsyncCallCustomerBase extends AsyncTask<JSONArray, Void, JSONArray> {
+        @Override
+        protected JSONArray doInBackground(JSONArray... params) {
+//            android.os.Debug.waitForDebugger();
+            JSONArray Json = null;
+            try {
+                Json = new tCustomerBasedMobileHeaderBL().DownloadCustomerBase(pInfo.versionName);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return Json;
+        }
+        private ProgressDialog Dialog = new ProgressDialog(getContext());
+        @Override
+        protected void onCancelled() {
+            Dialog.dismiss();
+            Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.TOP, 25, 400);
+            toast.show();
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray roledata) {
+            if (roledata!=null && roledata.size() > 0) {
+                arrData=SaveDatatCustomerBasedData(roledata);
+                //spnBranch.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
+                loadData();
+                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
+                        Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP, 25, 400);
+                toast.show();
+            } else {
+                if (intProcesscancel == 1) {
+                    onCancelled();
+                } else {
+                    Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessDataNotFound,
+                            Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP, 25, 400);
+                    toast.show();
+                }
+
+            }
+            checkingDataTable();
+            Dialog.dismiss();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // Make ProgressBar invisible
+            // pg.setVisibility(View.VISIBLE);
+            Dialog.setMessage("Getting Reso");
+            Dialog.setCancelable(false);
+            Dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    intProcesscancel = 1;
+                }
+            });
+            Dialog.show();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            Dialog.dismiss();
+        }
+    }
+
     private List<String> SaveDatamEmployeeAreaData(JSONArray JData){
         List<String> _array=new ArrayList<String>();
         APIData dtAPIDATA = new APIData();

@@ -62,7 +62,7 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
         if(dt!=null) {
             for (int i = 0; i < dt.size(); i++) {
                 swplist = new clsSwipeList();
-                swplist.set_txtTitle(dt.get(i).get_intId());
+                swplist.set_txtTitle(dt.get(i).get_txtNoSo());
                 if (dt.get(i).get_intSubmit().equals("1")&&dt.get(i).get_intSync().equals("0")){
                     swplist.set_txtDescription("Submit");
                 } else if (dt.get(i).get_intSubmit().equals("1")&&dt.get(i).get_intSync().equals("1")){
@@ -135,7 +135,7 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
 
         final TextView _tvNoSO = (TextView) promptView.findViewById(R.id.tvnoSOtbl);
         final TextView _tvKet = (TextView) promptView.findViewById(R.id.tvkettbl);
-        _tvNoSO.setText(": " + dt.get(position).get_intId());
+        _tvNoSO.setText(": " + dt.get(position).get_txtNoSo());
         _tvKet.setText(": " + dt.get(position).get_txtKeterangan());
         final TextView tv_item = (TextView) promptView.findViewById(R.id.tvItemtbl);
         tv_item.setTypeface(null, Typeface.BOLD);
@@ -178,7 +178,7 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
         }
         tl.addView(tr);
 
-        data = new tSalesProductDetailBL().GetDataByNoSO(dt.get(position).get_intId());
+        data = new tSalesProductDetailBL().GetDataByNoSO(dt.get(position).get_txtNoSo());
 
         double qtySum=0;
         double qtyNum;
