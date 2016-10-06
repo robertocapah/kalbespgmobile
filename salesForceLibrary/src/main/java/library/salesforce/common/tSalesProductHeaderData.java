@@ -151,7 +151,8 @@ public class tSalesProductHeaderData {
         // TODO Auto-generated constructor stub
     }
 
-    public String Property_All = Property_intId + "," +
+    public String Property_All =
+            Property_intId + "," +
             Property_txtNoSo + "," +
             Property_txtDate + "," +
             Property_OutletCode + "," +

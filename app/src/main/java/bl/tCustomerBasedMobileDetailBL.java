@@ -2,16 +2,10 @@ package bl;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 import library.salesforce.common.tCustomerBasedMobileDetailData;
-import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.dal.tCustomerBasedMobileDetailDA;
-import library.salesforce.dal.tCustomerBasedMobileDetailProductDA;
-import library.salesforce.dal.tCustomerBasedMobileHeaderDA;
 
 public class tCustomerBasedMobileDetailBL extends clsMainBL{
 	SQLiteDatabase db;
@@ -21,6 +15,12 @@ public class tCustomerBasedMobileDetailBL extends clsMainBL{
 		tCustomerBasedMobileDetailDA _tCustomerBasedMobileDetailDA = new tCustomerBasedMobileDetailDA(_db);
         _tCustomerBasedMobileDetailDA.SaveDatatCustomerBasedMobileDetailData(_db, dt);
 	}
+
+    public void updateDataValueById(tCustomerBasedMobileDetailData dt, String id){
+        SQLiteDatabase _db=getDb();
+        tCustomerBasedMobileDetailDA _tCustomerBasedMobileDetailDA = new tCustomerBasedMobileDetailDA(_db);
+        _tCustomerBasedMobileDetailDA.updateDataById(_db, dt, id);
+    }
 
 	public List<tCustomerBasedMobileDetailData> getAllDataByHeaderId(String id) {
 		SQLiteDatabase _db=getDb();

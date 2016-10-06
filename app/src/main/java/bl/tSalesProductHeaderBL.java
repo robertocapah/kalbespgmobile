@@ -5,20 +5,20 @@ import android.database.sqlite.SQLiteDatabase;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Calendar;
 import java.util.List;
 
-import library.salesforce.common.APIData;
 import library.salesforce.common.clsHelper;
 import library.salesforce.common.linkAPI;
-import library.salesforce.common.mProductBrandHeaderData;
 import library.salesforce.common.mconfigData;
 import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 import library.salesforce.dal.enumConfigData;
-import library.salesforce.dal.mProductBrandHeaderDA;
+import library.salesforce.dal.enumCounterData;
 import library.salesforce.dal.mconfigDA;
 import library.salesforce.dal.tSalesProductHeaderDA;
 import library.salesforce.dal.tUserLoginDA;
@@ -63,6 +63,79 @@ public class tSalesProductHeaderBL extends clsMainBL {
             dt = new ArrayList<>(0);
         }
         return dt ;
+    }
+
+    public List<tSalesProductHeaderData> getAllSalesProductHeaderByOutletCode(String code){
+        SQLiteDatabase _db =getDb();
+        tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(_db);
+        List<tSalesProductHeaderData> dt = _tSalesProductHeaderDA.getAllDataByOutletCode(_db,code);
+        if(dt == null){
+            dt = new ArrayList<>(0);
+        }
+        return dt ;
+    }
+    public List<tSalesProductHeaderData> getDataByNoSO(String noso){
+        SQLiteDatabase _db =getDb();
+        tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(_db);
+        List<tSalesProductHeaderData> dt = _tSalesProductHeaderDA.getDataByNoSO(_db,noso);
+        if(dt == null){
+            dt = new ArrayList<>(0);
+        }
+        return dt ;
+    }
+
+    public List<tSalesProductHeaderData> getAllSalesBydtDateCheckin(String date){
+        SQLiteDatabase _db =getDb();
+        tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(_db);
+        List<tSalesProductHeaderData> dt = _tSalesProductHeaderDA.getAllDataByOutletCode(_db,date);
+        if(dt == null){
+            dt = new ArrayList<>(0);
+        }
+        return dt ;
+    }
+
+    public void generateNoso(tSalesProductHeaderData dt) {
+        SQLiteDatabase _db = getDb();
+        tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(_db);
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+
+//		mCounterNumberDA _mCountNumberDA = new mCounterNumberDA(db);
+//		mCounterNumberData _ListOfmCounterNumberData = _mCountNumberDA.getData(db, 2);
+        String dtDate = dateFormat.format(cal.getTime());
+        String[] split = dtDate.split("-");
+        String yy = split[0];
+        String mm = split[1];
+        String dd = split[2];
+
+        String txtNoSoCode = new mCounterNumberBL().getData(enumCounterData.NoDataSO);
+
+        List<tSalesProductHeaderData> dttas = getLastData();
+
+        String noSO = null;
+
+//        if (dttas == null || dttas.size() == 0) {
+//            noCustomerBase = "1";
+//        } else {
+//            String oldVersion = dttas.get(0).get_txtSubmissionId();
+//            String[] splitSubmission = oldVersion.split("\\.");
+//            if ((dd + mm + yy.substring(2)).equals(splitSubmission[1])) {
+//                String lastCount = oldVersion.substring(oldVersion.length() - 3);
+//                noCustomerBase = String.valueOf(Integer.parseInt(lastCount) + 1);
+//            } else {
+//                noCustomerBase = "1";
+//            }
+//        }
+//
+//        if (getDataByBitActive().get_txtSubmissionId() == null) {
+//            String txtSubmissionId = txtSubmissionCode + "." + dd + mm + yy.substring(2) + "." + String.format("%03d", Integer.parseInt(noCustomerBase));
+//
+//            dt.set_txtSubmissionId(txtSubmissionId);
+//            dt.set_txtSubmissionCode(txtSubmissionCode);
+//        }
+//
+//        _tCustomerBasedMobileHeaderDA.SaveDatatCustomerBasedMobileHeaderData(_db, dt);
     }
 
     public JSONArray DownloadReso(String versionName) throws Exception{

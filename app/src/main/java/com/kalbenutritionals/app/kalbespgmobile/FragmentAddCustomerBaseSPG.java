@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -13,7 +12,6 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +26,6 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -140,8 +136,12 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             case R.id.btnAdd:
                 String notelp = etTelpon.getText().toString();
                 String notelpkantor = etTelponKantor.getText().toString();
+                String firstNotelp = "0";
 
-                String firstNotelp = notelp.substring(0, 1);
+                if(notelp.length()>0){
+                    firstNotelp = notelp.substring(0, 1);
+                }
+                
                 String firstNotelpkantor = null;
 
                 if(notelpkantor.length() > 0){
@@ -420,27 +420,39 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         clsSwipeList swplist;
 
         swipeList.clear();
-        int totalProduct = 0;
-        for (int i = 0; i < dtListDetail.size(); i++) {
-            List<tCustomerBasedMobileDetailProductData> dtListProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dtListDetail.get(i).get_intTrCustomerIdDetail());
 
-            if (dtListProduct == null) {
-                totalProduct = 0;
-            } else {
-                totalProduct = dtListProduct.size();
+
+                int totalProduct = 0;
+                for (int i = 0; i < dtListDetail.size(); i++) {
+                    List<tCustomerBasedMobileDetailProductData> dtListProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dtListDetail.get(i).get_intTrCustomerIdDetail());
+
+                    if (dtListProduct == null) {
+                        totalProduct = 0;
+                    } else {
+                        totalProduct = dtListProduct.size();
+                    }
+                    swplist = new clsSwipeList();
+
+                    String PIC;
+
+                    if (dtListDetail.get(i).get_intPIC().equals("1")) PIC = " (PIC)";
+                    else PIC = "";
+
+                    swplist.set_txtTitle("Nama : " + dtListDetail.get(i).get_txtNamaDepan() + PIC);
+                    swplist.set_txtDescription("Total Product : " + String.valueOf(totalProduct));
+                    swipeList.add(swplist);
+                }
+
+        if (dtListDetail!=null) {
+            int index = 1;
+            for (tCustomerBasedMobileDetailData data : dtListDetail) {
+                String id = data.get_intTrCustomerIdDetail();
+                data.set_intNo(String.valueOf(index));
+                new tCustomerBasedMobileDetailBL().updateDataValueById(data, id);
+                index++;
             }
-            swplist = new clsSwipeList();
-
-            String PIC;
-
-            if (dtListDetail.get(i).get_intPIC().equals("1")) PIC = " (PIC)";
-            else PIC = "";
-
-            swplist.set_txtTitle("Nama : " + dtListDetail.get(i).get_txtNamaDepan() + PIC);
-            swplist.set_txtDescription("Total Product : " + String.valueOf(totalProduct));
-            swipeList.add(swplist);
-
         }
+
 
         clsMainActivity clsMain = new clsMainActivity();
 

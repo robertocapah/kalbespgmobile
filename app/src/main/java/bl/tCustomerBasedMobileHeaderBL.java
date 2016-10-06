@@ -1,13 +1,11 @@
 package bl;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,14 +17,11 @@ import library.salesforce.common.mconfigData;
 import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
-import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 import library.salesforce.dal.enumConfigData;
-import library.salesforce.dal.enumCounterData;
 import library.salesforce.dal.mconfigDA;
 import library.salesforce.dal.tCustomerBasedMobileHeaderDA;
-import library.salesforce.dal.tSalesProductHeaderDA;
 import library.salesforce.dal.tUserLoginDA;
 
 public class tCustomerBasedMobileHeaderBL extends clsMainBL {
@@ -80,6 +75,16 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
         SQLiteDatabase _db = getDb();
         tCustomerBasedMobileHeaderData dt = new tCustomerBasedMobileHeaderDA(_db).getDataByBitActive(_db);
         return dt;
+    }
+
+    public List<tCustomerBasedMobileHeaderData> getAllCustomerBasedMobileHeaderByOutletCode(String code){
+        SQLiteDatabase _db =getDb();
+        tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(_db);
+        List<tCustomerBasedMobileHeaderData> dt = _tCustomerBasedMobileHeaderDA.getAllDataByOutletCode(_db,code);
+        if(dt == null){
+            dt = new ArrayList<>(0);
+        }
+        return dt ;
     }
 
     public Boolean submit() {

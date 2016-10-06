@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import bl.tAbsenUserBL;
 import bl.tSalesProductDetailBL;
 import bl.tSalesProductHeaderBL;
 import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView;
@@ -32,6 +33,7 @@ import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.Swipe
 import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
 import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
+import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tSalesProductDetailData;
 import library.salesforce.common.tSalesProductHeaderData;
 
@@ -54,8 +56,10 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_customerbase_view,container,false);
 
+        tAbsenUserData dtActive = new tAbsenUserBL().getDataCheckInActive();
+
         clsSwipeList swplist;
-        dt = new tSalesProductHeaderBL().getAllSalesProductHeader();
+        dt = new tSalesProductHeaderBL().getAllSalesProductHeaderByOutletCode(dtActive.get_txtOutletCode());
 
         swipeList.clear();
 

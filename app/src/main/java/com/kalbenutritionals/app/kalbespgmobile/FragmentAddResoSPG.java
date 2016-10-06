@@ -97,16 +97,21 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
         imm.hideSoftInputFromWindow(edketerangan.getWindowToken(), 0);
 
         List<tSalesProductHeaderData> dtta = new tSalesProductHeaderBL().getAllSalesProductHeader();
-        if(dtta==null) {
+        List<tSalesProductHeaderData> dtLast = new tSalesProductHeaderBL().getLastData();
+        if(dtLast==null || dtLast.size()==0) {
             noso = new mCounterNumberBL().getData(enumCounterData.NoDataSO);
 
         } else {
-            List<tSalesProductHeaderData> dttas = new tSalesProductHeaderBL().getLastData();
-            clsHelper _clsHelper=new clsHelper();
-            String oldVersion = dttas.get(0).get_txtNoSo();
-            noso = _clsHelper.generateNewId(oldVersion, "-" , "5");
+            noso = new mCounterNumberBL().getData(enumCounterData.NoDataSO);
+            List<tSalesProductHeaderData> dataFirstIsExist = new tSalesProductHeaderBL().getDataByNoSO(noso);
+            if (dataFirstIsExist.size()==1){
+                clsHelper _clsHelper=new clsHelper();
+                String oldVersion = dtLast.get(0).get_txtNoSo();
+                noso = _clsHelper.generateNewId(oldVersion, "-" , "5");
+            } else {
+                noso = new mCounterNumberBL().getData(enumCounterData.NoDataSO);
+            }
         }
-
         tv_noso.setText(noso);
 
         String timeStamp = new SimpleDateFormat("dd/MM/yyyy",

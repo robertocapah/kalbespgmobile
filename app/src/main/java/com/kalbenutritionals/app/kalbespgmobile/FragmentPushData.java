@@ -125,53 +125,43 @@ public class FragmentPushData extends Fragment {
 
         tlLeave.removeAllViews();
 
-        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
+        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1f);
         params.setMargins(1, 1, 1, 1);
 
         TableRow tr = new TableRow(getContext());
-
-        TableLayout tl = new TableLayout(getContext());
 
         String[] colTextHeader = {"No.", "Reason", "Type", "Date"};
 
         for (String text : colTextHeader) {
             TextView tv = new TextView(getContext());
-            tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
             tv.setTextSize(14);
             tv.setPadding(10, 10, 10, 10);
             tv.setText(text);
             tv.setGravity(Gravity.CENTER);
             tv.setBackgroundColor(Color.parseColor("#4CAF50"));
-
             tv.setTextColor(Color.WHITE);
-            tr.addView(tv,params);
+            tv.setLayoutParams(params);
+
+            tr.addView(tv);
         }
-        tl.addView(tr);
+        tlLeave.addView(tr);
 
         if(listOftLeaveMobileData!=null){
             int index = 1;
             for(tLeaveMobileData dat : listOftLeaveMobileData){
                 tr = new TableRow(getContext());
-                TableLayout.LayoutParams tableRowParams=
-                        new TableLayout.LayoutParams
-                                (TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
-
-                int leftMargin=0;
-                int topMargin=0;
-                int rightMargin=0;
-                int bottomMargin=0;
-                tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
-
-                tr.setLayoutParams(tableRowParams);
 
                 TextView tv_index = new TextView(getContext());
                 tv_index.setTextSize(12);
                 tv_index.setPadding(10, 10, 10, 10);
                 tv_index.setBackgroundColor(Color.parseColor("#f0f0f0"));
                 tv_index.setTextColor(Color.BLACK);
+                tv_index.setGravity(Gravity.CENTER);
                 tv_index.setText(String.valueOf(index + "."));
-                tr.addView(tv_index,params);
+                tv_index.setLayoutParams(params);
+
+                tr.addView(tv_index);
 
                 TextView outlet_code = new TextView(getContext());
                 outlet_code.setTextSize(12);
@@ -180,7 +170,9 @@ public class FragmentPushData extends Fragment {
                 outlet_code.setTextColor(Color.BLACK);
                 outlet_code.setGravity(Gravity.CENTER);
                 outlet_code.setText(dat.get_txtAlasan());
-                tr.addView(outlet_code,params);
+                outlet_code.setLayoutParams(params);
+
+                tr.addView(outlet_code);
 
                 TextView outlet_name = new TextView(getContext());
                 outlet_name.setTextSize(12);
@@ -189,7 +181,9 @@ public class FragmentPushData extends Fragment {
                 outlet_name.setTextColor(Color.BLACK);
                 outlet_name.setGravity(Gravity.CENTER);
                 outlet_name.setText(dat.get_txtTypeAlasanName());
-                tr.addView(outlet_name,params);
+                outlet_name.setLayoutParams(params);
+
+                tr.addView(outlet_name);
 
                 TextView date = new TextView(getContext());
                 date.setTextSize(12);
@@ -198,67 +192,56 @@ public class FragmentPushData extends Fragment {
                 date.setTextColor(Color.BLACK);
                 date.setGravity(Gravity.CENTER);
                 date.setText(new clsMainActivity().giveFormatDate2(dat.get_dtLeave()));
-                tr.addView(date,params);
+                date.setLayoutParams(params);
 
-                tl.addView(tr, tableRowParams);
-                index ++;
+                tr.addView(date);
+
+                tlLeave.addView(tr,index++);
             }
         }
-
-        tlLeave.addView(tl);
     }
 
     private void initCustomerBase(Context context, List<tCustomerBasedMobileHeaderData> listOftCustomerBasedMobileHeaderData) {
 
         tlCustomerBase.removeAllViews();
 
-        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
+        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1f);
         params.setMargins(1, 1, 1, 1);
 
         TableRow tr = new TableRow(getContext());
-
-        TableLayout tl = new TableLayout(getContext());
 
         String[] colTextHeader = {"No.", "Code", "Date", "Branch Code"};
 
         for (String text : colTextHeader) {
             TextView tv = new TextView(getContext());
-            tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
             tv.setTextSize(14);
             tv.setPadding(10, 10, 10, 10);
             tv.setText(text);
             tv.setGravity(Gravity.CENTER);
             tv.setBackgroundColor(Color.parseColor("#4CAF50"));
-
             tv.setTextColor(Color.WHITE);
-            tr.addView(tv,params);
+            tv.setLayoutParams(params);
+
+            tr.addView(tv);
         }
-        tl.addView(tr);
+        tlCustomerBase.addView(tr,0);
 
         if(listOftCustomerBasedMobileHeaderData!=null){
             int index = 1;
             for(tCustomerBasedMobileHeaderData dat : listOftCustomerBasedMobileHeaderData){
                 tr = new TableRow(getContext());
-                TableLayout.LayoutParams tableRowParams=
-                        new TableLayout.LayoutParams
-                                (TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
-
-                int leftMargin=0;
-                int topMargin=0;
-                int rightMargin=0;
-                int bottomMargin=0;
-                tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
-
-                tr.setLayoutParams(tableRowParams);
 
                 TextView tv_index = new TextView(getContext());
                 tv_index.setTextSize(12);
                 tv_index.setPadding(10, 10, 10, 10);
                 tv_index.setBackgroundColor(Color.parseColor("#f0f0f0"));
                 tv_index.setTextColor(Color.BLACK);
+                tv_index.setGravity(Gravity.CENTER);
                 tv_index.setText(String.valueOf(index + "."));
-                tr.addView(tv_index,params);
+                tv_index.setLayoutParams(params);
+
+                tr.addView(tv_index);
 
                 TextView outlet_code = new TextView(getContext());
                 outlet_code.setTextSize(12);
@@ -267,7 +250,9 @@ public class FragmentPushData extends Fragment {
                 outlet_code.setTextColor(Color.BLACK);
                 outlet_code.setGravity(Gravity.CENTER);
                 outlet_code.setText(dat.get_txtSubmissionId());
-                tr.addView(outlet_code,params);
+                outlet_code.setLayoutParams(params);
+
+                tr.addView(outlet_code);
 
                 TextView outlet_name = new TextView(getContext());
                 outlet_name.setTextSize(12);
@@ -276,7 +261,9 @@ public class FragmentPushData extends Fragment {
                 outlet_name.setTextColor(Color.BLACK);
                 outlet_name.setGravity(Gravity.CENTER);
                 outlet_name.setText(new clsMainActivity().giveFormatDate(dat.get_dtDate()));
-                tr.addView(outlet_name,params);
+                outlet_name.setLayoutParams(params);
+
+                tr.addView(outlet_name);
 
                 TextView date = new TextView(getContext());
                 date.setTextSize(12);
@@ -285,67 +272,58 @@ public class FragmentPushData extends Fragment {
                 date.setTextColor(Color.BLACK);
                 date.setGravity(Gravity.CENTER);
                 date.setText(dat.get_txtBranchCode());
-                tr.addView(date,params);
+                date.setLayoutParams(params);
 
-                tl.addView(tr, tableRowParams);
-                index ++;
+                tr.addView(date);
+
+                tlCustomerBase.addView(tr,index++);
             }
         }
 
-        tlCustomerBase.addView(tl);
+
     }
 
     private void initActivity(Context context, List<tActivityData> listOftActivityData) {
 
         tlActivity.removeAllViews();
 
-        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
+        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1f);
         params.setMargins(1, 1, 1, 1);
 
         TableRow tr = new TableRow(getContext());
-
-        TableLayout tl = new TableLayout(getContext());
 
         String[] colTextHeader = {"No.", "Desc.", "Date", "Outlet Code"};
 
         for (String text : colTextHeader) {
             TextView tv = new TextView(getContext());
-            tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
             tv.setTextSize(14);
             tv.setPadding(10, 10, 10, 10);
             tv.setText(text);
             tv.setGravity(Gravity.CENTER);
             tv.setBackgroundColor(Color.parseColor("#4CAF50"));
-
             tv.setTextColor(Color.WHITE);
-            tr.addView(tv,params);
+            tv.setLayoutParams(params);
+
+            tr.addView(tv);
         }
-        tl.addView(tr);
+        tlActivity.addView(tr,0);
 
         if(listOftActivityData!=null){
             int index = 1;
             for(tActivityData dat : listOftActivityData){
                 tr = new TableRow(getContext());
-                TableLayout.LayoutParams tableRowParams=
-                        new TableLayout.LayoutParams
-                                (TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
-
-                int leftMargin=0;
-                int topMargin=0;
-                int rightMargin=0;
-                int bottomMargin=0;
-                tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
-
-                tr.setLayoutParams(tableRowParams);
 
                 TextView tv_index = new TextView(getContext());
                 tv_index.setTextSize(12);
                 tv_index.setPadding(10, 10, 10, 10);
                 tv_index.setBackgroundColor(Color.parseColor("#f0f0f0"));
                 tv_index.setTextColor(Color.BLACK);
+                tv_index.setGravity(Gravity.CENTER);
                 tv_index.setText(String.valueOf(index + "."));
-                tr.addView(tv_index,params);
+                tv_index.setLayoutParams(params);
+
+                tr.addView(tv_index);
 
                 TextView outlet_code = new TextView(getContext());
                 outlet_code.setTextSize(12);
@@ -354,7 +332,9 @@ public class FragmentPushData extends Fragment {
                 outlet_code.setTextColor(Color.BLACK);
                 outlet_code.setGravity(Gravity.CENTER);
                 outlet_code.setText(dat.get_txtDesc());
-                tr.addView(outlet_code,params);
+                outlet_code.setLayoutParams(params);
+
+                tr.addView(outlet_code);
 
                 TextView outlet_name = new TextView(getContext());
                 outlet_name.setTextSize(12);
@@ -363,7 +343,9 @@ public class FragmentPushData extends Fragment {
                 outlet_name.setTextColor(Color.BLACK);
                 outlet_name.setGravity(Gravity.CENTER);
                 outlet_name.setText(new clsMainActivity().giveFormatDate(dat.get_dtActivity()));
-                tr.addView(outlet_name,params);
+                outlet_name.setLayoutParams(params);
+
+                tr.addView(outlet_name);
 
                 TextView date = new TextView(getContext());
                 date.setTextSize(12);
@@ -372,67 +354,56 @@ public class FragmentPushData extends Fragment {
                 date.setTextColor(Color.BLACK);
                 date.setGravity(Gravity.CENTER);
                 date.setText(dat.get_txtOutletCode());
-                tr.addView(date,params);
+                date.setLayoutParams(params);
 
-                tl.addView(tr, tableRowParams);
-                index ++;
+                tr.addView(date);
+
+                tlActivity.addView(tr,index++);
             }
         }
-
-        tlActivity.addView(tl);
     }
 
     private void initSOHeader(Context context, List<tSalesProductHeaderData> listOftSalesProductHeaderData) {
         tlSOHeader = (TableLayout) v.findViewById(R.id.tlSOHeader);
         tlSOHeader.removeAllViews();
 
-        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
+        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1f);
         params.setMargins(1, 1, 1, 1);
 
         TableRow tr = new TableRow(getContext());
-
-        TableLayout tl = new TableLayout(getContext());
 
         String[] colTextHeader = {"No.", "NO SO", "Date", "Outlet Code"};
 
         for (String text : colTextHeader) {
             TextView tv = new TextView(getContext());
-            tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
             tv.setTextSize(14);
             tv.setPadding(10, 10, 10, 10);
             tv.setText(text);
             tv.setGravity(Gravity.CENTER);
             tv.setBackgroundColor(Color.parseColor("#4CAF50"));
-
             tv.setTextColor(Color.WHITE);
-            tr.addView(tv,params);
+            tv.setLayoutParams(params);
+
+            tr.addView(tv);
         }
-        tl.addView(tr);
+        tlSOHeader.addView(tr,0);
 
         if(listOftSalesProductHeaderData!=null){
             int index = 1;
             for(tSalesProductHeaderData dat : listOftSalesProductHeaderData){
                 tr = new TableRow(getContext());
-                TableLayout.LayoutParams tableRowParams=
-                        new TableLayout.LayoutParams
-                                (TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
-
-                int leftMargin=0;
-                int topMargin=0;
-                int rightMargin=0;
-                int bottomMargin=0;
-                tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
-
-                tr.setLayoutParams(tableRowParams);
 
                 TextView tv_index = new TextView(getContext());
                 tv_index.setTextSize(12);
                 tv_index.setPadding(10, 10, 10, 10);
                 tv_index.setBackgroundColor(Color.parseColor("#f0f0f0"));
                 tv_index.setTextColor(Color.BLACK);
+                tv_index.setGravity(Gravity.CENTER);
                 tv_index.setText(String.valueOf(index + "."));
-                tr.addView(tv_index,params);
+                tv_index.setLayoutParams(params);
+
+                tr.addView(tv_index);
 
                 TextView outlet_code = new TextView(getContext());
                 outlet_code.setTextSize(12);
@@ -441,7 +412,9 @@ public class FragmentPushData extends Fragment {
                 outlet_code.setTextColor(Color.BLACK);
                 outlet_code.setGravity(Gravity.CENTER);
                 outlet_code.setText(dat.get_txtNoSo());
-                tr.addView(outlet_code,params);
+                outlet_code.setLayoutParams(params);
+
+                tr.addView(outlet_code);
 
                 TextView outlet_name = new TextView(getContext());
                 outlet_name.setTextSize(12);
@@ -450,7 +423,9 @@ public class FragmentPushData extends Fragment {
                 outlet_name.setTextColor(Color.BLACK);
                 outlet_name.setGravity(Gravity.CENTER);
                 outlet_name.setText(new clsMainActivity().giveFormatDate(dat.get_dtDate()));
-                tr.addView(outlet_name,params);
+                outlet_name.setLayoutParams(params);
+
+                tr.addView(outlet_name);
 
                 TextView date = new TextView(getContext());
                 date.setTextSize(12);
@@ -459,21 +434,19 @@ public class FragmentPushData extends Fragment {
                 date.setTextColor(Color.BLACK);
                 date.setGravity(Gravity.CENTER);
                 date.setText(dat.get_OutletCode());
-                tr.addView(date,params);
+                date.setLayoutParams(params);
 
-                tl.addView(tr, tableRowParams);
-                index ++;
+                tr.addView(date);
+
+                tlSOHeader.addView(tr,index++);
             }
         }
-
-        tlSOHeader.addView(tl);
-
     }
 
     private class AsyncCallRole extends AsyncTask<List<dataJson>, Void, List<dataJson>> {
         @Override
         protected List<dataJson> doInBackground(List<dataJson>... params) {
-            android.os.Debug.waitForDebugger();
+//            android.os.Debug.waitForDebugger();
             List<dataJson> roledata=new ArrayList<dataJson>();
             clsPushData dtJson= new clsHelperBL().pushData();
             dataJson dtdataJson=new dataJson();
@@ -551,53 +524,43 @@ public class FragmentPushData extends Fragment {
         tlAbsen = (TableLayout) v.findViewById(R.id.tl_absen);
         tlAbsen.removeAllViews();
 
-        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
+        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1f);
         params.setMargins(1, 1, 1, 1);
 
         TableRow tr = new TableRow(getContext());
-
-        TableLayout tl = new TableLayout(getContext());
 
         String[] colTextHeader = {"No.", "Outlet Code", "Outlet Name", "Date"};
 
         for (String text : colTextHeader) {
             TextView tv = new TextView(getContext());
-            tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1));
 
             tv.setTextSize(14);
             tv.setPadding(10, 10, 10, 10);
             tv.setText(text);
             tv.setGravity(Gravity.CENTER);
             tv.setBackgroundColor(Color.parseColor("#4CAF50"));
-
             tv.setTextColor(Color.WHITE);
-            tr.addView(tv,params);
+            tv.setLayoutParams(params);
+
+            tr.addView(tv);
         }
-        tl.addView(tr);
+        tlAbsen.addView(tr);
 
         if(ListData!=null){
             int index = 1;
             for(tAbsenUserData dat : ListData){
                 tr = new TableRow(getContext());
-                TableLayout.LayoutParams tableRowParams=
-                        new TableLayout.LayoutParams
-                                (TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
-
-                int leftMargin=0;
-                int topMargin=0;
-                int rightMargin=0;
-                int bottomMargin=0;
-                tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
-
-                tr.setLayoutParams(tableRowParams);
 
                 TextView tv_index = new TextView(getContext());
                 tv_index.setTextSize(12);
                 tv_index.setPadding(10, 10, 10, 10);
                 tv_index.setBackgroundColor(Color.parseColor("#f0f0f0"));
                 tv_index.setTextColor(Color.BLACK);
+                tv_index.setGravity(Gravity.CENTER);
                 tv_index.setText(String.valueOf(index + "."));
-                tr.addView(tv_index,params);
+                tv_index.setLayoutParams(params);
+
+                tr.addView(tv_index);
 
                 TextView outlet_code = new TextView(getContext());
                 outlet_code.setTextSize(12);
@@ -606,7 +569,9 @@ public class FragmentPushData extends Fragment {
                 outlet_code.setTextColor(Color.BLACK);
                 outlet_code.setGravity(Gravity.CENTER);
                 outlet_code.setText(dat.get_txtOutletCode());
-                tr.addView(outlet_code,params);
+                outlet_code.setLayoutParams(params);
+
+                tr.addView(outlet_code);
 
                 TextView outlet_name = new TextView(getContext());
                 outlet_name.setTextSize(12);
@@ -615,7 +580,9 @@ public class FragmentPushData extends Fragment {
                 outlet_name.setTextColor(Color.BLACK);
                 outlet_name.setGravity(Gravity.CENTER);
                 outlet_name.setText(dat.get_txtOutletName());
-                tr.addView(outlet_name,params);
+                outlet_name.setLayoutParams(params);
+
+                tr.addView(outlet_name);
 
                 TextView date = new TextView(getContext());
                 date.setTextSize(12);
@@ -624,13 +591,12 @@ public class FragmentPushData extends Fragment {
                 date.setTextColor(Color.BLACK);
                 date.setGravity(Gravity.CENTER);
                 date.setText(new clsMainActivity().giveFormatDate2(dat.get_dtDateCheckIn()));
-                tr.addView(date,params);
+                date.setLayoutParams(params);
 
-                tl.addView(tr, tableRowParams);
-                index ++;
+                tr.addView(date);
+
+                tlAbsen.addView(tr,index++);
             }
         }
-
-        tlAbsen.addView(tl);
     }
 }

@@ -36,7 +36,6 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.BooleanResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
@@ -275,6 +274,8 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
         lblLang.setText("");
         lblAcc.setText("");
         MenuID = "mnAbsenKBN";
+
+//        displayLocation();
 
         final mMenuData dtmenuData = new mMenuBL().getMenuDataByMenuName(MenuID);
         btnRefreshMaps.setOnClickListener(new OnClickListener() {
@@ -997,7 +998,6 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
         // TODO Auto-generated method stub
         mLastLocation = location;
         displayLocation();
-
     }
 
     @Override

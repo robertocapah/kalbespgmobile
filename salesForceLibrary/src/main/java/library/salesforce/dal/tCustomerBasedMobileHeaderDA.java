@@ -153,7 +153,48 @@ public class tCustomerBasedMobileHeaderDA {
         List<tCustomerBasedMobileHeaderData> contactList = new ArrayList<tCustomerBasedMobileHeaderData>();
         // Select All Query
         tCustomerBasedMobileHeaderData dt = new tCustomerBasedMobileHeaderData();
-        String selectQuery = "SELECT  " + dt.Property_ALL + " FROM " + TABLE_NAME + " WHERE " + dt.Property_intSubmit + "='1'";
+
+        String selectQuery = "SELECT  " + dt.Property_ALL + " FROM " + TABLE_NAME + " ORDER BY txtSubmissionId DESC";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                tCustomerBasedMobileHeaderData contact = new tCustomerBasedMobileHeaderData();
+                contact.set_intTrCustomerId(cursor.getString(0));
+                contact.set_txtSubmissionId(cursor.getString(1));
+                contact.set_txtSubmissionCode(cursor.getString(2));
+                contact.set_txtBranchCode(cursor.getString(3));
+                contact.set_txtSumberData(cursor.getString(4));
+                contact.set_txtNamaSumberData(cursor.getString(5));
+                contact.set_txtNamaDepan(cursor.getString(6));
+                contact.set_txtGender(cursor.getString(7));
+                contact.set_txtTelp(cursor.getString(8));
+                contact.set_txtTelpKantor(cursor.getString(9));
+                contact.set_txtEmail(cursor.getString(10));
+                contact.set_txtPINBBM(cursor.getString(11));
+                contact.set_txtALamat(cursor.getString(12));
+                contact.set_txtUserId(cursor.getString(13));
+                contact.set_intPIC(cursor.getString(14));
+                contact.set_txtDeviceId(cursor.getString(15));
+                contact.set_bitActive(cursor.getString(16));
+                contact.set_dtDate(cursor.getString(17));
+                contact.set_intSubmit(cursor.getString(18));
+                contact.set_intSync(cursor.getString(19));
+                contactList.add(contact);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        // return contact list
+        return contactList;
+    }
+
+    public List<tCustomerBasedMobileHeaderData> getAllDataByOutletCode(SQLiteDatabase db, String code) {
+        List<tCustomerBasedMobileHeaderData> contactList = new ArrayList<tCustomerBasedMobileHeaderData>();
+        // Select All Query
+        tCustomerBasedMobileHeaderData dt = new tCustomerBasedMobileHeaderData();
+
+        String selectQuery = "SELECT  " + dt.Property_ALL + " FROM " + TABLE_NAME + " WHERE " + dt.Property_txtSumberData+ "='" + code + "'" + " ORDER BY txtSubmissionId DESC ";
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -412,5 +453,4 @@ public class tCustomerBasedMobileHeaderDA {
         // return contact list
         return contactList;
     }
-
 }

@@ -6,10 +6,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-import java.sql.Blob;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,7 +19,6 @@ import library.salesforce.common.clsPushData;
 import library.salesforce.common.dataJson;
 import library.salesforce.common.linkAPI;
 import library.salesforce.common.mCounterNumberData;
-import library.salesforce.common.mProductBarcodeData;
 import library.salesforce.common.mconfigData;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
@@ -29,7 +26,6 @@ import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tLeaveMobileData;
-import library.salesforce.common.tNotificationData;
 import library.salesforce.common.tSalesProductDetailData;
 import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.common.tUserLoginData;
@@ -37,7 +33,6 @@ import library.salesforce.dal.clsHardCode;
 import library.salesforce.dal.enumConfigData;
 import library.salesforce.dal.enumCounterData;
 import library.salesforce.dal.mCounterNumberDA;
-import library.salesforce.dal.mProductBarcodeDA;
 import library.salesforce.dal.mconfigDA;
 import library.salesforce.dal.tAbsenUserDA;
 import library.salesforce.dal.tActivityDA;
@@ -261,7 +256,7 @@ public class clsHelperBL extends clsMainBL {
             }
             tAbsenUserDA _tAbsenUserDA = new tAbsenUserDA(db);
             tActivityDA _tActivityDA = new tActivityDA(db);
-//			tLeaveMobileDA _tLeaveMobileDA =new tLeaveMobileDA(db);
+			tLeaveMobileDA _tLeaveMobileDA =new tLeaveMobileDA(db);
             tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(db);
             tSalesProductDetailDA _tSalesProductDetailDA = new tSalesProductDetailDA(db);
             tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(db);
@@ -275,7 +270,7 @@ public class clsHelperBL extends clsMainBL {
 
             List<tSalesProductHeaderData> ListOfSalesProductHeader = _tSalesProductHeaderDA.getAllDataToPushData(db);
             List<tSalesProductDetailData> ListOfSalesProductDetail = _tSalesProductDetailDA.getAllDataToPushData(db, ListOfSalesProductHeader);
-//			List<tLeaveMobileData> ListOftLeaveData=_tLeaveMobileDA.getAllDataPushData(db);
+			List<tLeaveMobileData> ListOftLeaveData=_tLeaveMobileDA.getAllDataPushData(db);
             List<tAbsenUserData> ListOftAbsenUserData = _tAbsenUserDA.getAllDataToPushData(db);
             List<tActivityData> ListOftActivityData = _tActivityDA.getAllDataToPushData(db);
 
@@ -303,9 +298,9 @@ public class clsHelperBL extends clsMainBL {
                 }
             }
 
-//			if(ListOftLeaveData!=null){
-//				dtPush.setListOftLeaveMobileData(ListOftLeaveData);
-//			}
+			if(ListOftLeaveData!=null){
+				dtPush.setListOftLeaveMobileData(ListOftLeaveData);
+			}
 //
             if (ListOfSalesProductHeader != null) {
                 dtPush.setListOftSalesProductHeaderData(ListOfSalesProductHeader);

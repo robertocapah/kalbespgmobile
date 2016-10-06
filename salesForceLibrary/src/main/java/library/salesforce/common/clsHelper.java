@@ -408,6 +408,7 @@ public class clsHelper {
 		String[] split = itemStyle.split(Separator,0);
 		String itemID = split[1];
 		Long num0x= (long) 0 ;
+
 		if(itemID.contains("0")){
 			num0x = Long.valueOf(itemID.substring(itemID.indexOf("0")));	
 		}else{

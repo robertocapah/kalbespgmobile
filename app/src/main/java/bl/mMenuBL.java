@@ -60,7 +60,9 @@ public class mMenuBL extends clsMainBL {
 				if (_tSalesProductHeaderDA.getContactsCount(db) > 0) {
 					tmpData.add(data);
 				}
-			} else if (data.get_TxtDescription().contains("mnAbsenSPG") || data.get_TxtDescription().contains("mnPushDataSPG") || data.get_TxtDescription().contains("mnLeaveSPG")) {
+			} else if (data.get_TxtDescription().contains("mnAbsenSPG")
+					|| data.get_TxtDescription().contains("mnPushDataSPG")
+					|| data.get_TxtDescription().contains("mnLeaveSPG")) {
 				mEmployeeAreaDA _mEmployeeAreaDA = new mEmployeeAreaDA(db);
 				mEmployeeBranchDA _mEmployeeBranchDA = new mEmployeeBranchDA(db);
 				mProductBarcodeDA _mProductBarcodeDA = new mProductBarcodeDA(db);
@@ -88,6 +90,8 @@ public class mMenuBL extends clsMainBL {
 					} else if (data.get_TxtDescription().contains("mnLeave")&&listDataLeave.size() > 0 && _mEmployeeAreaDA.getContactsCount(db) > 0 && _mEmployeeBranchDA.getContactsCount(db) > 0){
 						tmpData.add(data);
 
+					} else if (data.get_TxtDescription().contains("mnPushDataSPG")){
+						tmpData.add(data);
 					}
 
 				} else if (data.get_TxtDescription().contains("mnLeave")) {

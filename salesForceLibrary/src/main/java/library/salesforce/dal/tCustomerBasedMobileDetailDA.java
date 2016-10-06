@@ -1,10 +1,11 @@
 package library.salesforce.dal;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
@@ -232,6 +233,17 @@ public class tCustomerBasedMobileDetailDA {
     public void DeleteAllDAta(SQLiteDatabase db) {
         // Drop older table if existed
         db.execSQL("DELETE FROM " + TABLE_NAME);
+    }
+
+    public int updateDataById(SQLiteDatabase db, tCustomerBasedMobileDetailData data, String id) {
+        tCustomerBasedMobileDetailData dt = new tCustomerBasedMobileDetailData();
+
+        ContentValues values = new ContentValues();
+        values.put(dt.Property_intNo, String.valueOf(data.get_intNo()));
+
+        // updating row
+        return db.update(TABLE_NAME, values, dt.Property_intTrCustomerIdDetail + " = ? ",
+                new String[] { String.valueOf(id) });
     }
 
     public int getContactsCount(SQLiteDatabase db) {

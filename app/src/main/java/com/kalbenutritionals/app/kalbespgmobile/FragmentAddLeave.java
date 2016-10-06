@@ -162,8 +162,10 @@ public class FragmentAddLeave extends Fragment implements View.OnClickListener {
             edReason.setTextColor(Color.BLACK);
             edReason.setEnabled(false);
             spLeave.setEnabled(false);
-            if(!listData.get(0).get_intLeaveIdSync().equals("")){
+            if(!listData.get(0).get_intLeaveIdSync().equals("0")){
                 tvStatus.setText("Status : Sync");
+            } else {
+                tvStatus.setText("Status : Submit");
             }
             btnSaveleave.setVisibility(View.INVISIBLE);
         }

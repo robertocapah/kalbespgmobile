@@ -415,6 +415,120 @@ public class tSalesProductHeaderDA {
         return contactList;
     }
 
+    public List<tSalesProductHeaderData> getAllDataByOutletCode(SQLiteDatabase db, String code) {
+        List<tSalesProductHeaderData> contactList = null;
+        // Select All Query
+        tSalesProductHeaderData dt = new tSalesProductHeaderData();
+//        String selectQuery = "SELECT  " + dt.Property_All + " FROM " + TABLE_CONTACTS + " WHERE " + dt.Property_OutletCode + "='" + code + "'";
+        String selectQuery = "SELECT  " + dt.Property_All + " FROM " + TABLE_CONTACTS + " WHERE " + dt.Property_OutletCode + "='" + code + "'" + " ORDER BY txtNoSo DESC ";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            contactList = new ArrayList<tSalesProductHeaderData>();
+            do {
+                tSalesProductHeaderData contact = new tSalesProductHeaderData();
+                contact.set_intId(cursor.getString(0));
+                contact.set_txtNoSo(cursor.getString(1));
+                contact.set_dtDate(cursor.getString(2));
+                contact.set_OutletCode(cursor.getString(3));
+                contact.set_OutletName(cursor.getString(4));
+                contact.set_txtKeterangan(cursor.getString(5));
+                contact.set_intSumItem(cursor.getString(6));
+                contact.set_intSumAmount(cursor.getString(7));
+                contact.set_UserId(cursor.getString(8));
+                contact.set_intSubmit(cursor.getString(9));
+                contact.set_intSync(cursor.getString(10));
+                contact.set_txtBranchCode(cursor.getString(11));
+                contact.set_txtBranchName(cursor.getString(12));
+                contact.set_intIdAbsenUser(cursor.getString(13));
+                contact.set_txtNIK(cursor.getString(14));
+                // Adding contact to list
+                contactList.add(contact);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        // return contact list
+        return contactList;
+    }
+
+    public List<tSalesProductHeaderData> getDataByNoSO(SQLiteDatabase db, String noso) {
+        List<tSalesProductHeaderData> contactList = null;
+        // Select All Query
+        tSalesProductHeaderData dt = new tSalesProductHeaderData();
+//        String selectQuery = "SELECT  " + dt.Property_All + " FROM " + TABLE_CONTACTS + " WHERE " + dt.Property_OutletCode + "='" + code + "'";
+        String selectQuery = "SELECT  " + dt.Property_All + " FROM " + TABLE_CONTACTS + " WHERE " + dt.Property_txtNoSo + "='" + noso + "'";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            contactList = new ArrayList<tSalesProductHeaderData>();
+            do {
+                tSalesProductHeaderData contact = new tSalesProductHeaderData();
+                contact.set_intId(cursor.getString(0));
+                contact.set_txtNoSo(cursor.getString(1));
+                contact.set_dtDate(cursor.getString(2));
+                contact.set_OutletCode(cursor.getString(3));
+                contact.set_OutletName(cursor.getString(4));
+                contact.set_txtKeterangan(cursor.getString(5));
+                contact.set_intSumItem(cursor.getString(6));
+                contact.set_intSumAmount(cursor.getString(7));
+                contact.set_UserId(cursor.getString(8));
+                contact.set_intSubmit(cursor.getString(9));
+                contact.set_intSync(cursor.getString(10));
+                contact.set_txtBranchCode(cursor.getString(11));
+                contact.set_txtBranchName(cursor.getString(12));
+                contact.set_intIdAbsenUser(cursor.getString(13));
+                contact.set_txtNIK(cursor.getString(14));
+                // Adding contact to list
+                contactList.add(contact);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        // return contact list
+        return contactList;
+    }
+
+    public List<tSalesProductHeaderData> getAllDataByDateCheckin(SQLiteDatabase db, String date) {
+        List<tSalesProductHeaderData> contactList = null;
+        // Select All Query
+        tSalesProductHeaderData dt = new tSalesProductHeaderData();
+//        String selectQuery = "SELECT  " + dt.Property_All + " FROM " + TABLE_CONTACTS + " WHERE " + dt.Property_OutletCode + "='" + code + "'";
+        String selectQuery = "SELECT  " + dt.Property_All + " FROM " + TABLE_CONTACTS + " WHERE " + dt.Property_txtDate + "='" + date + "'";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            contactList = new ArrayList<tSalesProductHeaderData>();
+            do {
+                tSalesProductHeaderData contact = new tSalesProductHeaderData();
+                contact.set_intId(cursor.getString(0));
+                contact.set_txtNoSo(cursor.getString(1));
+                contact.set_dtDate(cursor.getString(2));
+                contact.set_OutletCode(cursor.getString(3));
+                contact.set_OutletName(cursor.getString(4));
+                contact.set_txtKeterangan(cursor.getString(5));
+                contact.set_intSumItem(cursor.getString(6));
+                contact.set_intSumAmount(cursor.getString(7));
+                contact.set_UserId(cursor.getString(8));
+                contact.set_intSubmit(cursor.getString(9));
+                contact.set_intSync(cursor.getString(10));
+                contact.set_txtBranchCode(cursor.getString(11));
+                contact.set_txtBranchName(cursor.getString(12));
+                contact.set_intIdAbsenUser(cursor.getString(13));
+                contact.set_txtNIK(cursor.getString(14));
+                // Adding contact to list
+                contactList.add(contact);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        // return contact list
+        return contactList;
+    }
+
     // Deleting single contact
     public void deleteContact(SQLiteDatabase db, String id) {
         tSalesProductHeaderData dt = new tSalesProductHeaderData();
