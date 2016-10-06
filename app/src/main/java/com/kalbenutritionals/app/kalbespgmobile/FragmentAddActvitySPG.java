@@ -37,8 +37,10 @@ import java.util.Locale;
 
 import bl.tAbsenUserBL;
 import bl.tActivityBL;
+import bl.tUserLoginBL;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
+import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 
 public class FragmentAddActvitySPG extends Fragment implements View.OnClickListener {
@@ -176,6 +178,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
                             int selectedId = rdFlag.getCheckedRadioButtonId();
                             RadioButton radioFlag = (RadioButton) v.findViewById(selectedId);
                             tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
+                            tUserLoginData dtLogin = new tUserLoginBL().getUserLogin();
 
                             dtActivityData.set_intActive("0");
                             dtActivityData.set_intIdSyn("0");
@@ -187,7 +190,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
                             dtActivityData.set_txtOutletName(dtAbsen.get_txtOutletName());
                             dtActivityData.set_txtDeviceId(dtAbsen.get_txtDeviceId());
                             dtActivityData.set_txtBranch(dtAbsen.get_txtBranchCode());
-                            dtActivityData.set_txtUserId(dtAbsen.get_txtUserId());
+                            dtActivityData.set_txtUserId(dtLogin.get_TxtEmpId());
                             dtActivityData.set_txtImg1(pht1);
                             dtActivityData.set_txtImg2(pht2);
 

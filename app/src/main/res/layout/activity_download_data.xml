@@ -216,6 +216,37 @@
 				android:background="@drawable/btn_on_click"/>
 
 			<View
+				android:id="@+id/view12"
+				android:layout_width="fill_parent"
+				android:layout_height="1dp"
+				android:layout_marginTop="10dp"
+				android:background="#bfbfbf" />
+
+			<TextView
+				android:id="@+id/txtVwActivity"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Activity"
+				android:layout_marginTop="10dp"
+				android:layout_marginLeft="10dp"
+				android:textColor="#000" />
+			<Spinner
+				android:id="@+id/spnActivity"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="5dp"
+				android:background="@drawable/bg_edtext"
+				/>
+			<Button
+				android:id="@+id/btnDlActivity"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="Download Activity"
+				android:layout_marginTop="5dp"
+				android:layout_gravity="center_horizontal"
+				android:background="@drawable/btn_on_click"/>
+
+			<View
 				android:id="@+id/view11"
 				android:layout_width="fill_parent"
 				android:layout_height="1dp"
@@ -245,6 +276,37 @@
 				android:layout_marginTop="5dp"
 				android:layout_gravity="center_horizontal"
 				android:background="@drawable/btn_on_click"/>
+
+            <View
+                android:id="@+id/view13"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="#bfbfbf" />
+
+            <TextView
+                android:id="@+id/txtVwAbsen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Absen"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="#000" />
+            <Spinner
+                android:id="@+id/spnAbsen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_edtext"
+                />
+            <Button
+                android:id="@+id/btnDlAbsen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Download Absen"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/btn_on_click"/>
 
 			<View
 					android:id="@+id/view5"

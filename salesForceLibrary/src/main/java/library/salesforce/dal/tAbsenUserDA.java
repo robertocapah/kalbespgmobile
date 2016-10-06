@@ -3,6 +3,7 @@ package library.salesforce.dal;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -22,7 +23,7 @@ public class tAbsenUserDA {
 	public tAbsenUserDA(SQLiteDatabase db) {
 		tAbsenUserData dt=new tAbsenUserData();
 		String CREATE_CONTACTS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CONTACTS + "("
-				+ dt.Property_intId + " INTEGER PRIMARY KEY,"
+				+ dt.Property_intId + " TEXT PRIMARY KEY,"
 				+ dt.Property_dtDateCheckIn + " TEXT NULL,"
 				+ dt.Property_dtDateCheckOut + " TEXT NULL,"
 				+ dt.Property_intSubmit + " TEXT NULL,"
@@ -171,6 +172,32 @@ public class tAbsenUserDA {
 		return contact;
 	}
 
+    public void saveAbsenDownload(SQLiteDatabase db,tAbsenUserData data){
+        tAbsenUserData dt=new tAbsenUserData();
+        String sql                      =   "INSERT INTO " + TABLE_CONTACTS +  " (" + dt.Property_All + ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        SQLiteStatement insertStmt      =   db.compileStatement(sql);
+        insertStmt.clearBindings();
+        insertStmt.bindString(1, data.get_intId() == null ? "" : data.get_intId());
+        insertStmt.bindString(2, data.get_dtDateCheckIn() == null ? "" : data.get_intId());
+        insertStmt.bindString(3, data.get_dtDateCheckOut() == null ? "" : data.get_intId());
+        insertStmt.bindString(4, data.get_intSubmit() == null ? "" : data.get_intId());
+        insertStmt.bindString(5, data.get_intSync() == null ? "" : data.get_intId());
+        insertStmt.bindString(6, data.get_txtAbsen() == null ? "" : data.get_intId());
+        insertStmt.bindString(7, data.get_txtAccuracy() == null ? "" : data.get_intId());
+        insertStmt.bindString(8, data.get_txtBranchCode() == null ? "" : data.get_intId());
+        insertStmt.bindString(9, data.get_txtBranchName() == null ? "" : data.get_intId());
+        insertStmt.bindString(10, data.get_txtLatitude() == null ? "" : data.get_intId());
+        insertStmt.bindString(11, data.get_txtLongitude() == null ? "" : data.get_intId());
+        insertStmt.bindString(12, data.get_txtOutletCode() == null ? "" : data.get_intId());
+        insertStmt.bindString(13, data.get_txtOutletName() == null ? "" : data.get_intId());
+        insertStmt.bindString(14, data.get_txtDeviceId() == null ? "" : data.get_intId());
+        insertStmt.bindBlob(15, data.get_txtImg1() == null ? null : data.get_txtImg1());
+        insertStmt.bindBlob(16, data.get_txtImg2() == null ? null : data.get_txtImg2());
+        insertStmt.bindString(17, data.get_txtUserId() == null ? "" : data.get_intId());
+        insertStmt.executeInsert();
+        db.close();
+    }
+
 	public tAbsenUserData getDataCheckInByOutletAndBranch(SQLiteDatabase db,String txtBranchCode, String txtOutletCode) {
 		// Select All Query
 		tAbsenUserData dt=new tAbsenUserData();
@@ -220,25 +247,25 @@ public class tAbsenUserDA {
 				contact=new tAbsenUserData();
 				contact.set_intId(cursor.getString(0));
 				contact.set_dtDateCheckIn(cursor.getString(1));
-				contact.set_intSubmit(cursor.getString(2));
-				contact.set_intSync(cursor.getString(3));
-				contact.set_txtAbsen(cursor.getString(4));
-				contact.set_txtAccuracy(cursor.getString(5));
-				contact.set_txtBranchCode(cursor.getString(6));
-				contact.set_txtBranchName(cursor.getString(7));
-				contact.set_txtLatitude(cursor.getString(8));
-				contact.set_txtLongitude(cursor.getString(9));
-				contact.set_txtOutletCode(cursor.getString(10));
-				contact.set_txtOutletName(cursor.getString(11));
-				contact.set_txtDeviceId(cursor.getString(12));
-				contact.set_txtUserId(cursor.getString(13));
-				contact.set_dtDateCheckOut(cursor.getString(14));
-//				byte[] blob1 = cursor.getBlob(15);
+				contact.set_dtDateCheckOut(cursor.getString(2));
+				contact.set_intSubmit(cursor.getString(3));
+				contact.set_intSync(cursor.getString(4));
+				contact.set_txtAbsen(cursor.getString(5));
+				contact.set_txtAccuracy(cursor.getString(6));
+				contact.set_txtBranchCode(cursor.getString(7));
+				contact.set_txtBranchName(cursor.getString(8));
+				contact.set_txtLatitude(cursor.getString(9));
+				contact.set_txtLongitude(cursor.getString(10));
+				contact.set_txtOutletCode(cursor.getString(11));
+				contact.set_txtOutletName(cursor.getString(12));
+				contact.set_txtDeviceId(cursor.getString(13));
+				byte[] blob1 = cursor.getBlob(14);
 //				Bitmap bmp1 = BitmapFactory.decodeByteArray(blob1, 0, blob1.length);
-				contact.set_txtImg1(cursor.getBlob(15));
-//				byte[] blob2 = cursor.getBlob((16));
+				contact.set_txtImg1(blob1);
+				byte[] blob2 = cursor.getBlob(15);
+				contact.set_txtUserId(cursor.getString(16));
 //				Bitmap bmp2 = BitmapFactory.decodeByteArray(blob2, 0, blob2.length);
-				contact.set_txtImg2(cursor.getBlob(16));
+				contact.set_txtImg2(blob2);
 				// Adding contact to list
 			} while (cursor.moveToNext());
 		}
@@ -306,21 +333,25 @@ public class tAbsenUserDA {
 				tAbsenUserData contact = new tAbsenUserData();
 				contact.set_intId(cursor.getString(0));
 				contact.set_dtDateCheckIn(cursor.getString(1));
-				contact.set_intSubmit(cursor.getString(2));
-				contact.set_intSync(cursor.getString(3));
-				contact.set_txtAbsen(cursor.getString(4));
-				contact.set_txtAccuracy(cursor.getString(5));
-				contact.set_txtBranchCode(cursor.getString(6));
-				contact.set_txtBranchName(cursor.getString(7));
-				contact.set_txtLatitude(cursor.getString(8));
-				contact.set_txtLongitude(cursor.getString(9));
-				contact.set_txtOutletCode(cursor.getString(10));
-				contact.set_txtOutletName(cursor.getString(11));
-				contact.set_txtDeviceId(cursor.getString(12));
-				contact.set_txtUserId(cursor.getString(13));
-				contact.set_dtDateCheckOut(cursor.getString(14));
-				contact.set_txtImg1(cursor.getBlob(15));
-				contact.set_txtImg2(cursor.getBlob(16));
+				contact.set_dtDateCheckOut(cursor.getString(2));
+				contact.set_intSubmit(cursor.getString(3));
+				contact.set_intSync(cursor.getString(4));
+				contact.set_txtAbsen(cursor.getString(5));
+				contact.set_txtAccuracy(cursor.getString(6));
+				contact.set_txtBranchCode(cursor.getString(7));
+				contact.set_txtBranchName(cursor.getString(8));
+				contact.set_txtLatitude(cursor.getString(9));
+				contact.set_txtLongitude(cursor.getString(10));
+				contact.set_txtOutletCode(cursor.getString(11));
+				contact.set_txtOutletName(cursor.getString(12));
+				contact.set_txtDeviceId(cursor.getString(13));
+				byte[] blob1 = cursor.getBlob(14);
+//				Bitmap bmp1 = BitmapFactory.decodeByteArray(blob1, 0, blob1.length);
+				contact.set_txtImg1(blob1);
+				byte[] blob2 = cursor.getBlob(15);
+				contact.set_txtUserId(cursor.getString(16));
+//				Bitmap bmp2 = BitmapFactory.decodeByteArray(blob2, 0, blob2.length);
+				contact.set_txtImg2(blob2);
 				// Adding contact to list
 				contactList.add(contact);
 			} while (cursor.moveToNext());
@@ -345,23 +376,23 @@ public class tAbsenUserDA {
 				tAbsenUserData contact = new tAbsenUserData();
 				contact.set_intId(cursor.getString(0));
 				contact.set_dtDateCheckIn(cursor.getString(1));
-				contact.set_intSubmit(cursor.getString(2));
-				contact.set_intSync(cursor.getString(3));
-				contact.set_txtAbsen(cursor.getString(4));
-				contact.set_txtAccuracy(cursor.getString(5));
-				contact.set_txtBranchCode(cursor.getString(6));
-				contact.set_txtBranchName(cursor.getString(7));
-				contact.set_txtLatitude(cursor.getString(8));
-				contact.set_txtLongitude(cursor.getString(9));
-				contact.set_txtOutletCode(cursor.getString(10));
-				contact.set_txtOutletName(cursor.getString(11));
-				contact.set_txtDeviceId(cursor.getString(12));
-				contact.set_txtUserId(cursor.getString(13));
-				contact.set_dtDateCheckOut(cursor.getString(14));
-				byte[] blob1 = cursor.getBlob(15);
+				contact.set_dtDateCheckOut(cursor.getString(2));
+				contact.set_intSubmit(cursor.getString(3));
+				contact.set_intSync(cursor.getString(4));
+				contact.set_txtAbsen(cursor.getString(5));
+				contact.set_txtAccuracy(cursor.getString(6));
+				contact.set_txtBranchCode(cursor.getString(7));
+				contact.set_txtBranchName(cursor.getString(8));
+				contact.set_txtLatitude(cursor.getString(9));
+				contact.set_txtLongitude(cursor.getString(10));
+				contact.set_txtOutletCode(cursor.getString(11));
+				contact.set_txtOutletName(cursor.getString(12));
+				contact.set_txtDeviceId(cursor.getString(13));
+				byte[] blob1 = cursor.getBlob(14);
 //				Bitmap bmp1 = BitmapFactory.decodeByteArray(blob1, 0, blob1.length);
 				contact.set_txtImg1(blob1);
-				byte[] blob2 = cursor.getBlob(16);
+				byte[] blob2 = cursor.getBlob(15);
+				contact.set_txtUserId(cursor.getString(16));
 //				Bitmap bmp2 = BitmapFactory.decodeByteArray(blob2, 0, blob2.length);
 				contact.set_txtImg2(blob2);
 				// Adding contact to list
