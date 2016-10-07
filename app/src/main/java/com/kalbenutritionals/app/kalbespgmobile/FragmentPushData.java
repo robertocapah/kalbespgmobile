@@ -1,9 +1,12 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -21,17 +24,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import bl.clsHelperBL;
+import bl.tAbsenUserBL;
+import bl.tNotificationBL;
+import bl.tUserLoginBL;
+import come.example.viewbadger.ShortcutBadger;
 import library.salesforce.common.clsPushData;
 import library.salesforce.common.dataJson;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tLeaveMobileData;
+import library.salesforce.common.tNotificationData;
 import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.dal.clsHardCode;
 import service.MyServiceNative;
@@ -46,13 +57,28 @@ public class FragmentPushData extends Fragment {
     private TableLayout tlAbsen;
     private TableLayout tlLeave;
     private Button btnPush;
+    private String myValue;
 
     View v;
+
+    clsMainActivity _clsMainActivity = new clsMainActivity();
+
+    PackageInfo pInfo = null;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+
+        try {
+            pInfo = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if(this.getArguments()!=null){
+            myValue = this.getArguments().getString("message");
+        }
 
         v = inflater.inflate(R.layout.activity_push_data, container, false);
 
@@ -73,6 +99,8 @@ public class FragmentPushData extends Fragment {
             public void onClick(View v) {
                 AsyncCallRole task=new AsyncCallRole();
                 task.execute();
+//                AsyncCallLogOut task2= new AsyncCallLogOut();
+//                task.execute();
             }
         });
 
@@ -489,8 +517,14 @@ public class FragmentPushData extends Fragment {
         }
         @Override
         protected void onPostExecute(List<dataJson> roledata) {
+            boolean mainmenu=true;
             if(roledata.get(0).getIntResult().equals("1")){
                 new clsMainActivity().showToast(getContext(), "Success Push Data");
+                Intent myIntent = new Intent(getContext(), MainMenu.class);
+                if(myValue!=null&&myValue.equals("notMainMenu")){
+                    myIntent = new Intent(getContext(), Splash.class);
+                }
+                startActivity(myIntent);
             }else{
                 new clsMainActivity().showToast(getContext(), roledata.get(0).getTxtMessage());
             }
@@ -507,6 +541,138 @@ public class FragmentPushData extends Fragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     intProcesscancel=1;
+                }
+            });
+            Dialog.show();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            Dialog.dismiss();
+        }
+
+    }
+
+    int intProcesscancel = 0;
+    private class AsyncCallLogOut extends AsyncTask<JSONArray, Void, JSONArray> {
+        @Override
+        protected JSONArray doInBackground(JSONArray... params) {
+            JSONArray Json = null;
+
+            try {
+                List<tAbsenUserData> listAbsenData = new ArrayList<tAbsenUserData>();
+                tAbsenUserData dtTabsenData = new tAbsenUserBL().getDataCheckInActive();
+                if (dtTabsenData != null) {
+                    dtTabsenData.set_dtDateCheckOut(_clsMainActivity.FormatDateComplete().toString());
+                    dtTabsenData.set_intSubmit("1");
+                    dtTabsenData.set_intSync("0");
+                    listAbsenData.add(dtTabsenData);
+                    new tAbsenUserBL().saveData(listAbsenData);
+                }
+                clsPushData dtJson = new clsHelperBL().pushData();
+                if (dtJson != null) {
+                    String versionName = "";
+                    try {
+                        versionName = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0).versionName;
+                    } catch (PackageManager.NameNotFoundException e2) {
+                        // TODO Auto-generated catch block
+                        e2.printStackTrace();
+                    }
+                    try {
+                        JSONArray Jresult = null;
+                        if (dtJson.getDtdataJson().getListOftAbsenUserData() != null) {
+                            List<tAbsenUserData> listAbsen = dtJson.getDtdataJson().getListOftAbsenUserData();
+                            if (listAbsen.get(0).get_txtAbsen().equals("0")) {
+                                Jresult = new clsHelperBL().callPushDataReturnJson(versionName, dtJson.getDtdataJson().txtJSON().toString(), dtJson.getFileUpload());
+                            } else {
+                                Jresult = new clsHelperBL().callPushDataReturnJson(versionName, dtJson.getDtdataJson().txtJSON().toString(), null);
+                            }
+//                            new clsHelperBL().saveDataPush(dtJson.getDtdataJson(), Jresult);
+                        }
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+                }
+
+                try {
+                    pInfo = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0);
+                } catch (PackageManager.NameNotFoundException e2) {
+                    // TODO Auto-generated catch block
+                    e2.printStackTrace();
+                }
+
+                Json = new tUserLoginBL().Logout(pInfo.versionName);
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+
+            }
+            return Json;
+        }
+
+        private ProgressDialog Dialog = new ProgressDialog(getContext());
+
+        @Override
+        protected void onCancelled() {
+            Dialog.dismiss();
+            Toast toast = Toast.makeText(getContext(), "cancel", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.TOP, 25, 400);
+            toast.show();
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray roledata) {
+            if (roledata != null) {
+                Iterator i = roledata.iterator();
+                while (i.hasNext()) {
+                    JSONObject innerObj = (JSONObject) i.next();
+                    Long IntResult = (Long) innerObj.get("_pboolValid");
+                    String PstrMessage = (String) innerObj.get("_pstrMessage");
+
+                    if (IntResult == 1) {
+                        tNotificationBL _tNotificationBL = new tNotificationBL();
+                        List<tNotificationData> ListData = _tNotificationBL.getAllDataWillAlert("1");
+                        if (ListData != null) {
+                            for (tNotificationData dttNotificationData : ListData) {
+                                NotificationManager tnotificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+                                tnotificationManager.cancelAll();
+                                ShortcutBadger.applyCount(getContext(), 0);
+                                System.gc();
+                            }
+                        }
+                        new clsHelperBL().DeleteAllDB();
+                        getActivity().finish();
+                        Intent nextScreen = new Intent(getContext(), Splash.class);
+                        startActivity(nextScreen);
+                    } else {
+                        Toast toast = Toast.makeText(getContext(),
+                                PstrMessage, Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP, 25, 400);
+                        toast.show();
+                    }
+                }
+
+            } else {
+                if (intProcesscancel == 1) {
+                    onCancelled();
+                } else {
+                    _clsMainActivity.showCustomToast(getContext(), "Offline", false);
+                }
+
+            }
+            Dialog.dismiss();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            Dialog.setMessage(new clsHardCode().txtMessLogOut);
+            Dialog.setCancelable(false);
+            Dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    intProcesscancel = 1;
                 }
             });
             Dialog.show();

@@ -641,9 +641,14 @@ public class clsMainActivity extends Activity {
         final View promptView = layoutInflater.inflate(R.layout.custom_zoom_image, null);
         final TextView tv_desc = (TextView) promptView.findViewById(R.id.desc_act);
 
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,  LinearLayout.LayoutParams.WRAP_CONTENT);
+//        params.gravity = Gravity.BOTTOM;
+//        params.gravity = Gravity.CENTER;
+
         CustomZoomView customZoomView ;
         customZoomView = (CustomZoomView)promptView.findViewById(R.id.customImageVIew1);
         customZoomView.setBitmap(bitmap);
+//        customZoomView.setLayoutParams(params);
 
 //        tv_desc.setText(description);
 

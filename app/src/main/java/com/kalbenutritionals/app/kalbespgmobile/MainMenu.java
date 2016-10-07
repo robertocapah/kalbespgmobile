@@ -132,20 +132,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         toolbar.setTitle("Home");
         setSupportActionBar(toolbar);
 
-//        clsStatusMenuStart _clsStatusMenuStart = null;
-//        try {
-//            _clsStatusMenuStart = new clsMainBL().checkUserActive();
-//        } catch (java.text.ParseException e) {
-//            e.printStackTrace();
-//        }
-//        if(_clsStatusMenuStart.get_intStatus() == enumStatusMenuStart.PushDataSPGMobile){
-//            FragmentPushData fragmentPushData = new FragmentPushData();
-//            FragmentTransaction fragmentTransactionPushData = getSupportFragmentManager().beginTransaction();
-//            fragmentTransactionPushData.replace(R.id.frame, fragmentPushData);
-//            fragmentTransactionPushData.commit();
-//            selectedId = 99;
-//        }
-
         FragmentHome homeFragment = new FragmentHome();
         FragmentTransaction fragmentTransactionHome = getSupportFragmentManager().beginTransaction();
         fragmentTransactionHome.replace(R.id.frame, homeFragment);

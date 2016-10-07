@@ -80,9 +80,9 @@ public class clsMainBL {
 		List<tUserLoginData> listData;
 		tUserLoginDA _tUserLoginDA=new tUserLoginDA(db);
 		listData=_tUserLoginDA.getUserLoginNow(db);
-//		if (listData.size()==0){
-//			listData=_tUserLoginDA.getAllData(db);
-//		}
+		if (listData.size()==0){
+			listData=_tUserLoginDA.getAllData(db);
+		}
 		db.close();
 		return listData.get(0);
 	}

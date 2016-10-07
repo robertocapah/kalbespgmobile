@@ -1,6 +1,5 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,6 +7,11 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +35,7 @@ import library.salesforce.common.tLeaveMobileData;
 import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.dal.clsHardCode;
 
-public class PushData extends Activity {
+public class PushData extends AppCompatActivity {
 
 
     private TableLayout tlSOHeader;
@@ -42,62 +46,35 @@ public class PushData extends Activity {
     private TableLayout tlLeave;
     private Button btnPush;
 
-    View v;
+    private Toolbar toolbar;
 
-//    @Nullable
-//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//
-//
-//        v = inflater.inflate(R.layout.activity_push_data, container, false);
-//
-//        tlSOHeader = (TableLayout) v.findViewById(R.id.tlSOHeader);
-//        tlActivity = (TableLayout) v.findViewById(R.id.tlActivity);
-//        tlCustomerBase = (TableLayout) v.findViewById(R.id.tl_cb);
-//        tlAbsen = (TableLayout) v.findViewById(R.id.tl_absen);
-//        tlLeave = (TableLayout) v.findViewById(R.id.tl_leave);
-//        btnPush = (Button) v.findViewById(R.id.btnPush);
-//
-//        btnPush.setTextColor(Color.parseColor("#FFFFFF"));
-//
-//        btnPush.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AsyncCallRole task=new AsyncCallRole();
-//                task.execute();
-//            }
-//        });
-//
-//        loadData();
-//
-//        return  v;
-//    }
+    private View v;
+    private DrawerLayout drawerLayout;
+
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_push_data);
+        setContentView(R.layout.activity_main);
 
-        tlSOHeader = (TableLayout) findViewById(R.id.tlSOHeader);
-        tlActivity = (TableLayout) findViewById(R.id.tlActivity);
-        tlCustomerBase = (TableLayout) findViewById(R.id.tl_cb);
-        tlAbsen = (TableLayout) findViewById(R.id.tl_absen);
-        tlLeave = (TableLayout) findViewById(R.id.tl_leave);
-        btnPush = (Button) findViewById(R.id.btnPush);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
-        btnPush.setTextColor(Color.parseColor("#FFFFFF"));
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Push Data");
+        setSupportActionBar(toolbar);
 
-        btnPush.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AsyncCallRole task=new AsyncCallRole();
-                task.execute();
-            }
-        });
+        Bundle bundle = new Bundle();
+        String myMessage = "notMainMenu";
+        bundle.putString("message", myMessage );
 
-        loadData();
-
-
+        FragmentPushData fragmentPushData = new FragmentPushData();
+        fragmentPushData.setArguments(bundle);
+        FragmentTransaction fragmentFragmentPushData = getSupportFragmentManager().beginTransaction();
+        fragmentFragmentPushData.replace(R.id.frame, fragmentPushData);
+        fragmentFragmentPushData.commit();
     }
 
     private void loadData() {
