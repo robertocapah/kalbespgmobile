@@ -31,7 +31,6 @@ import org.json.simple.parser.ParseException;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -51,7 +50,6 @@ import bl.tActivityBL;
 import bl.tCustomerBasedMobileDetailBL;
 import bl.tCustomerBasedMobileDetailProductBL;
 import bl.tCustomerBasedMobileHeaderBL;
-import bl.tSalesProductDetailBL;
 import bl.tSalesProductHeaderBL;
 import library.salesforce.common.APIData;
 import library.salesforce.common.clsHelper;
@@ -303,26 +301,26 @@ public class FragmentDownloadData extends Fragment {
             spnReso.setEnabled(false);
         }
         arrData = new ArrayList<String>();
-        if (listtCustomerBasedHeaderData != null) {
+        if (listtCustomerBasedHeaderData != null&&listtCustomerBasedHeaderData.size()!=0) {
             for (tCustomerBasedMobileHeaderData dt : listtCustomerBasedHeaderData) {
                 arrData.add(dt.get_txtSubmissionId());
             }
             spnCustomerBase.setAdapter(new MyAdapter(getContext(), R.layout.custom_spinner, arrData));
             spnCustomerBase.setEnabled(true);
-        } else if (listtCustomerBasedHeaderData == null) {
+        } else {
             ArrayAdapter<String> adapterspn = new ArrayAdapter<String>(getContext(),
                     android.R.layout.simple_spinner_item, strip);
             spnCustomerBase.setAdapter(adapterspn);
             spnCustomerBase.setEnabled(false);
         }
         arrData = new ArrayList<String>();
-        if (listtActivityData != null) {
+        if (listtActivityData != null&&listtActivityData.size()!=0) {
             for (tActivityData dt : listtActivityData) {
                 arrData.add(dt.get_intFlag() + "-" + dt.get_txtDesc());
             }
             spnActivity.setAdapter(new MyAdapter(getContext(), R.layout.custom_spinner, arrData));
             spnActivity.setEnabled(true);
-        } else if (listtCustomerBasedHeaderData == null) {
+        } else  {
             ArrayAdapter<String> adapterspn = new ArrayAdapter<String>(getContext(),
                     android.R.layout.simple_spinner_item, strip);
             spnActivity.setAdapter(adapterspn);
@@ -335,7 +333,7 @@ public class FragmentDownloadData extends Fragment {
             }
             spnAbsen.setAdapter(new MyAdapter(getContext(), R.layout.custom_spinner, arrData));
             spnAbsen.setEnabled(true);
-        } else if (listtCustomerBasedHeaderData == null) {
+        } else if (listtAbsenUserData == null) {
             ArrayAdapter<String> adapterspn = new ArrayAdapter<String>(getContext(),
                     android.R.layout.simple_spinner_item, strip);
             spnAbsen.setAdapter(adapterspn);
