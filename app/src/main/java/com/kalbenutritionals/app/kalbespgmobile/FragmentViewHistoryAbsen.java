@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import bl.tAbsenUserBL;
+import bl.tUserLoginBL;
 import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView;
 import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.bean.SwipeMenu;
@@ -38,6 +39,7 @@ import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
 import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tAbsenUserData;
+import library.salesforce.common.tUserLoginData;
 
 public class FragmentViewHistoryAbsen extends Fragment implements IXListViewListener {
 
@@ -60,7 +62,7 @@ public class FragmentViewHistoryAbsen extends Fragment implements IXListViewList
         v = inflater.inflate(R.layout.fragment_customerbase_view, container, false);
 
         clsSwipeList swplist;
-        dt = new tAbsenUserBL().getAllDataActive();
+        dt = new tAbsenUserBL().getAllDataActiveOrderByDate();
 
         swipeList.clear();
 
@@ -141,7 +143,9 @@ public class FragmentViewHistoryAbsen extends Fragment implements IXListViewList
         final ImageView imgAbsen1 = (ImageView) promptView.findViewById(R.id.imgAbsen1);
         final ImageView imgAbsen2 = (ImageView) promptView.findViewById(R.id.imgAbsen2);
 
-        tvUsername.setText(dt.get(position).get_txtUserId());
+        tUserLoginData dtLogin = new tUserLoginBL().getUserLoginByUserId(dt.get(position).get_txtUserId());
+
+        tvUsername.setText(dtLogin.get_txtUserName());
         tvBranch.setText(dt.get(position).get_txtBranchName());
         tvOutlet.setText(dt.get(position).get_txtOutletName());
         tvCheckin.setText(dt.get(position).get_dtDateCheckIn());

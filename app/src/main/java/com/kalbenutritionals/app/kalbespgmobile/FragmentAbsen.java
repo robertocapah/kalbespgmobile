@@ -598,7 +598,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
 
                                             tUserLoginData checkLocation = new tUserLoginBL().getUserLogin();
 
-                                            if((int) Math.ceil(distance) > 10 && checkLocation.get_txtCheckLocation().equals("1")){
+                                            if((int) Math.ceil(distance) > 100 && checkLocation.get_txtCheckLocation().equals("1")){
                                                 _clsMainActivity.showCustomToast(getContext(), "Failed checkin: Your location too far from outlet", false);
                                             }
                                             else{
@@ -649,6 +649,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                                                     myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
                                                     myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
                                                     myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);
+                                                    getActivity().finish();
                                                     startActivity(myIntent);
                                                 } catch (ClassNotFoundException e) {
                                                     // TODO Auto-generated catch block

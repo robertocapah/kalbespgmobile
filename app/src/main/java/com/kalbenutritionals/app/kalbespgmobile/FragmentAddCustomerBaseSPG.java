@@ -4,13 +4,17 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +31,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -62,7 +67,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     tCustomerBasedMobileHeaderData dtHeader;
     ListView listView;
     MyAdapter dataAdapter;
-    EditText etEmail, etNama, etTelpon, etAlamat, etTelponKantor, etPinBBM;
+    EditText etCustomerBasedNo, etEmail, etNama, etTelpon, etAlamat, etTelponKantor, etPinBBM;
     CheckBox cbPIC;
     RadioGroup radioGenderGroup;
     View v;
@@ -82,6 +87,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dtDetail = new ArrayList<>();
         v = inflater.inflate(R.layout.fragment_customerbase_add, container, false);
+        etCustomerBasedNo = (EditText) v.findViewById(R.id.etCustomerBasedNo);
         etAlamat = (EditText) v.findViewById(R.id.etAlamat);
         etNama = (EditText) v.findViewById(R.id.etNama);
         etTelpon = (EditText) v.findViewById(R.id.etTelpon);
@@ -90,9 +96,19 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         etPinBBM = (EditText) v.findViewById(R.id.etPinBBM);
         cbPIC = (CheckBox) v.findViewById(R.id.cbPIC);
 
+        etTelpon.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(etTelpon) {
+            public boolean onDrawableClick() {
+                if(!etTelpon.getText().equals("")){
+                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", etTelpon.getText().toString(), null)));
+                }
+                return true;
+            }
+        });
+
         dtHeader = new tCustomerBasedMobileHeaderBL().getDataByBitActive();
 
         if (dtHeader.get_intTrCustomerId() != null) {
+            etCustomerBasedNo.setText(dtHeader.get_txtSubmissionId());
             etAlamat.setText(dtHeader.get_txtALamat());
             etNama.setText(dtHeader.get_txtNamaDepan());
             etTelpon.setText(dtHeader.get_txtTelp());
@@ -121,7 +137,25 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         btnAddPerson.setOnClickListener(this);
         btnSave.setOnClickListener(this);
 
-        etPinBBM.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        InputFilter[] fArray = new InputFilter[3];
+
+        InputFilter filter = new InputFilter() {
+            public CharSequence filter(CharSequence source, int start, int end,
+                                       Spanned dest, int dstart, int dend) {
+                for (int i = start; i < end; i++) {
+                    if (!Character.isLetterOrDigit(source.charAt(i))) { // Accept only letter & digits ; otherwise just return
+                        return "";
+                    }
+                }
+                return null;
+            }
+        };
+
+        fArray[0] = new InputFilter.LengthFilter(8);
+        fArray[1] = new InputFilter.AllCaps();
+        fArray[2] = filter;
+
+        etPinBBM.setFilters(fArray);
 
         return v;
     }

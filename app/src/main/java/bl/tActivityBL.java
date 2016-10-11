@@ -41,28 +41,24 @@ public class tActivityBL extends clsMainBL{
 		tUserLoginData _dataUserLogin = _tUserLoginDA.getData(db, 1);
 		clsHelper _help = new clsHelper();
 		linkAPI dtlinkAPI = new linkAPI();
-		String txtMethod = "GetActivity";
+//		String txtMethod = "GetActivity";
+		String txtMethod = "GetDataTActivityMobile";
 		JSONObject resJson = new JSONObject();
 		dtlinkAPI.set_txtMethod(txtMethod);
-		dtlinkAPI.set_txtParam(_dataUserLogin.get_TxtEmpId());
+		dtlinkAPI.set_txtParam("||||||" + _dataUserLogin.get_TxtEmpId());
 		dtlinkAPI.set_txtToken(new clsHardCode().txtTokenAPI);
 		dtlinkAPI.set_txtVesion(versionName);
 
-//		String strLinkAPI = dtlinkAPI.QueryString(strVal2);
-//		String JsonData = _help.pushtData(strLinkAPI, dtlinkAPI.get_txtParam(), Integer.valueOf(getBackGroundServiceOnline()));
+		String strLinkAPI = dtlinkAPI.QueryString(strVal2);
+		String JsonData = _help.pushtData(strLinkAPI, dtlinkAPI.get_txtParam(), Integer.valueOf(getBackGroundServiceOnline()));
 
-		String strLinkAPI= dtlinkAPI.QueryString(strVal2);
-		String JsonData= _help.ResultJsonData(_help.getHTML(strLinkAPI));
+//		String strLinkAPI= dtlinkAPI.QueryString(strVal2);
+//		String JsonData= _help.ResultJsonData(_help.getHTML(strLinkAPI));
 
-//		org.json.simple.JSONArray JsonArray = _help.ResultJsonArray(JsonData);
-
-		JSONParser parser = new JSONParser();
-		Object obj  = parser.parse(JsonData);
-		JSONArray array = new JSONArray();
-		array.add(obj);
+		org.json.simple.JSONArray JsonArray = _help.ResultJsonArray(JsonData);
 
 		_db.close();
-		return array;
+		return JsonArray;
 	}
 
 	public int getCountActivity(){
@@ -100,6 +96,13 @@ public class tActivityBL extends clsMainBL{
 		SQLiteDatabase db=getDb();
 		tActivityDA _tActivityDA=new tActivityDA(db);
 		List<tActivityData> listData=_tActivityDA.getAllData(db);
+		return listData;
+	}
+
+	public List<tActivityData> getAllDataByOutletCode(String outletcode){
+		SQLiteDatabase db=getDb();
+		tActivityDA _tActivityDA=new tActivityDA(db);
+		List<tActivityData> listData=_tActivityDA.getAllDataByOutletCode(db, outletcode);
 		return listData;
 	}
 

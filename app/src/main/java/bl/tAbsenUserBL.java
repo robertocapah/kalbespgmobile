@@ -73,6 +73,14 @@ public class tAbsenUserBL extends clsMainBL {
 		return ListData;
 	}
 
+	public List<tAbsenUserData>  getAllDataActiveOrderByDate(){
+		SQLiteDatabase db=getDb();
+		tAbsenUserDA _tAbsenUserDA=new tAbsenUserDA(db);
+		List<tAbsenUserData> ListData=new ArrayList<tAbsenUserData>();
+		ListData=_tAbsenUserDA.getAllDataActiveOrderByDate(db);
+		return ListData;
+	}
+
 	public int  getContactsCount(){
 		SQLiteDatabase db=getDb();
 		tAbsenUserDA _tAbsenUserDA=new tAbsenUserDA(db);
@@ -99,7 +107,7 @@ public class tAbsenUserBL extends clsMainBL {
 		tUserLoginData _dataUserLogin = _tUserLoginDA.getData(db, 1);
 		clsHelper _help = new clsHelper();
 		linkAPI dtlinkAPI = new linkAPI();
-		String txtMethod = "getDatatAbsenUser_mobileWithoutDate";
+		String txtMethod = "GetDatatAbsenUser_mobile";
 		JSONObject resJson = new JSONObject();
 		dtlinkAPI.set_txtMethod(txtMethod);
 		dtlinkAPI.set_txtParam(_dataUserLogin.get_txtUserId());

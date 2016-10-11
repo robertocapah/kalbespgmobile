@@ -116,4 +116,9 @@ public class tUserLoginBL extends clsMainBL{
         SQLiteDatabase db=getDb();
         return new tUserLoginDA(db).getData(db, 1);
     }
+
+	public tUserLoginData getUserLoginByUserId(String id){
+		SQLiteDatabase db=getDb();
+		return new tUserLoginDA(db).getDataByUserId(db, id);
+	}
 }

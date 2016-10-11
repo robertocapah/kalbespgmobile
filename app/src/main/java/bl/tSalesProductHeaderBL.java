@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import library.salesforce.common.clsHelper;
@@ -48,6 +49,14 @@ public class tSalesProductHeaderBL extends clsMainBL {
         List<tSalesProductHeaderData> dt = _tSalesProductHeaderDA.getAllData(_db);
         return dt ;
     }
+
+    public List<tSalesProductHeaderData> getAllSalesProductHeaderByOutlet(String outletcode){
+        SQLiteDatabase _db =getDb();
+        tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(_db);
+        List<tSalesProductHeaderData> dt = _tSalesProductHeaderDA.getAllDataByOutletCode(_db, outletcode);
+        return dt ;
+    }
+
     public List<tSalesProductHeaderData> getLastData(){
         SQLiteDatabase _db =getDb();
         tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(_db);
@@ -149,6 +158,11 @@ public class tSalesProductHeaderBL extends clsMainBL {
         if (dataAPI.get_txtValue() == "") {
             strVal2 = dataAPI.get_txtDefaultValue();
         }
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String datenow = dateFormat.format(date);
+
         //ambil version dari webservices
         tUserLoginData _dataUserLogin = _tUserLoginDA.getData(db, 1);
         clsHelper _help =new clsHelper();
@@ -156,7 +170,7 @@ public class tSalesProductHeaderBL extends clsMainBL {
         String txtMethod="GetDataTransactionReso";
         JSONObject resJson = new JSONObject();
         dtlinkAPI.set_txtMethod(txtMethod);
-        dtlinkAPI.set_txtParam("|" + _dataUserLogin.get_TxtEmpId() + "|");
+        dtlinkAPI.set_txtParam("|" + _dataUserLogin.get_TxtEmpId() + "|" + datenow);
         dtlinkAPI.set_txtToken(new clsHardCode().txtTokenAPI);
         dtlinkAPI.set_txtVesion(versionName);
 

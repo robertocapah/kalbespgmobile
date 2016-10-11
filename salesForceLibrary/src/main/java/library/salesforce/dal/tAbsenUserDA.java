@@ -237,7 +237,7 @@ public class tAbsenUserDA {
 	public tAbsenUserData getDataCheckInActive(SQLiteDatabase db) {
 		// Select All Query
 		tAbsenUserData dt=new tAbsenUserData();
-		String selectQuery = "SELECT  "+dt.Property_All+" FROM " + TABLE_CONTACTS +" Where "+dt.Property_dtDateCheckOut+" in ('null','') ";
+		String selectQuery = "SELECT  "+dt.Property_All+" FROM " + TABLE_CONTACTS +" Where "+dt.Property_dtDateCheckOut+" in ('null','') AND intSubmit='0' AND sync='0' ";
 
 		Cursor cursor = db.rawQuery(selectQuery, null);
 		tAbsenUserData contact = null;
@@ -366,6 +366,49 @@ public class tAbsenUserDA {
 		// Select All Query
 		tAbsenUserData dt=new tAbsenUserData();
 		String selectQuery = "SELECT  "+dt.Property_All+" FROM " + TABLE_CONTACTS +" WHERE " + dt.Property_intSubmit+"=1";
+
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			contactList=new ArrayList<tAbsenUserData>();
+			do {
+				tAbsenUserData contact = new tAbsenUserData();
+				contact.set_intId(cursor.getString(0));
+				contact.set_dtDateCheckIn(cursor.getString(1));
+				contact.set_dtDateCheckOut(cursor.getString(2));
+				contact.set_intSubmit(cursor.getString(3));
+				contact.set_intSync(cursor.getString(4));
+				contact.set_txtAbsen(cursor.getString(5));
+				contact.set_txtAccuracy(cursor.getString(6));
+				contact.set_txtBranchCode(cursor.getString(7));
+				contact.set_txtBranchName(cursor.getString(8));
+				contact.set_txtLatitude(cursor.getString(9));
+				contact.set_txtLongitude(cursor.getString(10));
+				contact.set_txtOutletCode(cursor.getString(11));
+				contact.set_txtOutletName(cursor.getString(12));
+				contact.set_txtDeviceId(cursor.getString(13));
+				byte[] blob1 = cursor.getBlob(14);
+//				Bitmap bmp1 = BitmapFactory.decodeByteArray(blob1, 0, blob1.length);
+				contact.set_txtImg1(blob1);
+				byte[] blob2 = cursor.getBlob(15);
+				contact.set_txtUserId(cursor.getString(16));
+//				Bitmap bmp2 = BitmapFactory.decodeByteArray(blob2, 0, blob2.length);
+				contact.set_txtImg2(blob2);
+				// Adding contact to list
+				contactList.add(contact);
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+		// return contact list
+		return contactList;
+	}
+
+	public List<tAbsenUserData> getAllDataActiveOrderByDate(SQLiteDatabase db) {
+		List<tAbsenUserData> contactList = null;
+		// Select All Query
+		tAbsenUserData dt=new tAbsenUserData();
+		String selectQuery = "SELECT  "+dt.Property_All+" FROM " + TABLE_CONTACTS +" WHERE " + dt.Property_intSubmit+"=1" + " ORDER  BY dtDateCheckOut DESC";
 
 		Cursor cursor = db.rawQuery(selectQuery, null);
 

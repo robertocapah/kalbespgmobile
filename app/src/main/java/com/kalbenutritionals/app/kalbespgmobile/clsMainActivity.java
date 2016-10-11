@@ -604,6 +604,7 @@ public class clsMainActivity extends Activity {
         Toast toast = new Toast(context);
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(promptView);
+        toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
 

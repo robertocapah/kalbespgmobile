@@ -102,8 +102,8 @@ public final class ReportComparators {
 
         @Override
         public int compare(final ReportTable data1, final ReportTable data2) {
-            if (Integer.parseInt(data1.get_total_product()) < Integer.parseInt(data1.get_total_product())) return -1;
-            if (Integer.parseInt(data1.get_total_product()) > Integer.parseInt(data1.get_total_product())) return 1;
+            if (Integer.parseInt(data1.get_total_product()) < Integer.parseInt(data2.get_total_product())) return -1;
+            if (Integer.parseInt(data1.get_total_product()) > Integer.parseInt(data2.get_total_product())) return 1;
             return 0;
         }
     }
@@ -112,8 +112,8 @@ public final class ReportComparators {
 
         @Override
         public int compare(final ReportTable data1, final ReportTable data2) {
-            if (Integer.parseInt(data1.get_total_item()) < Integer.parseInt(data1.get_total_item())) return -1;
-            if (Integer.parseInt(data1.get_total_item()) > Integer.parseInt(data1.get_total_item())) return 1;
+            if (Integer.parseInt(data1.get_total_item()) < Integer.parseInt(data2.get_total_item())) return -1;
+            if (Integer.parseInt(data1.get_total_item()) > Integer.parseInt(data2.get_total_item())) return 1;
             return 0;
         }
     }
@@ -122,8 +122,14 @@ public final class ReportComparators {
 
         @Override
         public int compare(final ReportTable data1, final ReportTable data2) {
-            if (Integer.parseInt(data1.get_total_price()) < Integer.parseInt(data1.get_total_price())) return -1;
-            if (Integer.parseInt(data1.get_total_price()) > Integer.parseInt(data1.get_total_price())) return 1;
+            String dt1 = data1.get_total_price().replaceAll(",", "");
+            String dt2 = data2.get_total_price().replaceAll(",", "");
+
+            int dt1fix = Integer.parseInt(dt1.replaceAll("\\.", ""));
+            int dt2fix = Integer.parseInt(dt2.replaceAll("\\.", ""));
+
+            if (dt1fix < dt2fix) return -1;
+            if (dt1fix > dt2fix) return 1;
             return 0;
         }
     }

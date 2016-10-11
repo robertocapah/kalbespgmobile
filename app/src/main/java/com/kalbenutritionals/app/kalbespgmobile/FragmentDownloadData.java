@@ -301,7 +301,7 @@ public class FragmentDownloadData extends Fragment {
             spnReso.setEnabled(false);
         }
         arrData = new ArrayList<String>();
-        if (listtCustomerBasedHeaderData != null&&listtCustomerBasedHeaderData.size()!=0) {
+        if (listtCustomerBasedHeaderData != null && listtCustomerBasedHeaderData.size() != 0) {
             for (tCustomerBasedMobileHeaderData dt : listtCustomerBasedHeaderData) {
                 arrData.add(dt.get_txtSubmissionId());
             }
@@ -314,13 +314,13 @@ public class FragmentDownloadData extends Fragment {
             spnCustomerBase.setEnabled(false);
         }
         arrData = new ArrayList<String>();
-        if (listtActivityData != null&&listtActivityData.size()!=0) {
+        if (listtActivityData != null && listtActivityData.size() != 0) {
             for (tActivityData dt : listtActivityData) {
                 arrData.add(dt.get_intFlag() + "-" + dt.get_txtDesc());
             }
             spnActivity.setAdapter(new MyAdapter(getContext(), R.layout.custom_spinner, arrData));
             spnActivity.setEnabled(true);
-        } else  {
+        } else {
             ArrayAdapter<String> adapterspn = new ArrayAdapter<String>(getContext(),
                     android.R.layout.simple_spinner_item, strip);
             spnActivity.setAdapter(adapterspn);
@@ -417,6 +417,14 @@ public class FragmentDownloadData extends Fragment {
                 SaveDatamProductBarcodeData(Json);
                 Json = new mEmployeeAreaBL().DownloadEmployeeArea2(pInfo.versionName);
                 SaveDatamEmployeeAreaData(Json);
+                Json = new tSalesProductHeaderBL().DownloadReso(pInfo.versionName);
+                SaveDatatSalesProductData(Json);
+                Json = new tActivityBL().DownloadActivity(pInfo.versionName);
+                SaveDatatActivityData(Json);
+                Json = new tCustomerBasedMobileHeaderBL().DownloadCustomerBase(pInfo.versionName);
+                SaveDatatCustomerBasedData(Json);
+                Json = new tAbsenUserBL().DownloadAbsen(pInfo.versionName);
+                SaveDatatAbsenUserData(Json);
                 dtdataJson.setIntResult("1");
             } catch (Exception e) {
                 dtdataJson.setIntResult("0");
@@ -529,72 +537,56 @@ public class FragmentDownloadData extends Fragment {
 
             try {
                 JSONArray JsonArray_header = new clsHelper().ResultJsonArray(String.valueOf(innerObj.get("ListDatatSalesProductHeader_mobile")));
-                Iterator j = JsonArray_header.iterator();
+                if (JsonArray_header != null) {
+                    Iterator j = JsonArray_header.iterator();
 
-                while (j.hasNext()) {
-                    tSalesProductHeaderData _data = new tSalesProductHeaderData();
-                    org.json.simple.JSONObject innerObj_detail = (org.json.simple.JSONObject) j.next();
-                    _data.set_txtNoSo(String.valueOf(innerObj_detail.get("TxtNoSO")));
-                    _data.set_txtBranchCode(String.valueOf(innerObj_detail.get("TxtBranchCode")));
-                    _data.set_intSubmit("1");
-                    _data.set_intSync("1");
-                    _data.set_intSumAmount(String.valueOf(innerObj_detail.get("IntSumAmount")));
-                    _data.set_UserId(String.valueOf(innerObj_detail.get("txtUserId")));
-                    _data.set_intId(String.valueOf(innerObj_detail.get("TxtDataId")));
-                    _data.set_txtKeterangan(String.valueOf(innerObj_detail.get("TxtKeterangan")));
-                    _data.set_intSumItem(String.valueOf(innerObj_detail.get("IntSumItem")));
-                    _data.set_txtBranchName(String.valueOf(innerObj_detail.get("TxtBranchName")));
-                    _data.set_txtNIK(String.valueOf(innerObj_detail.get("TxtNik")));
-                    _data.set_OutletCode(String.valueOf(innerObj_detail.get("TxtOutletCode")));
-                    _data.set_OutletName(String.valueOf(innerObj_detail.get("TxtOutletName")));
-                    _data.set_dtDate(String.valueOf(innerObj_detail.get("DtDate")));
-                    new tSalesProductHeaderBL().SaveData(_data);
+                    while (j.hasNext()) {
+                        tSalesProductHeaderData _data = new tSalesProductHeaderData();
+                        org.json.simple.JSONObject innerObj_detail = (org.json.simple.JSONObject) j.next();
+                        _data.set_txtNoSo(String.valueOf(innerObj_detail.get("TxtNoSO")));
+                        _data.set_txtBranchCode(String.valueOf(innerObj_detail.get("TxtBranchCode")));
+                        _data.set_intSubmit("1");
+                        _data.set_intSync("1");
+                        _data.set_intSumAmount(String.valueOf(innerObj_detail.get("IntSumAmount")));
+                        _data.set_UserId(String.valueOf(innerObj_detail.get("txtUserId")));
+                        _data.set_intId(String.valueOf(innerObj_detail.get("TxtDataId")));
+                        _data.set_txtKeterangan(String.valueOf(innerObj_detail.get("TxtKeterangan")));
+                        _data.set_intSumItem(String.valueOf(innerObj_detail.get("IntSumItem")));
+                        _data.set_txtBranchName(String.valueOf(innerObj_detail.get("TxtBranchName")));
+                        _data.set_txtNIK(String.valueOf(innerObj_detail.get("TxtNik")));
+                        _data.set_OutletCode(String.valueOf(innerObj_detail.get("TxtOutletCode")));
+                        _data.set_OutletName(String.valueOf(innerObj_detail.get("TxtOutletName")));
+                        _data.set_dtDate(String.valueOf(innerObj_detail.get("DtDate")));
+                        new tSalesProductHeaderBL().SaveData(_data);
+                    }
+
+                    JSONArray JsonArray_detail = new clsHelper().ResultJsonArray(String.valueOf(innerObj.get("ListDatatSalesProductDetail_mobile")));
+                    Iterator k = JsonArray_detail.iterator();
+
+                    clsMainBL _clsMainBL = new clsMainBL();
+                    SQLiteDatabase _db = _clsMainBL.getDb();
+
+                    while (k.hasNext()) {
+                        tSalesProductDetailData _data = new tSalesProductDetailData();
+                        org.json.simple.JSONObject innerObj_detail = (org.json.simple.JSONObject) k.next();
+                        _data.set_txtNoSo(String.valueOf(innerObj_detail.get("TxtNoSO")));
+                        _data.set_txtNameProduct(String.valueOf(innerObj_detail.get("TxtNameProduct")));
+                        _data.set_txtNoSo(String.valueOf(innerObj_detail.get("TxtNoSO")));
+                        _data.set_txtCodeProduct(String.valueOf(innerObj_detail.get("TxtCodeProduct")));
+                        _data.set_intTotal(String.valueOf(innerObj_detail.get("IntTotal")));
+                        _data.set_intPrice(String.valueOf(innerObj_detail.get("IntPrice")));
+                        _data.set_intQty(String.valueOf(innerObj_detail.get("IntQty")));
+                        _data.set_intId(String.valueOf(innerObj_detail.get("TxtDataId")));
+                        new tSalesProductDetailDA(_db).SaveDatatSalesProductDetailData(_db, _data);
+                    }
+                } else {
+                    new clsMainActivity().showCustomToast(getContext(), "Data not found", false);
                 }
-
-                JSONArray JsonArray_detail = new clsHelper().ResultJsonArray(String.valueOf(innerObj.get("ListDatatSalesProductDetail_mobile")));
-                Iterator k = JsonArray_detail.iterator();
-
-                clsMainBL _clsMainBL = new clsMainBL();
-                SQLiteDatabase _db = _clsMainBL.getDb();
-
-                while (k.hasNext()) {
-                    tSalesProductDetailData _data = new tSalesProductDetailData();
-                    org.json.simple.JSONObject innerObj_detail = (org.json.simple.JSONObject) k.next();
-                    _data.set_txtNoSo(String.valueOf(innerObj_detail.get("TxtNoSO")));
-                    _data.set_txtNameProduct(String.valueOf(innerObj_detail.get("TxtNameProduct")));
-                    _data.set_txtNoSo(String.valueOf(innerObj_detail.get("TxtNoSO")));
-                    _data.set_txtCodeProduct(String.valueOf(innerObj_detail.get("TxtCodeProduct")));
-                    _data.set_intTotal(String.valueOf(innerObj_detail.get("IntTotal")));
-                    _data.set_intPrice(String.valueOf(innerObj_detail.get("IntPrice")));
-                    _data.set_intQty(String.valueOf(innerObj_detail.get("IntQty")));
-                    _data.set_intId(String.valueOf(innerObj_detail.get("TxtDataId")));
-                    new tSalesProductDetailDA(_db).SaveDatatSalesProductDetailData(_db, _data);
-                }
-
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
-            int boolValid = Integer.valueOf(String.valueOf(innerObj.get(dtAPIDATA.boolValid)));
-            if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
-                mEmployeeBranchData _data = new mEmployeeBranchData();
-
-                _data.set_EmpId((String) innerObj.get("EmpId"));
-                _data.set_txtBranchCode((String) innerObj.get("IntBranchId"));
-                _data.set_intID((String) innerObj.get("IntID"));
-                _data.set_txtBranchCode((String) innerObj.get("TxtBranchCode"));
-                _data.set_txtBranchName((String) innerObj.get("TxtBranchName"));
-                _data.set_txtNIK((String) innerObj.get("TxtNIK"));
-                _data.set_txtName((String) innerObj.get("TxtName"));
-                _array.add(_data.get_txtBranchCode() + " - " + _data.get_txtBranchName());
-//                _Listdata.add(_data);
-            } else {
-                flag = false;
-                ErrorMess = (String) innerObj.get(dtAPIDATA.strMessage);
-                break;
-            }
         }
-//        new mEmployeeBranchBL().saveData(_Listdata);
+
         return _array;
     }
 
@@ -609,68 +601,41 @@ public class FragmentDownloadData extends Fragment {
         while (i.hasNext()) {
             org.json.simple.JSONObject innerObj = (org.json.simple.JSONObject) i.next();
 
-            try {
-                JSONArray JsonArray_header = new clsHelper().ResultJsonArray(String.valueOf(innerObj.get("ListDatatActivity_mobile")));
-                Iterator j = JsonArray_header.iterator();
+            tActivityData _data = new tActivityData();
+            _data.set_dtActivity(String.valueOf(innerObj.get("DtActivity")));
+            _data.set_intActive(String.valueOf(innerObj.get("IntActive")));
+            _data.set_intSubmit("1");
+            _data.set_intIdSyn("1");
+            _data.set_intId(String.valueOf(innerObj.get("IntIdData")));
+            _data.set_txtBranch(String.valueOf(innerObj.get("TxtCabId")));
+            _data.set_txtDesc(String.valueOf(innerObj.get("TxtDesc")));
+            _data.set_txtDeviceId(String.valueOf(innerObj.get("TxtDeviceId")));
+            _data.set_txtOutletCode(String.valueOf(innerObj.get("TxtOutletCode")));
+            _data.set_txtOutletName(String.valueOf(innerObj.get("TxtOutletName")));
+            _data.set_txtUserId(String.valueOf(innerObj.get("TxtUserId")));
+            _data.set_intFlag(String.valueOf(innerObj.get("TxtType")));
 
-                while (j.hasNext()) {
-                    tActivityData _data = new tActivityData();
-                    org.json.simple.JSONObject innerObj_detail = (org.json.simple.JSONObject) j.next();
-                    _data.set_dtActivity(String.valueOf(innerObj_detail.get("DtActivity")));
-                    _data.set_intActive(String.valueOf(innerObj_detail.get("IntActive")));
-                    _data.set_intSubmit("1");
-                    _data.set_intIdSyn("1");
-                    _data.set_intId(String.valueOf(innerObj_detail.get("IntIdData")));
-                    _data.set_txtBranch(String.valueOf(innerObj_detail.get("TxtCabId")));
-                    _data.set_txtDesc(String.valueOf(innerObj_detail.get("TxtDesc")));
-                    _data.set_txtDeviceId(String.valueOf(innerObj_detail.get("TxtDeviceId")));
-                    _data.set_txtOutletCode(String.valueOf(innerObj_detail.get("TxtOutletCode")));
-                    _data.set_txtOutletName(String.valueOf(innerObj_detail.get("TxtOutletName")));
-                    _data.set_txtUserId(String.valueOf(innerObj_detail.get("TxtUserId")));
-                    _data.set_intFlag(String.valueOf(innerObj_detail.get("TxtType")));
+            String url1 = String.valueOf(innerObj.get("TxtLinkImg1"));
+            String url2 = String.valueOf(innerObj.get("TxtLinkImg2"));
 
-                    String url1 = String.valueOf(innerObj_detail.get("TxtLinkImg1"));
-                    String url2 = String.valueOf(innerObj_detail.get("TxtLinkImg2"));
+            byte[] logoImage1 = getLogoImage(url1);
+            byte[] logoImage2 = getLogoImage(url2);
 
-                    byte[] logoImage1 = getLogoImage(url1);
-                    byte[] logoImage2 = getLogoImage(url2);
-
-                    if (logoImage1 != null) {
-                        _data.set_txtImg1(logoImage1);
-                    }
-
-                    if (logoImage2 != null) {
-                        _data.set_txtImg2(logoImage2);
-                    }
-
-                    ListdataActivity.add(_data);
-                }
-                new tActivityBL().saveData(ListdataActivity);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if (logoImage1 != null) {
+                _data.set_txtImg1(logoImage1);
             }
 
-            int boolValid = Integer.valueOf(String.valueOf(innerObj.get(dtAPIDATA.boolValid)));
-            if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
-                mEmployeeBranchData _data = new mEmployeeBranchData();
-
-                _data.set_EmpId((String) innerObj.get("EmpId"));
-                _data.set_txtBranchCode((String) innerObj.get("IntBranchId"));
-                _data.set_intID((String) innerObj.get("IntID"));
-                _data.set_txtBranchCode((String) innerObj.get("TxtBranchCode"));
-                _data.set_txtBranchName((String) innerObj.get("TxtBranchName"));
-                _data.set_txtNIK((String) innerObj.get("TxtNIK"));
-                _data.set_txtName((String) innerObj.get("TxtName"));
-                _array.add(_data.get_txtBranchCode() + " - " + _data.get_txtBranchName());
-//                _Listdata.add(_data);
-            } else {
-                flag = false;
-                ErrorMess = (String) innerObj.get(dtAPIDATA.strMessage);
-                break;
+            if (logoImage2 != null) {
+                _data.set_txtImg2(logoImage2);
             }
+
+            ListdataActivity.add(_data);
         }
-//        new mEmployeeBranchBL().saveData(_Listdata);
+
+        if(ListdataActivity.size() > 0){
+            new tActivityBL().saveData(ListdataActivity);
+        }
+
         return _array;
     }
 
@@ -740,7 +705,7 @@ public class FragmentDownloadData extends Fragment {
             String contentType = ucon.getHeaderField("Content-Type");
             boolean image = contentType.startsWith("image/");
 
-            if(image){
+            if (image) {
                 InputStream is = ucon.getInputStream();
                 BufferedInputStream bis = new BufferedInputStream(is);
 
@@ -751,8 +716,7 @@ public class FragmentDownloadData extends Fragment {
                 }
 
                 return baf.toByteArray();
-            }
-            else{
+            } else {
                 return null;
             }
         } catch (Exception e) {
@@ -1228,7 +1192,7 @@ public class FragmentDownloadData extends Fragment {
         protected void onPreExecute() {
             // Make ProgressBar invisible
             // pg.setVisibility(View.VISIBLE);
-            Dialog.setMessage("Getting Reso");
+            Dialog.setMessage("Getting Customer Base");
             Dialog.setCancelable(false);
             Dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
                 @Override
@@ -1298,7 +1262,7 @@ public class FragmentDownloadData extends Fragment {
         protected void onPreExecute() {
             // Make ProgressBar invisible
             // pg.setVisibility(View.VISIBLE);
-            Dialog.setMessage("Getting Activity");
+            Dialog.setMessage("Getting Absen");
             Dialog.setCancelable(false);
             Dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
                 @Override
@@ -1329,20 +1293,20 @@ public class FragmentDownloadData extends Fragment {
             if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
                 String latitude = (String) innerObj.get("txtLatitude");
                 String longitude = (String) innerObj.get("txtLongitude");
-                if ((latitude.equals("") || latitude == null
-                        || longitude.equals("") || longitude == null)) {
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast toast = Toast.makeText(getContext(), "Location Outlet Can't be Found...",
-                                    Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.TOP, 25, 400);
-                            toast.show();
-                        }
-                    });
-
-
-                }
+//                if ((latitude.equals("") || latitude == null
+//                        || longitude.equals("") || longitude == null)) {
+//
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        public void run() {
+//                            Toast toast = Toast.makeText(getContext(), "Location Outlet Can't be Found...",
+//                                    Toast.LENGTH_SHORT);
+//                            toast.setGravity(Gravity.TOP, 25, 400);
+//                            toast.show();
+//                        }
+//                    });
+//
+//
+//                }
                 mEmployeeAreaData _data = new mEmployeeAreaData();
                 _data.set_intBranchId((String) innerObj.get("IntBranchId"));
                 _data.set_intChannelId((String) innerObj.get("IntChannelId"));

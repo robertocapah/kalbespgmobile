@@ -1,5 +1,7 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,22 +12,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import addons.tableview.ReportComparators;
 import addons.tableview.ReportTableDataAdapter;
 import addons.tableview.SortableReportTableView;
+import bl.mEmployeeAreaBL;
 import bl.tCustomerBasedMobileDetailBL;
 import bl.tCustomerBasedMobileHeaderBL;
 import bl.tSalesProductDetailBL;
 import bl.tSalesProductHeaderBL;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 import library.salesforce.common.ReportTable;
+import library.salesforce.common.mEmployeeAreaData;
 import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tSalesProductDetailData;
@@ -34,7 +41,10 @@ import library.salesforce.common.tSalesProductHeaderData;
 public class FragmentReporting extends Fragment {
 
     private SortableReportTableView ReportTableView;
-    private Spinner spnTypeReport;
+    private Spinner spnTypeReport, spnOutlet;
+    private Button btnHide, btnSearch;
+    private RelativeLayout rlSearch;
+    HashMap<String, String> arrOutlet;
 
     String spinnerSelected = null;
     View v;
@@ -45,31 +55,84 @@ public class FragmentReporting extends Fragment {
 
         ReportTableView = (SortableReportTableView) v.findViewById(R.id.tableView);
         spnTypeReport = (Spinner) v.findViewById(R.id.spnType);
+        spnOutlet = (Spinner) v.findViewById(R.id.spnOutlet);
+        btnHide = (Button) v.findViewById(R.id.btnHide);
+        btnSearch = (Button) v.findViewById(R.id.btnsearch);
+        rlSearch = (RelativeLayout) v.findViewById(R.id.rlSearch);
 
-        List<String> arrData=new ArrayList<>();
-
-        arrData.add(0, "Reso");
-        arrData.add(1, "Customer Base");
-
-        spnTypeReport.setAdapter(new MyAdapter(getContext(), R.layout.custom_spinner, arrData));
-
-        spnTypeReport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        btnHide.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                spinnerSelected = spnTypeReport.getSelectedItem().toString();
-                generateReport(spinnerSelected);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                if(btnHide.getText().equals("Hide")){
+                    rlSearch.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            rlSearch.setVisibility(View.GONE);
+                        }
+                    });
+                    btnHide.setText("Show");
+                    btnSearch.setEnabled(false);
+                }
+                else{
+                    rlSearch.setVisibility(View.VISIBLE);
+                    rlSearch.animate().alpha(1.0f).setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                        }
+                    });
+                    btnHide.setText("Hide");
+                    btnSearch.setEnabled(true);
+                }
             }
         });
+
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spinnerSelected = spnTypeReport.getSelectedItem().toString();
+                String outletcode = arrOutlet.get(spnOutlet.getSelectedItem().toString());
+                generateReport(spinnerSelected, outletcode);
+            }
+        });
+
+        List<mEmployeeAreaData> listOutlet = new ArrayList<>();
+
+        listOutlet = new mEmployeeAreaBL().GetAllData();
+        List<String> arrData=new ArrayList<>();
+        List<String> arrDataOutlet=new ArrayList<>();
+
+        arrOutlet = new HashMap<>();
+        arrData.add(0, "Reso");
+        arrData.add(1, "Customer Base");
+        int i = 0;
+        for (mEmployeeAreaData outlet: listOutlet) {
+            arrOutlet.put(outlet.get_txtOutletName(), outlet.get_txtOutletCode());
+            arrDataOutlet.add(i, outlet.get_txtOutletName());
+            i++;
+        }
+
+        spnTypeReport.setAdapter(new MyAdapter(getContext(), R.layout.custom_spinner, arrData));
+        spnOutlet.setAdapter(new MyAdapter(getContext(), R.layout.custom_spinner, arrDataOutlet));
+
+//        spnTypeReport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                spinnerSelected = spnTypeReport.getSelectedItem().toString();
+//                generateReport(spinnerSelected);
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
         return v;
     }
 
-    private void generateReport(String spinnerSelected) {
+    private void generateReport(String spinnerSelected, String outletcode) {
         String[] header;
         SimpleTableHeaderAdapter simpleTableHeaderAdapter;
         List<ReportTable> reportList;
@@ -106,7 +169,7 @@ public class FragmentReporting extends Fragment {
 
                 ReportTableView.setHeaderAdapter(simpleTableHeaderAdapter);
 
-                List<tSalesProductHeaderData> dt_so = new tSalesProductHeaderBL().getAllSalesProductHeader();
+                List<tSalesProductHeaderData> dt_so = new tSalesProductHeaderBL().getAllSalesProductHeaderByOutletCode(outletcode);
                 reportList = new ArrayList<>();
 
                 if(dt_so != null){
@@ -114,7 +177,7 @@ public class FragmentReporting extends Fragment {
                         ReportTable rt = new ReportTable();
 
                         rt.set_report_type("Reso");
-                        rt.set_no_so(datas.get_intId());
+                        rt.set_no_so(datas.get_txtNoSo());
                         rt.set_total_product(datas.get_intSumItem());
                         rt.set_total_price(new clsMainActivity().convertNumberDec(Double.valueOf(datas.get_intSumAmount())));
                         if (datas.get_intSubmit().equals("1")&&datas.get_intSync().equals("0")){
@@ -123,7 +186,7 @@ public class FragmentReporting extends Fragment {
                             rt.set_status("Sync");
                         }
 
-                        List<tSalesProductDetailData> dt_detail = new tSalesProductDetailBL().GetDataByNoSO(datas.get_intId());
+                        List<tSalesProductDetailData> dt_detail = new tSalesProductDetailBL().GetDataByNoSO(datas.get_txtNoSo());
 
                         int total_item = 0;
 
@@ -174,7 +237,7 @@ public class FragmentReporting extends Fragment {
 
                 ReportTableView.setHeaderAdapter(simpleTableHeaderAdapter);
 
-                List<tCustomerBasedMobileHeaderData> data_cb = new tCustomerBasedMobileHeaderBL().getAllData();
+                List<tCustomerBasedMobileHeaderData> data_cb = new tCustomerBasedMobileHeaderBL().getAllCustomerBasedMobileHeaderByOutletCode(outletcode);
 
                 reportList = new ArrayList<>();
 

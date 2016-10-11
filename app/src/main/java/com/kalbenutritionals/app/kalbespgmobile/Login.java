@@ -262,7 +262,7 @@ public class Login extends clsMainActivity {
             public void onClick(View arg0) {
                 intProcesscancel=0;
                 if(txtLoginEmail.getText().length()==0){
-                    showCustomToast(getApplicationContext(), "Please input username", false);
+                    showCustomToast(Login.this, "Please input username", false);
 
                 } else {
                     if(spnRole.getCount()==0){
@@ -286,7 +286,7 @@ public class Login extends clsMainActivity {
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
 
                 builder.setTitle("Exit");
                 builder.setMessage("Do you want to exit?");
@@ -367,7 +367,7 @@ public class Login extends clsMainActivity {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            showCustomToast(getApplicationContext(), new clsHardCode().txtMessCancelRequest, false);
+            showCustomToast(Login.this, new clsHardCode().txtMessCancelRequest, false);
         }
         @Override
         protected void onPostExecute(JSONArray roledata) {
@@ -423,13 +423,13 @@ public class Login extends clsMainActivity {
                             listData.add(data);
                         }
                         new mMenuBL().SaveData(listData);
-                        startService(new Intent(getApplicationContext(), MyServiceNative.class));
+                        startService(new Intent(Login.this, MyServiceNative.class));
                         finish();
-                        Intent myIntent = new Intent(getApplicationContext(), MainMenu.class);
+                        Intent myIntent = new Intent(Login.this, MainMenu.class);
                         myIntent.putExtra("keyMainMenu", "main_menu");
                         startActivity(myIntent);
                     }else{
-                        showCustomToast(getApplicationContext(), PstrMessage, false);
+                        showCustomToast(Login.this, PstrMessage, false);
                         txtLoginPassword.requestFocus();
                     }
                 }
@@ -438,7 +438,7 @@ public class Login extends clsMainActivity {
                 if(intProcesscancel==1){
                     onCancelled();
                 }else{
-                    showCustomToast(getApplicationContext(), new clsHardCode().txtMessDataNotFound, false);
+                    showCustomToast(Login.this, new clsHardCode().txtMessDataNotFound, false);
                     txtLoginEmail.requestFocus();
                 }
 
@@ -533,7 +533,7 @@ public class Login extends clsMainActivity {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            showCustomToast(getApplicationContext(), new clsHardCode().txtMessCancelRequest, false);
+            showCustomToast(Login.this, new clsHardCode().txtMessCancelRequest, false);
         }
 
         @Override
@@ -544,7 +544,7 @@ public class Login extends clsMainActivity {
                     arrrole.add(dt.get_txtRoleName());
                     HMRole.put(dt.get_txtRoleName(), dt.get_intRoleId());
                 }
-                spnRole.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrrole));
+                spnRole.setAdapter(new MyAdapter(Login.this, R.layout.custom_spinner, arrrole));
                 spnRole.setEnabled(true);
 
 //                List<mEmployeeAreaData> dataOutlet = new mEmployeeAreaBL().GetAllData();
@@ -563,7 +563,7 @@ public class Login extends clsMainActivity {
                 if (intProcesscancel == 1) {
                     onCancelled();
                 } else {
-                    showCustomToast(getApplicationContext(), clsHardcode.txtMessNetworkOffline, false);
+                    showCustomToast(Login.this, clsHardcode.txtMessNetworkOffline, false);
 
                     spnRole.setAdapter(null);
                     spnOutlet.setAdapter(null);
@@ -688,7 +688,7 @@ public class Login extends clsMainActivity {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            showCustomToast(getApplicationContext(), new clsHardCode().txtMessCancelRequest, false);
+            showCustomToast(Login.this, new clsHardCode().txtMessCancelRequest, false);
         }
 
         @Override
@@ -734,7 +734,7 @@ public class Login extends clsMainActivity {
                     });
                 }
             } else {
-                showCustomToast(getApplicationContext(), clsHardcode.txtMessNetworkOffline, false);
+                showCustomToast(Login.this, clsHardcode.txtMessNetworkOffline, false);
             }
             Dialog.dismiss();
         }
@@ -865,7 +865,7 @@ public class Login extends clsMainActivity {
             mWakeLock.release();
             mProgressDialog.dismiss();
             if (result != null)
-                showCustomToast(getApplicationContext(), "Download error: " + result, false);
+                showCustomToast(Login.this, "Download error: " + result, false);
             else {
                 showToast(context, "File downloaded" + result);
                 Intent intent = new Intent(Intent.ACTION_VIEW);

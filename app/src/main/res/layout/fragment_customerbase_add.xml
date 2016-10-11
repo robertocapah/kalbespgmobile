@@ -21,6 +21,23 @@
             android:id="@+id/linearLayoutTop">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Customer Base No"
+                android:id="@+id/tvCustomerBasedNo"
+                android:layout_weight="1" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/etCustomerBasedNo"
+                android:background="@drawable/bg_edtext"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:enabled="false"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
                 android:text="Gender"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -76,8 +93,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:inputType="number"
+                android:digits="0123456789-"
                 android:background="@drawable/bg_edtext"
                 android:id="@+id/etTelpon"
+                android:drawableRight="@mipmap/ic_call"
+                android:maxLength="15"
                 android:layout_weight="1" />
 
             <TextView
@@ -95,7 +115,10 @@
                 android:layout_weight="1"
                 android:singleLine="true"
                 android:background="@drawable/bg_edtext"
-                android:phoneNumber="true" />
+                android:phoneNumber="true"
+                android:inputType="number"
+                android:maxLength="15"
+                android:digits="0123456789-"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -127,6 +150,7 @@
                 android:layout_height="0dp"
                 android:id="@+id/etPinBBM"
                 android:background="@drawable/bg_edtext"
+                android:maxLength="8"
                 android:layout_weight="1" />
 
             <TextView
@@ -143,7 +167,10 @@
                 android:id="@+id/etAlamat"
                 android:background="@drawable/bg_edtext"
                 android:layout_weight="1"
-                android:singleLine="true" />
+                android:minLines="2"
+                android:maxLines="2"
+                android:gravity="top"
+                android:inputType="textMultiLine"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
