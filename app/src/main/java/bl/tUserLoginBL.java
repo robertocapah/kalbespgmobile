@@ -26,10 +26,10 @@ public class tUserLoginBL extends clsMainBL{
 		tDeviceInfoUserData dt= new tDeviceInfoUserDA(db).getData(db, 1);
 		tUserLoginDA _tUserLoginDA=new tUserLoginDA(db);
 		List<tUserLoginData> dttAbsenUserData= _tUserLoginDA.getUserLoginNow(db);
-		
+
 		String txtDomain= _mconfigDA.getDomainKalbeData(db);
 		//String txtParam= txtDomain+"|"+txtUserName+"|"+txtPass+"||"+dt.get_txtVersion()+"|"+dt.get_txtDevice()+"|"+dt.get_txtModel()+"|"+intRoleId;
-		
+
 		linkAPI dtlinkAPI=new linkAPI();
 		dtlinkAPI.set_txtMethod("tUserLogin_mobileLogOut");
 		dtlinkAPI.set_txtParam(dttAbsenUserData.get(0).get_txtDataId());
@@ -41,8 +41,34 @@ public class tUserLoginBL extends clsMainBL{
 		String JsonData= _clsHelper.pushtData(strLinkAPI, "", Integer.valueOf(getBackGroundServiceOnline()));
 		res= _clsHelper.ResultJsonArray(JsonData);
 		//String txtParam=
-        return res;
+		return res;
 	}
+
+	public JSONArray LogoutFromPushData(String versionApp) throws ParseException{
+		SQLiteDatabase db=getDb();
+		JSONArray res=new JSONArray();
+		mconfigDA _mconfigDA=new mconfigDA(db);
+		tDeviceInfoUserData dt= new tDeviceInfoUserDA(db).getData(db, 1);
+		tUserLoginDA _tUserLoginDA=new tUserLoginDA(db);
+		List<tUserLoginData> dttAbsenUserData= _tUserLoginDA.getAllData(db);
+
+		String txtDomain= _mconfigDA.getDomainKalbeData(db);
+		//String txtParam= txtDomain+"|"+txtUserName+"|"+txtPass+"||"+dt.get_txtVersion()+"|"+dt.get_txtDevice()+"|"+dt.get_txtModel()+"|"+intRoleId;
+
+		linkAPI dtlinkAPI=new linkAPI();
+		dtlinkAPI.set_txtMethod("tUserLogin_mobileLogOut");
+		dtlinkAPI.set_txtParam(dttAbsenUserData.get(0).get_txtDataId());
+		dtlinkAPI.set_txtToken(new clsHardCode().txtTokenAPI);
+		dtlinkAPI.set_txtVesion(versionApp);
+		String strLinkAPI= dtlinkAPI.QueryString(getLinkAPI());
+		APIData dtAPIDATA=new APIData();
+		clsHelper _clsHelper=new clsHelper();
+		String JsonData= _clsHelper.pushtData(strLinkAPI, "", Integer.valueOf(getBackGroundServiceOnline()));
+		res= _clsHelper.ResultJsonArray(JsonData);
+		//String txtParam=
+		return res;
+	}
+
 	public JSONArray Login(String txtUserName,String txtPass, String intRoleId,String versionApp) throws ParseException{
 		SQLiteDatabase db=getDb();
 		JSONArray res=new JSONArray();

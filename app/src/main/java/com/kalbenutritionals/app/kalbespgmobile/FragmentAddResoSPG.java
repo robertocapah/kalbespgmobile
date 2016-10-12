@@ -165,6 +165,12 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                     dataAdapter.getFilter().filter(s.toString());
                     Collections.sort(modelItems, ModelListview.StuRollno);
                 }
+                else if(s.length()>0){
+                    dataAdapter.getFilter().filter(s.toString());
+
+                } else {
+                    Collections.sort(modelItems, ModelListview.StuRollno);
+                }
             }
         });
 
@@ -391,6 +397,10 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
         arrdataPriv = new ArrayList<ModelListview>();
         double qntySum=0;
         double qntyNum;
+        double value;
+        double price;
+        String result = "0";
+
         for (int i = 0; i < modelItems.size(); i++) {
             if (modelItems.get(i).get_value() > 0) {
                 ModelListview data = new ModelListview();
@@ -398,8 +408,11 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                 data.set_name(modelItems.get(i).get_name());
                 data.set_value(modelItems.get(i).get_value());
                 nik = data.set_NIK(String.valueOf(modelItems.get(i).get_NIK()));
-                qntyNum = new clsMainActivity().qtySumAmount(Double.valueOf(modelItems.get(i).get_price()), Double.valueOf(modelItems.get(i).get_value()));
+                price = Double.parseDouble(modelItems.get(i).get_price());
+                value = Double.parseDouble(String.valueOf(modelItems.get(i).get_value()));
+                qntyNum =  price * value;
                 qntySum += qntyNum;
+                 result = new clsMainActivity().convertNumberDec2(qntySum);
                 arrdataPriv.add(data);
             }
         }
@@ -420,7 +433,7 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
         dt.set_OutletName(absenUserData.get_txtOutletName());
         dt.set_txtKeterangan(edketerangan.getText().toString());
         dt.set_intSumItem(String.valueOf(arrdataPriv.size()));
-        dt.set_intSumAmount(String.valueOf(qntySum));
+        dt.set_intSumAmount(String.valueOf(result));
         dt.set_UserId(absenUserData.get_txtUserId());
         dt.set_intSubmit("1");
         dt.set_intSync("0");
@@ -446,7 +459,7 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                 dtDetail.set_txtCodeProduct(modelItems.get(i).get_id());
                 dtDetail.set_txtKeterangan(edketerangan.getText().toString());
                 dtDetail.set_txtNameProduct(String.valueOf(modelItems.get(i).get_name()));
-                dtDetail.set_intTotal(String.valueOf(prc * itm));
+                dtDetail.set_intTotal(new clsMainActivity().convertNumberDec2(prc*itm));
                 dtDetail.set_txtNoSo(tv_noso.getText().toString());
                 dtDetail.set_intActive("1");
                 dtDetail.set_txtNIK(modelItems.get(i).get_NIK());

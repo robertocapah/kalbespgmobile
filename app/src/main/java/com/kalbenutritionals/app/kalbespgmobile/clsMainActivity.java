@@ -111,6 +111,17 @@ public class clsMainActivity extends Activity {
 
         return hsl;
     }
+    public String convertNumberDec2(double dec){
+        double harga = dec;
+        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+//        dfs.setCurrencySymbol("");
+//        dfs.setMonetaryDecimalSeparator('.');
+//        df.setDecimalFormatSymbols(dfs);
+        String hsl = df.format(harga);
+
+        return hsl;
+    }
 
     public String convertNumberInt(int intNilai) {
         int value = intNilai;

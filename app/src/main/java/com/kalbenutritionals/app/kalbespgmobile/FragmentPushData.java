@@ -517,16 +517,18 @@ public class FragmentPushData extends Fragment {
         }
         @Override
         protected void onPostExecute(List<dataJson> roledata) {
-            boolean mainmenu=true;
+            boolean result = false;
             if(roledata.get(0).getIntResult().equals("1")){
-                new clsMainActivity().showCustomToast(getContext(), "Success Push Data", true);
+                new clsMainActivity().showToast(getContext(), "Success Push Data");
                 Intent myIntent = new Intent(getContext(), MainMenu.class);
                 if(myValue!=null&&myValue.equals("notMainMenu")){
-                    myIntent = new Intent(getContext(), Splash.class);
+                    AsyncCallLogOut task = new AsyncCallLogOut();
+                    task.execute();
+                } else {
+                    startActivity(myIntent);
                 }
-                startActivity(myIntent);
             }else{
-                new clsMainActivity().showCustomToast(getContext(), "Failed to push", false);
+                new clsMainActivity().showToast(getContext(), roledata.get(0).getTxtMessage());
             }
             Dialog.dismiss();
         }
@@ -548,6 +550,8 @@ public class FragmentPushData extends Fragment {
 
         @Override
         protected void onProgressUpdate(Void... values) {
+            AsyncCallLogOut task = new AsyncCallLogOut();
+            task.execute();
             Dialog.dismiss();
         }
 
@@ -557,6 +561,7 @@ public class FragmentPushData extends Fragment {
     private class AsyncCallLogOut extends AsyncTask<JSONArray, Void, JSONArray> {
         @Override
         protected JSONArray doInBackground(JSONArray... params) {
+//            android.os.Debug.waitForDebugger();
             JSONArray Json = null;
 
             try {
@@ -603,7 +608,7 @@ public class FragmentPushData extends Fragment {
                     e2.printStackTrace();
                 }
 
-                Json = new tUserLoginBL().Logout(pInfo.versionName);
+                Json = new tUserLoginBL().LogoutFromPushData(pInfo.versionName);
             } catch (ParseException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
