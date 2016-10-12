@@ -329,7 +329,7 @@ public class FragmentDownloadData extends Fragment {
         arrData = new ArrayList<String>();
         if (listtAbsenUserData != null) {
             for (tAbsenUserData dt : listtAbsenUserData) {
-                arrData.add(dt.get_txtBranchCode() + " - " + dt.get_txtBranchName());
+                arrData.add(dt.get_txtBranchName() + " - " + dt.get_txtOutletName());
             }
             spnAbsen.setAdapter(new MyAdapter(getContext(), R.layout.custom_spinner, arrData));
             spnAbsen.setEnabled(true);

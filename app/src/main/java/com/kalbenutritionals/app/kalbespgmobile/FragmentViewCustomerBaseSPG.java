@@ -73,9 +73,10 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
         swipeList.clear();
 
         for(int i = 0; i < dt.size(); i++){
+            String status = dt.get(i).get_intSubmit().equals("1") && dt.get(i).get_intSync().equals("1") ? "Sync" : "Submit";
             swplist = new clsSwipeList();
             swplist.set_txtTitle("Code : " + dt.get(i).get_txtSubmissionId());
-            swplist.set_txtDescription("Nama : " + dt.get(i).get_txtNamaDepan());
+            swplist.set_txtDescription("Nama : " + dt.get(i).get_txtNamaDepan() + "\n" + status);
             swipeList.add(swplist);
         }
 

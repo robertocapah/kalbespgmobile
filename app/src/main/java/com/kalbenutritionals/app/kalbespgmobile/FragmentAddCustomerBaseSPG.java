@@ -105,6 +105,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             }
         });
 
+        etCustomerBasedNo.setText(new tCustomerBasedMobileHeaderBL().generateSubmissionId());
+
         dtHeader = new tCustomerBasedMobileHeaderBL().getDataByBitActive();
 
         if (dtHeader.get_intTrCustomerId() != null) {

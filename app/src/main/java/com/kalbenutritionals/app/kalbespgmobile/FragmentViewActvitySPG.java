@@ -66,9 +66,10 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
 
 
         for(int i = 0; i < dt.size(); i++){
+            String status = dt.get(i).get_intSubmit().equals("1") && dt.get(i).get_intIdSyn().equals("1") ? "Sync" : "Submit";
             swplist = new clsSwipeList();
             swplist.set_txtTitle("Type : " + dt.get(i).get_intFlag());
-            swplist.set_txtDescription("Description : " + dt.get(i).get_txtDesc());
+            swplist.set_txtDescription("Description : " + dt.get(i).get_txtDesc() + "\n" + status);
             swipeList.add(swplist);
         }
 

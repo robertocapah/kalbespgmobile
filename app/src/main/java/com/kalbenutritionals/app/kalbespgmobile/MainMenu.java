@@ -132,7 +132,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         toolbar.setTitle("Home");
         setSupportActionBar(toolbar);
 
-        FragmentHome homeFragment = new FragmentHome();
+        FragmentInformation homeFragment = new FragmentInformation();
         FragmentTransaction fragmentTransactionHome = getSupportFragmentManager().beginTransaction();
         fragmentTransactionHome.replace(R.id.frame, homeFragment);
         fragmentTransactionHome.commit();
@@ -349,7 +349,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
                         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
 
-                        FragmentHome homeFragment = new FragmentHome();
+                        FragmentInformation homeFragment = new FragmentInformation();
                         FragmentTransaction fragmentTransactionHome = getSupportFragmentManager().beginTransaction();
                         fragmentTransactionHome.replace(R.id.frame, homeFragment);
                         fragmentTransactionHome.commit();
@@ -375,7 +375,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
                         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
 
-                        FragmentNotifcation fragmentNotifcation = new FragmentNotifcation();
+                        FragmentInformation fragmentNotifcation = new FragmentInformation();
                         FragmentTransaction fragmentTransactionNotifcation = getSupportFragmentManager().beginTransaction();
                         fragmentTransactionNotifcation.replace(R.id.frame, fragmentNotifcation);
                         fragmentTransactionNotifcation.commit();

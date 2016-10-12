@@ -519,14 +519,14 @@ public class FragmentPushData extends Fragment {
         protected void onPostExecute(List<dataJson> roledata) {
             boolean mainmenu=true;
             if(roledata.get(0).getIntResult().equals("1")){
-                new clsMainActivity().showToast(getContext(), "Success Push Data");
+                new clsMainActivity().showCustomToast(getContext(), "Success Push Data", true);
                 Intent myIntent = new Intent(getContext(), MainMenu.class);
                 if(myValue!=null&&myValue.equals("notMainMenu")){
                     myIntent = new Intent(getContext(), Splash.class);
                 }
                 startActivity(myIntent);
             }else{
-                new clsMainActivity().showToast(getContext(), roledata.get(0).getTxtMessage());
+                new clsMainActivity().showCustomToast(getContext(), "Failed to push", false);
             }
             Dialog.dismiss();
         }
