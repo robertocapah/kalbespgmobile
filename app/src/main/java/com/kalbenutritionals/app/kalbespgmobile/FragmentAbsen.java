@@ -1,5 +1,6 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,8 +11,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Color;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,7 +33,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -75,6 +77,8 @@ import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tDeviceInfoUserData;
 import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
@@ -279,10 +283,23 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
         btnRefreshMaps.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayLocation();
+                displayLocation(mLastLocation);
                 new clsMainActivity().showCustomToast(getContext(), "Location Updated", true);
             }
         });
+
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String provider = locationManager.getBestProvider(criteria, true);
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        }
+        Location location = locationManager.getLastKnownLocation(provider);
+
+        if(location!=null){
+            onLocationChanged(location);
+        }
+
+        locationManager.requestLocationUpdates(provider, 1000, 0, this);
 
         btnPopupMap.setOnClickListener(new OnClickListener() {
             @Override
@@ -510,7 +527,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
         } else {
             int IdAbsen = _tAbsenUserBL.getContactsCount() + 1;
             txtHDId.setText(String.valueOf(IdAbsen));
-            displayLocation();
+//            displayLocation();
         }
 
         // Checking camera availability
@@ -681,23 +698,13 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
 
         });
 
-        displayLocation();
+//        displayLocation();
 
         return v;
     }
 
     @SuppressWarnings("deprecation")
-    private void displayLocation() {
-        // TODO Auto-generated method stub
-        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
-        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+    private void displayLocation(Location mLastLocation) {
 
         if (mLastLocation != null) {
             double latitude = mLastLocation.getLatitude();
@@ -971,9 +978,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
 
     @Override
     public void onConnected(@Nullable Bundle arg0) {
-        // TODO Auto-generated method stub
-        // Once connected with google api, get the location
-        displayLocation();
+
     }
 
     @Override
@@ -999,7 +1004,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
     public void onLocationChanged(Location location) {
         // TODO Auto-generated method stub
         mLastLocation = location;
-        displayLocation();
+        displayLocation(mLastLocation);
     }
 
     @Override
