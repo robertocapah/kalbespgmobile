@@ -15,7 +15,6 @@ import android.os.PowerManager;
 import android.os.StrictMode;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +28,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -822,7 +820,8 @@ public class Login extends clsMainActivity {
                 }
             } catch (Exception e) {
                 return e.toString();
-            } finally {
+            }
+            finally {
                 try {
                     if (output != null)
                         output.close();
@@ -865,9 +864,9 @@ public class Login extends clsMainActivity {
             mWakeLock.release();
             mProgressDialog.dismiss();
             if (result != null)
-                showCustomToast(Login.this, "Download error: " + result, false);
+                showToast(context, "Download error: " + result);
             else {
-                showToast(context, "File downloaded" + result);
+                showToast(context, "File downloaded");
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 String txtPath = new clsHardCode().txtPathUserData + "kalbespgmobile.apk";
                 intent.setDataAndType(Uri.fromFile(new File(txtPath)), "application/vnd.android.package-archive");
