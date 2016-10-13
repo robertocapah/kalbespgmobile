@@ -275,14 +275,12 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
         lblAcc.setText("");
         MenuID = "mnAbsenKBN";
 
-//        displayLocation();
-
         final mMenuData dtmenuData = new mMenuBL().getMenuDataByMenuName(MenuID);
         btnRefreshMaps.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 displayLocation();
-                Toast.makeText(getContext(), "Location Updated", Toast.LENGTH_SHORT).show();
+                new clsMainActivity().showCustomToast(getContext(), "Location Updated", true);
             }
         });
 
@@ -682,6 +680,9 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
 //					}
 
         });
+
+        displayLocation();
+
         return v;
     }
 
