@@ -680,4 +680,27 @@ public class clsMainActivity extends Activity {
 
 
     }
+
+    public String greetings(){
+        Calendar today = Calendar.getInstance();
+        int hour = today.get(Calendar.HOUR_OF_DAY);
+        String greeting = "Welcome, ";
+        if(hour > 2 && hour < 12){
+            greeting = "Good morning, ";
+        }
+        else if(hour >= 12 && hour < 16){
+            greeting = "Good afternoon, ";
+        }
+        else if(hour >= 16 && hour < 19){
+            greeting = "Good evening, ";
+        }
+        else if(hour >= 19 && hour < 2){
+            greeting = "Good night, ";
+        }
+        else{
+            greeting = "Welcome, ";
+        }
+
+        return greeting;
+    }
 }

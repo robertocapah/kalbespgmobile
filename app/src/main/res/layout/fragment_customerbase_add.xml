@@ -79,6 +79,7 @@
                 android:id="@+id/etNama"
                 android:background="@drawable/bg_edtext"
                 android:layout_weight="1"
+                android:maxLength="100"
                 android:singleLine="true" />
 
             <TextView
@@ -135,6 +136,7 @@
                 android:ems="10"
                 android:id="@+id/etEmail"
                 android:background="@drawable/bg_edtext"
+                android:maxLength="100"
                 android:layout_weight="1" />
 
             <TextView
@@ -167,6 +169,7 @@
                 android:id="@+id/etAlamat"
                 android:background="@drawable/bg_edtext"
                 android:layout_weight="1"
+                android:maxLength="100"
                 android:minLines="2"
                 android:maxLines="2"
                 android:gravity="top"
@@ -199,7 +202,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/linearLayoutBottom"
-            android:visibility="gone"
+            android:visibility="visible"
             android:weightSum="1">
 
             <TextView
@@ -223,6 +226,22 @@
                 android:layout_height="wrap_content"
                 android:text="Telp"
                 android:id="@+id/tvTelpPreview"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Telp Kantor"
+                android:id="@+id/tvTelpKantor"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pin BBM"
+                android:id="@+id/tvPinBBM"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp" />
 

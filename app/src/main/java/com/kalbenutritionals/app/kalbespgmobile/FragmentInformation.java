@@ -25,6 +25,7 @@ import bl.tAbsenUserBL;
 import bl.tActivityBL;
 import bl.tCustomerBasedMobileHeaderBL;
 import bl.tDisplayPictureBL;
+import bl.tLeaveMobileBL;
 import bl.tSalesProductHeaderBL;
 import bl.tUserLoginBL;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -34,6 +35,7 @@ import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tDisplayPictureData;
+import library.salesforce.common.tLeaveMobileData;
 import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.common.tUserLoginData;
 
@@ -70,9 +72,20 @@ public class FragmentInformation extends Fragment implements View.OnClickListene
         List<tSalesProductHeaderData> dtReso = new tSalesProductHeaderBL().getAllSalesProductHeader();
         List<tCustomerBasedMobileHeaderData> dtCbase = new tCustomerBasedMobileHeaderBL().getAllData();
         List<tActivityData> dtActivity = new tActivityBL().getAllData();
+        List<tLeaveMobileData> dtLeave = new tLeaveMobileBL().getData("");
 
         tvUsername.setText(dt.get_txtUserName());
-        tvBranchOutlet.setText(dtAbsen != null ? dtAbsen.get_txtBranchName() + " - " + dtAbsen.get_txtOutletName() : "Inactive");
+
+        if(dtLeave.size() > 0){
+            tvBranchOutlet.setText(dtLeave.get(0).get_txtTypeAlasanName() + " - " + dtLeave.get(0).get_txtAlasan());
+        }
+        else if(dtAbsen != null){
+            tvBranchOutlet.setText(dtAbsen.get_txtBranchName() + " - " + dtAbsen.get_txtOutletName());
+        }
+        else{
+            tvBranchOutlet.setText("Inactive");
+        }
+
         tvEmail.setText(dt.get_TxtEmail());
 
         tvTotalReso.setText(dtReso != null ? String.valueOf(dtReso.size()) : "0");

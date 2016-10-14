@@ -50,6 +50,7 @@ import bl.tActivityBL;
 import bl.tCustomerBasedMobileDetailBL;
 import bl.tCustomerBasedMobileDetailProductBL;
 import bl.tCustomerBasedMobileHeaderBL;
+import bl.tLeaveMobileBL;
 import bl.tSalesProductHeaderBL;
 import library.salesforce.common.APIData;
 import library.salesforce.common.clsHelper;
@@ -65,14 +66,12 @@ import library.salesforce.common.tActivityData;
 import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
+import library.salesforce.common.tLeaveMobileData;
 import library.salesforce.common.tSalesProductDetailData;
 import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.dal.clsHardCode;
 import library.salesforce.dal.tSalesProductDetailDA;
 
-/**
- * Created by ASUS ZE on 27/07/2016.
- */
 public class FragmentDownloadData extends Fragment {
     View v;
 
@@ -95,11 +94,12 @@ public class FragmentDownloadData extends Fragment {
     private Button btnCustomerBase;
     private Spinner spnAbsen;
     private Button btnAbsen;
+    private Spinner spnDataLeave;
+    private Button btnDataLeave;
 
     private PackageInfo pInfo = null;
     private List<String> arrData;
     private String[] strip = new String[]{"-"};
-    private String MenuID;
     int intProcesscancel = 0;
 
     clsMainActivity _clsMainActivity;
@@ -127,6 +127,8 @@ public class FragmentDownloadData extends Fragment {
         btnCustomerBase = (Button) v.findViewById(R.id.btnDlCustomerBase);
         spnAbsen = (Spinner) v.findViewById(R.id.spnAbsen);
         btnAbsen = (Button) v.findViewById(R.id.btnDlAbsen);
+        spnDataLeave = (Spinner) v.findViewById(R.id.spnDataLeave);
+        btnDataLeave = (Button) v.findViewById(R.id.btnDlDataLeave);
 
         loadData();
         btnAllDownload.setOnClickListener(new View.OnClickListener() {
@@ -200,6 +202,13 @@ public class FragmentDownloadData extends Fragment {
                 task.execute();
             }
         });
+        btnDataLeave.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                intProcesscancel = 0;
+                AsyncCallDataLeave task = new AsyncCallDataLeave();
+                task.execute();
+            }
+        });
 
 
         return v;
@@ -221,6 +230,7 @@ public class FragmentDownloadData extends Fragment {
         List<tCustomerBasedMobileHeaderData> listtCustomerBasedHeaderData = new tCustomerBasedMobileHeaderBL().getAllData();
         List<tActivityData> listtActivityData = new tActivityBL().getAllData();
         List<tAbsenUserData> listtAbsenUserData = new tAbsenUserBL().getAllDataActive();
+        List<tLeaveMobileData> listtLeaveData = new tLeaveMobileBL().getData("");
 
         arrData = new ArrayList<String>();
         if (listDataBranch.size() > 0) {
@@ -339,6 +349,20 @@ public class FragmentDownloadData extends Fragment {
             spnAbsen.setAdapter(adapterspn);
             spnAbsen.setEnabled(false);
         }
+
+        arrData = new ArrayList<String>();
+        if (listtAbsenUserData != null) {
+            for (tLeaveMobileData dt : listtLeaveData) {
+                arrData.add(dt.get_txtTypeAlasanName());
+            }
+            spnDataLeave.setAdapter(new MyAdapter(getContext(), R.layout.custom_spinner, arrData));
+            spnDataLeave.setEnabled(true);
+        } else if (listtAbsenUserData == null) {
+            ArrayAdapter<String> adapterspn = new ArrayAdapter<String>(getContext(),
+                    android.R.layout.simple_spinner_item, strip);
+            spnDataLeave.setAdapter(adapterspn);
+            spnDataLeave.setEnabled(false);
+        }
     }
 
     public class MyAdapter extends ArrayAdapter<String> {
@@ -418,13 +442,21 @@ public class FragmentDownloadData extends Fragment {
                 Json = new mEmployeeAreaBL().DownloadEmployeeArea2(pInfo.versionName);
                 SaveDatamEmployeeAreaData(Json);
                 Json = new tSalesProductHeaderBL().DownloadReso(pInfo.versionName);
-                SaveDatatSalesProductData(Json);
+
+                Iterator i = Json.iterator();
+                org.json.simple.JSONObject innerObj = (org.json.simple.JSONObject) i.next();
+                int boolValid = Integer.valueOf(String.valueOf(innerObj.get("_pboolValid")));
+                if(boolValid == 1) SaveDatatSalesProductData(Json);
+
                 Json = new tActivityBL().DownloadActivity(pInfo.versionName);
                 SaveDatatActivityData(Json);
                 Json = new tCustomerBasedMobileHeaderBL().DownloadCustomerBase(pInfo.versionName);
                 SaveDatatCustomerBasedData(Json);
                 Json = new tAbsenUserBL().DownloadAbsen(pInfo.versionName);
                 SaveDatatAbsenUserData(Json);
+                Json = new tLeaveMobileBL().DownloadDataLeave(pInfo.versionName);
+                SaveDatatLeaveData(Json);
+
                 dtdataJson.setIntResult("1");
             } catch (Exception e) {
                 dtdataJson.setIntResult("0");
@@ -692,6 +724,41 @@ public class FragmentDownloadData extends Fragment {
             }
         }
         new tAbsenUserBL().saveData(ListdataAbsen);
+        return _array;
+    }
+
+    private List<String> SaveDatatLeaveData(JSONArray JData) {
+        List<String> _array;
+        APIData dtAPIDATA = new APIData();
+        _array = new ArrayList<>();
+        Iterator i = JData.iterator();
+        Boolean flag = true;
+        String ErrorMess = "";
+        List<tLeaveMobileData> ListdataLeave = new ArrayList<>();
+        while (i.hasNext()) {
+            org.json.simple.JSONObject innerObj = (org.json.simple.JSONObject) i.next();
+
+            int boolValid = Integer.valueOf(String.valueOf(innerObj.get(dtAPIDATA.boolValid)));
+            if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
+                tLeaveMobileData _data = new tLeaveMobileData();
+                _data.set_dtLeave(String.valueOf(innerObj.get("DtLeave")));
+                _data.set_intLeaveId(String.valueOf(innerObj.get("IntLeaveId")));
+                _data.set_intSubmit("1");
+                _data.set_intLeaveIdSync("1");
+                _data.set_txtAlasan(String.valueOf(innerObj.get("TxtAlasan")));
+                _data.set_txtDeviceId(String.valueOf(innerObj.get("TxtDeviceId")));
+                _data.set_txtTypeAlasan(String.valueOf(innerObj.get("TxtTypeAlasan")));
+                _data.set_txtDeviceId(String.valueOf(innerObj.get("TxtDeviceId")));
+                _data.set_txtUserId(String.valueOf(innerObj.get("TxtUserId")));
+                _data.set_txtTypeAlasanName(new mTypeLeaveBL().GetDataByintTypeLeave(_data.get_txtTypeAlasan()).get_txtTipeLeaveName());
+                ListdataLeave.add(_data);
+            } else {
+                flag = false;
+                ErrorMess = (String) innerObj.get(dtAPIDATA.strMessage);
+                break;
+            }
+        }
+        new tLeaveMobileBL().saveData(ListdataLeave);
         return _array;
     }
 
@@ -1238,6 +1305,75 @@ public class FragmentDownloadData extends Fragment {
             if (roledata != null && roledata.size() > 0) {
                 arrData = SaveDatatAbsenUserData(roledata);
                 //spnBranch.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
+                loadData();
+                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
+                        Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP, 25, 400);
+                toast.show();
+            } else {
+                if (intProcesscancel == 1) {
+                    onCancelled();
+                } else {
+                    Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessDataNotFound,
+                            Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP, 25, 400);
+                    toast.show();
+                }
+
+            }
+            checkingDataTable();
+            Dialog.dismiss();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // Make ProgressBar invisible
+            // pg.setVisibility(View.VISIBLE);
+            Dialog.setMessage("Getting Absen");
+            Dialog.setCancelable(false);
+            Dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    intProcesscancel = 1;
+                }
+            });
+            Dialog.show();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            Dialog.dismiss();
+        }
+    }
+
+    private class AsyncCallDataLeave extends AsyncTask<JSONArray, Void, JSONArray> {
+        @Override
+        protected JSONArray doInBackground(JSONArray... params) {
+//            android.os.Debug.waitForDebugger();
+            JSONArray Json = null;
+            try {
+                Json = new tLeaveMobileBL().DownloadDataLeave(pInfo.versionName);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return Json;
+        }
+
+        private ProgressDialog Dialog = new ProgressDialog(getContext());
+
+        @Override
+        protected void onCancelled() {
+            Dialog.dismiss();
+            Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.TOP, 25, 400);
+            toast.show();
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray roledata) {
+            if (roledata != null && roledata.size() > 0) {
+                arrData = SaveDatatLeaveData(roledata);
                 loadData();
                 Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
                         Toast.LENGTH_LONG);

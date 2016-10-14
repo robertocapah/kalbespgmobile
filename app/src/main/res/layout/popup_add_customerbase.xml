@@ -32,6 +32,7 @@
                 android:id="@+id/etNama"
                 android:background="@drawable/bg_edtext"
                 android:layout_weight="1"
+                android:maxLength="100"
                 android:singleLine="true" />
 
             <TextView

@@ -159,6 +159,23 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         etPinBBM.setFilters(fArray);
 
+        etAlamat.setFilters(new InputFilter[] {
+                new InputFilter() {
+                    @Override
+                    public CharSequence filter(CharSequence cs, int start,
+                                               int end, Spanned spanned, int dStart, int dEnd) {
+                        // TODO Auto-generated method stub
+                        if(cs.equals("")){ // for backspace
+                            return cs;
+                        }
+                        if(cs.toString().matches("[a-zA-Z0-9. ]+")){
+                            return cs;
+                        }
+                        return "";
+                    }
+                }
+        });
+
         return v;
     }
 
@@ -192,8 +209,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                             TextView tvCode = (TextView) v.findViewById(R.id.tvCode);
                             TextView tvNama = (TextView) v.findViewById(R.id.tvNamaPreview);
                             TextView tvTelp = (TextView) v.findViewById(R.id.tvTelpPreview);
+                            TextView tvTelpKantor = (TextView) v.findViewById(R.id.tvTelpKantor);
                             TextView tvAlamat = (TextView) v.findViewById(R.id.tvAlamatPreview);
                             TextView tvEmail = (TextView) v.findViewById(R.id.tvEmailPreview);
+                            TextView tvPinBBM = (TextView) v.findViewById(R.id.tvPinBBM);
 
                             radioGenderGroup = (RadioGroup) v.findViewById(R.id.radioGender);
 
@@ -205,8 +224,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                             tvCode.setText("Code : " + new tCustomerBasedMobileHeaderBL().getDataByBitActive().get_txtSubmissionId());
                             tvNama.setText("Nama : " + etNama.getText().toString());
                             tvTelp.setText("Telp : " + etTelpon.getText().toString());
+                            tvTelpKantor.setText("Telp Kantor : " + etTelponKantor.getText().toString());
                             tvAlamat.setText("Alamat : " + etAlamat.getText().toString());
                             tvEmail.setText("Email : " + etEmail.getText().toString());
+                            tvPinBBM.setText("Pin BBM : " + etPinBBM.getText().toString());
 
                         } else {
                             new clsMainActivity().showCustomToast(getContext(), "Email not valid", false);

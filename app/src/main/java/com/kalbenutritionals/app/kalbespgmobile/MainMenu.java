@@ -45,6 +45,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -153,7 +154,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         ivProfile = (CircleImageView) vwHeader.findViewById(R.id.profile_image);
         tvUsername = (TextView) vwHeader.findViewById(R.id.username);
         tvEmail = (TextView) vwHeader.findViewById(R.id.email);
-        tvUsername.setText("Welcome, " + dt.get_txtName());
+        tvUsername.setText(_clsMainActivity.greetings() + dt.get_txtName());
         tvEmail.setText(dt.get_TxtEmail());
 
         tDisplayPictureData = new tDisplayPictureBL().getData();
@@ -196,50 +197,50 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
             if (i_view != null){
 
-                    if (i_view.equals("Notifcation")){
-                        Class<?> fragmentClass = null;
+                if (i_view.equals("Notifcation")){
+                    Class<?> fragmentClass = null;
+                    try {
+                        fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view);
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    toolbar.setTitle("Information");
+                    Fragment fragment = null;
+                    try {
+                        fragment = (Fragment) fragmentClass.newInstance();
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.frame, fragment);
+                    fragmentTransaction.commit();
+                    selectedId = 99;
+                } else {
+                    try {
+                        Class<?> fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view.replaceAll("\\s+", "") + "SPG");
                         try {
-                            fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view);
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                        toolbar.setTitle("Information");
-                        Fragment fragment = null;
-                        try {
-                            fragment = (Fragment) fragmentClass.newInstance();
+                            for (int i = 0; i < listMenu.length; i++) {
+                                if (("View " + listMenu[i]).equals(i_view + " SPG")) {
+                                    selectedId = i;
+                                    break;
+                                }
+                            }
+                            toolbar.setTitle(i_view);
+                            Fragment fragment = (Fragment) fragmentClass.newInstance();
+                            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                            fragmentTransaction.replace(R.id.frame, fragment);
+                            fragmentTransaction.commit();
                         } catch (InstantiationException e) {
                             e.printStackTrace();
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         }
-                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.frame, fragment);
-                        fragmentTransaction.commit();
-                        selectedId = 99;
-                    } else {
-                        try {
-                            Class<?> fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view.replaceAll("\\s+", "") + "SPG");
-                            try {
-                                for (int i = 0; i < listMenu.length; i++) {
-                                    if (("View " + listMenu[i]).equals(i_view + " SPG")) {
-                                        selectedId = i;
-                                        break;
-                                    }
-                                }
-                                toolbar.setTitle(i_view);
-                                Fragment fragment = (Fragment) fragmentClass.newInstance();
-                                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                                fragmentTransaction.replace(R.id.frame, fragment);
-                                fragmentTransaction.commit();
-                            } catch (InstantiationException e) {
-                                e.printStackTrace();
-                            } catch (IllegalAccessException e) {
-                                e.printStackTrace();
-                            }
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        }
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
                     }
+                }
             }
 
         }
@@ -270,17 +271,17 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
 //        TextView view = (TextView) navigationView.getMenu().findItem(R.id.home).getActionView();
 //        view.setText("99");
-            if (i_view!=null){
-                if (i_view.equals("View Reso")){
-                    navigationView.getMenu().findItem(0).setChecked(true);
-                } else if (i_view.equals("View Actvity")){
-                    navigationView.getMenu().findItem(1).setChecked(true);
-                } else if (i_view.equals("View Customer Base")){
-                    navigationView.getMenu().findItem(2).setChecked(true);
-                } else if (i_view.equals("Notifcation")){
-                    navigationView.getMenu().findItem(R.id.information).setChecked(true);
-                }
+        if (i_view!=null){
+            if (i_view.equals("View Reso")){
+                navigationView.getMenu().findItem(0).setChecked(true);
+            } else if (i_view.equals("View Actvity")){
+                navigationView.getMenu().findItem(1).setChecked(true);
+            } else if (i_view.equals("View Customer Base")){
+                navigationView.getMenu().findItem(2).setChecked(true);
+            } else if (i_view.equals("Notifcation")){
+//                    navigationView.getMenu().findItem(R.id.information).setChecked(true);
             }
+        }
 
 
 //        TextView view = (TextView) navigationView.getMenu().findItem(R.id.information).getActionView();
@@ -377,18 +378,18 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
                         return true;
 
-                    case R.id.information:
-                        toolbar.setTitle("Information");
-
-                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
-
-                        FragmentInformation fragmentNotifcation = new FragmentInformation();
-                        FragmentTransaction fragmentTransactionNotifcation = getSupportFragmentManager().beginTransaction();
-                        fragmentTransactionNotifcation.replace(R.id.frame, fragmentNotifcation);
-                        fragmentTransactionNotifcation.commit();
-                        selectedId = 99;
-
-                        return  true;
+//                    case R.id.information:
+//                        toolbar.setTitle("Information");
+//
+//                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+//
+//                        FragmentInformation fragmentNotifcation = new FragmentInformation();
+//                        FragmentTransaction fragmentTransactionNotifcation = getSupportFragmentManager().beginTransaction();
+//                        fragmentTransactionNotifcation.replace(R.id.frame, fragmentNotifcation);
+//                        fragmentTransactionNotifcation.commit();
+//                        selectedId = 99;
+//
+//                        return  true;
 
                     case R.id.checkout:
                         LayoutInflater _layoutInflater = LayoutInflater.from(MainMenu.this);
@@ -528,45 +529,45 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.clear();
-        if (listMenu.length <= selectedId) {
-            if (toolbar.getTitle().equals("Reporting")&&!isSubMenu||isSubMenu && dtAbsens != null&&listMenu.length>0&&toolbar.getTitle()=="Reporting"){
-                for(String s : listMenu){
-                    if(s.contains("Reso SPG")) {
-                        int a = listMenu.length;
-                        for (int i=0; i<a; i++ ){
-                            if (i==1){
-                                menu.removeItem(i);
-                            } else {
-                                menu.add(0, i, 0, "Add " + listMenu[i]);
-                            }
-                        }
-                    } else {
-                        menu.add(4, 0, 0, "-");
-                        menu.setGroupEnabled(4, false);
-                        break;
-                    }
-                    break;
-                }
-            } else {
-                menu.add(4, 0, 0, "-");
-                menu.setGroupEnabled(4, false);
-            }
-        } else if (!isSubMenu && dtAbsens != null) {
-            menu.add(0, selectedId, 0, "Add " + listMenu[selectedId]);
-        } else if (isSubMenu && dtAbsens != null) {
-            menu.add(1, selectedId, 0, "View " + listMenu[selectedId]);
-        }
-        else {
-            menu.add(4, 0, 0, "-");
-            menu.setGroupEnabled(4, false);
-        }
-
-        return super.onPrepareOptionsMenu(menu);
-
-    }
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//        menu.clear();
+//        if (listMenu.length <= selectedId) {
+//            if (toolbar.getTitle().equals("Reporting")&&!isSubMenu||isSubMenu && dtAbsens != null&&listMenu.length>0&&toolbar.getTitle()=="Reporting"){
+//                for(String s : listMenu){
+//                    if(s.contains("Reso SPG")) {
+//                        int a = listMenu.length;
+//                        for (int i=0; i<a; i++ ){
+//                            if (i==1){
+//                                menu.removeItem(i);
+//                            } else {
+//                                menu.add(0, i, 0, "Add " + listMenu[i]);
+//                            }
+//                        }
+//                    } else {
+//                        menu.add(4, 0, 0, "-");
+//                        menu.setGroupEnabled(4, false);
+//                        break;
+//                    }
+//                    break;
+//                }
+//            } else {
+//                menu.add(4, 0, 0, "-");
+//                menu.setGroupEnabled(4, false);
+//            }
+//        } else if (!isSubMenu && dtAbsens != null) {
+//            menu.add(0, selectedId, 0, "Add " + listMenu[selectedId]);
+//        } else if (isSubMenu && dtAbsens != null) {
+//            menu.add(1, selectedId, 0, "View " + listMenu[selectedId]);
+//        }
+//        else {
+//            menu.add(4, 0, 0, "-");
+//            menu.setGroupEnabled(4, false);
+//        }
+//
+//        return super.onPrepareOptionsMenu(menu);
+//
+//    }
 
 
     int intProcesscancel = 0;
@@ -604,47 +605,10 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             }
         } else if (requestCode==100 || requestCode == 130){
             for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-                    fragment.onActivityResult(requestCode, resultCode, data);
-                }
+                fragment.onActivityResult(requestCode, resultCode, data);
+            }
         }
 
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "MainMenu Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.kalbenutritionals.app.kalbespgmobile/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "MainMenu Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.kalbenutritionals.app.kalbespgmobile/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
     }
 
     private class AsyncCallLogOut extends AsyncTask<JSONArray, Void, JSONArray> {

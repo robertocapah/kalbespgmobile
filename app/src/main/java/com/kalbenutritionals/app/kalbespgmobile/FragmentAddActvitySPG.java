@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -117,6 +119,23 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
             photo2.compress(Bitmap.CompressFormat.PNG, 100, output);
             pht2 = output.toByteArray();
         }
+
+        etDescription.setFilters(new InputFilter[] {
+                new InputFilter() {
+                    @Override
+                    public CharSequence filter(CharSequence cs, int start,
+                                               int end, Spanned spanned, int dStart, int dEnd) {
+                        // TODO Auto-generated method stub
+                        if(cs.equals("")){ // for backspace
+                            return cs;
+                        }
+                        if(cs.toString().matches("[a-zA-Z0-9.\\- ]+")){
+                            return cs;
+                        }
+                        return "";
+                    }
+                }
+        });
 
         return v;
     }

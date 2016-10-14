@@ -9,7 +9,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,12 +52,28 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
     private static Bitmap mybitmap1;
     private static Bitmap mybitmap2;
 
+    private FloatingActionButton fab;
+
     View v;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_customerbase_view,container,false);
+
+        fab = (FloatingActionButton) v.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+                toolbar.setTitle("Add Actvity SPG");
+
+                FragmentAddActvitySPG fragmentAddActvitySPG = new FragmentAddActvitySPG();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frame, fragmentAddActvitySPG);
+                fragmentTransaction.commit();
+            }
+        });
 
         clsSwipeList swplist;
 

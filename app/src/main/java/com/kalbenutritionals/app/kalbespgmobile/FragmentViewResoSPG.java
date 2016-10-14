@@ -8,7 +8,10 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +51,7 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
     private static Map<String, HashMap> mapMenu;
     static List<tSalesProductHeaderData> dt;
     static List<tSalesProductDetailData> data;
+    private FloatingActionButton fab;
 
     View v;
 
@@ -55,6 +59,21 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_customerbase_view,container,false);
+
+        fab = (FloatingActionButton) v.findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+                toolbar.setTitle("Add Reso SPG");
+
+                FragmentAddResoSPG fragmentAddResoSPG = new FragmentAddResoSPG();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frame, fragmentAddResoSPG);
+                fragmentTransaction.commit();
+            }
+        });
 
         tAbsenUserData dtActive = new tAbsenUserBL().getDataCheckInActive();
 

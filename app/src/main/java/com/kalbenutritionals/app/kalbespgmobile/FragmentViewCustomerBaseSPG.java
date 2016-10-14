@@ -7,7 +7,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +48,7 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
     private PullToRefreshSwipeMenuListView mListView;
     private Handler mHandler;
     private static Map<String, HashMap> mapMenu;
+    private FloatingActionButton fab;
 
     static List<tCustomerBasedMobileHeaderData> dt;
 //    static FragmentViewCustomerBase instance;
@@ -64,6 +68,20 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_customerbase_view,container,false);
+
+        fab = (FloatingActionButton) v.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+                toolbar.setTitle("Add Customer Base SPG");
+
+                FragmentAddCustomerBaseSPG fragmentAddCustomerBaseSPG = new FragmentAddCustomerBaseSPG();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frame, fragmentAddCustomerBaseSPG);
+                fragmentTransaction.commit();
+            }
+        });
 
         tAbsenUserData dtActive = new tAbsenUserBL().getDataCheckInActive();
 

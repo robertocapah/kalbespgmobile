@@ -32,6 +32,14 @@ public class mTypeLeaveBL extends clsMainBL{
 		List<mTypeLeaveMobileData> listData = _TypeLeaveMobileDA.getAllData(db);
 		return listData;
 	}
+
+	public mTypeLeaveMobileData GetDataByintTypeLeave(String id){
+		SQLiteDatabase db=getDb();
+		mTypeLeaveMobileDA _TypeLeaveMobileDA = new mTypeLeaveMobileDA(db);
+		mTypeLeaveMobileData listData = _TypeLeaveMobileDA.getData(db, id);
+		return listData;
+	}
+
 	public int  getContactsCount(){
 		SQLiteDatabase db=getDb();
 		mTypeLeaveMobileDA _mTypeLeaveMobileDA=new mTypeLeaveMobileDA(db);
