@@ -283,23 +283,20 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
         btnRefreshMaps.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayLocation(mLastLocation);
+//                displayLocation(mLastLocation);
+                getLocation();
+                if (mLastLocation!=null){
+                    displayLocation(mLastLocation);
+                }
                 new clsMainActivity().showCustomToast(getContext(), "Location Updated", true);
             }
         });
 
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        String provider = locationManager.getBestProvider(criteria, true);
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-        }
-        Location location = locationManager.getLastKnownLocation(provider);
+        getLocation();
 
-        if(location!=null){
-            onLocationChanged(location);
+        if (mLastLocation!=null){
+            displayLocation(mLastLocation);
         }
-
-        locationManager.requestLocationUpdates(provider, 1000, 0, this);
 
         btnPopupMap.setOnClickListener(new OnClickListener() {
             @Override
@@ -701,6 +698,85 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
 //        displayLocation();
 
         return v;
+    }
+
+    private void gettingLocation() {
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String provider = locationManager.getBestProvider(criteria, true);
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        }
+        Location location = locationManager.getLastKnownLocation(provider);
+
+        if(location!=null){
+            onLocationChanged(location);
+        }
+
+        locationManager.requestLocationUpdates(provider, 1000, 0, this);
+    }
+
+    public Location getLocation() {
+        try {
+            LocationManager locationManager = (LocationManager) getActivity()
+                    .getSystemService(LOCATION_SERVICE);
+
+            // getting GPS status
+            boolean isGPSEnabled = locationManager
+                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+            // getting network status
+            boolean isNetworkEnabled = locationManager
+                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            boolean canGetLocation=false;
+            Location location = null;
+
+            if (!isGPSEnabled && !isNetworkEnabled) {
+                // no network provider is enabled
+                new clsMainActivity().showCustomToast(getContext(), "no network provider is enabled", false );
+            } else {
+                canGetLocation = true;
+                if (isNetworkEnabled) {
+                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    }
+                    locationManager.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            1000,
+                            0, this);
+                    Log.d("Network", "Network Enabled");
+                    if (locationManager != null) {
+                        mLastLocation = locationManager
+                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        if (location != null) {
+                            double latitude = location.getLatitude();
+                            double longitude = location.getLongitude();
+                        }
+                    }
+                }
+                // if GPS Enabled get lat/long using GPS Services
+                if (isGPSEnabled) {
+                    if (mLastLocation == null) {
+                        locationManager.requestLocationUpdates(
+                                LocationManager.GPS_PROVIDER,
+                                1000,
+                                0, this);
+                        Log.d("GPS", "GPS Enabled");
+                        if (locationManager != null) {
+                            location = locationManager
+                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            if (location != null) {
+                                double latitude = location.getLatitude();
+                                double longitude = location.getLongitude();
+                            }
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return mLastLocation;
     }
 
     @SuppressWarnings("deprecation")

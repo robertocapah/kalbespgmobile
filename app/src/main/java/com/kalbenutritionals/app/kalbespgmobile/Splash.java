@@ -60,13 +60,13 @@ public class Splash extends AppCompatActivity {
 
     private void StartAnimations() {
 
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.alpha);
-        anim.reset();
+//        Animation anim = AnimationUtils.loadAnimation(this, R.anim.alpha);
+//        anim.reset();
 //        LinearLayout l = (LinearLayout) findViewById(R.id.ll_1_a);
 //        l.clearAnimation();
 //        l.startAnimation(anim);
 
-        anim = AnimationUtils.loadAnimation(this, R.anim.translate);
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         anim.reset();
         TextView iv = (TextView) findViewById(R.id.iv_anim);
 //        iv.setBackgroundResource(R.mipmap.ic_kalbe_phonegap);
