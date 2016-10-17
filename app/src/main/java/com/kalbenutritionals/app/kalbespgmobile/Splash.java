@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -66,9 +67,16 @@ public class Splash extends AppCompatActivity {
 //        l.clearAnimation();
 //        l.startAnimation(anim);
 
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.translate);
         anim.reset();
-        TextView iv = (TextView) findViewById(R.id.iv_anim);
+        TextView tv = (TextView) findViewById(R.id.iv_anim);
+//        iv.setBackgroundResource(R.mipmap.ic_kalbe_phonegap);
+        tv.clearAnimation();
+        tv.startAnimation(anim);
+
+        anim = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        anim.reset();
+        ImageView iv = (ImageView) findViewById(R.id.imageView2);
 //        iv.setBackgroundResource(R.mipmap.ic_kalbe_phonegap);
         iv.clearAnimation();
         iv.startAnimation(anim);
