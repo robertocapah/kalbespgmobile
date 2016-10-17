@@ -19,7 +19,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -149,6 +151,11 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
     private void viewList(Context ctx, final int position) {
         LayoutInflater layoutInflater = LayoutInflater.from(this.getContext());
         final View promptView = layoutInflater.inflate(R.layout.fragment_activity_add, null);
+
+        final LinearLayout lnlayout = (LinearLayout) promptView.findViewById(R.id.lnlayout);
+
+        lnlayout.setFocusable(true);
+        lnlayout.setFocusableInTouchMode(true);
 
         final EditText etDesc = (EditText) promptView.findViewById(R.id.etNama);
         final ImageButton img1 = (ImageButton) promptView.findViewById(R.id.imageButton);

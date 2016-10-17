@@ -34,7 +34,7 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
 
         String txtSubmissionCode = new tUserLoginBL().getUserActive().get_txtSubmissionID();
 
-        if (getDataByBitActive().get_txtSubmissionId() == null) {
+        if (getDataByBitActive().get_txtSubmissionId() == null && dt.get_txtSubmissionId() == null) {
             dt.set_txtSubmissionId(generateSubmissionId());
             dt.set_txtSubmissionCode(txtSubmissionCode);
         }

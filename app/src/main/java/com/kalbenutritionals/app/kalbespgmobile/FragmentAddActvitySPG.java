@@ -189,7 +189,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
                 } else {
 
                     final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                    alertDialog.setTitle("Save Activity...?");
+                    alertDialog.setTitle("Save Activity?");
                     alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

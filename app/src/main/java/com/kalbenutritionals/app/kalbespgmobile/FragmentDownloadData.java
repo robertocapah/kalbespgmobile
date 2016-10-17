@@ -471,9 +471,7 @@ public class FragmentDownloadData extends Fragment {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 25, 400);
-            toast.show();
+            new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessCancelRequest, false);
         }
 
         private ProgressDialog Dialog = new ProgressDialog(getContext());
@@ -869,6 +867,7 @@ public class FragmentDownloadData extends Fragment {
                         _data.set_txtInsertedBy(String.valueOf(innerObj_detail.get("_txtInsertedBy")));
                         _data.set_intTrCustomerIdDetail(String.valueOf(innerObj_detail.get("_txtTrCustomerIdDetail")));
                         _data.set_txtUpdatedBy(String.valueOf(innerObj_detail.get("_txtUpdatedBy")));
+                        _data.set_txtProductBrandQty(String.valueOf(innerObj_detail.get("_intProductBrandQty")));
                         new tCustomerBasedMobileDetailProductBL().saveData(_data);
                     }
                 }
@@ -951,27 +950,19 @@ public class FragmentDownloadData extends Fragment {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 25, 400);
-            toast.show();
+            new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessCancelRequest, false);
         }
 
         @Override
         protected void onPostExecute(JSONArray roledata) {
             if (roledata != null && roledata.size() > 0) {
                 loadData();
-                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
-                        Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 25, 400);
-                toast.show();
+                new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessSuccessDownload, true);
             } else {
                 if (intProcesscancel == 1) {
                     onCancelled();
                 } else {
-                    Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessDataNotFound,
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 25, 400);
-                    toast.show();
+                    new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessDataNotFound, false);
                 }
 
             }
@@ -1018,27 +1009,19 @@ public class FragmentDownloadData extends Fragment {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 25, 400);
-            toast.show();
+            new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessCancelRequest, false);
         }
 
         @Override
         protected void onPostExecute(JSONArray roledata) {
             if (roledata != null && roledata.size() > 0) {
                 loadData();
-                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
-                        Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 25, 400);
-                toast.show();
+                new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessSuccessDownload, true);
             } else {
                 if (intProcesscancel == 1) {
                     onCancelled();
                 } else {
-                    Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessDataNotFound,
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 25, 400);
-                    toast.show();
+                    new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessDataNotFound, false);
                 }
 
             }
@@ -1085,9 +1068,7 @@ public class FragmentDownloadData extends Fragment {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 25, 400);
-            toast.show();
+            new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessCancelRequest, false);
         }
 
         @Override
@@ -1096,18 +1077,12 @@ public class FragmentDownloadData extends Fragment {
                 arrData = SaveDatatSalesProductData(roledata);
                 //spnBranch.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
                 loadData();
-                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
-                        Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 25, 400);
-                toast.show();
+                new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessSuccessDownload, true);
             } else {
                 if (intProcesscancel == 1) {
                     onCancelled();
                 } else {
-                    Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessDataNotFound,
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 25, 400);
-                    toast.show();
+                    new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessDataNotFound, false);
                 }
 
             }
@@ -1155,9 +1130,7 @@ public class FragmentDownloadData extends Fragment {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 25, 400);
-            toast.show();
+            new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessCancelRequest, false);
         }
 
         @Override
@@ -1166,18 +1139,12 @@ public class FragmentDownloadData extends Fragment {
                 arrData = SaveDatatActivityData(roledata);
                 //spnBranch.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
                 loadData();
-                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
-                        Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 25, 400);
-                toast.show();
+                new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessSuccessDownload, true);
             } else {
                 if (intProcesscancel == 1) {
                     onCancelled();
                 } else {
-                    Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessDataNotFound,
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 25, 400);
-                    toast.show();
+                    new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessDataNotFound, false);
                 }
 
             }
@@ -1225,9 +1192,7 @@ public class FragmentDownloadData extends Fragment {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 25, 400);
-            toast.show();
+            new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessCancelRequest, false);
         }
 
         @Override
@@ -1236,20 +1201,13 @@ public class FragmentDownloadData extends Fragment {
                 arrData = SaveDatatCustomerBasedData(roledata);
                 //spnBranch.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
                 loadData();
-                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
-                        Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 25, 400);
-                toast.show();
+                new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessSuccessDownload, true);
             } else {
                 if (intProcesscancel == 1) {
                     onCancelled();
                 } else {
-                    Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessDataNotFound,
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 25, 400);
-                    toast.show();
+                    new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessDataNotFound, false);
                 }
-
             }
             checkingDataTable();
             Dialog.dismiss();
@@ -1295,9 +1253,7 @@ public class FragmentDownloadData extends Fragment {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 25, 400);
-            toast.show();
+            new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessCancelRequest, false);
         }
 
         @Override
@@ -1306,18 +1262,12 @@ public class FragmentDownloadData extends Fragment {
                 arrData = SaveDatatAbsenUserData(roledata);
                 //spnBranch.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
                 loadData();
-                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
-                        Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 25, 400);
-                toast.show();
+                new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessSuccessDownload, true);
             } else {
                 if (intProcesscancel == 1) {
                     onCancelled();
                 } else {
-                    Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessDataNotFound,
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 25, 400);
-                    toast.show();
+                    new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessDataNotFound, false);
                 }
 
             }
@@ -1365,9 +1315,7 @@ public class FragmentDownloadData extends Fragment {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 25, 400);
-            toast.show();
+            new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessCancelRequest, false);
         }
 
         @Override
@@ -1375,18 +1323,12 @@ public class FragmentDownloadData extends Fragment {
             if (roledata != null && roledata.size() > 0) {
                 arrData = SaveDatatLeaveData(roledata);
                 loadData();
-                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
-                        Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 25, 400);
-                toast.show();
+                new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessSuccessDownload, true);
             } else {
                 if (intProcesscancel == 1) {
                     onCancelled();
                 } else {
-                    Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessDataNotFound,
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 25, 400);
-                    toast.show();
+                    new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessDataNotFound, false);
                 }
 
             }
@@ -1427,8 +1369,8 @@ public class FragmentDownloadData extends Fragment {
             org.json.simple.JSONObject innerObj = (org.json.simple.JSONObject) i.next();
             int boolValid = Integer.valueOf(String.valueOf(innerObj.get(dtAPIDATA.boolValid)));
             if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
-                String latitude = (String) innerObj.get("txtLatitude");
-                String longitude = (String) innerObj.get("txtLongitude");
+//                String latitude = (String) innerObj.get("txtLatitude");
+//                String longitude = (String) innerObj.get("txtLongitude");
 //                if ((latitude.equals("") || latitude == null
 //                        || longitude.equals("") || longitude == null)) {
 //
@@ -1461,12 +1403,12 @@ public class FragmentDownloadData extends Fragment {
                 _data.set_txtRayonCode((String) innerObj.get("TxtRayonCode"));
                 _data.set_txtRayonName((String) innerObj.get("TxtRayonName"));
                 _data.set_txtRegionName((String) innerObj.get("TxtRegionName"));
-//                _data.set_txtLatitude((String) innerObj.get("txtLatitude"));
-//                _data.set_txtLongitude((String) innerObj.get("txtLongitude"));
+                _data.set_txtLatitude((String) innerObj.get("txtLatitude"));
+                _data.set_txtLongitude((String) innerObj.get("txtLongitude"));
 
                 //hardcode cui..
-                _data.set_txtLatitude("-6.150721");
-                _data.set_txtLongitude("106.887543");
+//                _data.set_txtLatitude("-6.150721");
+//                _data.set_txtLongitude("106.887543");
 
                 _array.add(_data.get_txtOutletCode() + " - " + _data.get_txtOutletName());
                 _Listdata.add(_data);
@@ -1497,9 +1439,7 @@ public class FragmentDownloadData extends Fragment {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 25, 400);
-            toast.show();
+            new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessCancelRequest, false);
         }
 
         private ProgressDialog Dialog = new ProgressDialog(getContext());
@@ -1510,18 +1450,12 @@ public class FragmentDownloadData extends Fragment {
                 arrData = SaveDatamEmployeeAreaData(roledata);
                 loadData();
                 //spnOutlet.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
-                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
-                        Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 25, 400);
-                toast.show();
+                new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessSuccessDownload, true);
             } else {
                 if (intProcesscancel == 1) {
                     onCancelled();
                 } else {
-                    Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessDataNotFound,
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 25, 400);
-                    toast.show();
+                    new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessDataNotFound, false);
                 }
 
             }
@@ -1568,9 +1502,7 @@ public class FragmentDownloadData extends Fragment {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 25, 400);
-            toast.show();
+            new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessCancelRequest, false);
         }
 
         private ProgressDialog Dialog = new ProgressDialog(getContext());
@@ -1582,18 +1514,12 @@ public class FragmentDownloadData extends Fragment {
                 arrData = SaveDatamEmployeeBranchData(roledata);
                 //spnBranch.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
                 loadData();
-                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
-                        Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 25, 400);
-                toast.show();
+                new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessSuccessDownload, true);
             } else {
                 if (intProcesscancel == 1) {
                     onCancelled();
                 } else {
-                    Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessDataNotFound,
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 25, 400);
-                    toast.show();
+                    new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessDataNotFound, false);
                 }
 
             }
@@ -1722,9 +1648,7 @@ public class FragmentDownloadData extends Fragment {
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
-            Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessCancelRequest, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP, 25, 400);
-            toast.show();
+            new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessCancelRequest, false);
         }
 
         @Override
@@ -1733,18 +1657,12 @@ public class FragmentDownloadData extends Fragment {
                 arrData = SaveDatamTypeLeaveMobileData(roledata);
                 //spnLeave.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
                 loadData();
-                Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessSuccessDownload,
-                        Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 25, 400);
-                toast.show();
+                new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessSuccessDownload, true);
             } else {
                 if (intProcesscancel == 1) {
                     onCancelled();
                 } else {
-                    Toast toast = Toast.makeText(getContext(), new clsHardCode().txtMessDataNotFound,
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP, 25, 400);
-                    toast.show();
+                    new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessDataNotFound, false);
                 }
 
             }

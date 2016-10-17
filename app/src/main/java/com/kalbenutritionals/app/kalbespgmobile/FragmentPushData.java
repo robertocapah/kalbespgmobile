@@ -519,7 +519,7 @@ public class FragmentPushData extends Fragment {
         protected void onPostExecute(List<dataJson> roledata) {
             boolean result = false;
             if(roledata.get(0).getIntResult().equals("1")){
-                new clsMainActivity().showToast(getContext(), "Success Push Data");
+                new clsMainActivity().showCustomToast(getContext(), "Success Push Data", true);
                 Intent myIntent = new Intent(getContext(), MainMenu.class);
                 if(myValue!=null&&myValue.equals("notMainMenu")){
                     AsyncCallLogOut task = new AsyncCallLogOut();
@@ -648,9 +648,9 @@ public class FragmentPushData extends Fragment {
                             }
                         }
                         new clsHelperBL().DeleteAllDB();
-                        getActivity().finish();
                         Intent nextScreen = new Intent(getContext(), Splash.class);
                         startActivity(nextScreen);
+                        getActivity().finish();
                     } else {
                         Toast toast = Toast.makeText(getContext(),
                                 PstrMessage, Toast.LENGTH_LONG);
