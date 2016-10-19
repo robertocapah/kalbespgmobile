@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -16,6 +17,7 @@ import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +73,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     CheckBox cbPIC;
     RadioGroup radioGenderGroup;
     View v;
+
+
+    int len = 0;
+    String dashh = "";
 
     List<tCustomerBasedMobileDetailData> dtListDetail;
 
@@ -175,6 +181,87 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                     }
                 }
         });
+
+//        etTelpon.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+////                if (len > etTelpon.getText().length() ){
+////                    len--;
+////                    return;
+////                }
+//                len = etTelpon.getText().length();
+//
+//                String first = "-";
+//
+//                if(len > 2){
+//                    first = etTelpon.getText().toString().substring(0,2);
+//                }
+//
+//                String number2 = etTelpon.getText().toString();
+//
+//                if(len >= 13){
+//                    dashh = number2.substring(9,10);
+//                }
+//
+//                if(first.equals("08")){
+//                    if (len == 5 || len == 9) {
+//                        String number = etTelpon.getText().toString();
+//                        String dash = number.charAt(number.length() - 1) == '-' ? "" : "-";
+//                        number = number.substring(0, (len - 1)) + dash + number.substring((len - 1), number.length());
+//                        etTelpon.setText(number);
+//                        etTelpon.setSelection(number.length());
+//                    }
+//                    else if(len == 13 && !dashh.equals("-")){
+//                        String number = etTelpon.getText().toString();
+//                        String result = number.substring(0, 8) + number.substring(9);
+//                        String dash = result.charAt(result.length() - 1) == '-' ? "" : "-";
+//                        result = result.substring(0, 9) + dash + result.substring((9), result.length());
+//                        etTelpon.setText(result);
+//                        etTelpon.setSelection(result.length());
+//                    }
+//                    else if(len == 12 && dashh.equals("-")){
+//                        dashh = "";
+//                        String number = etTelpon.getText().toString();
+//                        String result = number.substring(0, 9) + number.substring(10);
+//                        String dash = result.charAt(result.length() - 1) == '-' ? "" : "-";
+//                        result = result.substring(0, 8) + dash + result.substring((8), result.length());
+//                        etTelpon.setText(result);
+//                        etTelpon.setSelection(result.length());
+//                    }
+//                }
+//                else{
+//                    len = etTelpon.getText().length();
+//
+//                    if(len > 2){
+//                        first = etTelpon.getText().toString().substring(0,3);
+//                    }
+//                    if((first.equals("061") || first.equals("021") || first.equals("022") || first.equals("024") || first.equals("031")) && len == 4){
+//                        String number = etTelpon.getText().toString();
+//                        String dash = number.charAt(number.length() - 1) == '-' ? "" : "-";
+//                        number = number.substring(0, (len - 1)) + dash + number.substring((len - 1), number.length());
+//                        etTelpon.setText(number);
+//                        etTelpon.setSelection(number.length());
+//                    }
+//                    else if(!(first.equals("061") || first.equals("021") || first.equals("022") || first.equals("024") || first.equals("031")) && len == 5){
+//                        String number = etTelpon.getText().toString();
+//                        String dash = number.charAt(number.length() - 1) == '-' ? "" : "-";
+//                        number = number.substring(0, (len - 1)) + dash + number.substring((len - 1), number.length());
+//                        etTelpon.setText(number);
+//                        etTelpon.setSelection(number.length());
+//                    }
+//                }
+//            }
+//        });
+
+
 
         return v;
     }
