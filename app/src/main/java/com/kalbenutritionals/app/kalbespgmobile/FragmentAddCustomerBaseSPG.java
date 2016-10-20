@@ -72,6 +72,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     EditText etCustomerBasedNo, etEmail, etNama, etTelpon, etAlamat, etTelponKantor, etPinBBM;
     CheckBox cbPIC;
     RadioGroup radioGenderGroup;
+    Button btnSave;
     View v;
 
 
@@ -104,7 +105,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         etTelpon.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(etTelpon) {
             public boolean onDrawableClick() {
-                if(!etTelpon.getText().equals("")){
+                if (!etTelpon.getText().equals("")) {
                     startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", etTelpon.getText().toString(), null)));
                 }
                 return true;
@@ -140,10 +141,12 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         Button btnAdd = (Button) v.findViewById(R.id.btnAdd);
         Button btnAddPerson = (Button) v.findViewById(R.id.btnAddPerson);
-        Button btnSave = (Button) v.findViewById(R.id.btnSave);
+        btnSave = (Button) v.findViewById(R.id.btnSave);
+        Button btnBack = (Button) v.findViewById(R.id.btnBackToHeader);
         btnAdd.setOnClickListener(this);
         btnAddPerson.setOnClickListener(this);
         btnSave.setOnClickListener(this);
+        btnBack.setOnClickListener(this);
 
         InputFilter[] fArray = new InputFilter[3];
 
@@ -165,16 +168,16 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         etPinBBM.setFilters(fArray);
 
-        etAlamat.setFilters(new InputFilter[] {
+        etAlamat.setFilters(new InputFilter[]{
                 new InputFilter() {
                     @Override
                     public CharSequence filter(CharSequence cs, int start,
                                                int end, Spanned spanned, int dStart, int dEnd) {
                         // TODO Auto-generated method stub
-                        if(cs.equals("")){ // for backspace
+                        if (cs.equals("")) { // for backspace
                             return cs;
                         }
-                        if(cs.toString().matches("[a-zA-Z0-9. ]+")){
+                        if (cs.toString().matches("[a-zA-Z0-9. ]+")) {
                             return cs;
                         }
                         return "";
@@ -182,93 +185,21 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 }
         });
 
-//        etTelpon.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-////                if (len > etTelpon.getText().length() ){
-////                    len--;
-////                    return;
-////                }
-//                len = etTelpon.getText().length();
-//
-//                String first = "-";
-//
-//                if(len > 2){
-//                    first = etTelpon.getText().toString().substring(0,2);
-//                }
-//
-//                String number2 = etTelpon.getText().toString();
-//
-//                if(len >= 13){
-//                    dashh = number2.substring(9,10);
-//                }
-//
-//                if(first.equals("08")){
-//                    if (len == 5 || len == 9) {
-//                        String number = etTelpon.getText().toString();
-//                        String dash = number.charAt(number.length() - 1) == '-' ? "" : "-";
-//                        number = number.substring(0, (len - 1)) + dash + number.substring((len - 1), number.length());
-//                        etTelpon.setText(number);
-//                        etTelpon.setSelection(number.length());
-//                    }
-//                    else if(len == 13 && !dashh.equals("-")){
-//                        String number = etTelpon.getText().toString();
-//                        String result = number.substring(0, 8) + number.substring(9);
-//                        String dash = result.charAt(result.length() - 1) == '-' ? "" : "-";
-//                        result = result.substring(0, 9) + dash + result.substring((9), result.length());
-//                        etTelpon.setText(result);
-//                        etTelpon.setSelection(result.length());
-//                    }
-//                    else if(len == 12 && dashh.equals("-")){
-//                        dashh = "";
-//                        String number = etTelpon.getText().toString();
-//                        String result = number.substring(0, 9) + number.substring(10);
-//                        String dash = result.charAt(result.length() - 1) == '-' ? "" : "-";
-//                        result = result.substring(0, 8) + dash + result.substring((8), result.length());
-//                        etTelpon.setText(result);
-//                        etTelpon.setSelection(result.length());
-//                    }
-//                }
-//                else{
-//                    len = etTelpon.getText().length();
-//
-//                    if(len > 2){
-//                        first = etTelpon.getText().toString().substring(0,3);
-//                    }
-//                    if((first.equals("061") || first.equals("021") || first.equals("022") || first.equals("024") || first.equals("031")) && len == 4){
-//                        String number = etTelpon.getText().toString();
-//                        String dash = number.charAt(number.length() - 1) == '-' ? "" : "-";
-//                        number = number.substring(0, (len - 1)) + dash + number.substring((len - 1), number.length());
-//                        etTelpon.setText(number);
-//                        etTelpon.setSelection(number.length());
-//                    }
-//                    else if(!(first.equals("061") || first.equals("021") || first.equals("022") || first.equals("024") || first.equals("031")) && len == 5){
-//                        String number = etTelpon.getText().toString();
-//                        String dash = number.charAt(number.length() - 1) == '-' ? "" : "-";
-//                        number = number.substring(0, (len - 1)) + dash + number.substring((len - 1), number.length());
-//                        etTelpon.setText(number);
-//                        etTelpon.setSelection(number.length());
-//                    }
-//                }
-//            }
-//        });
-
-
-
         return v;
     }
 
     @Override
     public void onClick(View view) {
+
+        LinearLayout lnTop = (LinearLayout) v.findViewById(R.id.linearLayoutTop);
+        LinearLayout lnBottom = (LinearLayout) v.findViewById(R.id.linearLayoutBottom);
+
         switch (view.getId()) {
+            case R.id.btnBackToHeader:
+                lnTop.setVisibility(View.VISIBLE);
+                lnBottom.setVisibility(View.GONE);
+                break;
+
             case R.id.btnAddPerson:
                 popUpAddPerson(new tCustomerBasedMobileDetailData());
                 break;
@@ -278,21 +209,19 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 String notelpkantor = etTelponKantor.getText().toString();
                 String firstNotelp = "0";
 
-                if(notelp.length()>0){
+                if (notelp.length() > 0) {
                     firstNotelp = notelp.substring(0, 1);
                 }
-                
+
                 String firstNotelpkantor = null;
 
-                if(notelpkantor.length() > 0){
+                if (notelpkantor.length() > 0) {
                     firstNotelpkantor = notelpkantor.substring(0, 1);
                 }
 
                 if (!etNama.getText().toString().equals("") && !etTelpon.getText().toString().equals("") && !etEmail.getText().toString().equals("")) {
                     if (firstNotelp.equals("0") && (firstNotelpkantor == null || firstNotelpkantor.equals("0"))) {
                         if (isValidEmail(etEmail.getText().toString())) {
-                            LinearLayout lnTop = (LinearLayout) v.findViewById(R.id.linearLayoutTop);
-                            LinearLayout lnBottom = (LinearLayout) v.findViewById(R.id.linearLayoutBottom);
                             TextView tvCode = (TextView) v.findViewById(R.id.tvCode);
                             TextView tvNama = (TextView) v.findViewById(R.id.tvNamaPreview);
                             TextView tvTelp = (TextView) v.findViewById(R.id.tvTelpPreview);
@@ -319,8 +248,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         } else {
                             new clsMainActivity().showCustomToast(getContext(), "Email not valid", false);
                         }
-                    }
-                    else{
+                    } else {
                         new clsMainActivity().showCustomToast(getContext(), "no telp atau no kantor diawali angka 0", false);
                     }
                 } else {
@@ -565,29 +493,32 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         swipeList.clear();
 
+        int totalProduct = 0;
+        for (int i = 0; i < dtListDetail.size(); i++) {
+            List<tCustomerBasedMobileDetailProductData> dtListProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dtListDetail.get(i).get_intTrCustomerIdDetail());
 
-                int totalProduct = 0;
-                for (int i = 0; i < dtListDetail.size(); i++) {
-                    List<tCustomerBasedMobileDetailProductData> dtListProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dtListDetail.get(i).get_intTrCustomerIdDetail());
+            if (dtListProduct == null) {
+                totalProduct = 0;
+            } else {
+                totalProduct = dtListProduct.size();
+            }
+            swplist = new clsSwipeList();
 
-                    if (dtListProduct == null) {
-                        totalProduct = 0;
-                    } else {
-                        totalProduct = dtListProduct.size();
-                    }
-                    swplist = new clsSwipeList();
+            String PIC;
 
-                    String PIC;
+            if (dtListDetail.get(i).get_intPIC().equals("1")) PIC = " (PIC)";
+            else PIC = "";
 
-                    if (dtListDetail.get(i).get_intPIC().equals("1")) PIC = " (PIC)";
-                    else PIC = "";
+            swplist.set_txtTitle("Nama : " + dtListDetail.get(i).get_txtNamaDepan() + PIC);
+            swplist.set_txtDescription("Total Product : " + String.valueOf(totalProduct));
+            swipeList.add(swplist);
+        }
 
-                    swplist.set_txtTitle("Nama : " + dtListDetail.get(i).get_txtNamaDepan() + PIC);
-                    swplist.set_txtDescription("Total Product : " + String.valueOf(totalProduct));
-                    swipeList.add(swplist);
-                }
-
-        if (dtListDetail!=null) {
+        btnSave.setVisibility(View.GONE);
+        if (dtListDetail != null) {
+            if(dtListDetail.size() > 0){
+                btnSave.setVisibility(View.VISIBLE);
+            }
             int index = 1;
             for (tCustomerBasedMobileDetailData data : dtListDetail) {
                 String id = data.get_intTrCustomerIdDetail();

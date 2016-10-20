@@ -22,17 +22,14 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:text="Customer Base No"
-                android:id="@+id/tvCustomerBasedNo"
-                android:layout_weight="1" />
+                android:layout_height="wrap_content"
+                android:text="Customer Base No"/>
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/etCustomerBasedNo"
                 android:background="@drawable/bg_edtext"
-                android:layout_weight="1"
                 android:singleLine="true"
                 android:enabled="false"
                 android:layout_marginBottom="10dp"/>
@@ -40,9 +37,8 @@
             <TextView
                 android:text="Gender"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:id="@+id/textView2"
-                android:layout_weight="1" />
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2" />
 
             <RadioGroup
                 android:layout_width="wrap_content"
@@ -67,53 +63,47 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:text="Nama *"
                 android:id="@+id/tvNama"
-                android:layout_weight="1"
                 android:layout_marginTop="10dp" />
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/etNama"
                 android:background="@drawable/bg_edtext"
-                android:layout_weight="1"
                 android:maxLength="100"
                 android:singleLine="true" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:text="Telp *"
                 android:id="@+id/textView10"
-                android:layout_weight="1"
                 android:layout_marginTop="10dp" />
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:inputType="number"
                 android:digits="0123456789-"
                 android:background="@drawable/bg_edtext"
                 android:id="@+id/etTelpon"
                 android:drawableRight="@mipmap/ic_call"
-                android:maxLength="15"
-                android:layout_weight="1" />
+                android:maxLength="15" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:text="Telp Kantor"
                 android:id="@+id/textView5"
-                android:layout_weight="1"
                 android:layout_marginTop="10dp" />
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/etTelponKantor"
-                android:layout_weight="1"
                 android:singleLine="true"
                 android:background="@drawable/bg_edtext"
                 android:phoneNumber="true"
@@ -123,52 +113,46 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:text="Email *"
                 android:id="@+id/textView21"
-                android:layout_weight="1"
                 android:layout_marginTop="10dp" />
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:ems="10"
                 android:id="@+id/etEmail"
                 android:background="@drawable/bg_edtext"
-                android:maxLength="100"
-                android:layout_weight="1" />
+                android:maxLength="100"/>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:text="Pin BBM"
                 android:id="@+id/textView22"
-                android:layout_weight="1"
                 android:layout_marginTop="10dp" />
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/etPinBBM"
                 android:background="@drawable/bg_edtext"
-                android:maxLength="8"
-                android:layout_weight="1" />
+                android:maxLength="8"/>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:text="Alamat"
                 android:id="@+id/textView8"
-                android:layout_weight="1"
                 android:layout_marginTop="10dp" />
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/etAlamat"
                 android:background="@drawable/bg_edtext"
-                android:layout_weight="1"
                 android:maxLength="100"
                 android:minLines="2"
                 android:maxLines="2"
@@ -177,21 +161,19 @@
 
             <CheckBox
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:text="PIC Sebagai Pelanggan"
                 android:id="@+id/cbPIC"
-                android:layout_weight="1"
                 android:checked="false"
                 android:layout_marginTop="20dp" />
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/btn_download_all"
                 android:text="Preview"
                 android:textColor="@color/white"
                 android:id="@+id/btnAdd"
-                android:layout_weight="1"
                 android:layout_marginTop="10dp" />
 
         </LinearLayout>
@@ -290,8 +272,19 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/btn_download_all"
                     android:textColor="@color/white"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:text="Save"
                     android:id="@+id/btnSave" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_download_all"
+                    android:textColor="@color/white"
+                    android:text="Back"
+                    android:id="@+id/btnBackToHeader" />
+
             </LinearLayout>
 
             <TableLayout

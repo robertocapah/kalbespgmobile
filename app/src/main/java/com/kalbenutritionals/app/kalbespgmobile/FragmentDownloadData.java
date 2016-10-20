@@ -644,6 +644,7 @@ public class FragmentDownloadData extends Fragment {
             _data.set_txtOutletName(String.valueOf(innerObj.get("TxtOutletName")));
             _data.set_txtUserId(String.valueOf(innerObj.get("TxtUserId")));
             _data.set_intFlag(String.valueOf(innerObj.get("TxtType")));
+            _data.set_intActive(String.valueOf(innerObj.get("IntActive")));
 
             String url1 = String.valueOf(innerObj.get("TxtLinkImg1"));
             String url2 = String.valueOf(innerObj.get("TxtLinkImg2"));
