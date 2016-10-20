@@ -212,10 +212,13 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
                 row.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
                 String product = "";
+                String status = "";
+                status = Integer.parseInt(dtListDetail.get(count).get_intPIC()) == 1 ? " (PIC)" : "";
                 for (tCustomerBasedMobileDetailProductData dataproduct : dtListProduct) {
                     product = product + "- " + dataproduct.get_txtProductBrandName() + " (" + dataproduct.get_txtProductBrandQty() + ")\n";
+
                 }
-                String[] colText = {dtListDetail.get(count).get_txtNamaDepan(), product};
+                String[] colText = {dtListDetail.get(count).get_txtNamaDepan() + status, product};
 
                 int j = 1;
 

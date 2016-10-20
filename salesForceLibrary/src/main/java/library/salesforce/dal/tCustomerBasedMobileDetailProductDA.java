@@ -1,14 +1,13 @@
 package library.salesforce.dal;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
-import library.salesforce.common.tCustomerBasedMobileHeaderData;
 
 public class tCustomerBasedMobileDetailProductDA {
 	// All Static variables
@@ -24,7 +23,7 @@ public class tCustomerBasedMobileDetailProductDA {
 										+ dt.Property_intTrCustomerIdDetail + " TEXT NULL,"
 										+ dt.Property_txtProductBrandCode + " TEXT NULL,"
 										+ dt.Property_txtProductBrandName + " TEXT NULL,"
-										+ dt.Property_txtProductBrandQty + " TEXT NULL,"
+										+ dt.Property_txtProductBrandQty + " INT NULL,"
 										+ dt.Property_bitActive + " TEXT NULL,"
 										+ dt.Property_dtInserted + " TEXT NULL,"
 										+ dt.Property_dtUpdated + " TEXT NULL,"
@@ -130,7 +129,7 @@ public class tCustomerBasedMobileDetailProductDA {
         };
         String groupBy = null;
         String havingBy = null;
-        String orderBy = dt.Property_intTrCustomerIdDetailProduct;
+        String orderBy = dt.Property_txtProductBrandQty + " desc";
 
         Cursor cursor = db.query(TABLE_NAME,
                 tableColumns,

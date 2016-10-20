@@ -24,7 +24,7 @@ public class tCustomerBasedMobileDetailDA {
                 + dt.Property_intTrCustomerId + " TEXT NULL,"
                 + dt.Property_txtNamaDepan + " TEXT NULL,"
                 + dt.Property_txtGender + " TEXT NULL,"
-                + dt.Property_intNo + " TEXT NULL,"
+                + dt.Property_intNo + " INT NULL,"
                 + dt.Property_intPIC + " TEXT NULL,"
                 + dt.Property_bitActive + " TEXT NULL,"
                 + dt.Property_dtInserted + " TEXT NULL,"

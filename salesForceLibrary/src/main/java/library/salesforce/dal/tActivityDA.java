@@ -251,7 +251,7 @@ public class tActivityDA {
 		List<tActivityData> contactList = new ArrayList<tActivityData>();
 		// Select All Query
 		tActivityData dt=new tActivityData();
-		String selectQuery = "SELECT  "+dt.Property_All+" FROM " + TABLE_CONTACTS + " WHERE txtOutletCode='" + outletcode +"'";
+		String selectQuery = "SELECT  "+dt.Property_All+" FROM " + TABLE_CONTACTS + " WHERE txtOutletCode='" + outletcode +"'" + "order by dtActivity desc";
 
 		Cursor cursor = db.rawQuery(selectQuery, null);
 

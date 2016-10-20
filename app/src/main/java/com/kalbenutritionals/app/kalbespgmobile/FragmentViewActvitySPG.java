@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.ScrollView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +40,8 @@ import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
+
+import static com.kalbenutritionals.app.kalbespgmobile.R.id.textView9;
 
 public class FragmentViewActvitySPG extends Fragment implements IXListViewListener {
 
@@ -163,6 +165,11 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
         final Button btnSave = (Button) promptView.findViewById(R.id.btnSave);
         final RadioButton rbKalbe = (RadioButton) promptView.findViewById(R.id.rbKalbe);
         final RadioButton rbCompetitor = (RadioButton) promptView.findViewById(R.id.rbCompetitor);
+        final TextView status = (TextView) promptView.findViewById(textView9);
+
+        String statusText = dt.get(position).get_intSubmit().equals("1") && dt.get(position).get_intIdSyn().equals("1") ? "Sync" : "Submit";
+
+        status.setText("Status :" + statusText);
 
         if(dt.get(position).get_intFlag().equals("KALBE")) {
             rbKalbe.setChecked(true);
