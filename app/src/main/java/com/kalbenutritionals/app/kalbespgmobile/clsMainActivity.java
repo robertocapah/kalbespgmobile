@@ -15,6 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.TextInputLayout;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -702,5 +704,17 @@ public class clsMainActivity extends Activity {
         }
 
         return greeting;
+    }
+
+    public void setErrorMessage(Context context, TextInputLayout textInputLayout, EditText editText, String message){
+        textInputLayout.setError(message);
+        textInputLayout.setErrorEnabled(true);
+        editText.setFocusable(true);
+        editText.setBackground(context.getResources().getDrawable(R.drawable.bg_edtext));
+    }
+
+    public void removeErrorMessage(TextInputLayout textInputLayout){
+        textInputLayout.setError(null);
+        textInputLayout.setErrorEnabled(false);
     }
 }

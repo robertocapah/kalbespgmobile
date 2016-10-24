@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -50,6 +51,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
     ImageButton imgActivity1, imgActivity2;
     EditText etDescription;
     RadioGroup rdFlag;
+    TextInputLayout textInputLayoutDescription;
 
     private static final int CAMERA_CAPTURE_IMAGE1_ACTIVITY_REQUEST_CODE = 100;
     private static final int CAMERA_CAPTURE_IMAGE2_ACTIVITY_REQUEST_CODE = 130;
@@ -75,6 +77,8 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
 
         imgActivity2 = (ImageButton) v.findViewById(R.id.imageButton2);
         imgActivity2.setOnClickListener(this);
+
+        textInputLayoutDescription = (TextInputLayout) v.findViewById(R.id.input_layout_description);
 
         Button btnSave = (Button) v.findViewById(R.id.btnSave);
         btnSave.setOnClickListener(this);
@@ -181,10 +185,12 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
 
                 break;
             case R.id.btnSave:
+                new clsMainActivity().removeErrorMessage(textInputLayoutDescription);
 
                 if(etDescription.getText().toString().equals("")&&etDescription.getText().toString().length()==0){
-                    new clsMainActivity().showCustomToast(getContext(), "Please give Description", false);
+                    new clsMainActivity().setErrorMessage(getContext(), textInputLayoutDescription, etDescription, "Please give Description");
                 } else if(pht1 == null && pht2 == null) {
+                    new clsMainActivity().removeErrorMessage(textInputLayoutDescription);
                     new clsMainActivity().showCustomToast(getContext(), "Please take at least 1 photo", false);
                 } else {
 

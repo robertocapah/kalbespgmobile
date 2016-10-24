@@ -4,10 +4,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
@@ -34,6 +36,8 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -69,7 +73,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     tCustomerBasedMobileHeaderData dtHeader;
     ListView listView;
     MyAdapter dataAdapter;
+
     EditText etCustomerBasedNo, etEmail, etNama, etTelpon, etAlamat, etTelponKantor, etPinBBM;
+    TextInputLayout textInputLayoutNama, textInputLayoutTelp, textInputLayoutTelpKantor, textInputLayoutEmail;
+
     CheckBox cbPIC;
     RadioGroup radioGenderGroup;
     Button btnSave;
@@ -96,10 +103,19 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         v = inflater.inflate(R.layout.fragment_customerbase_add, container, false);
         etCustomerBasedNo = (EditText) v.findViewById(R.id.etCustomerBasedNo);
         etAlamat = (EditText) v.findViewById(R.id.etAlamat);
+
+        textInputLayoutNama = (TextInputLayout) v.findViewById(R.id.input_layout_nama);
         etNama = (EditText) v.findViewById(R.id.etNama);
+
+        textInputLayoutTelp = (TextInputLayout) v.findViewById(R.id.input_layout_telp);
         etTelpon = (EditText) v.findViewById(R.id.etTelpon);
+
+        textInputLayoutEmail = (TextInputLayout) v.findViewById(R.id.input_layout_email);
         etEmail = (EditText) v.findViewById(R.id.etEmail);
+
+        textInputLayoutTelpKantor = (TextInputLayout) v.findViewById(R.id.input_layout_telpKantor);
         etTelponKantor = (EditText) v.findViewById(R.id.etTelponKantor);
+
         etPinBBM = (EditText) v.findViewById(R.id.etPinBBM);
         cbPIC = (CheckBox) v.findViewById(R.id.cbPIC);
 
@@ -205,22 +221,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 break;
 
             case R.id.btnAdd:
-                String notelp = etTelpon.getText().toString();
-                String notelpkantor = etTelponKantor.getText().toString();
-                String firstNotelp = "0";
 
-                if (notelp.length() > 0) {
-                    firstNotelp = notelp.substring(0, 1);
-                }
+                boolean validate = validateHeader();
 
-                String firstNotelpkantor = null;
-
-                if (notelpkantor.length() > 0) {
-                    firstNotelpkantor = notelpkantor.substring(0, 1);
-                }
-
-                if (!etNama.getText().toString().equals("") && !etTelpon.getText().toString().equals("") && !etEmail.getText().toString().equals("")) {
-                    if (firstNotelp.equals("0") && (firstNotelpkantor == null || firstNotelpkantor.equals("0"))) {
+                if (validate) {
+                    if (validate) {
                         if (isValidEmail(etEmail.getText().toString())) {
                             TextView tvCode = (TextView) v.findViewById(R.id.tvCode);
                             TextView tvNama = (TextView) v.findViewById(R.id.tvNamaPreview);
@@ -246,13 +251,15 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                             tvPinBBM.setText("Pin BBM : " + etPinBBM.getText().toString());
 
                         } else {
-                            new clsMainActivity().showCustomToast(getContext(), "Email not valid", false);
+                            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutEmail, etEmail, "Email not valid");
+//                            new clsMainActivity().showCustomToast(getContext(), "Email not valid", false);
                         }
                     } else {
-                        new clsMainActivity().showCustomToast(getContext(), "no telp atau no kantor diawali angka 0", false);
+                        new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "No telp harus diawali dengan 0");
+//                        new clsMainActivity().showCustomToast(getContext(), "no telp atau no kantor diawali angka 0", false);
                     }
                 } else {
-                    new clsMainActivity().showCustomToast(getContext(), "Nama, telp, or email cannot empty", false);
+//                    new clsMainActivity().showCustomToast(getContext(), "Nama, telp, or email cannot empty", false);
                 }
 
                 break;
@@ -291,7 +298,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     }
 
     private void saveCustomerBase() {
-        Boolean status = new tCustomerBasedMobileHeaderBL().submit();
+        Boolean status = new tCustomerBasedMobileHeaderBL().submit(getContext());
 
         if (status) {
 //            new clsMainActivity().showCustomToast(getContext(), "Saved", true);
@@ -300,7 +307,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 //            startActivity(intent);
             viewCustomerBaseFragment();
         } else {
-            new clsMainActivity().showCustomToast(getContext(), "Failed to save", false);
+//            new clsMainActivity().showCustomToast(getContext(), "Failed to save", false);
         }
     }
 
@@ -311,6 +318,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         final EditText nama = (EditText) promptView.findViewById(R.id.etNama);
         final EditText searchProduct = (EditText) promptView.findViewById(R.id.searchProduct);
         final RadioGroup radioGroupGender = (RadioGroup) promptView.findViewById(R.id.radioGender);
+        final TextInputLayout textInputLayoutNamaPopup = (TextInputLayout) promptView.findViewById(R.id.input_layout_nama);
 
         listView = (ListView) promptView.findViewById(R.id.listView2);
 
@@ -411,6 +419,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         final AlertDialog alertD = alertDialogBuilder.create();
         alertD.show();
 
+        new clsMainActivity().removeErrorMessage(textInputLayoutNamaPopup);
+
         alertD.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -474,10 +484,12 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         alertD.dismiss();
                         setTablePerson();
                     } else {
-                        new clsMainActivity().showCustomToast(getContext(), "Select at least 1 product with value", false);
+                        new clsMainActivity().removeErrorMessage(textInputLayoutNamaPopup);
+                        new clsMainActivity().showCustomToast(getContext(), "Select at least 1 product", false);
                     }
                 } else {
-                    new clsMainActivity().showCustomToast(getContext(), "Nama cannot empty", false);
+                    new clsMainActivity().setErrorMessage(getContext(), textInputLayoutNamaPopup, nama, "Nama harus diisi");
+//                    new clsMainActivity().showCustomToast(getContext(), "Nama cannot empty", false);
                 }
             }
         });
@@ -868,5 +880,58 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             new tCustomerBasedMobileDetailBL().deleteData(dtDetail);
             setTablePerson();
         }
+    }
+
+    private boolean validateHeader(){
+
+        String notelp = etTelpon.getText().toString();
+        String notelpkantor = etTelponKantor.getText().toString();
+        String firstNotelp = "";
+
+        if (notelp.length() > 0) {
+            firstNotelp = notelp.substring(0, 1);
+        }
+
+        String firstNotelpkantor = null;
+
+        if (notelpkantor.length() > 0) {
+            firstNotelpkantor = notelpkantor.substring(0, 1);
+        }
+
+        boolean validate = true;
+        new clsMainActivity().removeErrorMessage(textInputLayoutNama);
+        new clsMainActivity().removeErrorMessage(textInputLayoutTelp);
+        new clsMainActivity().removeErrorMessage(textInputLayoutTelpKantor);
+        new clsMainActivity().removeErrorMessage(textInputLayoutEmail);
+
+        if (etNama.getText().toString().equals("")){
+            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutNama, etNama, "Nama wajib diisi");
+            validate = false;
+        }
+
+        if (etTelpon.getText().toString().equals("")){
+            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "Telpon wajib diisi");
+            validate = false;
+        }
+        else if (!firstNotelp.equals("0")) {
+            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "No telpon diawali dengan angka 0");
+            validate = false;
+        }
+
+        if (etEmail.getText().toString().equals("")){
+            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutEmail, etEmail, "Email wajib diisi");
+            validate = false;
+        }
+        else if(!isValidEmail(etEmail.getText().toString())){
+            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutEmail, etEmail, "Email tidak valid");
+            validate = false;
+        }
+
+        if(firstNotelpkantor != null && !firstNotelpkantor.equals("0")){
+            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelpKantor, etTelponKantor, "No telpon kantor diawali dengan angka 0");
+            validate = false;
+        }
+
+        return validate;
     }
 }

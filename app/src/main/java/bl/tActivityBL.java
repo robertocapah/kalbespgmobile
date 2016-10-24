@@ -116,4 +116,14 @@ public class tActivityBL extends clsMainBL{
 		return dt ;
 	}
 
+	public List<tActivityData> getAllDataByIntSycAndOutlet(String val, String outlet){
+		SQLiteDatabase _db =getDb();
+		tActivityDA _tActivityDA = new tActivityDA(_db);
+		List<tActivityData> dt = _tActivityDA.getAllDataByIntSycAndOutlet(_db,val, outlet);
+		if(dt == null){
+			dt = new ArrayList<>(0);
+		}
+		return dt ;
+	}
+
 }

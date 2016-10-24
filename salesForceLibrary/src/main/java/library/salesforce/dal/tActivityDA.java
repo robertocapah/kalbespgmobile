@@ -388,6 +388,42 @@ public class tActivityDA {
 		// return contact list
 		return contactList;
 	}
+
+	public List<tActivityData> getAllDataByIntSycAndOutlet(SQLiteDatabase db, String int_sync, String outlet) {
+		List<tActivityData> contactList = null;
+		// Select All Query
+		tActivityData dt=new tActivityData();
+		String selectQuery = "SELECT  "+dt.Property_All+" FROM " + TABLE_CONTACTS +" WHERE "+dt.Property_intIdSyn +"='"+int_sync+"'" + " AND " + dt.Property_txtOutletCode + "='" + outlet + "'";
+
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			contactList=new ArrayList<tActivityData>();
+			do {
+				tActivityData contact = new tActivityData();
+				contact.set_dtActivity(cursor.getString(0));
+				contact.set_intActive(cursor.getString(1));
+				contact.set_intId(cursor.getString(2));
+				contact.set_intIdSyn(cursor.getString(3));
+				contact.set_intSubmit(cursor.getString(4));
+				contact.set_txtDesc(cursor.getString(5));
+				contact.set_txtDeviceId(cursor.getString(6));
+				contact.set_txtImg1(cursor.getBlob(7));
+				contact.set_txtImg2(cursor.getBlob(8));
+				contact.set_txtOutletCode(cursor.getString(9));
+				contact.set_txtOutletName(cursor.getString(10));
+				contact.set_txtUserId(cursor.getString(11));
+				contact.set_intFlag(cursor.getString(12));
+				contact.set_txtBranch(cursor.getString(13));
+				// Adding contact to list
+				contactList.add(contact);
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+		// return contact list
+		return contactList;
+	}
 			
 			public void DeleteDataNew(SQLiteDatabase db) {
 				// Select All Query

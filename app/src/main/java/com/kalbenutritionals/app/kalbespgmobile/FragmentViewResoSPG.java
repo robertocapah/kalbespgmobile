@@ -103,6 +103,7 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
         mListView.setAdapter(mAdapter);
         mListView.setPullRefreshEnable(false);
         mListView.setPullLoadEnable(true);
+        mListView.setEmptyView( v.findViewById(R.id.LayoutEmpty));
         mListView.setXListViewListener(this);
         mHandler = new Handler();
 

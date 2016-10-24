@@ -146,6 +146,7 @@ public class FragmentViewHistoryAbsen extends Fragment implements IXListViewList
         mListView.setPullRefreshEnable(false);
         mListView.setPullLoadEnable(true);
         mListView.setXListViewListener(this);
+        mListView.setEmptyView( v.findViewById(R.id.LayoutEmpty));
         mHandler = new Handler();
 
         HashMap<String, String> mapView = new HashMap<String, String>();

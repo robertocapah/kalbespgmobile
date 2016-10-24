@@ -74,6 +74,16 @@ public class tSalesProductHeaderBL extends clsMainBL {
         return dt ;
     }
 
+    public List<tSalesProductHeaderData> getAllDataByIntSycAndOutlet(String val, String outlet){
+        SQLiteDatabase _db =getDb();
+        tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(_db);
+        List<tSalesProductHeaderData> dt = _tSalesProductHeaderDA.getAllDataByIntSycAndOutlet(_db,val, outlet);
+        if(dt == null){
+            dt = new ArrayList<>(0);
+        }
+        return dt ;
+    }
+
     public List<tSalesProductHeaderData> getAllSalesProductHeaderByOutletCode(String code){
         SQLiteDatabase _db =getDb();
         tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(_db);

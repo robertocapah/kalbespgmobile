@@ -19,9 +19,12 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import bl.tAbsenUserBL;
@@ -51,17 +54,7 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
     private FloatingActionButton fab;
 
     static List<tCustomerBasedMobileHeaderData> dt;
-//    static FragmentViewCustomerBase instance;
-
     View v;
-
-//    public static FragmentViewCustomerBaseSPG getInstance() {
-//        if(instance == null){
-//            instance = new FragmentViewCustomerBaseSPG();
-//            instance = new FragmentViewCustomerBaseSPG();
-//        }
-//        return instance;
-//    }
 
     @Nullable
     @Override
@@ -83,66 +76,20 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
             }
         });
 
-        tAbsenUserData dtActive = new tAbsenUserBL().getDataCheckInActive();
-
-        clsSwipeList swplist;
-        dt = new tCustomerBasedMobileHeaderBL().getAllCustomerBasedMobileHeaderByOutletCode(dtActive.get_txtOutletCode());
-
-        swipeList.clear();
-
-        for(int i = 0; i < dt.size(); i++){
-            String status = dt.get(i).get_intSubmit().equals("1") && dt.get(i).get_intSync().equals("1") ? "Sync" : "Submit";
-            swplist = new clsSwipeList();
-            swplist.set_txtTitle("Code : " + dt.get(i).get_txtSubmissionId());
-            swplist.set_txtDescription("Nama : " + dt.get(i).get_txtNamaDepan() + "\n" + status);
-            swipeList.add(swplist);
-        }
-
-        clsMainActivity clsMain = new clsMainActivity();
-
-        mListView = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.listView);
-        mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
-        mListView.setAdapter(mAdapter);
-        mListView.setPullRefreshEnable(false);
-        mListView.setPullLoadEnable(true);
-        mListView.setXListViewListener(this);
-        mHandler = new Handler();
-
-        HashMap<String, String> mapView = new HashMap<String, String>();
-
-        mapView.put("name", "View");
-        mapView.put("bgColor", "#3498db");
-
-        mapMenu = new HashMap<String, HashMap>();
-        mapMenu.put("0", mapView);
-
-        SwipeMenuCreator creator = clsMain.setCreator(getActivity().getApplicationContext(), mapMenu);
-        mListView.setMenuCreator(creator);
-        mListView.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-            @Override
-            public void onMenuItemClick(int position, SwipeMenu menu, int index) {
-                clsSwipeList item = swipeList.get(position);
-                switch (index) {
-                    case 0:
-                        viewList(getActivity().getApplicationContext(), position);
-                }
-            }
-        });
+        loadData();
 
         return v;
     }
-
-    private void onLoad() {
-        mListView.setRefreshTime(RefreshTime.getRefreshTime(getActivity().getApplicationContext()));
-        mListView.stopRefresh();
-
-        mListView.stopLoadMore();
-
-    }
-
     @Override
     public void onRefresh() {
-
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadData();
+                mListView.stopRefresh();
+                mListView.stopLoadMore();
+            }
+        }, 500);
     }
 
     @Override
@@ -150,7 +97,7 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                onLoad();
+                loadData();
             }
         }, 1);
     }
@@ -263,4 +210,56 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
         alertD.show();
     }
 
+    private void loadData(){
+        tAbsenUserData dtActive = new tAbsenUserBL().getDataCheckInActive();
+
+        clsSwipeList swplist;
+        dt = new tCustomerBasedMobileHeaderBL().getAllCustomerBasedMobileHeaderByOutletCode(dtActive.get_txtOutletCode());
+
+        swipeList.clear();
+
+        for(int i = 0; i < dt.size(); i++){
+            String status = dt.get(i).get_intSubmit().equals("1") && dt.get(i).get_intSync().equals("1") ? "Sync" : "Submit";
+            swplist = new clsSwipeList();
+            swplist.set_txtTitle("Code : " + dt.get(i).get_txtSubmissionId());
+            swplist.set_txtDescription("Nama : " + dt.get(i).get_txtNamaDepan() + "\n" + status);
+            swipeList.add(swplist);
+        }
+
+        clsMainActivity clsMain = new clsMainActivity();
+
+        mListView = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.listView);
+        mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
+        mListView.setAdapter(mAdapter);
+        mListView.setPullRefreshEnable(true);
+        mListView.setPullLoadEnable(true);
+        mListView.setEmptyView( v.findViewById(R.id.LayoutEmpty));
+        mListView.setXListViewListener(this);
+        mHandler = new Handler();
+
+        HashMap<String, String> mapView = new HashMap<String, String>();
+
+        mapView.put("name", "View");
+        mapView.put("bgColor", "#3498db");
+
+        mapMenu = new HashMap<String, HashMap>();
+        mapMenu.put("0", mapView);
+
+        SwipeMenuCreator creator = clsMain.setCreator(getActivity().getApplicationContext(), mapMenu);
+        mListView.setMenuCreator(creator);
+        mListView.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(int position, SwipeMenu menu, int index) {
+                clsSwipeList item = swipeList.get(position);
+                switch (index) {
+                    case 0:
+                        viewList(getActivity().getApplicationContext(), position);
+                }
+            }
+        });
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
+        RefreshTime.setRefreshTime(getContext(), " " + df.format(new Date()));
+        mListView.setRefreshTime(RefreshTime.getRefreshTime(getActivity().getApplicationContext()));
+    }
 }

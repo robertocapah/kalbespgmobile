@@ -1,6 +1,9 @@
 package bl;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.kalbenutritionals.app.kalbespgmobile.clsMainActivity;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -58,7 +61,7 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
         return dt ;
     }
 
-    public Boolean submit() {
+    public Boolean submit(Context context) {
         SQLiteDatabase _db = getDb();
 
         Boolean status = false;
@@ -69,6 +72,7 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
                 for (tCustomerBasedMobileDetailData dt : dtDetail) {
                     List<tCustomerBasedMobileDetailProductData> dtProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dt.get_intTrCustomerIdDetail());
                     if (dtProduct == null || dtProduct.size() == 0) {
+                        new clsMainActivity().showCustomToast(context, "Failed to save: " + dt.get_txtNamaDepan() + " belum memiliki produk", false);
                         status = false;
                         break;
                     } else {
@@ -96,6 +100,8 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
                     new tCustomerBasedMobileDetailProductBL().saveData(dtP);
                 }
             }
+
+            new clsMainActivity().showCustomToast(context, "Saved", true);
         }
 
         return status;
@@ -111,6 +117,16 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
         SQLiteDatabase _db = getDb();
         tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(_db);
         List<tCustomerBasedMobileHeaderData> dt = _tCustomerBasedMobileHeaderDA.getAllDataByIntSyc(_db, val);
+        if (dt == null) {
+            dt = new ArrayList<>(0);
+        }
+        return dt;
+    }
+
+    public List<tCustomerBasedMobileHeaderData> getAllDataByIntSycAndOutlet(String val, String outlet) {
+        SQLiteDatabase _db = getDb();
+        tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(_db);
+        List<tCustomerBasedMobileHeaderData> dt = _tCustomerBasedMobileHeaderDA.getAllDataByIntSycAndOutlet(_db, val, outlet);
         if (dt == null) {
             dt = new ArrayList<>(0);
         }

@@ -23,9 +23,12 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import bl.tAbsenUserBL;
@@ -79,73 +82,27 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
             }
         });
 
-        clsSwipeList swplist;
-
-        tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
-
-        dt = new tActivityBL().getAllDataByOutletCode(dtAbsen.get_txtOutletCode());
-
-        swipeList.clear();
-
-
-        for(int i = 0; i < dt.size(); i++){
-            String status = dt.get(i).get_intSubmit().equals("1") && dt.get(i).get_intIdSyn().equals("1") ? "Sync" : "Submit";
-            swplist = new clsSwipeList();
-            swplist.set_txtTitle("Type : " + dt.get(i).get_intFlag());
-            swplist.set_txtDescription("Description : " + dt.get(i).get_txtDesc() + "\n" + status);
-            swipeList.add(swplist);
-        }
-
-        clsMainActivity clsMain = new clsMainActivity();
-
-        mListView = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.listView);
-        mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
-        mListView.setAdapter(mAdapter);
-        mListView.setPullRefreshEnable(false);
-        mListView.setPullLoadEnable(true);
-        mListView.setXListViewListener(this);
-        mHandler = new Handler();
-
-        HashMap<String, String> mapView = new HashMap<String, String>();
-
-        mapView.put("name", "View");
-        mapView.put("bgColor", "#3498db");
-
-        mapMenu = new HashMap<String, HashMap>();
-        mapMenu.put("0", mapView);
-
-        SwipeMenuCreator creator = clsMain.setCreator(getActivity().getApplicationContext(), mapMenu);
-        mListView.setMenuCreator(creator);
-        mListView.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-            @Override
-            public void onMenuItemClick(int position, SwipeMenu menu, int index) {
-                clsSwipeList item = swipeList.get(position);
-                switch (index) {
-                    case 0:
-                        viewList(getActivity().getApplicationContext(), position);
-                }
-            }
-        });
+        loadData();
 
         return v;
     }
 
-    private void onLoad() {
-        mListView.setRefreshTime(RefreshTime.getRefreshTime(getActivity().getApplicationContext()));
-        mListView.stopRefresh();
-
-        mListView.stopLoadMore();
-
-    }
-
     public void onRefresh() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadData();
+                mListView.stopRefresh();
+                mListView.stopLoadMore();
+            }
+        }, 500);
     }
 
     public void onLoadMore() {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                onLoad();
+                loadData();
             }
         }, 1);
     }
@@ -242,5 +199,59 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
                 new clsMainActivity().zoomImage(mybitmap2, getActivity());
             }
         });
+    }
+
+    private void loadData(){
+        clsSwipeList swplist;
+
+        tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
+
+        dt = new tActivityBL().getAllDataByOutletCode(dtAbsen.get_txtOutletCode());
+
+        swipeList.clear();
+
+
+        for(int i = 0; i < dt.size(); i++){
+            String status = dt.get(i).get_intSubmit().equals("1") && dt.get(i).get_intIdSyn().equals("1") ? "Sync" : "Submit";
+            swplist = new clsSwipeList();
+            swplist.set_txtTitle("Type : " + dt.get(i).get_intFlag());
+            swplist.set_txtDescription("Description : " + dt.get(i).get_txtDesc() + "\n" + status);
+            swipeList.add(swplist);
+        }
+
+        clsMainActivity clsMain = new clsMainActivity();
+
+        mListView = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.listView);
+        mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
+        mListView.setAdapter(mAdapter);
+        mListView.setPullRefreshEnable(true);
+        mListView.setPullLoadEnable(true);
+        mListView.setXListViewListener(this);
+        mListView.setEmptyView( v.findViewById(R.id.LayoutEmpty));
+        mHandler = new Handler();
+
+        HashMap<String, String> mapView = new HashMap<String, String>();
+
+        mapView.put("name", "View");
+        mapView.put("bgColor", "#3498db");
+
+        mapMenu = new HashMap<String, HashMap>();
+        mapMenu.put("0", mapView);
+
+        SwipeMenuCreator creator = clsMain.setCreator(getActivity().getApplicationContext(), mapMenu);
+        mListView.setMenuCreator(creator);
+        mListView.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        viewList(getActivity().getApplicationContext(), position);
+                }
+            }
+        });
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
+        RefreshTime.setRefreshTime(getContext(), " " + df.format(new Date()));
+        mListView.setRefreshTime(RefreshTime.getRefreshTime(getActivity().getApplicationContext()));
     }
 }
