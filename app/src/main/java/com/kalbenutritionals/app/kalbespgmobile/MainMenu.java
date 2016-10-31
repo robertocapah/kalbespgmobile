@@ -2,7 +2,7 @@ package com.kalbenutritionals.app.kalbespgmobile;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -99,14 +99,14 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         builder.setTitle("Exit");
         builder.setMessage("Do you want to exit?");
 
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("EXIT", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
                 finish();
             }
         });
 
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {

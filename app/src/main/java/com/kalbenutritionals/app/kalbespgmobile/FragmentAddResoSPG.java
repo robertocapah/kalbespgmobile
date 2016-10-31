@@ -1,6 +1,6 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -353,7 +353,7 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                                             final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                                             alertDialog.setTitle("Confirm");
                                             alertDialog.setMessage("Are you sure?");
-                                            alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            alertDialog.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     saveReso();

@@ -69,16 +69,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:gravity="center">
 
-                <TextView
+                <com.owater.library.CircleTextView
                     android:id="@+id/tvTotalReso"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="0.33"
                     android:gravity="center"
-                    android:text="-"
-                    android:textSize="45dp"
-                    android:textStyle="bold" />
+                    android:text="1234"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="30dp"
+                    app:ct_backgroundColor="#FFFFFF"
+                    app:ct_border_alpha="0.5"
+                    app:ct_border_color="@color/colorAccent"
+                    app:ct_border_width="10dp"
+                    app:ct_type="shadow_alpha" />
 
                 <TextView
                     android:id="@+id/textView38"
@@ -93,16 +100,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:gravity="center">
 
-                <TextView
+                <com.owater.library.CircleTextView
                     android:id="@+id/tvTotalActivity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="0.33"
                     android:gravity="center"
-                    android:text="-"
-                    android:textSize="45dp"
-                    android:textStyle="bold" />
+                    android:text="1234"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="30dp"
+                    app:ct_backgroundColor="#FFFFFF"
+                    app:ct_border_alpha="0.5"
+                    app:ct_border_color="@color/colorAccent"
+                    app:ct_border_width="10dp"
+                    app:ct_type="shadow_alpha" />
 
                 <TextView
                     android:id="@+id/textView40"
@@ -117,16 +131,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:gravity="center">
 
-                <TextView
+                <com.owater.library.CircleTextView
                     android:id="@+id/tvTotalCustomerBase"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="0.33"
                     android:gravity="center"
-                    android:text="-"
-                    android:textSize="45dp"
-                    android:textStyle="bold" />
+                    android:text="1234"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="30dp"
+                    app:ct_backgroundColor="#FFFFFF"
+                    app:ct_border_alpha="0.5"
+                    app:ct_border_color="@color/colorAccent"
+                    app:ct_border_width="10dp"
+                    app:ct_type="shadow_alpha" />
 
                 <TextView
                     android:id="@+id/textView42"

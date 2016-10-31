@@ -1,6 +1,6 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -20,9 +20,12 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import bl.tAbsenUserBL;
@@ -75,65 +78,21 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
             }
         });
 
-        tAbsenUserData dtActive = new tAbsenUserBL().getDataCheckInActive();
-
-        clsSwipeList swplist;
-        dt = new tSalesProductHeaderBL().getAllSalesProductHeaderByOutletCode(dtActive.get_txtOutletCode());
-
-        swipeList.clear();
-
-        if(dt!=null) {
-            for (int i = 0; i < dt.size(); i++) {
-                swplist = new clsSwipeList();
-                swplist.set_txtTitle(dt.get(i).get_txtNoSo());
-                if (dt.get(i).get_intSubmit().equals("1")&&dt.get(i).get_intSync().equals("0")){
-                    swplist.set_txtDescription("Submit");
-                } else if (dt.get(i).get_intSubmit().equals("1")&&dt.get(i).get_intSync().equals("1")){
-                    swplist.set_txtDescription("Sync");
-                }
-
-                swipeList.add(swplist);
-            }
-        }
-
-        clsMainActivity clsMain = new clsMainActivity();
-
-        mListView = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.listView);
-        mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
-        mListView.setAdapter(mAdapter);
-        mListView.setPullRefreshEnable(false);
-        mListView.setPullLoadEnable(true);
-        mListView.setEmptyView( v.findViewById(R.id.LayoutEmpty));
-        mListView.setXListViewListener(this);
-        mHandler = new Handler();
-
-        HashMap<String, String> mapView = new HashMap<String, String>();
-
-        mapView.put("name", "View");
-        mapView.put("bgColor", "#3498db");
-
-        mapMenu = new HashMap<String, HashMap>();
-        mapMenu.put("0", mapView);
-
-        SwipeMenuCreator creator = clsMain.setCreator(getActivity().getApplicationContext(), mapMenu);
-        mListView.setMenuCreator(creator);
-        mListView.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-            @Override
-            public void onMenuItemClick(int position, SwipeMenu menu, int index) {
-                clsSwipeList item = swipeList.get(position);
-                switch (index) {
-                    case 0:
-                        viewList(getActivity().getApplicationContext(), position);
-                }
-            }
-        });
+        loadData();
 
         return v;
     }
 
     @Override
     public void onRefresh() {
-
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadData();
+                mListView.stopRefresh();
+                mListView.stopLoadMore();
+            }
+        }, 500);
     }
 
     @Override
@@ -277,5 +236,64 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
                 });
         final AlertDialog alertD = alertDialogBuilder.create();
         alertD.show();
+    }
+
+    private void loadData(){
+        tAbsenUserData dtActive = new tAbsenUserBL().getDataCheckInActive();
+
+        clsSwipeList swplist;
+        dt = new tSalesProductHeaderBL().getAllSalesProductHeaderByOutletCode(dtActive.get_txtOutletCode());
+
+        swipeList.clear();
+
+        if(dt!=null) {
+            for (int i = 0; i < dt.size(); i++) {
+                swplist = new clsSwipeList();
+                swplist.set_txtTitle(dt.get(i).get_txtNoSo());
+                if (dt.get(i).get_intSubmit().equals("1")&&dt.get(i).get_intSync().equals("0")){
+                    swplist.set_txtDescription("Submit");
+                } else if (dt.get(i).get_intSubmit().equals("1")&&dt.get(i).get_intSync().equals("1")){
+                    swplist.set_txtDescription("Sync");
+                }
+
+                swipeList.add(swplist);
+            }
+        }
+
+        clsMainActivity clsMain = new clsMainActivity();
+
+        mListView = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.listView);
+        mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
+        mListView.setAdapter(mAdapter);
+        mListView.setPullRefreshEnable(true);
+        mListView.setPullLoadEnable(true);
+        mListView.setEmptyView( v.findViewById(R.id.LayoutEmpty));
+        mListView.setXListViewListener(this);
+        mHandler = new Handler();
+
+        HashMap<String, String> mapView = new HashMap<String, String>();
+
+        mapView.put("name", "View");
+        mapView.put("bgColor", "#3498db");
+
+        mapMenu = new HashMap<String, HashMap>();
+        mapMenu.put("0", mapView);
+
+        SwipeMenuCreator creator = clsMain.setCreator(getActivity().getApplicationContext(), mapMenu);
+        mListView.setMenuCreator(creator);
+        mListView.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(int position, SwipeMenu menu, int index) {
+                clsSwipeList item = swipeList.get(position);
+                switch (index) {
+                    case 0:
+                        viewList(getActivity().getApplicationContext(), position);
+                }
+            }
+        });
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
+        RefreshTime.setRefreshTime(getContext(), " " + df.format(new Date()));
+        mListView.setRefreshTime(RefreshTime.getRefreshTime(getActivity().getApplicationContext()));
     }
 }

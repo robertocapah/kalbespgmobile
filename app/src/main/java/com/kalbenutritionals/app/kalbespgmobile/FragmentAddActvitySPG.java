@@ -1,12 +1,10 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -195,8 +193,9 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
                 } else {
 
                     final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                    alertDialog.setTitle("Save Activity?");
-                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    alertDialog.setTitle("Confirm");
+                    alertDialog.setMessage("Are you sure?");
+                    alertDialog.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 

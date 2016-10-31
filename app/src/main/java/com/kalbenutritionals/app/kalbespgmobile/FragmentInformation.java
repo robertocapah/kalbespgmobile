@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.owater.library.CircleTextView;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import org.w3c.dom.Text;
@@ -52,9 +53,9 @@ public class FragmentInformation extends Fragment implements View.OnClickListene
         tDisplayPictureData tDisplayPictureData = new tDisplayPictureBL().getData();
 
         CircleImageView ivProfile = (CircleImageView) v.findViewById(R.id.profile_image);
-        tvTotalReso = (TextView) v.findViewById(R.id.tvTotalReso);
-        tvTotalActivity = (TextView) v.findViewById(R.id.tvTotalActivity);
-        tvTotalCustomerBase = (TextView) v.findViewById(R.id.tvTotalCustomerBase);
+        CircleTextView tvTotalReso = (CircleTextView) v.findViewById(R.id.tvTotalReso);
+        CircleTextView tvTotalActivity = (CircleTextView) v.findViewById(R.id.tvTotalActivity);
+        CircleTextView tvTotalCustomerBase = (CircleTextView) v.findViewById(R.id.tvTotalCustomerBase);
         tvUsername = (TextView) v.findViewById(R.id.tvUsername);
         tvBranchOutlet = (TextView) v.findViewById(R.id.tvBranchOutlet);
         tvEmail = (TextView) v.findViewById(R.id.tvEmail);

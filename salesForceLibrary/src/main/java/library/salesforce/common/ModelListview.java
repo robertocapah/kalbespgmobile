@@ -72,8 +72,22 @@ public class ModelListview implements Serializable{
     public static Comparator<ModelListview> StuRollno = new Comparator<ModelListview>() {
         @Override
         public int compare(ModelListview lhs, ModelListview rhs) {
-            int rollno1 = lhs.get_value();
-            int rollno2 = rhs.get_value();
+            int rollno1 = 0;
+            int rollno2 = 0;
+
+            if(lhs.is_selected() && lhs.get_value() == 0){
+                rollno1 = 1;
+            }
+            else{
+                rollno1 = lhs.get_value();
+            }
+
+            if(rhs.is_selected() && rhs.get_value() == 0){
+                rollno2 = 1;
+            }
+            else{
+                rollno2 = rhs.get_value();
+            }
 
             //	   /*For ascending order*/
             return rollno2-rollno1;
