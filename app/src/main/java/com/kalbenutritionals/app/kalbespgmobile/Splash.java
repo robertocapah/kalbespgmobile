@@ -61,32 +61,21 @@ public class Splash extends AppCompatActivity {
 
     private void StartAnimations() {
 
-//        Animation anim = AnimationUtils.loadAnimation(this, R.anim.alpha);
-//        anim.reset();
-//        LinearLayout l = (LinearLayout) findViewById(R.id.ll_1_a);
-//        l.clearAnimation();
-//        l.startAnimation(anim);
-
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.translate);
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.alpha);
         anim.reset();
-        TextView tv = (TextView) findViewById(R.id.iv_anim);
-//        iv.setBackgroundResource(R.mipmap.ic_kalbe_phonegap);
-        tv.clearAnimation();
-        tv.startAnimation(anim);
 
-        anim = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        anim = AnimationUtils.loadAnimation(this, R.anim.translate);
         anim.reset();
-        ImageView iv = (ImageView) findViewById(R.id.imageView2);
-//        iv.setBackgroundResource(R.mipmap.ic_kalbe_phonegap);
+        TextView iv = (TextView) findViewById(R.id.iv_anim);
         iv.clearAnimation();
         iv.startAnimation(anim);
 
-//        anim = AnimationUtils.loadAnimation(this, R.anim.translate);
-//        anim.reset();
-//        LinearLayout l2 = (LinearLayout) findViewById(R.id.ll_2_a);
-//        l2.setVisibility(View.VISIBLE);
-//        l2.clearAnimation();
-//        l2.startAnimation(anim);
+        anim = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        anim.reset();
+        ImageView iv2 = (ImageView) findViewById(R.id.imageView2);
+        iv2.setBackgroundResource(R.mipmap.ic_kalbe_phonegap);
+        iv2.clearAnimation();
+        iv2.startAnimation(anim);
     }
 
     private boolean checkPermission() {
@@ -105,15 +94,17 @@ public class Splash extends AppCompatActivity {
                         &&!ActivityCompat.shouldShowRequestPermissionRationale(Splash.this,
                         Manifest.permission.ACCESS_FINE_LOCATION)
                         &&!ActivityCompat.shouldShowRequestPermissionRationale(Splash.this,
-                        Manifest.permission.CAMERA)){
+                        Manifest.permission.CAMERA)
+                        &&!ActivityCompat.shouldShowRequestPermissionRationale(Splash.this,
+                        Manifest.permission.READ_PHONE_STATE)){
                     ActivityCompat.requestPermissions(Splash.this,
-                            new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA},
+                            new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA,Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE},
                             REQUEST_CODE_ASK_PERMISSIONS);
                     dialog.dismiss();
 
                 }
                 ActivityCompat.requestPermissions(Splash.this,
-                        new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA},
+                        new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE},
                         REQUEST_CODE_ASK_PERMISSIONS);
                 dialog.dismiss();
             }
@@ -176,30 +167,24 @@ public class Splash extends AppCompatActivity {
                 Manifest.permission.ACCESS_FINE_LOCATION);
         int hasCameraPermission = ContextCompat.checkSelfPermission(Splash.this,
                 Manifest.permission.CAMERA);
+        int hasPhonePermission = ContextCompat.checkSelfPermission(Splash.this,
+                Manifest.permission.READ_PHONE_STATE);
 
-        if (Build.VERSION.SDK_INT >= 23
-                && hasWriteExternalStoragePermission != PackageManager.PERMISSION_GRANTED
-                && hasReadExternalStoragePermission != PackageManager.PERMISSION_GRANTED
-                && hasAccessFineLocationPermission != PackageManager.PERMISSION_GRANTED
-                && hasCameraPermission != PackageManager.PERMISSION_GRANTED
-                ) {
-            boolean checkPermission = checkPermission();
-
-        } else if (Build.VERSION.SDK_INT >= 23
-                && hasWriteExternalStoragePermission == PackageManager.PERMISSION_GRANTED
-                && hasReadExternalStoragePermission == PackageManager.PERMISSION_GRANTED
-                && hasAccessFineLocationPermission == PackageManager.PERMISSION_GRANTED
-                && hasCameraPermission == PackageManager.PERMISSION_GRANTED
-                ){
-            StartAnimations();
-            checkStatusMenu();
-
-        } else if (Build.VERSION.SDK_INT >= 23
-                && hasCameraPermission != PackageManager.PERMISSION_GRANTED){
-            boolean checkPermission = checkPermission();
-        } else {
-            StartAnimations();
-            checkStatusMenu();
+        if (Build.VERSION.SDK_INT >= 23){
+            if (hasWriteExternalStoragePermission != PackageManager.PERMISSION_GRANTED) {
+                boolean checkPermission = checkPermission();
+            } else if (hasReadExternalStoragePermission != PackageManager.PERMISSION_GRANTED){
+                boolean checkPermission = checkPermission();
+            } else if (hasAccessFineLocationPermission != PackageManager.PERMISSION_GRANTED){
+                boolean checkPermission = checkPermission();
+            } else if (hasCameraPermission != PackageManager.PERMISSION_GRANTED){
+                boolean checkPermission = checkPermission();
+            } else if (hasPhonePermission != PackageManager.PERMISSION_GRANTED){
+                boolean checkPermission = checkPermission();
+            }  else {
+                StartAnimations();
+                checkStatusMenu();
+            }
         }
     }
 }

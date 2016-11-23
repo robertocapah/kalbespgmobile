@@ -178,7 +178,7 @@ public class FragmentAddLeave extends Fragment implements View.OnClickListener {
         switch (v.getId()){
             case  R.id.btnSaveLeave :
                 if(edReason.getText().equals("")){
-                    Toast.makeText(getContext(), "please fill reason!!!", Toast.LENGTH_SHORT).show();
+                    new  clsMainActivity().showCustomToast(getContext(), "please fill reason!!!", false);
                 }
 
             break;

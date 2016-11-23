@@ -116,12 +116,24 @@ public class FragmentInformation extends Fragment implements View.OnClickListene
         tvTotalActivity.setText(dtActivity != null ? String.valueOf(dtActivity.size()) : "0");
         tvTotalCustomerBase.setText(dtCbase != null ? String.valueOf(dtCbase.size()) : "0");
 
-        tv_reso1.setText(String.valueOf(dt_reso_unpush.size()));
-        tv_reso2.setText(String.valueOf(dt_reso_push.size()));
-        tv_act1.setText(String.valueOf(dt_act_unpush.size()));
-        tv_act2.setText(String.valueOf(dt_act_push.size()));
-        tv_cb1.setText(String.valueOf(dt_cb_unpush.size()));
-        tv_cb2.setText(String.valueOf(dt_cb_push.size()));
+        if(dt_reso_unpush!=null){
+            tv_reso1.setText(String.valueOf(dt_reso_unpush.size()));
+        }
+        if(dt_reso_push!=null){
+            tv_reso2.setText(String.valueOf(dt_reso_push.size()));
+        }
+        if(dt_act_unpush!=null){
+            tv_act1.setText(String.valueOf(dt_act_unpush.size()));
+        }
+        if(dt_act_push!=null){
+            tv_act2.setText(String.valueOf(dt_act_push.size()));
+        }
+        if(dt_cb_unpush!=null){
+            tv_cb1.setText(String.valueOf(dt_cb_unpush.size()));
+        }
+        if(dt_cb_push!=null){
+            tv_cb2.setText(String.valueOf(dt_cb_push.size()));
+        }
 
         final NavigationView nv = (NavigationView) getActivity().findViewById(R.id.navigation_view);
         final Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
