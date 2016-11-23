@@ -117,7 +117,15 @@ public class clsHelper {
             System.err.println(ex);
         }
 
-        folder.delete();
+		if (folder.isDirectory())
+		{
+			String[] children = folder.list();
+			for (int i = 0; i < children.length; i++)
+			{
+				new File(folder, children[i]).delete();
+			}
+			folder.delete();
+		}
 
 		return _clsClsHelper.ResultJsonData(Result);
 	}

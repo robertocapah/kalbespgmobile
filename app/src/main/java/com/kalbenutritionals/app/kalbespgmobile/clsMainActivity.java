@@ -14,6 +14,7 @@ import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.design.widget.TextInputLayout;
 import android.util.TypedValue;
@@ -29,6 +30,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
@@ -716,5 +718,18 @@ public class clsMainActivity extends Activity {
     public void removeErrorMessage(TextInputLayout textInputLayout){
         textInputLayout.setError(null);
         textInputLayout.setErrorEnabled(false);
+    }
+
+    public void deleteTempFolder(){
+        File folder = new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/Kalbespgmobile/tempdata");
+        if (folder.isDirectory())
+        {
+            String[] children = folder.list();
+            for (int i = 0; i < children.length; i++)
+            {
+                new File(folder, children[i]).delete();
+            }
+            folder.delete();
+        }
     }
 }

@@ -47,6 +47,8 @@
         app:miniFabBackgroundTint="@android:color/white"
         app:miniFabDrawableTint="@color/black"
         app:miniFabTitleTextColor="@color/black"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
         app:touchGuardDrawable="#B3000000"/>
 
 </android.support.design.widget.CoordinatorLayout>

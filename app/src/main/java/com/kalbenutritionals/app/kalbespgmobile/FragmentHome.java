@@ -9,6 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.SimpleShowcaseEventListener;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 
 import java.util.List;
 
@@ -80,13 +85,6 @@ public class FragmentHome extends Fragment {
             statusAbsen.setText("Inactive");
         }
 
-//        Snackbar.make(coordinatorLayout, "Welcome " + dt.get_txtName(), Snackbar.LENGTH_LONG)
-//                .setAction("Dismiss", new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                    }
-//                }).show();
-
         totalBrand.setText(String.valueOf(dtBrand.size()));
         totalProduct.setText(String.valueOf(dtProduct.size()));
 
@@ -109,6 +107,16 @@ public class FragmentHome extends Fragment {
         tv_cb2.setText(String.valueOf(dt_cb_push.size()));
 
         return v;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+    }
+
+    public void onHiddenFirstShowcase() {
+        Toast.makeText(getContext(), "Jump", Toast.LENGTH_LONG).show();
     }
 
 }

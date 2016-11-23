@@ -75,15 +75,15 @@ public class ModelListview implements Serializable{
             int rollno1 = 0;
             int rollno2 = 0;
 
-            if(lhs.is_selected() && lhs.get_value() == 0){
-                rollno1 = 1;
+            if(lhs.is_selected() && lhs.get_value() >= 0){
+                rollno1 = lhs.get_value() + 1;
             }
             else{
                 rollno1 = lhs.get_value();
             }
 
-            if(rhs.is_selected() && rhs.get_value() == 0){
-                rollno2 = 1;
+            if(rhs.is_selected() && rhs.get_value() >= 0){
+                rollno2 = rhs.get_value() + 1;
             }
             else{
                 rollno2 = rhs.get_value();

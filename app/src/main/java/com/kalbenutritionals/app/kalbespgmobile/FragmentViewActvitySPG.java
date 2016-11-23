@@ -1,5 +1,8 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,7 +25,18 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.daimajia.slider.library.Transformers.BaseTransformer;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,6 +67,7 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
     private PullToRefreshSwipeMenuListView mListView;
     private Handler mHandler;
     private static Map<String, HashMap> mapMenu;
+    private SliderLayout mDemoSlider;
 
     static List<tActivityData> dt;
 
@@ -66,7 +81,7 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_customerbase_view,container,false);
+        v = inflater.inflate(R.layout.fragment_customerbase_view, container, false);
 
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -109,34 +124,33 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
 
     private void viewList(Context ctx, final int position) {
         LayoutInflater layoutInflater = LayoutInflater.from(this.getContext());
-        final View promptView = layoutInflater.inflate(R.layout.fragment_activity_add, null);
+        final View promptView = layoutInflater.inflate(R.layout.fragment_activity_view_detail, null);
 
         final LinearLayout lnlayout = (LinearLayout) promptView.findViewById(R.id.lnlayout);
 
         lnlayout.setFocusable(true);
         lnlayout.setFocusableInTouchMode(true);
 
-        final EditText etDesc = (EditText) promptView.findViewById(R.id.etNama);
+        final TextView etDesc = (TextView) promptView.findViewById(R.id.etNama);
         final ImageButton img1 = (ImageButton) promptView.findViewById(R.id.imageButton);
         final ImageButton img2 = (ImageButton) promptView.findViewById(R.id.imageButton2);
         final Button btnSave = (Button) promptView.findViewById(R.id.btnSave);
         final RadioButton rbKalbe = (RadioButton) promptView.findViewById(R.id.rbKalbe);
         final RadioButton rbCompetitor = (RadioButton) promptView.findViewById(R.id.rbCompetitor);
         final TextView status = (TextView) promptView.findViewById(textView9);
+        mDemoSlider = (SliderLayout) promptView.findViewById(R.id.slider);
 
         String statusText = dt.get(position).get_intSubmit().equals("1") && dt.get(position).get_intIdSyn().equals("1") ? "Sync" : "Submit";
 
         status.setText("Status :" + statusText);
 
-        if(dt.get(position).get_intFlag().equals("KALBE")) {
+        if (dt.get(position).get_intFlag().equals("KALBE")) {
             rbKalbe.setChecked(true);
             rbCompetitor.setChecked(false);
-        }
-        else if(dt.get(position).get_intFlag().equals("Competitor")) {
+        } else if (dt.get(position).get_intFlag().equals("Competitor")) {
             rbKalbe.setChecked(false);
             rbCompetitor.setChecked(true);
-        }
-        else{
+        } else {
             rbKalbe.setChecked(false);
             rbCompetitor.setChecked(false);
         }
@@ -150,26 +164,89 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
 
         btnSave.setVisibility(View.GONE);
         etDesc.setText(dt.get(position).get_txtDesc());
-        etDesc.setTextColor(Color.BLACK);
-        etDesc.setEnabled(false);
+
+        File folder = new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/Kalbespgmobile/tempdata");
+        folder.mkdir();
 
         final byte[] imgFile = dt.get(position).get_txtImg1();
-        if(imgFile!=null){
-            mybitmap1 = BitmapFactory.decodeByteArray(imgFile, 0 , imgFile.length);
+        if (imgFile != null) {
+            mybitmap1 = BitmapFactory.decodeByteArray(imgFile, 0, imgFile.length);
             Bitmap bitmap = Bitmap.createScaledBitmap(mybitmap1, 150, 150, true);
             img1.setImageBitmap(bitmap);
-        }
-        else{
+
+            File file = null;
+            try {
+                file = File.createTempFile("image-", ".jpg", new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/Kalbespgmobile/tempdata"));
+                FileOutputStream out = new FileOutputStream(file);
+                out.write(imgFile);
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TextSliderView textSliderView = new TextSliderView(getContext());
+            textSliderView
+                    .description(dt.get(position).get_intFlag())
+                    .image(file)
+                    .setScaleType(BaseSliderView.ScaleType.Fit)
+                    .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                        @Override
+                        public void onSliderClick(BaseSliderView slider) {
+                            new clsMainActivity().zoomImage(mybitmap1, getActivity());
+                        }
+                    });
+
+            mDemoSlider.addSlider(textSliderView);
+
+        } else {
             img1.setVisibility(View.GONE);
         }
         final byte[] imgFile2 = dt.get(position).get_txtImg2();
-        if(imgFile2!=null){
-            mybitmap2 = BitmapFactory.decodeByteArray(imgFile2, 0 , imgFile2.length);
+        if (imgFile2 != null) {
+            mybitmap2 = BitmapFactory.decodeByteArray(imgFile2, 0, imgFile2.length);
             Bitmap bitmap = Bitmap.createScaledBitmap(mybitmap2, 150, 150, true);
             img2.setImageBitmap(bitmap);
-        }
-        else{
+
+            File file = null;
+            try {
+                file = File.createTempFile("image-", ".jpg", new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/Kalbespgmobile/tempdata"));
+                FileOutputStream out = new FileOutputStream(file);
+                out.write(imgFile2);
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TextSliderView textSliderView = new TextSliderView(getContext());
+            textSliderView
+                    .description(dt.get(position).get_intFlag())
+                    .image(file)
+                    .setScaleType(BaseSliderView.ScaleType.Fit)
+                    .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                        @Override
+                        public void onSliderClick(BaseSliderView slider) {
+                            new clsMainActivity().zoomImage(mybitmap2, getActivity());
+                        }
+                    });
+
+            mDemoSlider.addSlider(textSliderView);
+        } else {
             img2.setVisibility(View.GONE);
+        }
+
+        if (imgFile == null || imgFile2 == null) {
+            mDemoSlider.stopAutoCycle();
+            mDemoSlider.setPagerTransformer(false, new BaseTransformer() {
+                @Override
+                protected void onTransform(View view, float v) {
+                }
+            });
+        } else {
+            mDemoSlider.stopAutoCycle();
+            mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
+            mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+            mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+            mDemoSlider.setDuration(4000);
         }
 
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.getContext());
@@ -178,6 +255,7 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
                 .setCancelable(false)
                 .setNegativeButton("Close", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        new clsMainActivity().deleteTempFolder();
                         dialog.cancel();
                     }
                 });
@@ -201,7 +279,7 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
         });
     }
 
-    private void loadData(){
+    private void loadData() {
         clsSwipeList swplist;
 
         tAbsenUserData dtAbsen = new tAbsenUserBL().getDataCheckInActive();
@@ -211,7 +289,7 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
         swipeList.clear();
 
 
-        for(int i = 0; i < dt.size(); i++){
+        for (int i = 0; i < dt.size(); i++) {
             String status = dt.get(i).get_intSubmit().equals("1") && dt.get(i).get_intIdSyn().equals("1") ? "Sync" : "Submit";
             swplist = new clsSwipeList();
             swplist.set_txtTitle("Type : " + dt.get(i).get_intFlag());
@@ -227,7 +305,7 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
         mListView.setPullRefreshEnable(true);
         mListView.setPullLoadEnable(true);
         mListView.setXListViewListener(this);
-        mListView.setEmptyView( v.findViewById(R.id.LayoutEmpty));
+        mListView.setEmptyView(v.findViewById(R.id.LayoutEmpty));
         mHandler = new Handler();
 
         HashMap<String, String> mapView = new HashMap<String, String>();
@@ -254,4 +332,5 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
         RefreshTime.setRefreshTime(getContext(), " " + df.format(new Date()));
         mListView.setRefreshTime(RefreshTime.getRefreshTime(getActivity().getApplicationContext()));
     }
+
 }

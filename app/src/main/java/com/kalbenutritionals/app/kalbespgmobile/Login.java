@@ -402,9 +402,8 @@ public class Login extends clsMainActivity {
                         new tDeviceInfoUserBL().SaveInfoDevice(_tUserLoginData.get_TxtEmpId(), _tUserLoginData.get_txtDeviceId());
                         new tUserLoginBL().saveData(_tUserLoginData);
 
-                        String nameOutlet = spnOutlet.getSelectedItem().toString();
-                        new mEmployeeAreaBL().DeleteEmployeeNotInId(HMOutletCode.get(nameOutlet));
-
+//                        String nameOutlet = spnOutlet.getSelectedItem().toString();
+//                        new mEmployeeAreaBL().DeleteEmployeeNotInId(HMOutletCode.get(nameOutlet));
 
                         JSONArray JsonArrayDetail=(JSONArray) innerObj.get("ListOfMWebMenuAPI");
                         Iterator iDetail = JsonArrayDetail.iterator();
