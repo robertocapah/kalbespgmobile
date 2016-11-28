@@ -185,6 +185,9 @@ public class Splash extends AppCompatActivity {
                 StartAnimations();
                 checkStatusMenu();
             }
+        } else {
+            StartAnimations();
+            checkStatusMenu();
         }
     }
 }
