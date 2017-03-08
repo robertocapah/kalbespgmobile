@@ -34,7 +34,6 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -382,146 +381,20 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         if (dataDetail.get_intTrCustomerIdDetail() != null) {
             nama.setText(dataDetail.get_txtNamaDepan());
-
-           /* final RadioButton rbLaki = (RadioButton) promptView.findViewById(R.id.radioMale);
-            RadioButton rbPerempuan = (RadioButton) promptView.findViewById(R.id.radioFemale);
-*/
-
-
-            dataProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dataDetail.get_intTrCustomerIdDetail());
-
-            /*if (dataDetail.get_intPIC().equals("1")) {
-                nama.setEnabled(false);
-                rbLaki.setEnabled(false);
-                rbPerempuan.setEnabled(false);
-            }*/
         }
-
-//        if (data.size() > 0) {
-//            for (int i = 0; i < data.size(); i++) {
-//                ModelListview dt = new ModelListview();
-//
-//                Boolean valid = false;
-//                Integer total = 0;
-//
-//                if (dataProduct != null) {
-//                    for (int j = 0; j < dataProduct.size(); j++) {
-//                        if (dataProduct.get(j).get_txtProductBrandCode().equals(data.get(i).get_txtBrandDetailGramCode())) {
-//                            valid = true;
-//                            total = Integer.parseInt(dataProduct.get(j).get_txtProductBrandQty());
-//                            break;
-//                        }
-//                    }
-//                }
-//
-////                if (valid) {
-////                    dt.set_id(data.get(i).get_txtBrandDetailGramCode());
-////                    dt.set_name(data.get(i).get_txtProductBrandDetailGramName());
-////                    dt.set_value(total);
-////                    dt.set_selected(true);
-////                } else {
-////                    dt.set_id(data.get(i).get_txtBrandDetailGramCode());
-////                    dt.set_name(data.get(i).get_txtProductBrandDetailGramName());
-////                    dt.set_value(0);
-////                    dt.set_selected(false);
-////                }
-//
-////                modelItems.add(dt);
-//            }
-//        }
-//        Collections.sort(modelItems, ModelListview.StuRollno);
-//        dataAdapter = new MyAdapter(getActivity().getApplicationContext(), modelItems);
-
-//        listView.setAdapter(dataAdapter);
-//        listView.setTextFilterEnabled(true);
-
-        /*searchProduct.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                dataAdapter.getFilter().filter(s.toString());
-            }
-        });*/
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         alertDialogBuilder.setView(promptView);
         alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
+                        dialog.cancel();
                     }
-                })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                });
         final AlertDialog alertD = alertDialogBuilder.create();
         alertD.show();
 
-        alertD.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!nama.getText().toString().equals("")) {
-                    Boolean status = false;
-                    for (int i = 0; i < modelItems.size(); i++) {
-                        if (modelItems.get(i).is_selected()) {
-                            status = true;
-                            break;
-                        }
-                    }
-                    if (status) {
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Calendar cal = Calendar.getInstance();
-
-                        tCustomerBasedMobileDetailData data = dataDetail;
-
-                        if (data.get_intTrCustomerIdDetail() == null) {
-                            data = new tCustomerBasedMobileDetailData();
-                            data.set_intTrCustomerIdDetail(new clsMainActivity().GenerateGuid());
-                            if (dataDetail.get_intPIC() == null) {
-                                data.set_intPIC("0");
-                            } else {
-                                data.set_intPIC(dataDetail.get_intPIC());
-                            }
-
-                            data.set_intNo(String.valueOf(dtListDetail.size() + 1));
-                        }
-                        new tCustomerBasedMobileDetailProductBL().deleteData(data.get_intTrCustomerIdDetail());
-
-                        for (int i = 0; i < modelItems.size(); i++) {
-                            if (modelItems.get(i).is_selected()) {
-                                tCustomerBasedMobileDetailProductData dtProduct = new tCustomerBasedMobileDetailProductData();
-                                dtProduct.set_intTrCustomerIdDetailProduct(new clsMainActivity().GenerateGuid());
-                                dtProduct.set_intTrCustomerIdDetail(data.get_intTrCustomerIdDetail());
-                                dtProduct.set_txtProductBrandCode(modelItems.get(i).get_id());
-                                dtProduct.set_txtProductBrandName(modelItems.get(i).get_name());
-                                dtProduct.set_bitActive("1");
-                                dtProduct.set_txtProductBrandQty(String.valueOf(modelItems.get(i).get_value()));
-                                dtProduct.set_dtInserted(dateFormat.format(cal.getTime()));
-
-                                new tCustomerBasedMobileDetailProductBL().saveData(dtProduct);
-                            }
-                        }
-                        alertD.dismiss();
-                        setTablePerson();
-                    } else {
-                        new clsMainActivity().removeErrorMessage(textInputLayoutNamaPopup);
-                        new clsMainActivity().showCustomToast(getContext(), "Select at least 1 product", false);
-                    }
-                } else {
-//                    new clsMainActivity().setErrorMessage(getContext(), textInputLayoutNamaPopup, nama, "Nama harus diisi");
-//                    new clsMainActivity().showCustomToast(getContext(), "Nama cannot empty", false);
-                }
-            }
-        });
     }
 
     private void popUpAddPerson(final tCustomerBasedMobileDetailData dataDetail) {
@@ -829,9 +702,9 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
     }
 
-    private void setTableProduct(tCustomerBasedMobileDetailData _tCustomerBasedMobileDetailData, View v) {
+    private void setTableProduct(final tCustomerBasedMobileDetailData _tCustomerBasedMobileDetailData, final View v) {
 
-        List<tCustomerBasedMobileDetailProductData> dtListDetailProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(_tCustomerBasedMobileDetailData.get_intTrCustomerIdDetail());
+        final List<tCustomerBasedMobileDetailProductData> dtListDetailProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(_tCustomerBasedMobileDetailData.get_intTrCustomerIdDetail());
 
         clsSwipeList swplist;
 
@@ -855,8 +728,23 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         lvProduct.setEmptyView(v.findViewById(R.id.LayoutEmpty));
         lvProduct.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
-                Toast.makeText(getContext(), "position " + pos, Toast.LENGTH_SHORT).show();
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, final int pos, long id) {
+                new AlertDialog.Builder(v.getContext())
+                        .setTitle("Delete Product")
+                        .setMessage("Are you sure you want to delete this product?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                new tCustomerBasedMobileDetailProductBL().deleteDataByProductId(dtListDetailProduct.get(pos).get_intTrCustomerIdDetailProduct());
+                                setTableProduct(_tCustomerBasedMobileDetailData, v);
+                                setTablePerson();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .show();
                 return true;
             }
         });

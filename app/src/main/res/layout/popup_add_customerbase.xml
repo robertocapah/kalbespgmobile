@@ -1,179 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:id="@+id/scroll">
+    android:layout_height="fill_parent">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp">
 
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:padding="10dp"
-        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvNama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Nama *" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_nama"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etNama"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edtext"
+                android:maxLength="100"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Tanggal Lahir *" />
+
+        <DatePicker
+            android:id="@+id/dp_tgl_lahir"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@+id/tv_tgl_lahir"
+            android:layout_marginBottom="10dp"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Jenis Kelamin *" />
+
+        <RadioGroup
+            android:id="@+id/radioGender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Laki-Laki" />
+
+            <RadioButton
+                android:id="@+id/radioFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Perempuan" />
+
+        </RadioGroup>
 
         <LinearLayout
-            android:orientation="vertical"
+            android:id="@+id/lnUsiaKehamilan"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="right"
-            android:layout_weight="1"
-            android:id="@+id/linearLayoutTop">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:text="Nama *"
-                android:id="@+id/tvNama"
-                android:layout_weight="1" />
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_nama"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:id="@+id/etNama"
-                    android:background="@drawable/bg_edtext"
-                    android:layout_weight="1"
-                    android:maxLength="100"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:text="Tanggal Lahir *"
-                android:id="@+id/tvTglLhr"
-                android:layout_weight="1" />
-
-            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_tgl_lhr"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:id="@+id/etTgl"
-                        android:background="@drawable/bg_edtext"
-                        android:layout_weight="1"
-                        android:maxLength="100"
-                        android:singleLine="true"
-                        android:inputType="none"
-                        android:clickable="true"
-                        android:drawableRight="@drawable/ic_event_black_24dp"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-
-
-            </LinearLayout>-->
-            <DatePicker
-                android:layout_width="266dp"
-                android:layout_height="152dp"
-                android:id="@+id/dp_tgl_lahir"
-                android:layout_below="@+id/tv_tgl_lahir"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:datePickerMode="spinner"
-                android:calendarViewShown="false"
-                android:visibility="visible" />
-
-            <TextView
-                android:text="Gender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView30"
-                android:layout_marginTop="10dp" />
-
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/radioGender"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radioMale"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Laki-Laki"
-                    android:checked="true" />
-
-                <RadioButton
-                    android:id="@+id/radioFemale"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Perempuan" />
-
-            </RadioGroup>
-
+                android:text="Usia Kehamilan (Optional)"
+                android:layout_marginTop="10dp"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lnUsiaKehamilan"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/usiaKehamilan"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_edtext"
+                    android:inputType="number"
+                    android:textAlignment="center" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Usia Kehamilan (Optional)"/>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <EditText
-                        android:layout_width="45dp"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:background="@drawable/bg_edtext"
-                        android:id="@+id/usiaKehamilan"
-                        android:textAlignment="center"
-                        android:layout_weight="1"/>
+                    android:text="Week" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" Week"/>
-
-                </LinearLayout>
             </LinearLayout>
-
-           <!-- <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="List Product"
-            android:id="@+id/textView10"
-            android:layout_weight="1"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="center_horizontal" />
-
-            <EditText
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/searchProduct"
-            android:layout_weight="1"
-            android:background="@drawable/bg_edtext"
-            android:drawableRight="@drawable/ic_search_black_24dp"
-            android:singleLine="true"
-            android:layout_marginBottom="10dp" />
-
-            <ListView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/listView2"
-            android:descendantFocusability="afterDescendants"
-            android:layout_weight="1" />-->
-
         </LinearLayout>
 
     </LinearLayout>
