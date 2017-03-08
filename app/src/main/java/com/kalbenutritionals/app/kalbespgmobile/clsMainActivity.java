@@ -476,6 +476,9 @@ public class clsMainActivity extends Activity {
                     } else if (map2.get("name") == "Delete") {
                         int icon = R.drawable.ic_delete;
                         menuItem.setIcon(icon);
+                    } else if (map2.get("name") == "Add") {
+                        int icon = R.drawable.ic_add_black_48dp;
+                        menuItem.setIcon(icon);
                     }
                     // add to menu
                     menu.addMenuItem(menuItem);

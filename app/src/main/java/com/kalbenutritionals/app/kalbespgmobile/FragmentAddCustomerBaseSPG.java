@@ -1,6 +1,5 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
-import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +9,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -18,9 +18,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -29,7 +31,9 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +41,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import bl.mEmployeeSalesProductBL;
@@ -44,6 +49,7 @@ import bl.tAbsenUserBL;
 import bl.tCustomerBasedMobileDetailBL;
 import bl.tCustomerBasedMobileDetailProductBL;
 import bl.tCustomerBasedMobileHeaderBL;
+import bl.tSalesProductHeaderBL;
 import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView;
 import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.bean.SwipeMenu;
@@ -57,6 +63,8 @@ import library.salesforce.common.mEmployeeSalesProductData;
 import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
+import library.salesforce.common.tSalesProductHeaderData;
+import library.salesforce.dal.mProductBrandHeaderDA;
 
 public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClickListener, IXListViewListener {
     private ArrayList<ModelListview> modelItems;
@@ -65,12 +73,13 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     ListView listView;
     MyAdapter dataAdapter;
 
-    EditText etCustomerBasedNo, etEmail, etNama, etTelpon, etAlamat, etTelponKantor, etPinBBM;
+    EditText etCustomerBasedNo, etEmail, etNama, etTelpon, etAlamat, etTelponKantor, etPinBBM, etTglLhr;
     TextInputLayout textInputLayoutNama, textInputLayoutTelp, textInputLayoutTelpKantor, textInputLayoutEmail;
 
     CheckBox cbPIC;
     RadioGroup radioGenderGroup;
     Button btnSave;
+    Button btnAddTgl;
     View v;
 
     List<tCustomerBasedMobileDetailData> dtListDetail;
@@ -298,84 +307,117 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         }
     }
 
-    private void popUpAddPerson(final tCustomerBasedMobileDetailData dataDetail) {
+    private void popUpAddProduct(final tCustomerBasedMobileDetailData dataDetail) {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-        final View promptView = layoutInflater.inflate(R.layout.popup_add_customerbase, null);
-
-        final EditText nama = (EditText) promptView.findViewById(R.id.etNama);
-        final EditText searchProduct = (EditText) promptView.findViewById(R.id.searchProduct);
-        final RadioGroup radioGroupGender = (RadioGroup) promptView.findViewById(R.id.radioGender);
-        final TextInputLayout textInputLayoutNamaPopup = (TextInputLayout) promptView.findViewById(R.id.input_layout_nama);
-
-        listView = (ListView) promptView.findViewById(R.id.listView2);
-
+        final View promptView = layoutInflater.inflate(R.layout.popup_add_product, null);
+//        final EditText searchProduct = (EditText) promptView.findViewById(R.id.searchProduct);
         final List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetAllData();
-        modelItems = new ArrayList<>();
-
+        final TextView nama = (TextView) promptView.findViewById(R.id.add_nama);
+        final TextInputLayout textInputLayoutNamaPopup = (TextInputLayout) promptView.findViewById(R.id.input_layout_nama);
+        final Button btnAddProduct= (Button) promptView.findViewById(R.id.btnAdd);
+        final PullToRefreshSwipeMenuListView pListView;
         List<tCustomerBasedMobileDetailProductData> dataProduct = null;
+
+        pListView = (PullToRefreshSwipeMenuListView) promptView.findViewById(R.id.listView);
+
+
+
+
+        Spinner spnKalbeProduct=(Spinner) promptView.findViewById(R.id.spn_kn_product);
+        Spinner spnCompetProduct=(Spinner) promptView.findViewById(R.id.spn_cp_product);
+
+        List<String> dataProductKalbe=new ArrayList<String>();
+        List<tSalesProductHeaderData> listtSalesProductHeaderData = new tSalesProductHeaderBL().getAllSalesProductHeader();
+        List<mEmployeeSalesProductData> listDataProduct = new mEmployeeSalesProductBL().GetAllData();
+
+        if (listDataProduct.size() > 0) {
+            for (mEmployeeSalesProductData dt : listDataProduct) {
+                dataProductKalbe.add(dt.get_txtProductBrandDetailGramName());
+            }
+        }
+        String[] arrDefaultProductKompet=new String[]{"-","ProductKompet 1", "ProductKompet 2"};
+        List<mProductBrandHeaderDA> dataKalbeProduct=new ArrayList<mProductBrandHeaderDA>();;
+        List<String> dataKnPro= new ArrayList<String>();
+
+        ArrayAdapter<String> adapterKalbeProduct= new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, dataProductKalbe);
+        ArrayAdapter<String> adapterKompetProduct= new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, arrDefaultProductKompet);
+
+        spnKalbeProduct.setAdapter(adapterKalbeProduct);
+        spnCompetProduct.setAdapter(adapterKompetProduct);
+
+//        btnAddProduct.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                String date=dateFormat.format(Calendar.getInstance().getTime());
+//
+//
+//                tCustomerBasedMobileDetailProductData data= new tCustomerBasedMobileDetailProductData();
+//                data.set_intTrCustomerIdDetail(new tCustomerBasedMobileHeaderBL().getDataByBitActive().get_txtSubmissionId());
+////                data.set_txtProductBrandCode();
+////                data.set_txtProductBrandName();
+////                data.set_txtProductBrandQty();
+////                data.set_dtInserted(date);
+////                data.set_txtInsertedBy();
+//            }
+//        });
+
         if (dataDetail.get_intTrCustomerIdDetail() != null) {
             nama.setText(dataDetail.get_txtNamaDepan());
 
-            RadioButton rbLaki = (RadioButton) promptView.findViewById(R.id.radioMale);
+           /* final RadioButton rbLaki = (RadioButton) promptView.findViewById(R.id.radioMale);
             RadioButton rbPerempuan = (RadioButton) promptView.findViewById(R.id.radioFemale);
+*/
 
-            if (dataDetail.get_txtGender().equals("Perempuan")) {
-                rbLaki.setChecked(false);
-                rbPerempuan.setChecked(true);
-            } else {
-                rbLaki.setChecked(true);
-                rbPerempuan.setChecked(false);
-            }
 
             dataProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dataDetail.get_intTrCustomerIdDetail());
 
-            if (dataDetail.get_intPIC().equals("1")) {
+            /*if (dataDetail.get_intPIC().equals("1")) {
                 nama.setEnabled(false);
                 rbLaki.setEnabled(false);
                 rbPerempuan.setEnabled(false);
-            }
+            }*/
         }
 
-        if (data.size() > 0) {
-            for (int i = 0; i < data.size(); i++) {
-                ModelListview dt = new ModelListview();
+//        if (data.size() > 0) {
+//            for (int i = 0; i < data.size(); i++) {
+//                ModelListview dt = new ModelListview();
+//
+//                Boolean valid = false;
+//                Integer total = 0;
+//
+//                if (dataProduct != null) {
+//                    for (int j = 0; j < dataProduct.size(); j++) {
+//                        if (dataProduct.get(j).get_txtProductBrandCode().equals(data.get(i).get_txtBrandDetailGramCode())) {
+//                            valid = true;
+//                            total = Integer.parseInt(dataProduct.get(j).get_txtProductBrandQty());
+//                            break;
+//                        }
+//                    }
+//                }
+//
+////                if (valid) {
+////                    dt.set_id(data.get(i).get_txtBrandDetailGramCode());
+////                    dt.set_name(data.get(i).get_txtProductBrandDetailGramName());
+////                    dt.set_value(total);
+////                    dt.set_selected(true);
+////                } else {
+////                    dt.set_id(data.get(i).get_txtBrandDetailGramCode());
+////                    dt.set_name(data.get(i).get_txtProductBrandDetailGramName());
+////                    dt.set_value(0);
+////                    dt.set_selected(false);
+////                }
+//
+////                modelItems.add(dt);
+//            }
+//        }
+//        Collections.sort(modelItems, ModelListview.StuRollno);
+//        dataAdapter = new MyAdapter(getActivity().getApplicationContext(), modelItems);
 
-                Boolean valid = false;
-                Integer total = 0;
+//        listView.setAdapter(dataAdapter);
+//        listView.setTextFilterEnabled(true);
 
-                if (dataProduct != null) {
-                    for (int j = 0; j < dataProduct.size(); j++) {
-                        if (dataProduct.get(j).get_txtProductBrandCode().equals(data.get(i).get_txtBrandDetailGramCode())) {
-                            valid = true;
-                            total = Integer.parseInt(dataProduct.get(j).get_txtProductBrandQty());
-                            break;
-                        }
-                    }
-                }
-
-                if (valid) {
-                    dt.set_id(data.get(i).get_txtBrandDetailGramCode());
-                    dt.set_name(data.get(i).get_txtProductBrandDetailGramName());
-                    dt.set_value(total);
-                    dt.set_selected(true);
-                } else {
-                    dt.set_id(data.get(i).get_txtBrandDetailGramCode());
-                    dt.set_name(data.get(i).get_txtProductBrandDetailGramName());
-                    dt.set_value(0);
-                    dt.set_selected(false);
-                }
-
-                modelItems.add(dt);
-            }
-        }
-
-        Collections.sort(modelItems, ModelListview.StuRollno);
-        dataAdapter = new MyAdapter(getActivity().getApplicationContext(), modelItems);
-
-        listView.setAdapter(dataAdapter);
-        listView.setTextFilterEnabled(true);
-
-        searchProduct.addTextChangedListener(new TextWatcher() {
+        /*searchProduct.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {
             }
@@ -386,7 +428,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 dataAdapter.getFilter().filter(s.toString());
             }
-        });
+        });*/
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         alertDialogBuilder.setView(promptView);
@@ -419,6 +461,199 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                             break;
                         }
                     }
+                    if (status) {
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Calendar cal = Calendar.getInstance();
+
+                        tCustomerBasedMobileDetailData data = dataDetail;
+
+                        if (data.get_intTrCustomerIdDetail() == null) {
+                            data = new tCustomerBasedMobileDetailData();
+                            data.set_intTrCustomerIdDetail(new clsMainActivity().GenerateGuid());
+                            if (dataDetail.get_intPIC() == null) {
+                                data.set_intPIC("0");
+                            } else {
+                                data.set_intPIC(dataDetail.get_intPIC());
+                            }
+
+                            data.set_intNo(String.valueOf(dtListDetail.size() + 1));
+                        }
+                        new tCustomerBasedMobileDetailProductBL().deleteData(data.get_intTrCustomerIdDetail());
+
+                        for (int i = 0; i < modelItems.size(); i++) {
+                            if (modelItems.get(i).is_selected()) {
+                                tCustomerBasedMobileDetailProductData dtProduct = new tCustomerBasedMobileDetailProductData();
+                                dtProduct.set_intTrCustomerIdDetailProduct(new clsMainActivity().GenerateGuid());
+                                dtProduct.set_intTrCustomerIdDetail(data.get_intTrCustomerIdDetail());
+                                dtProduct.set_txtProductBrandCode(modelItems.get(i).get_id());
+                                dtProduct.set_txtProductBrandName(modelItems.get(i).get_name());
+                                dtProduct.set_bitActive("1");
+                                dtProduct.set_txtProductBrandQty(String.valueOf(modelItems.get(i).get_value()));
+                                dtProduct.set_dtInserted(dateFormat.format(cal.getTime()));
+
+                                new tCustomerBasedMobileDetailProductBL().saveData(dtProduct);
+                            }
+                        }
+                        alertD.dismiss();
+                        setTablePerson();
+                    } else {
+                        new clsMainActivity().removeErrorMessage(textInputLayoutNamaPopup);
+                        new clsMainActivity().showCustomToast(getContext(), "Select at least 1 product", false);
+                    }
+                } else {
+//                    new clsMainActivity().setErrorMessage(getContext(), textInputLayoutNamaPopup, nama, "Nama harus diisi");
+//                    new clsMainActivity().showCustomToast(getContext(), "Nama cannot empty", false);
+                }
+            }
+        });
+    }
+
+    private void popUpAddPerson(final tCustomerBasedMobileDetailData dataDetail) {
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+        final View promptView = layoutInflater.inflate(R.layout.popup_add_customerbase, null);
+
+        final EditText nama = (EditText) promptView.findViewById(R.id.etNama);
+//        final EditText searchProduct = (EditText) promptView.findViewById(R.id.searchProduct);
+        final RadioGroup radioGroupGender = (RadioGroup) promptView.findViewById(R.id.radioGender);
+        final TextInputLayout textInputLayoutNamaPopup = (TextInputLayout) promptView.findViewById(R.id.input_layout_nama);
+        final DatePicker dp=(DatePicker) promptView.findViewById(R.id.dp_tgl_lahir);
+
+//        format tgl
+        long date=System.currentTimeMillis();
+        final SimpleDateFormat formatDB = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+
+//        final List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetAllData();
+        modelItems = new ArrayList<>();
+
+        List<tCustomerBasedMobileDetailProductData> dataProduct = null;
+
+        radioGroupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                View radioGender = radioGroupGender.findViewById(checkedId);
+                int index=radioGroupGender.indexOfChild(radioGender);
+                LinearLayout lnHamil= (LinearLayout) promptView.findViewById(R.id.lnUsiaKehamilan);
+                switch(index){
+                    case 0:
+                        lnHamil.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        lnHamil.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        });
+
+
+        if (dataDetail.get_intTrCustomerIdDetail() != null) {
+            nama.setText(dataDetail.get_txtNamaDepan());
+
+            final RadioButton rbLaki = (RadioButton) promptView.findViewById(R.id.radioMale);
+            RadioButton rbPerempuan = (RadioButton) promptView.findViewById(R.id.radioFemale);
+
+            if (dataDetail.get_txtGender().equals("Perempuan")) {
+                rbLaki.setChecked(false);
+                rbPerempuan.setChecked(true);
+
+
+            } else {
+                rbLaki.setChecked(true);
+                rbPerempuan.setChecked(false);
+
+            }
+
+            dataProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dataDetail.get_intTrCustomerIdDetail());
+
+            if (dataDetail.get_intPIC().equals("1")) {
+                nama.setEnabled(false);
+                rbLaki.setEnabled(false);
+                rbPerempuan.setEnabled(false);
+            }
+        }
+
+        /*if (data.size() > 0) {
+            for (int i = 0; i < data.size(); i++) {
+                ModelListview dt = new ModelListview();
+
+                Boolean valid = false;
+                Integer total = 0;
+
+                if (dataProduct != null) {
+                    for (int j = 0; j < dataProduct.size(); j++) {
+                        if (dataProduct.get(j).get_txtProductBrandCode().equals(data.get(i).get_txtBrandDetailGramCode())) {
+                            valid = true;
+                            total = Integer.parseInt(dataProduct.get(j).get_txtProductBrandQty());
+                            break;
+                        }
+                    }
+                }
+
+                if (valid) {
+                    dt.set_id(data.get(i).get_txtBrandDetailGramCode());
+                    dt.set_name(data.get(i).get_txtProductBrandDetailGramName());
+                    dt.set_value(total);
+                    dt.set_selected(true);
+                } else {
+                    dt.set_id(data.get(i).get_txtBrandDetailGramCode());
+                    dt.set_name(data.get(i).get_txtProductBrandDetailGramName());
+                    dt.set_value(0);
+                    dt.set_selected(false);
+                }
+
+                modelItems.add(dt);
+            }
+        }
+*/
+        Collections.sort(modelItems, ModelListview.StuRollno);
+        dataAdapter = new MyAdapter(getActivity().getApplicationContext(), modelItems);
+
+    /*    listView.setAdapter(dataAdapter);
+        listView.setTextFilterEnabled(true);
+
+        searchProduct.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                dataAdapter.getFilter().filter(s.toString());
+            }
+        });*/
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        alertDialogBuilder.setView(promptView);
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        final AlertDialog alertD = alertDialogBuilder.create();
+        alertD.show();
+
+        new clsMainActivity().removeErrorMessage(textInputLayoutNamaPopup);
+
+        alertD.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!nama.getText().toString().equals("")) {
+                    Boolean status = true;
+                    /*for (int i = 0; i < modelItems.size(); i++) {
+                        if (modelItems.get(i).is_selected()) {
+                            status = true;
+                            break;
+                        }
+                    }*/
 
                     if (status) {
                         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -482,6 +717,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         });
     }
 
+
     private void setTablePerson() {
         ScrollView sv = (ScrollView) v.findViewById(R.id.scroll);
         sv.setFillViewport(true);
@@ -513,6 +749,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             swipeList.add(swplist);
         }
 
+
+
         btnSave.setVisibility(View.GONE);
         if (dtListDetail != null) {
             if(dtListDetail.size() > 0){
@@ -540,6 +778,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         HashMap<String, String> mapEdit = new HashMap<String, String>();
         HashMap<String, String> mapDelete = new HashMap<String, String>();
+        HashMap<String, String> mapAdd = new HashMap<String, String>();
+
+        mapAdd.put("name", "Add");
+        mapAdd.put("bgColor","#FF99CC00");
 
         mapEdit.put("name", "Edit");
         mapEdit.put("bgColor", "#3498db");
@@ -548,8 +790,9 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         mapDelete.put("bgColor", "#FF0000");
 
         mapMenu = new HashMap<String, HashMap>();
-        mapMenu.put("0", mapEdit);
-        mapMenu.put("1", mapDelete);
+        mapMenu.put("0", mapAdd);
+        mapMenu.put("1", mapEdit);
+        mapMenu.put("2", mapDelete);
 
         SwipeMenuCreator creator = clsMain.setCreator(getActivity().getApplicationContext(), mapMenu);
         mListView.setMenuCreator(creator);
@@ -559,10 +802,95 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 clsSwipeList item = swipeList.get(position);
                 switch (index) {
                     case 0:
-                        editList(getActivity().getApplicationContext(), position);
+                        addList(getActivity().getApplicationContext(),position);
                         break;
                     case 1:
+                        editList(getActivity().getApplicationContext(), position);
+                        break;
+                    case 2:
                         deleteList(getActivity().getApplicationContext(), position);
+                }
+            }
+        });
+
+    }
+
+    private void setTableProduct() {
+        ScrollView sv = (ScrollView) v.findViewById(R.id.scroll);
+        sv.setFillViewport(true);
+
+        dtListDetail = new tCustomerBasedMobileDetailBL().getAllDataByHeaderId(dtHeader.get_intTrCustomerId());
+
+        clsSwipeList swplist;
+
+        swipeList.clear();
+
+        int totalProduct = 0;
+        for (int i = 0; i < dtListDetail.size(); i++) {
+            List<tCustomerBasedMobileDetailProductData> dtListProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dtListDetail.get(i).get_intTrCustomerIdDetail());
+
+            if (dtListProduct == null) {
+                totalProduct = 0;
+            } else {
+                totalProduct = dtListProduct.size();
+            }
+            swplist = new clsSwipeList();
+
+            String PIC;
+
+            if (dtListDetail.get(i).get_intPIC().equals("1")) PIC = " (PIC)";
+            else PIC = "";
+
+            swplist.set_txtTitle("Nama : " + dtListDetail.get(i).get_txtNamaDepan() + PIC);
+            swplist.set_txtDescription("Total Product : " + String.valueOf(totalProduct));
+            swipeList.add(swplist);
+        }
+
+
+
+        btnSave.setVisibility(View.GONE);
+        if (dtListDetail != null) {
+            if(dtListDetail.size() > 0){
+                btnSave.setVisibility(View.VISIBLE);
+            }
+            int index = 1;
+            for (tCustomerBasedMobileDetailData data : dtListDetail) {
+                String id = data.get_intTrCustomerIdDetail();
+                data.set_intNo(String.valueOf(index));
+                new tCustomerBasedMobileDetailBL().updateDataValueById(data, id);
+                index++;
+            }
+        }
+
+
+        clsMainActivity clsMain = new clsMainActivity();
+
+        mListView = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.listView);
+        mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
+        mListView.setAdapter(mAdapter);
+        mListView.setPullRefreshEnable(false);
+        mListView.setPullLoadEnable(true);
+        mListView.setXListViewListener(this);
+        mHandler = new Handler();
+
+        HashMap<String, String> mapDelete = new HashMap<String, String>();
+
+        mapDelete.put("name", "Delete");
+        mapDelete.put("bgColor", "#FF0000");
+
+        mapMenu = new HashMap<String, HashMap>();
+        mapMenu.put("0", mapDelete);
+
+        SwipeMenuCreator creator = clsMain.setCreator(getActivity().getApplicationContext(), mapMenu);
+        mListView.setMenuCreator(creator);
+        mListView.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(int position, SwipeMenu menu, int index) {
+                clsSwipeList item = swipeList.get(position);
+                switch (index) {
+                    case 0:
+                        deleteList(getActivity().getApplicationContext(),position);
+                        break;
                 }
             }
         });
@@ -855,6 +1183,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
     private void editList(Context ctx, int position) {
         popUpAddPerson(dtListDetail.get(position));
+    }
+
+    private void addList(Context ctx, int position) {
+        popUpAddProduct(dtListDetail.get(position));
     }
 
     private void deleteList(Context ctx, int position) {

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/scroll2"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="right"
+        android:layout_weight="1"
+        android:id="@+id/linearLayoutTop">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="15dp">
+            <TextView
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add product person :"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_nama"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"
+                    android:text="Nama"
+                    android:id="@+id/add_nama"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+            <!-- BODY -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:id="@+id/llContent"
+            android:padding="16dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/tv_kn_product"
+            android:layout_marginTop="10dp"
+            android:id="@+id/textView6"
+            android:textStyle="normal"/>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:id="@+id/spn_kn_product"
+            android:background="@drawable/gradient_spinner"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/tv_competitor_product"
+                android:layout_marginTop="10dp"
+                android:id="@+id/textView7"
+                android:textStyle="normal"/>
+        <Spinner
+            android:id="@+id/spn_cp_product"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/gradient_spinner_competitor" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_qty"
+                android:textSize="18dp"/>
+
+            <EditText
+                android:layout_marginLeft="15dp"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/et_qty"
+                android:textAlignment="center"
+                android:id="@+id/qty"
+                android:background="@drawable/bg_edtext"
+                />
+            <Button
+                android:layout_marginLeft="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/MyButton"
+                android:text="@string/btn_add"
+                />
+
+        </LinearLayout>
+            <edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView
+                android:id="@+id/listViewProduct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
