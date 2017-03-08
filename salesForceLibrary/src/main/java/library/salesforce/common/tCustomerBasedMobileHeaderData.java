@@ -9,6 +9,7 @@ public class tCustomerBasedMobileHeaderData {
 	private String _txtNamaSumberData;
 	private String _txtNamaDepan;
 	private String _txtTelp;
+	private String _txtTelp2;
 	private String _txtTelpKantor;
 	private String _txtEmail;
 	private String _txtPINBBM;
@@ -30,6 +31,7 @@ public class tCustomerBasedMobileHeaderData {
 	public String Property_txtNamaSumberData="txtNamaSumberData";
 	public String Property_txtNamaDepan="txtNamaDepan";
 	public String Property_txtTelp = "txtTelp";
+	public String Property_txtTelp2 = "txtTelp2";
 	public String Property_txtTelpKantor="txtTelpKantor";
 	public String Property_txtEmail="txtEmail";
 	public String Property_txtPINBBM="txtPINBBM";
@@ -53,6 +55,7 @@ public class tCustomerBasedMobileHeaderData {
 			Property_txtNamaDepan + "," +
 			Property_txtGender + "," +
 			Property_txtTelp + "," +
+			Property_txtTelp2 + "," +
 			Property_txtTelpKantor + "," +
 			Property_txtEmail + "," +
 			Property_txtPINBBM + "," +
@@ -189,5 +192,13 @@ public class tCustomerBasedMobileHeaderData {
 
 	public void set_txtGender(String _txtGender) {
 		this._txtGender = _txtGender;
+	}
+
+	public String get_txtTelp2() {
+		return _txtTelp2;
+	}
+
+	public void set_txtTelp2(String _txtTelp2) {
+		this._txtTelp2 = _txtTelp2;
 	}
 }

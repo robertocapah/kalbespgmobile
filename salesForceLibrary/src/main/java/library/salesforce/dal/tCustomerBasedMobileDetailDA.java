@@ -24,6 +24,8 @@ public class tCustomerBasedMobileDetailDA {
                 + dt.Property_intTrCustomerId + " TEXT NULL,"
                 + dt.Property_txtNamaDepan + " TEXT NULL,"
                 + dt.Property_txtGender + " TEXT NULL,"
+                + dt.Property_txtTglLahir + " TEXT NULL,"
+                + dt.Property_txtUsiaKehamilan + " TEXT NULL,"
                 + dt.Property_intNo + " INT NULL,"
                 + dt.Property_intPIC + " TEXT NULL,"
                 + dt.Property_bitActive + " TEXT NULL,"
@@ -53,6 +55,8 @@ public class tCustomerBasedMobileDetailDA {
                 + String.valueOf(data.get_intTrCustomerId()) + "','"
                 + String.valueOf(data.get_txtNamaDepan()) + "','"
                 + String.valueOf(data.get_txtGender()) + "','"
+                + String.valueOf(data.get_txtTglLahir()) + "','"
+                + String.valueOf(data.get_txtUsiaKehamilan()) + "','"
                 + String.valueOf(data.get_intNo()) + "','"
                 + String.valueOf(data.get_intPIC()) + "','"
                 + String.valueOf(data.get_bitActive()) + "','"
@@ -71,6 +75,8 @@ public class tCustomerBasedMobileDetailDA {
                 dt.Property_intTrCustomerId,
                 dt.Property_txtNamaDepan,
                 dt.Property_txtGender,
+                dt.Property_txtTglLahir,
+                dt.Property_txtUsiaKehamilan,
                 dt.Property_intNo,
                 dt.Property_intPIC,
                 dt.Property_bitActive,
@@ -101,13 +107,15 @@ public class tCustomerBasedMobileDetailDA {
         contact.set_intTrCustomerId(cursor.getString(1));
         contact.set_txtNamaDepan(cursor.getString(2));
         contact.set_txtGender(cursor.getString(3));
-        contact.set_intNo(cursor.getString(4));
-        contact.set_intPIC(cursor.getString(5));
-        contact.set_bitActive(cursor.getString(6));
-        contact.set_dtInserted(cursor.getString(7));
-        contact.set_dtUpdated(cursor.getString(8));
-        contact.set_txtInsertedBy(cursor.getString(9));
-        contact.set_txtUpdatedBy(cursor.getString(10));
+        contact.set_txtTglLahir(cursor.getString(4));
+        contact.set_txtUsiaKehamilan(cursor.getString(5));
+        contact.set_intNo(cursor.getString(6));
+        contact.set_intPIC(cursor.getString(7));
+        contact.set_bitActive(cursor.getString(8));
+        contact.set_dtInserted(cursor.getString(9));
+        contact.set_dtUpdated(cursor.getString(10));
+        contact.set_txtInsertedBy(cursor.getString(11));
+        contact.set_txtUpdatedBy(cursor.getString(12));
         // return contact
         cursor.close();
         return contact;
@@ -129,13 +137,15 @@ public class tCustomerBasedMobileDetailDA {
                 contact.set_intTrCustomerId(cursor.getString(1));
                 contact.set_txtNamaDepan(cursor.getString(2));
                 contact.set_txtGender(cursor.getString(3));
-                contact.set_intNo(cursor.getString(4));
-                contact.set_intPIC(cursor.getString(5));
-                contact.set_bitActive(cursor.getString(6));
-                contact.set_dtInserted(cursor.getString(7));
-                contact.set_dtUpdated(cursor.getString(8));
-                contact.set_txtInsertedBy(cursor.getString(9));
-                contact.set_txtUpdatedBy(cursor.getString(10));
+                contact.set_txtTglLahir(cursor.getString(4));
+                contact.set_txtUsiaKehamilan(cursor.getString(5));
+                contact.set_intNo(cursor.getString(6));
+                contact.set_intPIC(cursor.getString(7));
+                contact.set_bitActive(cursor.getString(8));
+                contact.set_dtInserted(cursor.getString(9));
+                contact.set_dtUpdated(cursor.getString(10));
+                contact.set_txtInsertedBy(cursor.getString(11));
+                contact.set_txtUpdatedBy(cursor.getString(12));
                 contactList.add(contact);
             } while (cursor.moveToNext());
         }
@@ -159,13 +169,15 @@ public class tCustomerBasedMobileDetailDA {
                 contact.set_intTrCustomerId(cursor.getString(1));
                 contact.set_txtNamaDepan(cursor.getString(2));
                 contact.set_txtGender(cursor.getString(3));
-                contact.set_intNo(cursor.getString(4));
-                contact.set_intPIC(cursor.getString(5));
-                contact.set_bitActive(cursor.getString(6));
-                contact.set_dtInserted(cursor.getString(7));
-                contact.set_dtUpdated(cursor.getString(8));
-                contact.set_txtInsertedBy(cursor.getString(9));
-                contact.set_txtUpdatedBy(cursor.getString(10));
+                contact.set_txtTglLahir(cursor.getString(4));
+                contact.set_txtUsiaKehamilan(cursor.getString(5));
+                contact.set_intNo(cursor.getString(6));
+                contact.set_intPIC(cursor.getString(7));
+                contact.set_bitActive(cursor.getString(8));
+                contact.set_dtInserted(cursor.getString(9));
+                contact.set_dtUpdated(cursor.getString(10));
+                contact.set_txtInsertedBy(cursor.getString(11));
+                contact.set_txtUpdatedBy(cursor.getString(12));
                 contactList.add(contact);
             } while (cursor.moveToNext());
         }
@@ -203,13 +215,15 @@ public class tCustomerBasedMobileDetailDA {
                 contact.set_intTrCustomerId(cursor.getString(1));
                 contact.set_txtNamaDepan(cursor.getString(2));
                 contact.set_txtGender(cursor.getString(3));
-                contact.set_intNo(cursor.getString(4));
-                contact.set_intPIC(cursor.getString(5));
-                contact.set_bitActive(cursor.getString(6));
-                contact.set_dtInserted(cursor.getString(7));
-                contact.set_dtUpdated(cursor.getString(8));
-                contact.set_txtInsertedBy(cursor.getString(9));
-                contact.set_txtUpdatedBy(cursor.getString(10));
+                contact.set_txtTglLahir(cursor.getString(4));
+                contact.set_txtUsiaKehamilan(cursor.getString(5));
+                contact.set_intNo(cursor.getString(6));
+                contact.set_intPIC(cursor.getString(7));
+                contact.set_bitActive(cursor.getString(8));
+                contact.set_dtInserted(cursor.getString(9));
+                contact.set_dtUpdated(cursor.getString(10));
+                contact.set_txtInsertedBy(cursor.getString(11));
+                contact.set_txtUpdatedBy(cursor.getString(12));
                 contactList.add(contact);
             } while (cursor.moveToNext());
         }
@@ -269,13 +283,15 @@ public class tCustomerBasedMobileDetailDA {
             contact.set_intTrCustomerId(cursor.getString(1));
             contact.set_txtNamaDepan(cursor.getString(2));
             contact.set_txtGender(cursor.getString(3));
-            contact.set_intNo(cursor.getString(4));
-            contact.set_intPIC(cursor.getString(5));
-            contact.set_bitActive(cursor.getString(6));
-            contact.set_dtInserted(cursor.getString(7));
-            contact.set_dtUpdated(cursor.getString(8));
-            contact.set_txtInsertedBy(cursor.getString(9));
-            contact.set_txtUpdatedBy(cursor.getString(10));
+            contact.set_txtTglLahir(cursor.getString(4));
+            contact.set_txtUsiaKehamilan(cursor.getString(5));
+            contact.set_intNo(cursor.getString(6));
+            contact.set_intPIC(cursor.getString(7));
+            contact.set_bitActive(cursor.getString(8));
+            contact.set_dtInserted(cursor.getString(9));
+            contact.set_dtUpdated(cursor.getString(10));
+            contact.set_txtInsertedBy(cursor.getString(11));
+            contact.set_txtUpdatedBy(cursor.getString(12));
 
         }
         cursor.close();
