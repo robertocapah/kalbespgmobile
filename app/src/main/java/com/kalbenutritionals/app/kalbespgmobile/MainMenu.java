@@ -379,6 +379,19 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
                         return true;
 
+                    case R.id.blank:
+                        toolbar.setTitle("New Blank Fragment");
+
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+
+                        BlankFragment blankFragment = new BlankFragment();
+                        FragmentTransaction fragmentTransactionBlank = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactionBlank.replace(R.id.frame, blankFragment);
+                        fragmentTransactionBlank.commit();
+                        selectedId = 99;
+
+                        return true;
+
 //                    case R.id.information:
 //                        toolbar.setTitle("Information");
 //

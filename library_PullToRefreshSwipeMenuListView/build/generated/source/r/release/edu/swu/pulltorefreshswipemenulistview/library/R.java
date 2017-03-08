@@ -23,19 +23,20 @@ public final class R {
         public static int xlistview_arrow=0x7f020005;
     }
     public static final class id {
+        public static int description=0x7f070004;
         public static int icon=0x7f070002;
         public static int iv_icon=0x7f070000;
         public static int title=0x7f070003;
         public static int tv_name=0x7f070001;
-        public static int xlistview_footer_content=0x7f070004;
-        public static int xlistview_footer_hint_textview=0x7f070006;
-        public static int xlistview_footer_progressbar=0x7f070005;
-        public static int xlistview_header_arrow=0x7f07000b;
-        public static int xlistview_header_content=0x7f070007;
-        public static int xlistview_header_hint_textview=0x7f070009;
-        public static int xlistview_header_progressbar=0x7f07000c;
-        public static int xlistview_header_text=0x7f070008;
-        public static int xlistview_header_time=0x7f07000a;
+        public static int xlistview_footer_content=0x7f070005;
+        public static int xlistview_footer_hint_textview=0x7f070007;
+        public static int xlistview_footer_progressbar=0x7f070006;
+        public static int xlistview_header_arrow=0x7f07000c;
+        public static int xlistview_header_content=0x7f070008;
+        public static int xlistview_header_hint_textview=0x7f07000a;
+        public static int xlistview_header_progressbar=0x7f07000d;
+        public static int xlistview_header_text=0x7f070009;
+        public static int xlistview_header_time=0x7f07000b;
     }
     public static final class layout {
         public static int item_list_app=0x7f030000;

@@ -28,7 +28,7 @@
                 android:name="com.google.android.gms.maps.MapFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="500dp"
-                android:apiKey="AIzaSyB7SCsW5IEn5jpRPlHEj16Srm8_oo62XhQ"
+                android:apiKey="AIzaSyAil1Hru11V9TQ3jN8craSVQK5vgBYil8c"
                 android:clickable="true"
                 android:enabled="true"
                 android:layout_alignParentRight="true"

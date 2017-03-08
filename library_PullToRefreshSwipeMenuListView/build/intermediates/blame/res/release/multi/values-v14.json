@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "D:\\workspace android studio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\res\\merged\\release\\values-v14\\values-v14.xml",
+        "outputFile": "C:\\ProjectAndroid\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-v14\\values-v14.xml",
         "map": [
             {
                 "to": {
@@ -12,7 +12,7 @@
                     "endOffset": 201
                 },
                 "from": {
-                    "file": "D:\\workspace android studio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\src\\main\\res\\values-v14\\styles.xml",
+                    "file": "C:\\ProjectAndroid\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\src\\main\\res\\values-v14\\styles.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
