@@ -36,6 +36,7 @@ public class clsHardCode  {
 	public String txtTable_mEmployeeSalesProduct = "mEmployeeSalesProduct";
 	public String txtTable_mNotification = "mNotification";
 	public String txtTable_mProductBrandHeaderData = "mProductBrandHeaderData";
+	public String txtTable_mProductCompetitorData = "mProductCompetitorData";
 	public String txtTable_tErrorLog = "tErrorLog";
 	public String txtTable_tDisplayPicture = "tDisplayPicture";
 	public String txtTable_mTypeLeaveMobile = "mTypeLeaveMobile";
@@ -186,6 +187,7 @@ public class clsHardCode  {
 	public String txtQuery_GetTimesStamp = "select strftime('%s','now');";
 	public String txtQuery_ConvertDateFromTimeStamp = "SELECT datetime(@code@, 'unixepoch', 'localtime');";
 	public String txtStatus_UploadDataimage="UploadDataimage";
+
 	public String dtDateTimeNow(){
 		Date date = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");

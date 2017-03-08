@@ -5,6 +5,8 @@ public class tCustomerBasedMobileDetailData {
     private String _intTrCustomerId;
     private String _txtNamaDepan;
     private String _txtGender;
+    private String _txtTglLahir;
+    private String _txtUsiaKehamilan;
     private String _intNo;
     private String _intPIC;
     private String _bitActive;
@@ -17,6 +19,8 @@ public class tCustomerBasedMobileDetailData {
     public String Property_intTrCustomerId = "intTrCustomerId";
     public String Property_txtNamaDepan = "txtNamaDepan";
     public String Property_txtGender = "txtGender";
+    public String Property_txtTglLahir = "txtTglLahir";
+    public String Property_txtUsiaKehamilan = "txtUsiaKehamilan";
     public String Property_intNo = "intNo";
     public String Property_intPIC = "intPIC";
     public String Property_bitActive = "bitActive";
@@ -30,6 +34,8 @@ public class tCustomerBasedMobileDetailData {
             Property_intTrCustomerId + "," +
             Property_txtNamaDepan + "," +
             Property_txtGender + "," +
+            Property_txtTglLahir + "," +
+            Property_txtUsiaKehamilan + "," +
             Property_intNo + "," +
             Property_intPIC + "," +
             Property_bitActive + "," +
@@ -124,5 +130,21 @@ public class tCustomerBasedMobileDetailData {
 
     public void set_txtGender(String _txtGender) {
         this._txtGender = _txtGender;
+    }
+
+    public String get_txtTglLahir() {
+        return _txtTglLahir;
+    }
+
+    public void set_txtTglLahir(String _txtTglLahir) {
+        this._txtTglLahir = _txtTglLahir;
+    }
+
+    public String get_txtUsiaKehamilan() {
+        return _txtUsiaKehamilan;
+    }
+
+    public void set_txtUsiaKehamilan(String _txtUsiaKehamilan) {
+        this._txtUsiaKehamilan = _txtUsiaKehamilan;
     }
 }
