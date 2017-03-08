@@ -50,6 +50,7 @@ import bl.tCustomerBasedMobileDetailBL;
 import bl.tCustomerBasedMobileDetailProductBL;
 import bl.tCustomerBasedMobileHeaderBL;
 import bl.tSalesProductHeaderBL;
+import bl.tUserLoginBL;
 import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView;
 import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.bean.SwipeMenu;
@@ -64,6 +65,7 @@ import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tSalesProductHeaderData;
+import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.mProductBrandHeaderDA;
 
 public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClickListener, IXListViewListener {
@@ -314,8 +316,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         final List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetAllData();
         final TextView nama = (TextView) promptView.findViewById(R.id.add_nama);
         final TextInputLayout textInputLayoutNamaPopup = (TextInputLayout) promptView.findViewById(R.id.input_layout_nama);
-        final Button btnAddProduct= (Button) promptView.findViewById(R.id.btnAdd);
+        final Button btnAddProduct= (Button) promptView.findViewById(R.id.btn_add_product);
         final PullToRefreshSwipeMenuListView pListView;
+        final EditText qty=(EditText) promptView.findViewById(R.id.qty);
+        final HashMap<String, String> HMProduct = new HashMap<String, String>();
+
         List<tCustomerBasedMobileDetailProductData> dataProduct = null;
 
         pListView = (PullToRefreshSwipeMenuListView) promptView.findViewById(R.id.listView);
@@ -323,20 +328,21 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
 
 
-        Spinner spnKalbeProduct=(Spinner) promptView.findViewById(R.id.spn_kn_product);
-        Spinner spnCompetProduct=(Spinner) promptView.findViewById(R.id.spn_cp_product);
+        final Spinner spnKalbeProduct=(Spinner) promptView.findViewById(R.id.spn_kn_product);
+        final Spinner spnCompetProduct=(Spinner) promptView.findViewById(R.id.spn_cp_product);
 
         List<String> dataProductKalbe=new ArrayList<String>();
-        List<tSalesProductHeaderData> listtSalesProductHeaderData = new tSalesProductHeaderBL().getAllSalesProductHeader();
+        List<tSalesProductHeaderData> listSalesProductHeaderData = new tSalesProductHeaderBL().getAllSalesProductHeader();
         List<mEmployeeSalesProductData> listDataProduct = new mEmployeeSalesProductBL().GetAllData();
 
         if (listDataProduct.size() > 0) {
             for (mEmployeeSalesProductData dt : listDataProduct) {
                 dataProductKalbe.add(dt.get_txtProductBrandDetailGramName());
+                HMProduct.put(dt.get_txtProductBrandDetailGramName(), dt.get_txtBrandDetailGramCode());
             }
         }
         String[] arrDefaultProductKompet=new String[]{"-","ProductKompet 1", "ProductKompet 2"};
-        List<mProductBrandHeaderDA> dataKalbeProduct=new ArrayList<mProductBrandHeaderDA>();;
+        final List<mProductBrandHeaderDA> dataKalbeProduct=new ArrayList<mProductBrandHeaderDA>();;
         List<String> dataKnPro= new ArrayList<String>();
 
         ArrayAdapter<String> adapterKalbeProduct= new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, dataProductKalbe);
@@ -345,22 +351,31 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         spnKalbeProduct.setAdapter(adapterKalbeProduct);
         spnCompetProduct.setAdapter(adapterKompetProduct);
 
-//        btnAddProduct.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//                String date=dateFormat.format(Calendar.getInstance().getTime());
-//
-//
-//                tCustomerBasedMobileDetailProductData data= new tCustomerBasedMobileDetailProductData();
-//                data.set_intTrCustomerIdDetail(new tCustomerBasedMobileHeaderBL().getDataByBitActive().get_txtSubmissionId());
-////                data.set_txtProductBrandCode();
-////                data.set_txtProductBrandName();
-////                data.set_txtProductBrandQty();
-////                data.set_dtInserted(date);
-////                data.set_txtInsertedBy();
-//            }
-//        });
+        btnAddProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String date=dateFormat.format(Calendar.getInstance().getTime());
+                String selectedOne= spnKalbeProduct.getSelectedItem().toString();
+                tUserLoginData dtUser = new tUserLoginBL().getUserActive();
+                String qtyProduct = null;
+                qtyProduct=qty.getText().toString();
+
+                tCustomerBasedMobileDetailProductData data= new tCustomerBasedMobileDetailProductData();
+                data.set_intTrCustomerIdDetailProduct(new clsMainActivity().GenerateGuid());
+                data.set_intTrCustomerIdDetail(dataDetail.get_intTrCustomerIdDetail());
+                data.set_txtProductBrandCode(HMProduct.get(selectedOne));
+                data.set_txtProductBrandName(selectedOne);
+                data.set_txtProductBrandQty(qtyProduct);
+                data.set_dtInserted(date);
+                data.set_txtInsertedBy(dtUser.get_txtUserId());
+
+                new tCustomerBasedMobileDetailProductBL().saveData(data);
+                spnKalbeProduct.setSelection(0);
+                spnCompetProduct.setSelection(0);
+                qty.setText("");
+            }
+        });
 
         if (dataDetail.get_intTrCustomerIdDetail() != null) {
             nama.setText(dataDetail.get_txtNamaDepan());
