@@ -5,48 +5,103 @@ package library.salesforce.common;
  */
 
 public class mProductCompetitorData {
-    public synchronized String get_intmProductUmbrandId() {
-        return _intmProductUmbrandId;
-    }
-    public synchronized void set_intmProductUmbrandId(String _intmProductUmbrandId) {
-        this._intmProductUmbrandId = _intmProductUmbrandId;
+    public synchronized String get_txtProductDetailCode() {
+        return _txtProductDetailCode;
     }
 
-    public synchronized String get_txtProductCompetitorCode() {
-        return _txtProductCompetitorCode;
-    }
-    public synchronized void set_txtProductCompetitorCode(String _txtProductCompetitorCode) {
-        this._txtProductCompetitorCode = _txtProductCompetitorCode;
+    public synchronized void set_txtProductDetailCode(String _txtProductDetailCode) {
+        this._txtProductDetailCode = _txtProductDetailCode;
     }
 
-    public synchronized String get_txtProductCompetitorName() {
-        return _txtProductCompetitorName;
-    }
-    public synchronized void set_txtProductCompetitorName(String _txtProductCompetitorName) {
-        this._txtProductCompetitorName = _txtProductCompetitorName;
+    public synchronized String get_txtLobName() {
+        return _txtLobName;
     }
 
-    public synchronized String get_txtAliasName() {
-        return _txtAliasName;
-    }
-    public synchronized void set_txtAliasName(String _txtAliasName) {
-        this._txtAliasName = _txtAliasName;
+    public synchronized void set_txtLobName(String _txtLobName) {
+        this._txtLobName = _txtLobName;
     }
 
-    private String _intmProductUmbrandId;
-    private String _txtProductCompetitorCode;
-    private String _txtProductCompetitorName;
-    private String _txtAliasName;
+    public synchronized String get_GroupProduct() {
+        return _GroupProduct;
+    }
+
+    public synchronized void set_GroupProduct(String _GroupProduct) {
+        this._GroupProduct = _GroupProduct;
+    }
+
+    public synchronized String get_txtProdukid() {
+        return _txtProdukid;
+    }
+
+    public synchronized void set_txtProdukid(String _txtProdukid) {
+        this._txtProdukid = _txtProdukid;
+    }
+
+    public synchronized String get_txtProdukKompetitorID() {
+        return _txtProdukKompetitorID;
+    }
+
+    public synchronized void set_txtProdukKompetitorID(String _txtProdukKompetitorID) {
+        this._txtProdukKompetitorID = _txtProdukKompetitorID;
+    }
+
+    public synchronized String get_txtCRMCode() {
+        return _txtCRMCode;
+    }
+
+    public synchronized void set_txtCRMCode(String _txtCRMCode) {
+        this._txtCRMCode = _txtCRMCode;
+    }
+
+    public synchronized String get_txtNIK() {
+        return _txtNIK;
+    }
+
+    public synchronized void set_txtNIK(String _txtNIK) {
+        this._txtNIK = _txtNIK;
+    }
+
+    public synchronized String get_txtName() {
+        return _txtName;
+    }
+
+    public synchronized void set_txtName(String _txtName) {
+        this._txtName = _txtName;
+    }
+
+    public String get_txtID() {
+        return _txtID;
+    }
+
+    public void set_txtID(String _txtID) {
+        this._txtID = _txtID;
+    }
+
+    private String _txtID;
+    private String _txtProductDetailCode;
+    private String _txtLobName;
+    private String _GroupProduct;
+    private String _txtProdukid;
+    private String _txtProdukKompetitorID;
+    private String _txtCRMCode;
+    private String _txtNIK;
+    private String _txtName;
     public mProductCompetitorData(){
 
     }
 
-    public String Property_intmProductUmbrandId="intmProductUmbrandId";
-    public String Property_txtProductCompetitorCode="_txtProductCompetitorCode";
-    public String Property_txtProductCompetitorName="_txtProductCompetitorName";
-    public String Property_txtAliasName="_txtAliasName";
+    public String Property_txtID="txtID";
+    public String Property_txtProductDetailCode="txtProductDetailCode";
+    public String Property_txtLobName="txtLobName";
+    public String Property_GroupProduct="GroupProduct";
+    public String Property_txtProdukid="txtProdukid";
+    public String Property_txtProdukKompetitorID="txtProdukKompetitorID";
+    public String Property_txtCRMCode="txtCRMCode";
+    public String Property_txtNIK="txtNIK";
+    public String Property_txtName="txtName";
     public String Property_ListOfmProductCompetitor="ListOfmProductCompetitor";
-    public String Property_All=Property_intmProductUmbrandId+","+Property_txtAliasName+","+Property_txtProductCompetitorCode+","+
-            Property_txtProductCompetitorName;
+    public String Property_All=Property_txtID+","+Property_txtProductDetailCode+","+Property_txtLobName+","+
+            Property_GroupProduct+","+ Property_txtProdukid+","+Property_txtProdukKompetitorID+","+Property_txtCRMCode+","+
+            Property_txtNIK+","+Property_txtName;
 
 }

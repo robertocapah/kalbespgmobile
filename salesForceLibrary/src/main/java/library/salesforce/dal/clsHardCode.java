@@ -187,6 +187,7 @@ public class clsHardCode  {
 	public String txtQuery_GetTimesStamp = "select strftime('%s','now');";
 	public String txtQuery_ConvertDateFromTimeStamp = "SELECT datetime(@code@, 'unixepoch', 'localtime');";
 	public String txtStatus_UploadDataimage="UploadDataimage";
+	public String txtTable_mTypeSubmissionMobile="mTypeSubmissionMobile";
 
 	public String dtDateTimeNow(){
 		Date date = new Date();
