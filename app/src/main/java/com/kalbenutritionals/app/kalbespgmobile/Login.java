@@ -51,7 +51,6 @@ import java.util.List;
 import bl.clsHelperBL;
 import bl.clsMainBL;
 import bl.mCounterNumberBL;
-import bl.mEmployeeAreaBL;
 import bl.mMenuBL;
 import bl.mUserRoleBL;
 import bl.tDeviceInfoUserBL;
@@ -701,7 +700,7 @@ public class Login extends clsMainActivity {
                     JSONObject innerObj = (JSONObject) i.next();
                     int boolValid = Integer.valueOf(String.valueOf(innerObj.get("_pboolValid")));
                     if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
-                        if (pInfo.versionName.equals("TAND.2016.003")) {
+                        if (pInfo.versionName.equals(innerObj.get("TxtVersion").toString())) {
                             //TAND.2016.003
                             //innerObj.get("TxtVersion").toString())
                             resUpdate = false;

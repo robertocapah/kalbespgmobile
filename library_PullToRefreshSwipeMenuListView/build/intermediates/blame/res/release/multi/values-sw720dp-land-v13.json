@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "D:\\workspace android studio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\res\\merged\\release\\values-sw720dp-land-v13\\values-sw720dp-land-v13.xml",
+        "outputFile": "C:\\ProjectAndroid\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-sw720dp-land-v13\\values-sw720dp-land-v13.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 109
                 },
                 "from": {
-                    "file": "D:\\workspace android studio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\src\\main\\res\\values-sw720dp-land\\dimens.xml",
+                    "file": "C:\\ProjectAndroid\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\src\\main\\res\\values-sw720dp-land\\dimens.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,

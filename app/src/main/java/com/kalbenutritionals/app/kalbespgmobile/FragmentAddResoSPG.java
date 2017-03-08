@@ -171,27 +171,28 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                 } else {
                     Collections.sort(modelItems, ModelListview.StuRollno);
                 }
-                setListViewHeightBasedOnItems(listView);
+//                setListViewHeightBasedOnItems(listView);
             }
         });
 
-//        searchProduct.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(searchProduct) {
-//            @Override
-//            public boolean onDrawableClick() {
-//                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.hideSoftInputFromWindow(searchProduct.getWindowToken(), 0);
-//                CharSequence s = searchProduct.getText();
-//                if(s.length()>0){
-//                    dataAdapter.getFilter().filter(s.toString());
-//
-//                } else {
+        searchProduct.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(searchProduct) {
+            @Override
+            public boolean onDrawableClick() {
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(searchProduct.getWindowToken(), 0);
+                CharSequence s = searchProduct.getText();
+                if(s.length()>0){
+                    searchProduct.getText().clear();
+
+                }
+//                else {
 //                    Collections.sort(modelItems, ModelListview.StuRollno);
 //                }
-//
-//
-//                return true;
-//            }
-//        });
+
+
+                return true;
+            }
+        });
 
         return v;
     }

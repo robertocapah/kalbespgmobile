@@ -1,18 +1,18 @@
 [
     {
-        "merged": "D:\\workspace android studio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\item_list_app2.xml",
-        "source": "D:\\workspace android studio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\bundles\\debug\\res\\layout\\item_list_app2.xml"
+        "merged": "C:\\ProjectAndroid\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\xlistview_footer.xml",
+        "source": "C:\\ProjectAndroid\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\bundles\\debug\\res\\layout\\xlistview_footer.xml"
     },
     {
-        "merged": "D:\\workspace android studio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\xlistview_footer.xml",
-        "source": "D:\\workspace android studio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\bundles\\debug\\res\\layout\\xlistview_footer.xml"
+        "merged": "C:\\ProjectAndroid\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\item_list_app2.xml",
+        "source": "C:\\ProjectAndroid\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\bundles\\debug\\res\\layout\\item_list_app2.xml"
     },
     {
-        "merged": "D:\\workspace android studio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\item_list_app.xml",
-        "source": "D:\\workspace android studio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\bundles\\debug\\res\\layout\\item_list_app.xml"
+        "merged": "C:\\ProjectAndroid\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\item_list_app.xml",
+        "source": "C:\\ProjectAndroid\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\bundles\\debug\\res\\layout\\item_list_app.xml"
     },
     {
-        "merged": "D:\\workspace android studio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\xlistview_header.xml",
-        "source": "D:\\workspace android studio\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\bundles\\debug\\res\\layout\\xlistview_header.xml"
+        "merged": "C:\\ProjectAndroid\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\xlistview_header.xml",
+        "source": "C:\\ProjectAndroid\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\build\\intermediates\\bundles\\debug\\res\\layout\\xlistview_header.xml"
     }
 ]
