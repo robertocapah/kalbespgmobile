@@ -76,7 +76,6 @@ public class clsHardCode  {
 	public String txtTable_mStockAwal="mStockAwal_Mobile";
 	public String txtTable_mReason="mReason_Mobile";
 	public String txtTable_mPriceInOutlet="mPriceInOutlet";
-	
 	public String txtStatus_SaveData = "SaveData";
 	public String txtStatus_SaveDataCustomerBase = "SaveDataCustomerBase";
 	public String txtStatus_SaveDataSales = "SaveDataSales";

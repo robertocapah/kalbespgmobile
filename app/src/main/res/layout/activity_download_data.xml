@@ -159,6 +159,78 @@
                 android:text="Download Brand" />
 
             <View
+                android:id="@+id/view91"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/btnDlBrand"
+                android:layout_marginTop="10dp"
+                android:background="#bfbfbf" />
+
+            <TextView
+                android:id="@+id/txtVwProductComp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view9"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Product Competitor"
+                android:textColor="#000" />
+
+            <Spinner
+                android:id="@+id/spnProdComp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtVwLeave"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_edtext" />
+
+            <Button
+                android:id="@+id/btnProdComp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spnLeave"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/btn_on_click"
+                android:text="Download Product Competitor" />
+
+            <View
+                android:id="@+id/view92"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/btnDlBrand"
+                android:layout_marginTop="10dp"
+                android:background="#bfbfbf" />
+
+            <TextView
+                android:id="@+id/txtVwTypeSubm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view9"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Type Submission"
+                android:textColor="#000" />
+
+            <Spinner
+                android:id="@+id/spnTypeSubm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtVwLeave"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_edtext" />
+
+            <Button
+                android:id="@+id/btnSumbisson"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spnLeave"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/btn_on_click"
+                android:text="Download Type Submission" />
+
+            <View
                 android:id="@+id/view9"
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"

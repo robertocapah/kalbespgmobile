@@ -3,7 +3,6 @@ package library.salesforce.dal;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +90,7 @@ public class mTypeSubmissionMobileDA {
         // Select All Query
         mTypeSubmissionMobile dt = new mTypeSubmissionMobile();
         String selectQuery = "SELECT " + dt.Property_All + " FROM "
-                + TABLE_CONTACTS + " ORDER BY " + dt.Property_txtNamaMasterData + " ";
+                + TABLE_CONTACTS + " ORDER BY " + dt.Property_txtMasterID + " ";
         Cursor cursor = db.rawQuery(selectQuery, null);
         // looping through all rows and adding to list
 
@@ -104,7 +103,7 @@ public class mTypeSubmissionMobileDA {
                 contact.set_txtKeterangan(cursor.getString(3));
                 // Adding contact to list
                 contactList.add(contact);
-            } while (cursor.moveToFirst());
+            } while (cursor.moveToNext());
         }
         cursor.close();
         return contactList;

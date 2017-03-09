@@ -14,7 +14,6 @@ import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.util.ByteArrayBuffer;
 import org.json.simple.JSONArray;
@@ -44,7 +42,9 @@ import bl.mEmployeeSalesProductBL;
 import bl.mPriceInOutletBL;
 import bl.mProductBarcodeBL;
 import bl.mProductBrandHeaderBL;
+import bl.mProductCompetitorBL;
 import bl.mTypeLeaveBL;
+import bl.mTypeSubmissionMobileBL;
 import bl.tAbsenUserBL;
 import bl.tActivityBL;
 import bl.tCustomerBasedMobileDetailBL;
@@ -52,6 +52,7 @@ import bl.tCustomerBasedMobileDetailProductBL;
 import bl.tCustomerBasedMobileHeaderBL;
 import bl.tLeaveMobileBL;
 import bl.tSalesProductHeaderBL;
+import bl.tUserLoginBL;
 import library.salesforce.common.APIData;
 import library.salesforce.common.clsHelper;
 import library.salesforce.common.dataJson;
@@ -60,7 +61,9 @@ import library.salesforce.common.mEmployeeBranchData;
 import library.salesforce.common.mEmployeeSalesProductData;
 import library.salesforce.common.mProductBarcodeData;
 import library.salesforce.common.mProductBrandHeaderData;
+import library.salesforce.common.mProductCompetitorData;
 import library.salesforce.common.mTypeLeaveMobileData;
+import library.salesforce.common.mTypeSubmissionMobile;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
 import library.salesforce.common.tCustomerBasedMobileDetailData;
@@ -69,6 +72,7 @@ import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tLeaveMobileData;
 import library.salesforce.common.tSalesProductDetailData;
 import library.salesforce.common.tSalesProductHeaderData;
+import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 import library.salesforce.dal.tSalesProductDetailDA;
 
@@ -94,8 +98,8 @@ public class FragmentDownloadData extends Fragment {
     private Button btnCustomerBase;
     private Spinner spnAbsen;
     private Button btnAbsen;
-    private Spinner spnDataLeave;
-    private Button btnDataLeave;
+    private Spinner spnDataLeave, spnProductComp, spnTypeSubmission;
+    private Button btnDataLeave, btnProductComp, btnTypeSubmission;
 
     private PackageInfo pInfo = null;
     private List<String> arrData;
@@ -103,6 +107,9 @@ public class FragmentDownloadData extends Fragment {
     int intProcesscancel = 0;
 
     clsMainActivity _clsMainActivity;
+    tUserLoginData loginData;
+
+    private String strMessage = "";
 
     @Nullable
     @Override
@@ -129,6 +136,13 @@ public class FragmentDownloadData extends Fragment {
         btnAbsen = (Button) v.findViewById(R.id.btnDlAbsen);
         spnDataLeave = (Spinner) v.findViewById(R.id.spnDataLeave);
         btnDataLeave = (Button) v.findViewById(R.id.btnDlDataLeave);
+        spnProductComp = (Spinner) v.findViewById(R.id.spnProdComp);
+        btnProductComp = (Button) v.findViewById(R.id.btnProdComp);
+        spnTypeSubmission = (Spinner) v.findViewById(R.id.spnTypeSubm);
+        btnTypeSubmission = (Button) v.findViewById(R.id.btnSumbisson);
+
+        loginData = new tUserLoginData();
+        loginData = new tUserLoginBL().getUserActive();
 
         loadData();
         btnAllDownload.setOnClickListener(new View.OnClickListener() {
@@ -209,6 +223,22 @@ public class FragmentDownloadData extends Fragment {
                 task.execute();
             }
         });
+        btnProductComp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intProcesscancel = 0;
+                AsyncCallDataProdComp task = new AsyncCallDataProdComp();
+                task.execute();
+            }
+        });
+
+        btnTypeSubmission.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AsyncCallTypeSubmission task = new AsyncCallTypeSubmission();
+                task.execute();
+            }
+        });
 
 
         return v;
@@ -231,7 +261,37 @@ public class FragmentDownloadData extends Fragment {
         List<tActivityData> listtActivityData = new tActivityBL().getAllData();
         List<tAbsenUserData> listtAbsenUserData = new tAbsenUserBL().getAllDataActive();
         List<tLeaveMobileData> listtLeaveData = new tLeaveMobileBL().getData("");
+        List<mProductCompetitorData> productCompetitorDataList = new mProductCompetitorBL().GetAllData();
+        List<mTypeSubmissionMobile> typeSubmissionDataList = new mTypeSubmissionMobileBL().GetAllData();
 
+
+        arrData = new ArrayList<String>();
+        if (typeSubmissionDataList.size() > 0) {
+            for (mTypeSubmissionMobile dt : typeSubmissionDataList) {
+                arrData.add(dt.get_txtMasterID() + "-" + dt.get_txtNamaMasterData());
+            }
+            spnTypeSubmission.setAdapter(new MyAdapter(getContext(), R.layout.custom_spinner, arrData));
+            spnTypeSubmission.setEnabled(true);
+        } else if (listDataBranch.size() == 0) {
+            ArrayAdapter<String> adapterspn = new ArrayAdapter<String>(getContext(),
+                    android.R.layout.simple_spinner_item, strip);
+            spnTypeSubmission.setAdapter(adapterspn);
+            spnTypeSubmission.setEnabled(false);
+        }
+
+        arrData = new ArrayList<String>();
+        if (productCompetitorDataList.size() > 0) {
+            for (mProductCompetitorData dt : productCompetitorDataList) {
+                arrData.add(dt.get_txtProductDetailCode() + "(" + dt.get_txtProdukKompetitorID() + ")");
+            }
+            spnProductComp.setAdapter(new MyAdapter(getContext(), R.layout.custom_spinner, arrData));
+            spnProductComp.setEnabled(true);
+        } else if (listDataBranch.size() == 0) {
+            ArrayAdapter<String> adapterspn = new ArrayAdapter<String>(getContext(),
+                    android.R.layout.simple_spinner_item, strip);
+            spnProductComp.setAdapter(adapterspn);
+            spnProductComp.setEnabled(false);
+        }
         arrData = new ArrayList<String>();
         if (listDataBranch.size() > 0) {
             for (mEmployeeBranchData dt : listDataBranch) {
@@ -439,6 +499,8 @@ public class FragmentDownloadData extends Fragment {
                 SaveDatamProductBarcodeData(Json);
                 Json = new mProductBrandHeaderBL().DownloadBrandHeader(pInfo.versionName);
                 SaveDatamProductBarcodeData(Json);
+                Json = new mProductCompetitorBL().DownloadProdctCompetitor(pInfo.versionName, loginData.get_txtUserId(), loginData.get_TxtEmpId());
+                SaveDatammProductCompetitorData(Json);
                 Json = new mEmployeeAreaBL().DownloadEmployeeArea2(pInfo.versionName);
                 SaveDatamEmployeeAreaData(Json);
                 Json = new tSalesProductHeaderBL().DownloadReso(pInfo.versionName);
@@ -456,6 +518,8 @@ public class FragmentDownloadData extends Fragment {
                 SaveDatatAbsenUserData(Json);
                 Json = new tLeaveMobileBL().DownloadDataLeave(pInfo.versionName);
                 SaveDatatLeaveData(Json);
+                Json = new mTypeSubmissionMobileBL().DownloadTypeSubmission(pInfo.versionName, loginData.get_txtUserId(), loginData.get_TxtEmpId());
+                SaveDatamTypeSubmissionMobile(Json);
 
                 dtdataJson.setIntResult("1");
             } catch (Exception e) {
@@ -1556,6 +1620,8 @@ public class FragmentDownloadData extends Fragment {
         List<mEmployeeAreaData> mEmployeeAreaDataList = new ArrayList<>();
         List<mProductBrandHeaderData> mProductBrandHeaderDataList = new ArrayList<>();
         List<mTypeLeaveMobileData> mTypeLeaveMobileDataList = new ArrayList<>();
+        List<mProductCompetitorData> mProductCompetitorDataList = new ArrayList<>();
+        List<mTypeSubmissionMobile> mTypeSubmissionMobileList = new ArrayList<>();
 
         mEmployeeBranchBL _mEmployeeBranchBL = new mEmployeeBranchBL();
         mEmployeeSalesProductBL _mEmployeeSalesProductBL = new mEmployeeSalesProductBL();
@@ -1569,6 +1635,8 @@ public class FragmentDownloadData extends Fragment {
         mEmployeeAreaDataList = _mEmployeeAreaBL.GetAllData();
         mProductBrandHeaderDataList = _mProductBrandHeaderBL.GetAllData();
         mTypeLeaveMobileDataList = _mTypeLeaveBL.GetAllData();
+        mProductCompetitorDataList = new mProductCompetitorBL().GetAllData();
+        mTypeSubmissionMobileList = new mTypeSubmissionMobileBL().GetAllData();
 
         List<mEmployeeAreaData> data = _mEmployeeAreaBL.GetAllData();
 
@@ -1578,7 +1646,9 @@ public class FragmentDownloadData extends Fragment {
                 && employeeSalesProductDataList.size() > 0
                 && mEmployeeAreaDataList.size() > 0
                 && mProductBrandHeaderDataList.size() > 0
-                && mTypeLeaveMobileDataList.size() > 0) {
+                && mTypeLeaveMobileDataList.size() > 0
+                && mProductCompetitorDataList.size() > 0
+                && mTypeSubmissionMobileList.size() >0) {
 
             goToMainMenu();
             //validate = 1;
@@ -1628,6 +1698,71 @@ public class FragmentDownloadData extends Fragment {
             }
         }
         new mTypeLeaveBL().saveData(_Listdata);
+        return _array;
+    }
+
+    private List<String> SaveDatammProductCompetitorData(JSONArray jsonArray) {
+        List<String> _array = new ArrayList<String>();
+        APIData dtAPIDATA = new APIData();
+        _array = new ArrayList<String>();
+        Iterator i = jsonArray.iterator();
+        Boolean flag = true;
+        String ErrorMess = "";
+        List<mProductCompetitorData> _Listdata = new ArrayList<mProductCompetitorData>();
+        while (i.hasNext()) {
+            org.json.simple.JSONObject innerObj = (org.json.simple.JSONObject) i.next();
+            int boolValid = Integer.valueOf(String.valueOf(innerObj.get(dtAPIDATA.boolValid)));
+            if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
+                strMessage = (String) innerObj.get(dtAPIDATA.strMessage);
+                mProductCompetitorData _data = new mProductCompetitorData();
+                _data.set_txtID(new clsHelper().GenerateGuid());
+                _data.set_txtCRMCode(String.valueOf(innerObj.get("TxtBranchCRMCode")));
+                _data.set_GroupProduct(String.valueOf(innerObj.get("TxtGroupProduct")));
+                _data.set_txtLobName(String.valueOf(innerObj.get("TxtLobName")));
+                _data.set_txtNIK(String.valueOf(innerObj.get("TxtNIK")));
+                _data.set_txtName(String.valueOf(innerObj.get("TxtName")));
+                _data.set_txtProductDetailCode(String.valueOf(innerObj.get("TxtProductDetailCode")));
+                _data.set_txtProdukKompetitorID(String.valueOf(innerObj.get("TxtProdukKompetitorID")));
+                _array.add(_data.get_txtProdukKompetitorID());
+                _Listdata.add(_data);
+            } else {
+                flag = false;
+                strMessage = (String) innerObj.get(dtAPIDATA.strMessage);
+                break;
+            }
+        }
+        new mProductCompetitorBL().deleteAllData();
+        new mProductCompetitorBL().saveData(_Listdata);
+        return _array;
+    }
+
+    private List<String> SaveDatamTypeSubmissionMobile(JSONArray jsonArray) {
+        List<String> _array = new ArrayList<String>();
+        APIData dtAPIDATA = new APIData();
+        _array = new ArrayList<String>();
+        Iterator i = jsonArray.iterator();
+        Boolean flag = true;
+        String ErrorMess = "";
+        List<mTypeSubmissionMobile> _Listdata = new ArrayList<mTypeSubmissionMobile>();
+        while (i.hasNext()) {
+            org.json.simple.JSONObject innerObj = (org.json.simple.JSONObject) i.next();
+            int boolValid = Integer.valueOf(String.valueOf(innerObj.get(dtAPIDATA.boolValid)));
+            if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
+                strMessage = (String) innerObj.get(dtAPIDATA.strMessage);
+                mTypeSubmissionMobile _data = new mTypeSubmissionMobile();
+                _data.set_txtMasterID(String.valueOf(innerObj.get("TxtMasterID")));
+                _data.set_txtGrupMasterID(String.valueOf(innerObj.get("TxtGrupMasterID")));
+                _data.set_txtKeterangan(String.valueOf(innerObj.get("TxtKeterangan")));
+                _data.set_txtNamaMasterData(String.valueOf(innerObj.get("TxtNamaMasterData")));
+                _array.add(_data.get_txtMasterID());
+                _Listdata.add(_data);
+            } else {
+                flag = false;
+                strMessage = (String) innerObj.get(dtAPIDATA.strMessage);
+                break;
+            }
+        }
+        new mTypeSubmissionMobileBL().saveData(_Listdata);
         return _array;
     }
 
@@ -1689,6 +1824,116 @@ public class FragmentDownloadData extends Fragment {
         @Override
         protected void onProgressUpdate(Void... values) {
             Dialog.dismiss();
+        }
+    }
+
+    private class AsyncCallDataProdComp extends AsyncTask<JSONArray, Void, JSONArray> {
+        @Override
+        protected JSONArray doInBackground(JSONArray... params) {
+            JSONArray Json = null;
+            try {
+                Json = new mProductCompetitorBL().DownloadProdctCompetitor(pInfo.versionName, loginData.get_txtUserId(), loginData.get_TxtEmpId());
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return Json;
+        }
+        private ProgressDialog Dialog = new ProgressDialog(getContext());
+
+        @Override
+        protected void onCancelled(JSONArray jsonArray) {
+            Dialog.dismiss();
+            new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessCancelRequest, false);
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            if (jsonArray != null && jsonArray.size() > 0) {
+                arrData = SaveDatammProductCompetitorData(jsonArray);
+                //spnLeave.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
+                loadData();
+                new clsMainActivity().showCustomToast(getContext(), strMessage, true);
+            } else {
+                if (intProcesscancel == 1) {
+                    onCancelled();
+                } else {
+                    new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessDataNotFound, false);
+                }
+
+            }
+            checkingDataTable();
+            Dialog.dismiss();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // Make ProgressBar invisible
+            // pg.setVisibility(View.VISIBLE);
+            Dialog.setMessage("Getting Product Competitor");
+            Dialog.setCancelable(false);
+            Dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    intProcesscancel = 1;
+                }
+            });
+            Dialog.show();
+        }
+    }
+
+    private class AsyncCallTypeSubmission extends AsyncTask<JSONArray, Void, JSONArray>{
+        @Override
+        protected JSONArray doInBackground(JSONArray... params) {
+            JSONArray Json = null;
+            try {
+                Json = new mTypeSubmissionMobileBL().DownloadTypeSubmission(pInfo.versionName, loginData.get_txtUserId(), loginData.get_TxtEmpId());
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return Json;
+        }
+        private ProgressDialog Dialog = new ProgressDialog(getContext());
+
+        @Override
+        protected void onCancelled(JSONArray jsonArray) {
+            Dialog.dismiss();
+            new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessCancelRequest, false);
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            if (jsonArray != null && jsonArray.size() > 0) {
+                arrData = SaveDatamTypeSubmissionMobile(jsonArray);
+                //spnLeave.setAdapter(new MyAdapter(getApplicationContext(), R.layout.custom_spinner, arrData));
+                loadData();
+                new clsMainActivity().showCustomToast(getContext(), strMessage, true);
+            } else {
+                if (intProcesscancel == 1) {
+                    onCancelled();
+                } else {
+                    new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessDataNotFound, false);
+                }
+
+            }
+            checkingDataTable();
+            Dialog.dismiss();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // Make ProgressBar invisible
+            // pg.setVisibility(View.VISIBLE);
+            Dialog.setMessage("Getting Type Submission");
+            Dialog.setCancelable(false);
+            Dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    intProcesscancel = 1;
+                }
+            });
+            Dialog.show();
         }
     }
 }
