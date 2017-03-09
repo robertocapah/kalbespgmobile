@@ -4,9 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.List;
 
-import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
-import library.salesforce.dal.tCustomerBasedMobileDetailDA;
 import library.salesforce.dal.tCustomerBasedMobileDetailProductDA;
 
 public class tCustomerBasedMobileDetailProductBL extends clsMainBL{
@@ -28,4 +26,9 @@ public class tCustomerBasedMobileDetailProductBL extends clsMainBL{
         SQLiteDatabase _db=getDb();
         new tCustomerBasedMobileDetailProductDA(_db).deleteByIDDetail(_db, id);
     }
+
+	public void deleteDataByProductId(String id){
+		SQLiteDatabase _db=getDb();
+		new tCustomerBasedMobileDetailProductDA(_db).deleteByID(_db, id);
+	}
 }

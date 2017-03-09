@@ -1,14 +1,14 @@
 [
     {
-        "merged": "D:\\workspace android studio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_notif.png",
-        "source": "D:\\workspace android studio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\drawable-hdpi-v4\\ic_notif.png"
+        "merged": "C:\\ProjectAndroid\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_notif.png",
+        "source": "C:\\ProjectAndroid\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\drawable-hdpi-v4\\ic_notif.png"
     },
     {
-        "merged": "D:\\workspace android studio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_launcher.png",
-        "source": "D:\\workspace android studio\\kalbespgmobile\\salesForceLibrary\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+        "merged": "C:\\ProjectAndroid\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "C:\\ProjectAndroid\\kalbespgmobile\\salesForceLibrary\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
     },
     {
-        "merged": "D:\\workspace android studio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\xlistview_arrow.png",
-        "source": "D:\\workspace android studio\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\drawable-hdpi-v4\\xlistview_arrow.png"
+        "merged": "C:\\ProjectAndroid\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\xlistview_arrow.png",
+        "source": "C:\\ProjectAndroid\\kalbespgmobile\\salesForceLibrary\\build\\intermediates\\exploded-aar\\kalbespgmobile\\library_PullToRefreshSwipeMenuListView\\unspecified\\res\\drawable-hdpi-v4\\xlistview_arrow.png"
     }
 ]

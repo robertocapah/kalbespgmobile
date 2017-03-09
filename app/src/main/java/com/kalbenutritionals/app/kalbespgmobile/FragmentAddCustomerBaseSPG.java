@@ -1,6 +1,5 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
-import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +9,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -18,9 +18,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -29,7 +32,9 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +42,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import bl.mEmployeeSalesProductBL;
@@ -44,6 +50,8 @@ import bl.tAbsenUserBL;
 import bl.tCustomerBasedMobileDetailBL;
 import bl.tCustomerBasedMobileDetailProductBL;
 import bl.tCustomerBasedMobileHeaderBL;
+import bl.tSalesProductHeaderBL;
+import bl.tUserLoginBL;
 import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView;
 import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.bean.SwipeMenu;
@@ -57,6 +65,9 @@ import library.salesforce.common.mEmployeeSalesProductData;
 import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
+import library.salesforce.common.tSalesProductHeaderData;
+import library.salesforce.common.tUserLoginData;
+import library.salesforce.dal.mProductBrandHeaderDA;
 
 public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClickListener, IXListViewListener {
     private ArrayList<ModelListview> modelItems;
@@ -65,17 +76,20 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     ListView listView;
     MyAdapter dataAdapter;
 
-    EditText etCustomerBasedNo, etEmail, etNama, etTelpon, etAlamat, etTelponKantor, etPinBBM;
+    EditText etCustomerBasedNo, etEmail, etNama, etTelpon, etAlamat, etTelponKantor, etPinBBM, etTglLhr;
     TextInputLayout textInputLayoutNama, textInputLayoutTelp, textInputLayoutTelpKantor, textInputLayoutEmail;
 
     CheckBox cbPIC;
     RadioGroup radioGenderGroup;
     Button btnSave;
+    Button btnAddTgl;
     View v;
 
     List<tCustomerBasedMobileDetailData> dtListDetail;
 
     private static List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
+    private static List<clsSwipeList> swipeListProduct = new ArrayList<clsSwipeList>();
+
     private AppAdapter mAdapter;
     private PullToRefreshSwipeMenuListView mListView;
     private Handler mHandler;
@@ -298,33 +312,143 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         }
     }
 
+    private void popUpAddProduct(final tCustomerBasedMobileDetailData dataDetail) {
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+        final View promptView = layoutInflater.inflate(R.layout.popup_add_product, null);
+//        final EditText searchProduct = (EditText) promptView.findViewById(R.id.searchProduct);
+        final List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetAllData();
+        final TextView nama = (TextView) promptView.findViewById(R.id.add_nama);
+        final TextInputLayout textInputLayoutNamaPopup = (TextInputLayout) promptView.findViewById(R.id.input_layout_nama);
+        final Button btnAddProduct = (Button) promptView.findViewById(R.id.btn_add_product);
+        final EditText qty = (EditText) promptView.findViewById(R.id.qty);
+        final HashMap<String, String> HMProduct = new HashMap<String, String>();
+
+        List<tCustomerBasedMobileDetailProductData> dataProduct = null;
+
+        setTableProduct(dataDetail, promptView);
+
+        final Spinner spnKalbeProduct = (Spinner) promptView.findViewById(R.id.spn_kn_product);
+        final Spinner spnCompetProduct = (Spinner) promptView.findViewById(R.id.spn_cp_product);
+
+        List<String> dataProductKalbe = new ArrayList<String>();
+        List<tSalesProductHeaderData> listSalesProductHeaderData = new tSalesProductHeaderBL().getAllSalesProductHeader();
+        List<mEmployeeSalesProductData> listDataProduct = new mEmployeeSalesProductBL().GetAllData();
+
+        if (listDataProduct.size() > 0) {
+            for (mEmployeeSalesProductData dt : listDataProduct) {
+                dataProductKalbe.add(dt.get_txtProductBrandDetailGramName());
+                HMProduct.put(dt.get_txtProductBrandDetailGramName(), dt.get_txtBrandDetailGramCode());
+            }
+        }
+        String[] arrDefaultProductKompet = new String[]{"-", "ProductKompet 1", "ProductKompet 2"};
+        final List<mProductBrandHeaderDA> dataKalbeProduct = new ArrayList<mProductBrandHeaderDA>();
+        ;
+        List<String> dataKnPro = new ArrayList<String>();
+
+        ArrayAdapter<String> adapterKalbeProduct = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataProductKalbe);
+        ArrayAdapter<String> adapterKompetProduct = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, arrDefaultProductKompet);
+
+        spnKalbeProduct.setAdapter(adapterKalbeProduct);
+        spnCompetProduct.setAdapter(adapterKompetProduct);
+
+        btnAddProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String date = dateFormat.format(Calendar.getInstance().getTime());
+                String selectedOne = spnKalbeProduct.getSelectedItem().toString();
+                tUserLoginData dtUser = new tUserLoginBL().getUserActive();
+                String qtyProduct = null;
+                qtyProduct = qty.getText().toString();
+
+                tCustomerBasedMobileDetailProductData data = new tCustomerBasedMobileDetailProductData();
+                data.set_intTrCustomerIdDetailProduct(new clsMainActivity().GenerateGuid());
+                data.set_intTrCustomerIdDetail(dataDetail.get_intTrCustomerIdDetail());
+                data.set_txtProductBrandCode(HMProduct.get(selectedOne));
+                data.set_txtProductBrandName(selectedOne);
+                data.set_txtProductBrandQty(qtyProduct);
+                data.set_dtInserted(date);
+                data.set_txtInsertedBy(dtUser.get_txtUserId());
+
+                new tCustomerBasedMobileDetailProductBL().saveData(data);
+                spnKalbeProduct.setSelection(0);
+                spnCompetProduct.setSelection(0);
+                qty.setText("");
+
+                setTableProduct(dataDetail, promptView);
+            }
+        });
+
+        if (dataDetail.get_intTrCustomerIdDetail() != null) {
+            nama.setText(dataDetail.get_txtNamaDepan());
+        }
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        alertDialogBuilder.setView(promptView);
+        alertDialogBuilder
+                .setCancelable(false)
+                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alertD = alertDialogBuilder.create();
+        alertD.show();
+
+    }
+
     private void popUpAddPerson(final tCustomerBasedMobileDetailData dataDetail) {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         final View promptView = layoutInflater.inflate(R.layout.popup_add_customerbase, null);
 
         final EditText nama = (EditText) promptView.findViewById(R.id.etNama);
-        final EditText searchProduct = (EditText) promptView.findViewById(R.id.searchProduct);
+//        final EditText searchProduct = (EditText) promptView.findViewById(R.id.searchProduct);
         final RadioGroup radioGroupGender = (RadioGroup) promptView.findViewById(R.id.radioGender);
         final TextInputLayout textInputLayoutNamaPopup = (TextInputLayout) promptView.findViewById(R.id.input_layout_nama);
+        final DatePicker dp = (DatePicker) promptView.findViewById(R.id.dp_tgl_lahir);
 
-        listView = (ListView) promptView.findViewById(R.id.listView2);
+//        format tgl
+        long date = System.currentTimeMillis();
+        final SimpleDateFormat formatDB = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
 
-        final List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetAllData();
+//        final List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetAllData();
         modelItems = new ArrayList<>();
 
         List<tCustomerBasedMobileDetailProductData> dataProduct = null;
+
+        radioGroupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                View radioGender = radioGroupGender.findViewById(checkedId);
+                int index = radioGroupGender.indexOfChild(radioGender);
+                LinearLayout lnHamil = (LinearLayout) promptView.findViewById(R.id.lnUsiaKehamilan);
+                switch (index) {
+                    case 0:
+                        lnHamil.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        lnHamil.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        });
+
+
         if (dataDetail.get_intTrCustomerIdDetail() != null) {
             nama.setText(dataDetail.get_txtNamaDepan());
 
-            RadioButton rbLaki = (RadioButton) promptView.findViewById(R.id.radioMale);
+            final RadioButton rbLaki = (RadioButton) promptView.findViewById(R.id.radioMale);
             RadioButton rbPerempuan = (RadioButton) promptView.findViewById(R.id.radioFemale);
 
             if (dataDetail.get_txtGender().equals("Perempuan")) {
                 rbLaki.setChecked(false);
                 rbPerempuan.setChecked(true);
+
+
             } else {
                 rbLaki.setChecked(true);
                 rbPerempuan.setChecked(false);
+
             }
 
             dataProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dataDetail.get_intTrCustomerIdDetail());
@@ -336,7 +460,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             }
         }
 
-        if (data.size() > 0) {
+        /*if (data.size() > 0) {
             for (int i = 0; i < data.size(); i++) {
                 ModelListview dt = new ModelListview();
 
@@ -368,11 +492,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 modelItems.add(dt);
             }
         }
-
+*/
         Collections.sort(modelItems, ModelListview.StuRollno);
         dataAdapter = new MyAdapter(getActivity().getApplicationContext(), modelItems);
 
-        listView.setAdapter(dataAdapter);
+    /*    listView.setAdapter(dataAdapter);
         listView.setTextFilterEnabled(true);
 
         searchProduct.addTextChangedListener(new TextWatcher() {
@@ -386,7 +510,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 dataAdapter.getFilter().filter(s.toString());
             }
-        });
+        });*/
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         alertDialogBuilder.setView(promptView);
@@ -412,13 +536,13 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             @Override
             public void onClick(View v) {
                 if (!nama.getText().toString().equals("")) {
-                    Boolean status = false;
-                    for (int i = 0; i < modelItems.size(); i++) {
+                    Boolean status = true;
+                    /*for (int i = 0; i < modelItems.size(); i++) {
                         if (modelItems.get(i).is_selected()) {
                             status = true;
                             break;
                         }
-                    }
+                    }*/
 
                     if (status) {
                         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -513,9 +637,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             swipeList.add(swplist);
         }
 
+
         btnSave.setVisibility(View.GONE);
         if (dtListDetail != null) {
-            if(dtListDetail.size() > 0){
+            if (dtListDetail.size() > 0) {
                 btnSave.setVisibility(View.VISIBLE);
             }
             int index = 1;
@@ -540,6 +665,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         HashMap<String, String> mapEdit = new HashMap<String, String>();
         HashMap<String, String> mapDelete = new HashMap<String, String>();
+        HashMap<String, String> mapAdd = new HashMap<String, String>();
+
+        mapAdd.put("name", "Add");
+        mapAdd.put("bgColor", "#FF99CC00");
 
         mapEdit.put("name", "Edit");
         mapEdit.put("bgColor", "#3498db");
@@ -548,8 +677,9 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         mapDelete.put("bgColor", "#FF0000");
 
         mapMenu = new HashMap<String, HashMap>();
-        mapMenu.put("0", mapEdit);
-        mapMenu.put("1", mapDelete);
+        mapMenu.put("0", mapAdd);
+        mapMenu.put("1", mapEdit);
+        mapMenu.put("2", mapDelete);
 
         SwipeMenuCreator creator = clsMain.setCreator(getActivity().getApplicationContext(), mapMenu);
         mListView.setMenuCreator(creator);
@@ -559,11 +689,63 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 clsSwipeList item = swipeList.get(position);
                 switch (index) {
                     case 0:
-                        editList(getActivity().getApplicationContext(), position);
+                        addList(getActivity().getApplicationContext(), position);
                         break;
                     case 1:
+                        editList(getActivity().getApplicationContext(), position);
+                        break;
+                    case 2:
                         deleteList(getActivity().getApplicationContext(), position);
                 }
+            }
+        });
+
+    }
+
+    private void setTableProduct(final tCustomerBasedMobileDetailData _tCustomerBasedMobileDetailData, final View v) {
+
+        final List<tCustomerBasedMobileDetailProductData> dtListDetailProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(_tCustomerBasedMobileDetailData.get_intTrCustomerIdDetail());
+
+        clsSwipeList swplist;
+
+        swipeListProduct.clear();
+
+        int totalProduct = 0;
+        for (int i = 0; i < dtListDetailProduct.size(); i++) {
+            swplist = new clsSwipeList();
+
+            swplist.set_txtTitle("Product KN : " + dtListDetailProduct.get(i).get_txtProductBrandName());
+            swplist.set_txtDescription("Product Kompetitor : " + dtListDetailProduct.get(i).get_txtProductCompetitorName());
+            swipeListProduct.add(swplist);
+        }
+
+        clsMainActivity clsMain = new clsMainActivity();
+
+        AppAdapter AdapterProduct = clsMain.setList(getActivity().getApplicationContext(), swipeListProduct);
+
+        ListView lvProduct = (ListView) v.findViewById(R.id.listViewProduct);
+        lvProduct.setAdapter(AdapterProduct);
+        lvProduct.setEmptyView(v.findViewById(R.id.LayoutEmpty));
+        lvProduct.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, final int pos, long id) {
+                new AlertDialog.Builder(v.getContext())
+                        .setTitle("Delete Product")
+                        .setMessage("Are you sure you want to delete this product?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                new tCustomerBasedMobileDetailProductBL().deleteDataByProductId(dtListDetailProduct.get(pos).get_intTrCustomerIdDetailProduct());
+                                setTableProduct(_tCustomerBasedMobileDetailData, v);
+                                setTablePerson();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .show();
+                return true;
             }
         });
 
@@ -857,6 +1039,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         popUpAddPerson(dtListDetail.get(position));
     }
 
+    private void addList(Context ctx, int position) {
+        popUpAddProduct(dtListDetail.get(position));
+    }
+
     private void deleteList(Context ctx, int position) {
         tCustomerBasedMobileDetailData dtDetail = dtListDetail.get(position);
 
@@ -869,7 +1055,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         }
     }
 
-    private boolean validateHeader(){
+    private boolean validateHeader() {
 
         String notelp = etTelpon.getText().toString();
         String notelpkantor = etTelponKantor.getText().toString();
@@ -891,30 +1077,28 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         new clsMainActivity().removeErrorMessage(textInputLayoutTelpKantor);
         new clsMainActivity().removeErrorMessage(textInputLayoutEmail);
 
-        if (etNama.getText().toString().equals("")){
+        if (etNama.getText().toString().equals("")) {
             new clsMainActivity().setErrorMessage(getContext(), textInputLayoutNama, etNama, "Nama wajib diisi");
             validate = false;
         }
 
-        if (etTelpon.getText().toString().equals("")){
+        if (etTelpon.getText().toString().equals("")) {
             new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "Telpon wajib diisi");
             validate = false;
-        }
-        else if (!firstNotelp.equals("0")) {
+        } else if (!firstNotelp.equals("0")) {
             new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "No telpon diawali dengan angka 0");
             validate = false;
         }
 
-        if (etEmail.getText().toString().equals("")){
+        if (etEmail.getText().toString().equals("")) {
             new clsMainActivity().setErrorMessage(getContext(), textInputLayoutEmail, etEmail, "Email wajib diisi");
             validate = false;
-        }
-        else if(!isValidEmail(etEmail.getText().toString())){
+        } else if (!isValidEmail(etEmail.getText().toString())) {
             new clsMainActivity().setErrorMessage(getContext(), textInputLayoutEmail, etEmail, "Email tidak valid");
             validate = false;
         }
 
-        if(firstNotelpkantor != null && !firstNotelpkantor.equals("0")){
+        if (firstNotelpkantor != null && !firstNotelpkantor.equals("0")) {
             new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelpKantor, etTelponKantor, "No telpon kantor diawali dengan angka 0");
             validate = false;
         }

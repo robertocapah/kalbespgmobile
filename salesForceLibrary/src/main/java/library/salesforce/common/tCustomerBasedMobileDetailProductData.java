@@ -5,6 +5,8 @@ public class tCustomerBasedMobileDetailProductData{
 	private String _intTrCustomerIdDetail;
 	private String _txtProductBrandCode;
 	private String _txtProductBrandName;
+	private String _txtProductCompetitorCode;
+	private String _txtProductCompetitorName;
 	private String _bitActive;
 	private String _dtInserted;
 	private String _dtUpdated;
@@ -31,6 +33,8 @@ public class tCustomerBasedMobileDetailProductData{
 	public String Property_intTrCustomerIdDetail="intTrCustomerIdDetail";
 	public String Property_txtProductBrandCode="txtProductBrandCode";
 	public String Property_txtProductBrandName="txtProductBrandName";
+	public String Property_txtProductCompetitorCode="txtProductCompetitorCode";
+	public String Property_txtProductCompetitorName="txtProductCompetitorName";
 	public String Property_bitActive="bitActive";
 	public String Property_dtInserted="dtInserted";
 	public String Property_dtUpdated="dtUpdated";
@@ -43,6 +47,8 @@ public class tCustomerBasedMobileDetailProductData{
 							   Property_intTrCustomerIdDetail + "," +
 							   Property_txtProductBrandCode + "," +
 							   Property_txtProductBrandName + "," +
+							   Property_txtProductCompetitorCode + "," +
+							   Property_txtProductCompetitorName + "," +
                                Property_txtProductBrandQty + "," +
 							   Property_bitActive + "," +
 							   Property_dtInserted + "," +
@@ -103,5 +109,21 @@ public class tCustomerBasedMobileDetailProductData{
 	}
 	public void set_txtUpdatedBy(String _txtUpdatedBy) {
 		this._txtUpdatedBy = _txtUpdatedBy;
+	}
+
+	public String get_txtProductCompetitorCode() {
+		return _txtProductCompetitorCode;
+	}
+
+	public void set_txtProductCompetitorCode(String _txtProductCompetitorCode) {
+		this._txtProductCompetitorCode = _txtProductCompetitorCode;
+	}
+
+	public String get_txtProductCompetitorName() {
+		return _txtProductCompetitorName;
+	}
+
+	public void set_txtProductCompetitorName(String _txtProductCompetitorName) {
+		this._txtProductCompetitorName = _txtProductCompetitorName;
 	}
 }
