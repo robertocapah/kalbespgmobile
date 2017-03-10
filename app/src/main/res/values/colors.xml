@@ -26,4 +26,9 @@
     <color name="back_splash">#171b21</color>
 
     <color name="translucte">#8Bbfbfbf</color>
+
+    <color name="swipelist_add">#27ae60</color>
+    <color name="swipelist_view">#16a085</color>
+    <color name="swipelist_edit">#2980b9</color>
+    <color name="swipelist_delete">#c0392b</color>
 </resources>
