@@ -429,6 +429,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 qty.setText("");
 
                 setTableProduct(dataDetail, promptView);
+                setTablePerson();
             }
         });
 
