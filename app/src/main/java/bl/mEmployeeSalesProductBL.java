@@ -69,6 +69,9 @@ public class mEmployeeSalesProductBL extends clsMainBL{
 				_data.set_txtNIK((String) innerObj.get("TxtNIK"));
 				_data.set_txtName((String) innerObj.get("TxtName"));
 				_data.set_txtProductBrandDetailGramName((String) innerObj.get("TxtProductBrandDetailGramName"));
+				_data.set_txtProductDetailCode((String) innerObj.get("TxtProductDetailCode"));
+				_data.set_txtProductDetailName((String) innerObj.get("TxtProductDetailName"));
+				_data.set_txtLobName((String) innerObj.get("TxtLobName"));
 				_mEmployeeBranchDA.SaveDataMConfig(db, _data);
 			}else{
 				flag=false;

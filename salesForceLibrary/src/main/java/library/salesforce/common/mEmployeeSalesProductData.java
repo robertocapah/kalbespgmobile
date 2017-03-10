@@ -45,6 +45,30 @@ public class mEmployeeSalesProductData {
 	public synchronized void set_decBobot(String _decBobot) {
 		this._decBobot = _decBobot;
 	}
+
+	public synchronized String get_txtProductDetailName() {
+		return _txtProductDetailName;
+	}
+
+	public synchronized void set_txtProductDetailName(String _txtProductDetailName) {
+		this._txtProductDetailName = _txtProductDetailName;
+	}
+
+	public synchronized String get_txtProductDetailCode() {
+		return _txtProductDetailCode;
+	}
+
+	public synchronized void set_txtProductDetailCode(String _txtProductDetailCode) {
+		this._txtProductDetailCode = _txtProductDetailCode;
+	}
+
+	public synchronized String get_txtLobName() {
+		return _txtLobName;
+	}
+
+	public synchronized void set_txtLobName(String _txtLobName) {
+		this._txtLobName = _txtLobName;
+	}
 	
 	public mEmployeeSalesProductData() {
 		super();
@@ -53,13 +77,16 @@ public class mEmployeeSalesProductData {
 	public mEmployeeSalesProductData(String _txtNIK, String _txtName,
 			String _txtBrandDetailGramCode,
 			String _txtProductBrandDetailGramName, String _decHJD,
-			String _decBobot) {
+			String _decBobot, String _txtProductDetailCode, String _txtProductDetailName, String _txtLobName) {
 		this._txtNIK = _txtNIK;
 		this._txtName = _txtName;
 		this._txtBrandDetailGramCode = _txtBrandDetailGramCode;
 		this._txtProductBrandDetailGramName = _txtProductBrandDetailGramName;
 		this._decHJD = _decHJD;
 		this._decBobot = _decBobot;
+		this._txtProductDetailCode = _txtProductDetailCode;
+		this._txtProductDetailName = _txtProductDetailName;
+		this._txtLobName = _txtLobName;
 	}
 	
 	private String _intId;
@@ -69,6 +96,9 @@ public class mEmployeeSalesProductData {
 	private String _txtProductBrandDetailGramName;
 	private String _decHJD;
 	private String _decBobot;
+	private String _txtProductDetailCode;
+	private String _txtProductDetailName;
+	private String _txtLobName;
 	
 	public String Property_txtNIK="txtNIK";
 	public String Property_intId="intId";
@@ -77,7 +107,10 @@ public class mEmployeeSalesProductData {
 	public String Property_txtProductBrandDetailGramName="txtProductBrandDetailGramName";
 	public String Property_decHJD="decHJD";
 	public String Property_decBobot="decBobot";
+	public String Property_txtProductDetailCode="txtProductDetailCode";
+	public String Property_txtProductDetailName="txtProductDetailName";
+	public String Property_txtLobName="txtLobName";
 	public String Property_ListOfmEmployeeSalesProductData="ListOfmEmployeeSalesProductData";
 	public String Property_All= Property_intId +","+ Property_decBobot +","+Property_decHJD+","+Property_txtBrandDetailGramCode+","+
-	Property_txtName+","+Property_txtNIK+","+Property_txtProductBrandDetailGramName;
+	Property_txtName+","+Property_txtNIK+","+Property_txtProductBrandDetailGramName+","+Property_txtProductDetailCode+","+Property_txtProductDetailName+","+Property_txtLobName;
 }
