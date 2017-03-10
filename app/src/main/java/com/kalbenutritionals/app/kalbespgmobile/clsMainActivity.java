@@ -459,40 +459,28 @@ public class clsMainActivity extends Activity {
                 for (int i = 0; i < map.size(); i++) {
                     map2 = map.get(String.valueOf(i));
 
-                    // create "open" item
                     SwipeMenuItem menuItem = new SwipeMenuItem(_ctx);
-                    // set item background
-                    menuItem.setBackground(new ColorDrawable(Color.parseColor(map2.get("bgColor"))));
-                    // set item width
                     menuItem.setWidth(dp2px(_ctx, 90));
-                    // set item title
 
                     if (map2.get("name") == "View") {
                         int icon = R.drawable.ic_view;
                         menuItem.setIcon(icon);
+                        menuItem.setBackground(new ColorDrawable(Color.parseColor("#16a085")));
                     } else if (map2.get("name") == "Edit") {
-                        int icon = R.drawable.ic_edit;
+                        int icon = R.drawable.ic_edit_white;
                         menuItem.setIcon(icon);
+                        menuItem.setBackground(new ColorDrawable(Color.parseColor("#2980b9")));
                     } else if (map2.get("name") == "Delete") {
-                        int icon = R.drawable.ic_delete;
+                        int icon = R.drawable.ic_delete_white;
                         menuItem.setIcon(icon);
+                        menuItem.setBackground(new ColorDrawable(Color.parseColor("#c0392b")));
                     } else if (map2.get("name") == "Add") {
-                        int icon = R.drawable.ic_add_black_48dp;
+                        int icon = R.drawable.ic_add_white;
                         menuItem.setIcon(icon);
+                        menuItem.setBackground(new ColorDrawable(Color.parseColor("#27ae60")));
                     }
-                    // add to menu
                     menu.addMenuItem(menuItem);
                 }
-                // create "delete" item
-                // SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
-                // set item background
-                // deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
-                // set item width
-                // deleteItem.setWidth(dp2px(90));
-                // set a icon
-                // deleteItem.setIcon(R.drawable.ic_delete);
-                // add to menu
-                // menu.addMenuItem(deleteItem);
             }
         };
 

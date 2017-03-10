@@ -71,7 +71,6 @@ import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.common.tUserLoginData;
-import library.salesforce.dal.mProductBrandHeaderDA;
 
 public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClickListener, IXListViewListener {
     private ArrayList<ModelListview> modelItems;
@@ -341,15 +340,12 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     private void popUpAddProduct(final tCustomerBasedMobileDetailData dataDetail) {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         final View promptView = layoutInflater.inflate(R.layout.popup_add_product, null);
-//        final EditText searchProduct = (EditText) promptView.findViewById(R.id.searchProduct);
         final List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetAllData();
         final TextView nama = (TextView) promptView.findViewById(R.id.add_nama);
-        final TextInputLayout textInputLayoutNamaPopup = (TextInputLayout) promptView.findViewById(R.id.input_layout_nama);
         final Button btnAddProduct = (Button) promptView.findViewById(R.id.btn_add_product);
         final EditText qty = (EditText) promptView.findViewById(R.id.qty);
         final HashMap<String, String> HMProduct = new HashMap<String, String>();
-
-        List<tCustomerBasedMobileDetailProductData> dataProduct = null;
+        final HashMap<String, String> HMProductKompetitor = new HashMap<String, String>();
 
         setTableProduct(dataDetail, promptView);
 
@@ -357,8 +353,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         final Spinner spnCompetProduct = (Spinner) promptView.findViewById(R.id.spn_cp_product);
 
         List<String> dataProductKalbe = new ArrayList<String>();
+        final List<String> dataProductKompetitor = new ArrayList<String>();
+
         List<tSalesProductHeaderData> listSalesProductHeaderData = new tSalesProductHeaderBL().getAllSalesProductHeader();
-        List<mEmployeeSalesProductData> listDataProductKalbe = new mEmployeeSalesProductBL().GetAllData();
+        final List<mEmployeeSalesProductData> listDataProductKalbe = new mEmployeeSalesProductBL().GetAllData();
 
         if (listDataProductKalbe.size() > 0) {
             for (mEmployeeSalesProductData dt : listDataProductKalbe) {
@@ -366,50 +364,41 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 HMProduct.put(dt.get_txtProductBrandDetailGramName(), dt.get_txtBrandDetailGramCode());
             }
         }
-        final List<mProductBrandHeaderDA> dataKalbeProduct = new ArrayList<mProductBrandHeaderDA>();
-
-        List<String> dataKnPro = new ArrayList<String>();
 
         ArrayAdapter<String> adapterKalbeProduct = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataProductKalbe);
         spnKalbeProduct.setAdapter(adapterKalbeProduct);
 
-        List<mProductCompetitorData> mProductCompetitorDataList=new mProductCompetitorBL().GetAllData();;
-        mProductCompetitorDataList = new mProductCompetitorBL().GetAllData();
-
-//        String[] arrDefaultProductKompet = new String[]{"-"};
         List<mProductCompetitorData> listDataProductCompet = new mProductCompetitorBL().GetAllData();
 
-        List<String> dataProductCompet = new ArrayList<String>();
-        if (mProductCompetitorDataList.size() > 0) {
-            for (mProductCompetitorData dt : listDataProductCompet) {
-                dataProductCompet.add(dt.get_txtProdukKompetitorID());
-            }
-        }
-        ArrayAdapter<String> adapterCompetProduct = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataProductCompet);
-        spnCompetProduct.setAdapter(adapterCompetProduct);
+        spnKalbeProduct.setAdapter(adapterKalbeProduct);
 
-
-        /*spnKalbeProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spnKalbeProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-                List<String> dataProductCompet = new ArrayList<String>();
-                String selectedOne = spnKalbeProduct.getSelectedItem().toString();
-                String idProductKalbe=HMProduct.get(selectedOne);
+                HMProductKompetitor.clear();
+                dataProductKompetitor.clear();
 
-                List<mProductCompetitorData> listDataProductCompet = new mProductCompetitorBL().GetDataByIdKn(idProductKalbe);
-                for (mProductCompetitorData dt : listDataProductCompet){
-                    dataProductCompet.add(dt.get_txtProdukKompetitorID());
+                String txtProductDetailCode = listDataProductKalbe.get(position).get_txtProductDetailCode();
+                List<mProductCompetitorData> listProductKompetitor = new mProductCompetitorBL().GetListDataByProductKN(txtProductDetailCode);
+
+                if (listProductKompetitor.size() > 0) {
+                    for (mProductCompetitorData dt : listProductKompetitor) {
+                        dataProductKompetitor.add(dt.get_txtProdukKompetitorID());
+                        HMProductKompetitor.put(dt.get_txtProdukKompetitorID(), dt.get_txtProdukKompetitorID());
+                    }
                 }
-                ArrayAdapter<String> adapterKompetProduct = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataProductCompet);
+
+                ArrayAdapter<String> adapterKompetProduct = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataProductKompetitor);
                 spnCompetProduct.setAdapter(adapterKompetProduct);
+
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onNothingSelected(AdapterView<?> parentView) {
             }
-        });*/
+
+        });
 
 
         btnAddProduct.setOnClickListener(new View.OnClickListener() {
@@ -417,7 +406,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             public void onClick(View v) {
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String date = dateFormat.format(Calendar.getInstance().getTime());
-                String selectedOne = spnKalbeProduct.getSelectedItem().toString();
+                String selectedOneKNProduct = spnKalbeProduct.getSelectedItem().toString();
+                String selectedOneCompetitorProduct = spnCompetProduct.getSelectedItem().toString();
                 tUserLoginData dtUser = new tUserLoginBL().getUserActive();
                 String qtyProduct = null;
                 qtyProduct = qty.getText().toString();
@@ -425,15 +415,17 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 tCustomerBasedMobileDetailProductData data = new tCustomerBasedMobileDetailProductData();
                 data.set_intTrCustomerIdDetailProduct(new clsMainActivity().GenerateGuid());
                 data.set_intTrCustomerIdDetail(dataDetail.get_intTrCustomerIdDetail());
-                data.set_txtProductBrandCode(HMProduct.get(selectedOne));
-                data.set_txtProductBrandName(selectedOne);
+                data.set_txtProductBrandCode(HMProduct.get(selectedOneKNProduct));
+                data.set_txtProductBrandName(selectedOneKNProduct);
                 data.set_txtProductBrandQty(qtyProduct);
+                data.set_txtProductCompetitorCode(HMProductKompetitor.get(selectedOneCompetitorProduct));
+                data.set_txtProductCompetitorName(selectedOneCompetitorProduct);
                 data.set_dtInserted(date);
                 data.set_txtInsertedBy(dtUser.get_txtUserId());
 
                 new tCustomerBasedMobileDetailProductBL().saveData(data);
                 spnKalbeProduct.setSelection(0);
-                spnCompetProduct.setSelection(0);
+                spnCompetProduct.setAdapter(null);
                 qty.setText("");
 
                 setTableProduct(dataDetail, promptView);
@@ -744,13 +736,13 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         HashMap<String, String> mapAdd = new HashMap<String, String>();
 
         mapAdd.put("name", "Add");
-        mapAdd.put("bgColor", "#FF99CC00");
+        mapAdd.put("bgColor", "#27ae60");
 
         mapEdit.put("name", "Edit");
-        mapEdit.put("bgColor", "#3498db");
+        mapEdit.put("bgColor", "#2980b9");
 
         mapDelete.put("name", "Delete");
-        mapDelete.put("bgColor", "#FF0000");
+        mapDelete.put("bgColor", "#c0392b");
 
         mapMenu = new HashMap<String, HashMap>();
         mapMenu.put("0", mapAdd);
