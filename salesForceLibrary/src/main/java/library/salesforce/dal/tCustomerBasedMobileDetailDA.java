@@ -158,7 +158,7 @@ public class tCustomerBasedMobileDetailDA {
         List<tCustomerBasedMobileDetailData> contactList = new ArrayList<tCustomerBasedMobileDetailData>();
         // Select All Query
         tCustomerBasedMobileDetailData dt = new tCustomerBasedMobileDetailData();
-        String selectQuery = "SELECT  " + dt.Property_ALL + " FROM " + TABLE_NAME + " WHERE " + dt.Property_intTrCustomerId + "='" + id + "' ORDER BY intNo";
+        String selectQuery = "SELECT  " + dt.Property_ALL + " FROM " + TABLE_NAME + " WHERE " + dt.Property_intTrCustomerId + "='" + id + "' ORDER BY " + dt.Property_dtInserted + " desc";
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 

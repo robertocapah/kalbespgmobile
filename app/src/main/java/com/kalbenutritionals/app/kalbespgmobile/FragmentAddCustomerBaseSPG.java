@@ -46,6 +46,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import bl.mEmployeeSalesProductBL;
+import bl.mProductCompetitorBL;
+import bl.mTypeSubmissionMobileBL;
 import bl.tAbsenUserBL;
 import bl.tCustomerBasedMobileDetailBL;
 import bl.tCustomerBasedMobileDetailProductBL;
@@ -62,6 +64,8 @@ import library.salesforce.common.AppAdapter;
 import library.salesforce.common.ModelListview;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.mEmployeeSalesProductData;
+import library.salesforce.common.mProductCompetitorData;
+import library.salesforce.common.mTypeSubmissionMobile;
 import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
@@ -76,8 +80,9 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     ListView listView;
     MyAdapter dataAdapter;
 
-    EditText etCustomerBasedNo, etEmail, etNama, etTelpon, etAlamat, etTelponKantor, etPinBBM, etTglLhr;
-    TextInputLayout textInputLayoutNama, textInputLayoutTelp, textInputLayoutTelpKantor, textInputLayoutEmail;
+    Spinner spnSubmissionCode;
+    EditText etCustomerBasedNo, etEmail, etNama, etTelpon, etTelpon2, etAlamat, etTelponKantor, etPinBBM, etTglLhr;
+    TextInputLayout textInputLayoutNama, textInputLayoutTelp, textInputLayoutTelp2, textInputLayoutTelpKantor, textInputLayoutEmail;
 
     CheckBox cbPIC;
     RadioGroup radioGenderGroup;
@@ -94,6 +99,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     private PullToRefreshSwipeMenuListView mListView;
     private Handler mHandler;
     private static Map<String, HashMap> mapMenu;
+    private HashMap<String, String> HMSubmision = new HashMap<String, String>();
 
     static List<tCustomerBasedMobileHeaderData> dt;
 
@@ -110,6 +116,9 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         textInputLayoutTelp = (TextInputLayout) v.findViewById(R.id.input_layout_telp);
         etTelpon = (EditText) v.findViewById(R.id.etTelpon);
+
+        textInputLayoutTelp2= (TextInputLayout) v.findViewById(R.id.input_layout_telp2);
+        etTelpon2=(EditText) v.findViewById(R.id.etTelpon2);
 
         textInputLayoutEmail = (TextInputLayout) v.findViewById(R.id.input_layout_email);
         etEmail = (EditText) v.findViewById(R.id.etEmail);
@@ -128,6 +137,20 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 return true;
             }
         });
+        spnSubmissionCode=(Spinner) v.findViewById(R.id.spn_submission);
+
+//        submission
+        List<mTypeSubmissionMobile> typeSubmissionDataList = new mTypeSubmissionMobileBL().GetAllData();
+        List<String> arrData = new ArrayList<String>();
+        if (typeSubmissionDataList.size() > 0) {
+            for (mTypeSubmissionMobile dt : typeSubmissionDataList) {
+                arrData.add(dt.get_txtNamaMasterData());
+                HMSubmision.put(dt.get_txtNamaMasterData(),dt.get_txtMasterID());
+            }
+        }
+            ArrayAdapter<String> adapterSubmission = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item,arrData);
+            spnSubmissionCode.setAdapter(adapterSubmission);
+
 
         etCustomerBasedNo.setText(new tCustomerBasedMobileHeaderBL().generateSubmissionId());
 
@@ -138,6 +161,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             etAlamat.setText(dtHeader.get_txtALamat());
             etNama.setText(dtHeader.get_txtNamaDepan());
             etTelpon.setText(dtHeader.get_txtTelp());
+            etTelpon2.setText(dtHeader.get_txtTelp2());
             etTelponKantor.setText(dtHeader.get_txtTelpKantor());
             etEmail.setText(dtHeader.get_txtEmail());
             etPinBBM.setText(dtHeader.get_txtPINBBM());
@@ -231,6 +255,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                             TextView tvCode = (TextView) v.findViewById(R.id.tvCode);
                             TextView tvNama = (TextView) v.findViewById(R.id.tvNamaPreview);
                             TextView tvTelp = (TextView) v.findViewById(R.id.tvTelpPreview);
+                            TextView tvTelp2 = (TextView) v.findViewById(R.id.tvTelpPreview2);
                             TextView tvTelpKantor = (TextView) v.findViewById(R.id.tvTelpKantor);
                             TextView tvAlamat = (TextView) v.findViewById(R.id.tvAlamatPreview);
                             TextView tvEmail = (TextView) v.findViewById(R.id.tvEmailPreview);
@@ -246,6 +271,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                             tvCode.setText("Code : " + new tCustomerBasedMobileHeaderBL().getDataByBitActive().get_txtSubmissionId());
                             tvNama.setText("Nama : " + etNama.getText().toString());
                             tvTelp.setText("Telp : " + etTelpon.getText().toString());
+                            tvTelp2.setText("Telp 2 : "+etTelpon2.getText().toString());
                             tvTelpKantor.setText("Telp Kantor : " + etTelponKantor.getText().toString());
                             tvAlamat.setText("Alamat : " + etAlamat.getText().toString());
                             tvEmail.setText("Email : " + etEmail.getText().toString());
@@ -332,24 +358,59 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         List<String> dataProductKalbe = new ArrayList<String>();
         List<tSalesProductHeaderData> listSalesProductHeaderData = new tSalesProductHeaderBL().getAllSalesProductHeader();
-        List<mEmployeeSalesProductData> listDataProduct = new mEmployeeSalesProductBL().GetAllData();
+        List<mEmployeeSalesProductData> listDataProductKalbe = new mEmployeeSalesProductBL().GetAllData();
 
-        if (listDataProduct.size() > 0) {
-            for (mEmployeeSalesProductData dt : listDataProduct) {
+        if (listDataProductKalbe.size() > 0) {
+            for (mEmployeeSalesProductData dt : listDataProductKalbe) {
                 dataProductKalbe.add(dt.get_txtProductBrandDetailGramName());
                 HMProduct.put(dt.get_txtProductBrandDetailGramName(), dt.get_txtBrandDetailGramCode());
             }
         }
-        String[] arrDefaultProductKompet = new String[]{"-", "ProductKompet 1", "ProductKompet 2"};
         final List<mProductBrandHeaderDA> dataKalbeProduct = new ArrayList<mProductBrandHeaderDA>();
-        ;
+
         List<String> dataKnPro = new ArrayList<String>();
 
         ArrayAdapter<String> adapterKalbeProduct = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataProductKalbe);
-        ArrayAdapter<String> adapterKompetProduct = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, arrDefaultProductKompet);
-
         spnKalbeProduct.setAdapter(adapterKalbeProduct);
-        spnCompetProduct.setAdapter(adapterKompetProduct);
+
+        List<mProductCompetitorData> mProductCompetitorDataList=new mProductCompetitorBL().GetAllData();;
+        mProductCompetitorDataList = new mProductCompetitorBL().GetAllData();
+
+//        String[] arrDefaultProductKompet = new String[]{"-"};
+        List<mProductCompetitorData> listDataProductCompet = new mProductCompetitorBL().GetAllData();
+
+        List<String> dataProductCompet = new ArrayList<String>();
+        if (mProductCompetitorDataList.size() > 0) {
+            for (mProductCompetitorData dt : listDataProductCompet) {
+                dataProductCompet.add(dt.get_txtProdukKompetitorID());
+            }
+        }
+        ArrayAdapter<String> adapterCompetProduct = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataProductCompet);
+        spnCompetProduct.setAdapter(adapterCompetProduct);
+
+
+        /*spnKalbeProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                List<String> dataProductCompet = new ArrayList<String>();
+                String selectedOne = spnKalbeProduct.getSelectedItem().toString();
+                String idProductKalbe=HMProduct.get(selectedOne);
+
+                List<mProductCompetitorData> listDataProductCompet = new mProductCompetitorBL().GetDataByIdKn(idProductKalbe);
+                for (mProductCompetitorData dt : listDataProductCompet){
+                    dataProductCompet.add(dt.get_txtProdukKompetitorID());
+                }
+                ArrayAdapter<String> adapterKompetProduct = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataProductCompet);
+                spnCompetProduct.setAdapter(adapterKompetProduct);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });*/
+
 
         btnAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -402,14 +463,27 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         final View promptView = layoutInflater.inflate(R.layout.popup_add_customerbase, null);
 
         final EditText nama = (EditText) promptView.findViewById(R.id.etNama);
+        final EditText usiaKehamilan= (EditText) promptView.findViewById(R.id.usiaKehamilan);
+        usiaKehamilan.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                usiaKehamilan.setText("");
+            }
+        });
 //        final EditText searchProduct = (EditText) promptView.findViewById(R.id.searchProduct);
         final RadioGroup radioGroupGender = (RadioGroup) promptView.findViewById(R.id.radioGender);
         final TextInputLayout textInputLayoutNamaPopup = (TextInputLayout) promptView.findViewById(R.id.input_layout_nama);
         final DatePicker dp = (DatePicker) promptView.findViewById(R.id.dp_tgl_lahir);
 
+        dp.setMaxDate(System.currentTimeMillis());
+
 //        format tgl
-        long date = System.currentTimeMillis();
-        final SimpleDateFormat formatDB = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        final SimpleDateFormat formatTgl = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        int day= dp.getDayOfMonth();
+        int month=dp.getMonth();
+        int year=dp.getYear();
+
+        final String tglLahir=day+"-"+month+"-"+year;
 
 //        final List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetAllData();
         modelItems = new ArrayList<>();
@@ -564,8 +638,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
                         data.set_intTrCustomerId(dtHeader.get_intTrCustomerId());
                         data.set_txtNamaDepan(nama.getText().toString());
+                        data.set_txtUsiaKehamilan(usiaKehamilan.getText().toString());
                         data.set_bitActive("1");
                         data.set_dtInserted(dateFormat.format(cal.getTime()));
+                        data.set_txtTglLahir(tglLahir);
 
                         int selectedId = radioGroupGender.getCheckedRadioButtonId();
                         RadioButton rbGender = (RadioButton) promptView.findViewById(selectedId);
@@ -774,6 +850,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         dtHeader.set_txtNamaSumberData(new tAbsenUserBL().getDataCheckInActive().get_txtOutletName());
         dtHeader.set_txtNamaDepan(etNama.getText().toString());
         dtHeader.set_txtTelp(etTelpon.getText().toString());
+        dtHeader.set_txtTelp2(etTelpon2.getText().toString());
         dtHeader.set_txtTelpKantor(etTelponKantor.getText().toString());
         dtHeader.set_txtEmail(etEmail.getText().toString());
         dtHeader.set_txtPINBBM(etPinBBM.getText().toString());
@@ -1058,11 +1135,16 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     private boolean validateHeader() {
 
         String notelp = etTelpon.getText().toString();
+        String notelp2 = etTelpon2.getText().toString();
         String notelpkantor = etTelponKantor.getText().toString();
         String firstNotelp = "";
+        String secondNotelp = "";
 
         if (notelp.length() > 0) {
             firstNotelp = notelp.substring(0, 1);
+        }
+        if (notelp2.length() > 0) {
+            secondNotelp = notelp2.substring(0, 1);
         }
 
         String firstNotelpkantor = null;
@@ -1070,6 +1152,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         if (notelpkantor.length() > 0) {
             firstNotelpkantor = notelpkantor.substring(0, 1);
         }
+
 
         boolean validate = true;
         new clsMainActivity().removeErrorMessage(textInputLayoutNama);
@@ -1087,6 +1170,12 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             validate = false;
         } else if (!firstNotelp.equals("0")) {
             new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "No telpon diawali dengan angka 0");
+            validate = false;
+        }
+
+        if (etTelpon2.getText().toString().equals("")) {
+        } else if (!secondNotelp.equals("0")) {
+            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp2, etTelpon2, "No telpon diawali dengan angka 0");
             validate = false;
         }
 
