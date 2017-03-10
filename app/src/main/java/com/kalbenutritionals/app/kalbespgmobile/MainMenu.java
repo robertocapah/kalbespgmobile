@@ -198,7 +198,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
             if (i_view != null){
 
-                if (i_view.equals("Notifcation")){
+                if (i_view.equals("Notification")){
                     Class<?> fragmentClass = null;
                     try {
                         fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view);
