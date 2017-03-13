@@ -638,15 +638,9 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
                         int selectedId = radioGroupGender.getCheckedRadioButtonId();
                         RadioButton rbGender = (RadioButton) promptView.findViewById(selectedId);
-
                         data.set_txtGender(rbGender.getText().toString());
-
                         dtDetail.add(data);
-
                         new tCustomerBasedMobileDetailBL().saveData(data);
-
-                        new tCustomerBasedMobileDetailProductBL().deleteData(data.get_intTrCustomerIdDetail());
-
                         for (int i = 0; i < modelItems.size(); i++) {
                             if (modelItems.get(i).is_selected()) {
                                 tCustomerBasedMobileDetailProductData dtProduct = new tCustomerBasedMobileDetailProductData();
