@@ -42,7 +42,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import bl.mEmployeeSalesProductBL;
@@ -471,12 +470,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         dp.setMaxDate(System.currentTimeMillis());
 
 //        format tgl
-        final SimpleDateFormat formatTgl = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        int day= dp.getDayOfMonth();
-        int month=dp.getMonth();
-        int year=dp.getYear();
 
-        final String tglLahir=day+"-"+month+"-"+year;
 
 //        final List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetAllData();
         modelItems = new ArrayList<>();
@@ -628,6 +622,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
                             data.set_intNo(String.valueOf(dtListDetail.size() + 1));
                         }
+                        int day= dp.getDayOfMonth();
+                        int month=dp.getMonth();
+                        int year=dp.getYear();
+                        final String tglLahir=day+"-"+month+"-"+year;
 
                         data.set_intTrCustomerId(dtHeader.get_intTrCustomerId());
                         data.set_txtNamaDepan(nama.getText().toString());
