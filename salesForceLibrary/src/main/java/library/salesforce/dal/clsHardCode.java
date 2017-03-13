@@ -176,6 +176,7 @@ public class clsHardCode  {
 	public String txtMessErrorConnection = "Error connecting to Server\r\n please try again!!";
 	public String txtMessCancelRequest = "Canceled Request Data";
 	public String txtMessDataNotFound = "Data Not Found";
+	public String txtMessDataSubmissionIdNotFound = "Data SubmissionId Not Found";
 	public String txtMessSuccessDownload = "Success Download";
 	public String txtMessUnableToConnect = "Unable To Connect";
 	public String txtTokenAPI = "129195202189197196195202189175";

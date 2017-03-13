@@ -327,6 +327,7 @@ public class dataJson {
                     item1.put(dttCustomerBasedHeaderData.Property_txtNamaDepan, String.valueOf(data.get_txtNamaDepan()));
                     item1.put(dttCustomerBasedHeaderData.Property_txtGender, String.valueOf(data.get_txtGender()));
                     item1.put(dttCustomerBasedHeaderData.Property_txtTelp, String.valueOf(data.get_txtTelp()));
+                    item1.put(dttCustomerBasedHeaderData.Property_txtTelp2, String.valueOf(data.get_txtTelp2()));
                     item1.put(dttCustomerBasedHeaderData.Property_txtTelpKantor, String.valueOf(data.get_txtTelpKantor()));
                     item1.put(dttCustomerBasedHeaderData.Property_txtEmail, String.valueOf(data.get_txtEmail()));
                     item1.put(dttCustomerBasedHeaderData.Property_txtPINBBM, String.valueOf(data.get_txtPINBBM()));
@@ -359,6 +360,8 @@ public class dataJson {
                     item1.put(dttCustomerBasedDetailData.Property_dtUpdated, String.valueOf(data.get_dtUpdated()));
                     item1.put(dttCustomerBasedDetailData.Property_txtInsertedBy, String.valueOf(data.get_txtInsertedBy()));
                     item1.put(dttCustomerBasedDetailData.Property_txtUpdatedBy, String.valueOf(data.get_txtUpdatedBy()));
+                    item1.put(dttCustomerBasedDetailData.Property_txtUsiaKehamilan, String.valueOf(data.get_txtUsiaKehamilan()));
+                    item1.put(dttCustomerBasedDetailData.Property_txtTglLahir, String.valueOf(data.get_txtTglLahir()));
 
                     itemsListJquey.add(item1);
                 }
@@ -380,6 +383,8 @@ public class dataJson {
                     item1.put(dttCustomerBasedDetailProductData.Property_dtUpdated, String.valueOf(data.get_dtUpdated()));
                     item1.put(dttCustomerBasedDetailProductData.Property_txtInsertedBy, String.valueOf(data.get_txtInsertedBy()));
                     item1.put(dttCustomerBasedDetailProductData.Property_txtUpdatedBy, String.valueOf(data.get_txtUpdatedBy()));
+                    item1.put(dttCustomerBasedDetailProductData.Property_txtProductCompetitorCode, String.valueOf(data.get_txtProductCompetitorCode()));
+                    item1.put(dttCustomerBasedDetailProductData.Property_txtProductCompetitorName, String.valueOf(data.get_txtProductCompetitorName()));
 
                     itemsListJquey.add(item1);
                 }
