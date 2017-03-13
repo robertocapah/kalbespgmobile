@@ -61,7 +61,6 @@ import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 import library.salesforce.dal.enumConfigData;
 import library.salesforce.dal.mconfigDA;
-import service.MyServiceNative;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -398,6 +397,13 @@ public class Login extends clsMainActivity {
                         _tUserLoginData.set_txtSubmissionID((String) innerObj.get("TxtSubmissonId"));
                         _tUserLoginData.set_txtCheckLocation((String) innerObj.get("TDeviceInfoUser_mobile"));
 
+                        String TxtSubmissonId = (String) innerObj.get("TxtSubmissonId");
+                        if(TxtSubmissonId.equals("")||TxtSubmissonId==null){
+                            showCustomToast(Login.this, new clsHardCode().txtMessDataSubmissionIdNotFound, false);
+                            Dialog.dismiss();
+                            return;
+                        }
+
                         new tDeviceInfoUserBL().SaveInfoDevice(_tUserLoginData.get_TxtEmpId(), _tUserLoginData.get_txtDeviceId());
                         new tUserLoginBL().saveData(_tUserLoginData);
 
@@ -419,7 +425,7 @@ public class Login extends clsMainActivity {
                             listData.add(data);
                         }
                         new mMenuBL().SaveData(listData);
-                        startService(new Intent(Login.this, MyServiceNative.class));
+//                        startService(new Intent(Login.this, MyServiceNative.class));
                         finish();
                         Intent myIntent = new Intent(Login.this, MainMenu.class);
                         myIntent.putExtra("keyMainMenu", "main_menu");
