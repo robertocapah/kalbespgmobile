@@ -1754,6 +1754,7 @@ public class FragmentDownloadData extends Fragment {
                 _data.set_txtGrupMasterID(String.valueOf(innerObj.get("TxtGrupMasterID")));
                 _data.set_txtKeterangan(String.valueOf(innerObj.get("TxtKeterangan")));
                 _data.set_txtNamaMasterData(String.valueOf(innerObj.get("TxtNamaMasterData")));
+                _data.set_intLastActiveSelection("0");
                 _array.add(_data.get_txtMasterID());
                 _Listdata.add(_data);
             } else {

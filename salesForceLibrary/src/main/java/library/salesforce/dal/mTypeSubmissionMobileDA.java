@@ -16,10 +16,12 @@ public class mTypeSubmissionMobileDA {
     public mTypeSubmissionMobileDA(SQLiteDatabase db) {
         mTypeSubmissionMobile dt = new mTypeSubmissionMobile();
         String CREATE_CONTACTS_TABLE = "CREATE TABLE IF NOT EXISTS "
-                + TABLE_CONTACTS + "(" + dt.Property_txtMasterID
-                + " TEXT PRIMARY KEY," + dt.Property_txtGrupMasterID
-                + " TEXT NULL," + dt.Property_txtNamaMasterData + " TEXT NULL,"
-                + dt.Property_txtKeterangan + " TEXT NULL)";
+                + TABLE_CONTACTS + "("
+                + dt.Property_txtMasterID + " TEXT PRIMARY KEY,"
+                + dt.Property_txtGrupMasterID + " TEXT NULL,"
+                + dt.Property_txtNamaMasterData + " TEXT NULL,"
+                + dt.Property_txtKeterangan + " TEXT NULL,"
+                + dt.Property_intLastActiveSelection + " TEXT NULL)";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -45,12 +47,14 @@ public class mTypeSubmissionMobileDA {
         + dt.Property_txtGrupMasterID
         + "," + dt.Property_txtMasterID
         + "," + dt.Property_txtNamaMasterData
-        + "," + dt.Property_txtKeterangan
+                + "," + dt.Property_txtKeterangan
+                + "," + dt.Property_intLastActiveSelection
         + ") " + "values('"
         + String.valueOf(data.get_txtGrupMasterID()) + "','"
         + String.valueOf(data.get_txtMasterID()) + "','"
         + String.valueOf(data.get_txtNamaMasterData()) + "','"
-        + String.valueOf(data.get_txtKeterangan()) + "'"+ ")");
+                + String.valueOf(data.get_txtKeterangan()) + "','"
+        + String.valueOf(data.get_intLastActiveSelection()) + "'"+ ")");
         // db.insert(TABLE_CONTACTS, null, values);
         // db.close(); // Closing database connection
     }
@@ -65,7 +69,7 @@ public class mTypeSubmissionMobileDA {
         Cursor cursor = db.query(TABLE_CONTACTS, new String[]{
                         dt.Property_txtGrupMasterID, dt.Property_txtMasterID
                         , dt.Property_txtNamaMasterData
-                        , dt.Property_txtKeterangan
+                        , dt.Property_txtKeterangan, dt.Property_intLastActiveSelection
                 },
                 dt.Property_txtGrupMasterID + "=?", new String[]{String.valueOf(id)},
                 null, null, null, null);
@@ -77,6 +81,7 @@ public class mTypeSubmissionMobileDA {
             contact.set_txtMasterID(cursor.getString(1));
             contact.set_txtNamaMasterData(cursor.getString(2));
             contact.set_txtKeterangan(cursor.getString(3));
+            contact.set_intLastActiveSelection(cursor.getString(4));
         } else {
             contact = null;
         }
@@ -101,6 +106,7 @@ public class mTypeSubmissionMobileDA {
                 contact.set_txtMasterID(cursor.getString(1));
                 contact.set_txtNamaMasterData(cursor.getString(2));
                 contact.set_txtKeterangan(cursor.getString(3));
+                contact.set_intLastActiveSelection(cursor.getString(4));
                 // Adding contact to list
                 contactList.add(contact);
             } while (cursor.moveToNext());
