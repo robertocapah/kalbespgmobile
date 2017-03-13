@@ -115,8 +115,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         textInputLayoutTelp = (TextInputLayout) v.findViewById(R.id.input_layout_telp);
         etTelpon = (EditText) v.findViewById(R.id.etTelpon);
 
-        textInputLayoutTelp2= (TextInputLayout) v.findViewById(R.id.input_layout_telp2);
-        etTelpon2=(EditText) v.findViewById(R.id.etTelpon2);
+        textInputLayoutTelp2 = (TextInputLayout) v.findViewById(R.id.input_layout_telp2);
+        etTelpon2 = (EditText) v.findViewById(R.id.etTelpon2);
 
         textInputLayoutEmail = (TextInputLayout) v.findViewById(R.id.input_layout_email);
         etEmail = (EditText) v.findViewById(R.id.etEmail);
@@ -135,22 +135,19 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 return true;
             }
         });
-        spnSubmissionCode=(Spinner) v.findViewById(R.id.spn_submission);
+        spnSubmissionCode = (Spinner) v.findViewById(R.id.spn_submission);
 
 //        submission
-        List<mTypeSubmissionMobile> typeSubmissionDataList = new mTypeSubmissionMobileBL().GetAllData();
+        final List<mTypeSubmissionMobile> typeSubmissionDataList = new mTypeSubmissionMobileBL().GetAllData();
         List<String> arrData = new ArrayList<String>();
         if (typeSubmissionDataList.size() > 0) {
             for (mTypeSubmissionMobile dt : typeSubmissionDataList) {
                 arrData.add(dt.get_txtNamaMasterData());
-                HMSubmision.put(dt.get_txtNamaMasterData(),dt.get_txtMasterID());
+                HMSubmision.put(dt.get_txtNamaMasterData(), dt.get_txtMasterID());
             }
         }
-            ArrayAdapter<String> adapterSubmission = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item,arrData);
-            spnSubmissionCode.setAdapter(adapterSubmission);
-
-
-        etCustomerBasedNo.setText(new tCustomerBasedMobileHeaderBL().generateSubmissionId());
+        ArrayAdapter<String> adapterSubmission = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, arrData);
+        spnSubmissionCode.setAdapter(adapterSubmission);
 
         dtHeader = new tCustomerBasedMobileHeaderBL().getDataByBitActive();
 
@@ -176,7 +173,27 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 rbPerempuan.setChecked(false);
             }
 
+            String key = "";
+            for (Map.Entry<String, String> entry : HMSubmision.entrySet()) {
+                if (entry.getValue().equals(dtHeader.get_txtSubmissionCode())) {
+                    key = entry.getKey();
+                }
+            }
+
+            spnSubmissionCode.setSelection(adapterSubmission.getPosition(key));
         }
+
+        spnSubmissionCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                etCustomerBasedNo.setText(new tCustomerBasedMobileHeaderBL().generateSubmissionId(typeSubmissionDataList.get(i).get_txtMasterID()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         Button btnAdd = (Button) v.findViewById(R.id.btnAdd);
         Button btnAddPerson = (Button) v.findViewById(R.id.btnAddPerson);
@@ -269,7 +286,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                             tvCode.setText("Code : " + new tCustomerBasedMobileHeaderBL().getDataByBitActive().get_txtSubmissionId());
                             tvNama.setText("Nama : " + etNama.getText().toString());
                             tvTelp.setText("Telp : " + etTelpon.getText().toString());
-                            tvTelp2.setText("Telp 2 : "+etTelpon2.getText().toString());
+                            tvTelp2.setText("Telp 2 : " + etTelpon2.getText().toString());
                             tvTelpKantor.setText("Telp Kantor : " + etTelponKantor.getText().toString());
                             tvAlamat.setText("Alamat : " + etAlamat.getText().toString());
                             tvEmail.setText("Email : " + etEmail.getText().toString());
@@ -455,7 +472,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         final View promptView = layoutInflater.inflate(R.layout.popup_add_customerbase, null);
 
         final EditText nama = (EditText) promptView.findViewById(R.id.etNama);
-        final EditText usiaKehamilan= (EditText) promptView.findViewById(R.id.usiaKehamilan);
+        final EditText usiaKehamilan = (EditText) promptView.findViewById(R.id.usiaKehamilan);
         usiaKehamilan.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -622,10 +639,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
                             data.set_intNo(String.valueOf(dtListDetail.size() + 1));
                         }
-                        int day= dp.getDayOfMonth();
-                        int month=dp.getMonth();
-                        int year=dp.getYear();
-                        final String tglLahir=day+"-"+month+"-"+year;
+                        int day = dp.getDayOfMonth();
+                        int month = dp.getMonth();
+                        int year = dp.getYear();
+                        final String tglLahir = day + "-" + month + "-" + year;
 
                         data.set_intTrCustomerId(dtHeader.get_intTrCustomerId());
                         data.set_txtNamaDepan(nama.getText().toString());
@@ -840,6 +857,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         dtHeader.set_txtEmail(etEmail.getText().toString());
         dtHeader.set_txtPINBBM(etPinBBM.getText().toString());
         dtHeader.set_txtALamat(etAlamat.getText().toString());
+        dtHeader.set_txtSubmissionId(etCustomerBasedNo.getText().toString());
+        dtHeader.set_txtSubmissionCode(HMSubmision.get(spnSubmissionCode.getSelectedItem().toString()));
         dtHeader.set_txtUserId(new tAbsenUserBL().getDataCheckInActive().get_txtUserId());
 
         int selectedId = radioGenderGroup.getCheckedRadioButtonId();

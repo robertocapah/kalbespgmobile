@@ -29,18 +29,13 @@ import library.salesforce.dal.tCustomerBasedMobileHeaderDA;
 import library.salesforce.dal.tUserLoginDA;
 
 public class tCustomerBasedMobileHeaderBL extends clsMainBL {
-    SQLiteDatabase db=getDb();
+    SQLiteDatabase db = getDb();
 
     public void saveData(tCustomerBasedMobileHeaderData dt) {
         SQLiteDatabase _db = getDb();
         tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(_db);
 
         String txtSubmissionCode = new tUserLoginBL().getUserActive().get_txtSubmissionID();
-
-        if (getDataByBitActive().get_txtSubmissionId() == null && dt.get_txtSubmissionId() == null) {
-            dt.set_txtSubmissionId(generateSubmissionId());
-            dt.set_txtSubmissionCode(txtSubmissionCode);
-        }
 
         _tCustomerBasedMobileHeaderDA.SaveDatatCustomerBasedMobileHeaderData(_db, dt);
     }
@@ -51,14 +46,14 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
         return dt;
     }
 
-    public List<tCustomerBasedMobileHeaderData> getAllCustomerBasedMobileHeaderByOutletCode(String code){
-        SQLiteDatabase _db =getDb();
+    public List<tCustomerBasedMobileHeaderData> getAllCustomerBasedMobileHeaderByOutletCode(String code) {
+        SQLiteDatabase _db = getDb();
         tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(_db);
-        List<tCustomerBasedMobileHeaderData> dt = _tCustomerBasedMobileHeaderDA.getAllDataByOutletCode(_db,code);
-        if(dt == null){
+        List<tCustomerBasedMobileHeaderData> dt = _tCustomerBasedMobileHeaderDA.getAllDataByOutletCode(_db, code);
+        if (dt == null) {
             dt = new ArrayList<>(0);
         }
-        return dt ;
+        return dt;
     }
 
     public Boolean submit(Context context) {
@@ -178,7 +173,7 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
         return JsonArray;
     }
 
-    public String generateSubmissionId(){
+    public String generateSubmissionId(String noCustomerBase) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
 
@@ -192,28 +187,9 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
 
         String txtSubmissionCode = new tUserLoginBL().getUserActive().get_txtSubmissionID();
 
-        List<tCustomerBasedMobileHeaderData> dttas = getLastData();
-
-        String noCustomerBase = null;
-
-        if (dttas == null || dttas.size() == 0) {
-            noCustomerBase = "1";
-        } else {
-            String oldVersion = dttas.get(0).get_txtSubmissionId();
-            String[] splitSubmission = oldVersion.split("\\.");
-            if ((dd + mm + yy.substring(2)).equals(splitSubmission[1])) {
-                String lastCount = oldVersion.substring(oldVersion.length() - 3);
-                noCustomerBase = String.valueOf(Integer.parseInt(lastCount) + 1);
-            } else {
-                noCustomerBase = "1";
-            }
-        }
-
         String txtSubmissionId = null;
 
-        if (getDataByBitActive().get_txtSubmissionId() == null) {
-            txtSubmissionId = txtSubmissionCode + "." + dd + mm + yy.substring(2) + "." + String.format("%03d", Integer.parseInt(noCustomerBase));
-        }
+        txtSubmissionId = txtSubmissionCode + "." + dd + mm + yy.substring(2) + "." + noCustomerBase;
 
         return txtSubmissionId;
     }
