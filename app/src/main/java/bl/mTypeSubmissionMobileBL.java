@@ -26,37 +26,54 @@ public class mTypeSubmissionMobileBL extends clsMainBL {
 
     public void saveData(List<mTypeSubmissionMobile> Listdata) {
         SQLiteDatabase db = getDb();
-        mTypeSubmissionMobileDA _mTypeSubmissionMobileDA=new mTypeSubmissionMobileDA(db);
+        mTypeSubmissionMobileDA _mTypeSubmissionMobileDA = new mTypeSubmissionMobileDA(db);
         for (mTypeSubmissionMobile data : Listdata) {
             _mTypeSubmissionMobileDA.SaveDataMConfig(db, data);
         }
     }
-    public List<mTypeSubmissionMobile> GetAllData(){
-        SQLiteDatabase db=getDb();
-        mTypeSubmissionMobileDA _mTypeSubmissionMobileDA=new mTypeSubmissionMobileDA(db);
-        List<mTypeSubmissionMobile>ListData=_mTypeSubmissionMobileDA.getAllData(db);
+
+    public List<mTypeSubmissionMobile> GetAllData() {
+        SQLiteDatabase db = getDb();
+        mTypeSubmissionMobileDA _mTypeSubmissionMobileDA = new mTypeSubmissionMobileDA(db);
+        List<mTypeSubmissionMobile> ListData = _mTypeSubmissionMobileDA.getAllData(db);
         db.close();
         return ListData;
     }
+
+    public mTypeSubmissionMobile GetLastSelected() {
+        SQLiteDatabase db = getDb();
+        mTypeSubmissionMobileDA _mTypeSubmissionMobileDA = new mTypeSubmissionMobileDA(db);
+        mTypeSubmissionMobile ListData = _mTypeSubmissionMobileDA.getLastSelected(db, "1");
+        db.close();
+        return ListData;
+    }
+
+    public void updateLastSelected(String id) {
+        SQLiteDatabase db = getDb();
+        mTypeSubmissionMobileDA _mTypeSubmissionMobileDA = new mTypeSubmissionMobileDA(db);
+        _mTypeSubmissionMobileDA.UpdateLastSelected(db, id);
+        db.close();
+    }
+
     public JSONArray DownloadTypeSubmission(String versionApp, String txtUserId, String txtEmpId) throws ParseException {
-        SQLiteDatabase db=getDb();
-        JSONArray res=new JSONArray();
-        mconfigDA _mconfigDA=new mconfigDA(db);
-        tDeviceInfoUserData dt= new tDeviceInfoUserDA(db).getData(db, 1);
-        String txtDomain= _mconfigDA.getDomainKalbeData(db);
+        SQLiteDatabase db = getDb();
+        JSONArray res = new JSONArray();
+        mconfigDA _mconfigDA = new mconfigDA(db);
+        tDeviceInfoUserData dt = new tDeviceInfoUserDA(db).getData(db, 1);
+        String txtDomain = _mconfigDA.getDomainKalbeData(db);
         //String txtParam= txtDomain+"|"+txtUserName+"|"+txtPass+"||"+dt.get_txtVersion()+"|"+dt.get_txtDevice()+"|"+dt.get_txtModel()+"|"+intRoleId;
         JSONObject resJson = new JSONObject();
         resJson.put("TxtMasterID", "");
-        linkAPI dtlinkAPI=new linkAPI();
+        linkAPI dtlinkAPI = new linkAPI();
         dtlinkAPI.set_txtMethod("GetDatamTypeSubmissionMobile");
         dtlinkAPI.set_txtParam("");
         dtlinkAPI.set_txtToken(new clsHardCode().txtTokenAPI);
         dtlinkAPI.set_txtVesion(versionApp);
-        String strLinkAPI= dtlinkAPI.QueryString(getLinkAPI());
-        APIData dtAPIDATA=new APIData();
-        clsHelper _clsHelper=new clsHelper();
-        String JsonData= _clsHelper.pushtData(strLinkAPI, String.valueOf(resJson), Integer.valueOf(getBackGroundServiceOnline()));
-        res= _clsHelper.ResultJsonArray(JsonData);
+        String strLinkAPI = dtlinkAPI.QueryString(getLinkAPI());
+        APIData dtAPIDATA = new APIData();
+        clsHelper _clsHelper = new clsHelper();
+        String JsonData = _clsHelper.pushtData(strLinkAPI, String.valueOf(resJson), Integer.valueOf(getBackGroundServiceOnline()));
+        res = _clsHelper.ResultJsonArray(JsonData);
         //String txtParam=
         return res;
     }

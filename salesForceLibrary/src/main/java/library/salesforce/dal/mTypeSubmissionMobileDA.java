@@ -44,25 +44,33 @@ public class mTypeSubmissionMobileDA {
     public void SaveDataMConfig(SQLiteDatabase db, mTypeSubmissionMobile data) {
         mTypeSubmissionMobile dt = new mTypeSubmissionMobile();
         db.execSQL("INSERT OR REPLACE into " + TABLE_CONTACTS + " ("
-        + dt.Property_txtGrupMasterID
-        + "," + dt.Property_txtMasterID
-        + "," + dt.Property_txtNamaMasterData
+                + dt.Property_txtGrupMasterID
+                + "," + dt.Property_txtMasterID
+                + "," + dt.Property_txtNamaMasterData
                 + "," + dt.Property_txtKeterangan
                 + "," + dt.Property_intLastActiveSelection
-        + ") " + "values('"
-        + String.valueOf(data.get_txtGrupMasterID()) + "','"
-        + String.valueOf(data.get_txtMasterID()) + "','"
-        + String.valueOf(data.get_txtNamaMasterData()) + "','"
+                + ") " + "values('"
+                + String.valueOf(data.get_txtGrupMasterID()) + "','"
+                + String.valueOf(data.get_txtMasterID()) + "','"
+                + String.valueOf(data.get_txtNamaMasterData()) + "','"
                 + String.valueOf(data.get_txtKeterangan()) + "','"
-        + String.valueOf(data.get_intLastActiveSelection()) + "'"+ ")");
+                + String.valueOf(data.get_intLastActiveSelection()) + "'" + ")");
         // db.insert(TABLE_CONTACTS, null, values);
         // db.close(); // Closing database connection
     }
+
+    public void UpdateLastSelected(SQLiteDatabase db, String id) {
+        mTypeSubmissionMobile dt = new mTypeSubmissionMobile();
+        db.execSQL("update " + TABLE_CONTACTS + " set " + dt.Property_intLastActiveSelection + "='0'");
+        db.execSQL("update " + TABLE_CONTACTS + " set " + dt.Property_intLastActiveSelection + "='1' where " + dt.Property_txtMasterID + "='" + id + "'");
+    }
+
     public void DeleteAllDataMConfig(SQLiteDatabase db) {
-        db.execSQL("DELETE FROM " + TABLE_CONTACTS );
+        db.execSQL("DELETE FROM " + TABLE_CONTACTS);
         // db.insert(TABLE_CONTACTS, null, values);
         // db.close(); // Closing database connection
     }
+
     // Getting single contact
     public mTypeSubmissionMobile getData(SQLiteDatabase db, String id) {
         mTypeSubmissionMobile dt = new mTypeSubmissionMobile();
@@ -73,6 +81,26 @@ public class mTypeSubmissionMobileDA {
                 },
                 dt.Property_txtGrupMasterID + "=?", new String[]{String.valueOf(id)},
                 null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        mTypeSubmissionMobile contact = new mTypeSubmissionMobile();
+        if (cursor.getCount() > 0) {
+            contact.set_txtGrupMasterID(cursor.getString(0));
+            contact.set_txtMasterID(cursor.getString(1));
+            contact.set_txtNamaMasterData(cursor.getString(2));
+            contact.set_txtKeterangan(cursor.getString(3));
+            contact.set_intLastActiveSelection(cursor.getString(4));
+        } else {
+            contact = null;
+        }
+        cursor.close();
+        return contact;
+    }
+
+    public mTypeSubmissionMobile getLastSelected(SQLiteDatabase db, String id) {
+        mTypeSubmissionMobile dt = new mTypeSubmissionMobile();
+        String selectQuery = "SELECT " + dt.Property_All + " FROM " + TABLE_CONTACTS + " WHERE " + dt.Property_intLastActiveSelection + "='1'";
+        Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor != null)
             cursor.moveToFirst();
         mTypeSubmissionMobile contact = new mTypeSubmissionMobile();
@@ -119,7 +147,7 @@ public class mTypeSubmissionMobileDA {
     public void deleteContact(SQLiteDatabase db, String id) {
         mTypeSubmissionMobile dt = new mTypeSubmissionMobile();
         db.delete(TABLE_CONTACTS, dt.Property_txtGrupMasterID + " = ?",
-                new String[] { String.valueOf(id) });
+                new String[]{String.valueOf(id)});
         // db.close();
     }
 

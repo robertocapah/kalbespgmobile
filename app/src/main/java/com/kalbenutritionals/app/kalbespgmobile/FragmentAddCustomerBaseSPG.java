@@ -151,6 +151,13 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         dtHeader = new tCustomerBasedMobileHeaderBL().getDataByBitActive();
 
+        mTypeSubmissionMobile dataByLastSelected = new mTypeSubmissionMobileBL().GetLastSelected();
+
+        if(dataByLastSelected != null){
+            spnSubmissionCode.setSelection(adapterSubmission.getPosition(dataByLastSelected.get_txtNamaMasterData()));
+        }
+
+
         if (dtHeader.get_intTrCustomerId() != null) {
             etCustomerBasedNo.setText(dtHeader.get_txtSubmissionId());
             etAlamat.setText(dtHeader.get_txtALamat());
@@ -343,13 +350,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         Boolean status = new tCustomerBasedMobileHeaderBL().submit(getContext());
 
         if (status) {
-//            new clsMainActivity().showCustomToast(getContext(), "Saved", true);
-//            getActivity().finish();
-//            Intent intent = new Intent(getContext(), MainMenu.class);
-//            startActivity(intent);
             viewCustomerBaseFragment();
-        } else {
-//            new clsMainActivity().showCustomToast(getContext(), "Failed to save", false);
+            new mTypeSubmissionMobileBL().updateLastSelected(dtHeader.get_txtSubmissionCode());
         }
     }
 
