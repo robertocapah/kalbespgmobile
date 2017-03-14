@@ -49,6 +49,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.UUID;
 
+import addons.adapter.AdapterListProductCustomerBased;
 import addons.zoomview.CustomZoomView;
 import bl.mCounterNumberBL;
 import bl.tDeviceInfoUserBL;
@@ -443,6 +444,24 @@ public class clsMainActivity extends Activity {
         }
 
         mAdapter = new AppAdapter(_ctx, mAppList);
+
+        return mAdapter;
+
+    }
+
+    public static AdapterListProductCustomerBased setListProductCusBased(Context _ctx, final ArrayList<clsSwipeList> swipeList) {
+        final AdapterListProductCustomerBased mAdapter;
+        PullToRefreshSwipeMenuListView mListView;
+        Handler mHandler;
+
+        ArrayList<clsSwipeList> mAppList = new ArrayList<>();
+
+        for (int i = 0; i < swipeList.size(); i++) {
+            clsSwipeList getswipeList = swipeList.get(i);
+            mAppList.add(getswipeList);
+        }
+
+        mAdapter = new AdapterListProductCustomerBased(_ctx, mAppList);
 
         return mAdapter;
 

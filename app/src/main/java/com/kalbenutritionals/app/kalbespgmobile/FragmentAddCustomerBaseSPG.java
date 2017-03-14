@@ -44,6 +44,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import addons.adapter.AdapterListProductCustomerBased;
 import bl.mEmployeeSalesProductBL;
 import bl.mProductCompetitorBL;
 import bl.mTypeSubmissionMobileBL;
@@ -91,7 +92,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     List<tCustomerBasedMobileDetailData> dtListDetail;
 
     private static List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
-    private static List<clsSwipeList> swipeListProduct = new ArrayList<clsSwipeList>();
+    private static ArrayList<clsSwipeList> swipeListProduct = new ArrayList<clsSwipeList>();
 
     private AppAdapter mAdapter;
     private PullToRefreshSwipeMenuListView mListView;
@@ -461,6 +462,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 .setCancelable(false)
                 .setNegativeButton("Close", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        setTablePerson();
                         dialog.cancel();
                     }
                 });
@@ -782,9 +784,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
     }
 
+    List<tCustomerBasedMobileDetailProductData> dtListDetailProduct;
+    AdapterListProductCustomerBased AdapterProduct;
     private void setTableProduct(final tCustomerBasedMobileDetailData _tCustomerBasedMobileDetailData, final View v) {
 
-        final List<tCustomerBasedMobileDetailProductData> dtListDetailProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(_tCustomerBasedMobileDetailData.get_intTrCustomerIdDetail());
+        dtListDetailProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(_tCustomerBasedMobileDetailData.get_intTrCustomerIdDetail());
 
         clsSwipeList swplist;
 
@@ -793,41 +797,41 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         int totalProduct = 0;
         for (int i = 0; i < dtListDetailProduct.size(); i++) {
             swplist = new clsSwipeList();
-
-            swplist.set_txtTitle("Product KN : " + dtListDetailProduct.get(i).get_txtProductBrandName());
-            swplist.set_txtDescription("Product Kompetitor : " + dtListDetailProduct.get(i).get_txtProductCompetitorName());
+            swplist.set_txtId(dtListDetailProduct.get(i).get_intTrCustomerIdDetailProduct());
+            swplist.set_txtTitle(dtListDetailProduct.get(i).get_txtProductBrandName());
+            swplist.set_txtDescription(dtListDetailProduct.get(i).get_txtProductCompetitorName());
             swipeListProduct.add(swplist);
         }
 
         clsMainActivity clsMain = new clsMainActivity();
 
-        AppAdapter AdapterProduct = clsMain.setList(getActivity().getApplicationContext(), swipeListProduct);
+        AdapterProduct = clsMain.setListProductCusBased(getActivity().getApplicationContext(), swipeListProduct);
 
         ListView lvProduct = (ListView) v.findViewById(R.id.listViewProduct);
         lvProduct.setAdapter(AdapterProduct);
         lvProduct.setEmptyView(v.findViewById(R.id.LayoutEmpty));
-        lvProduct.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, final int pos, long id) {
-                new AlertDialog.Builder(v.getContext())
-                        .setTitle("Delete Product")
-                        .setMessage("Are you sure you want to delete this product?")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                new tCustomerBasedMobileDetailProductBL().deleteDataByProductId(dtListDetailProduct.get(pos).get_intTrCustomerIdDetailProduct());
-                                setTableProduct(_tCustomerBasedMobileDetailData, v);
-                                setTablePerson();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                            }
-                        })
-                        .show();
-                return true;
-            }
-        });
+//        lvProduct.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, final int pos, long id) {
+//                new AlertDialog.Builder(v.getContext())
+//                        .setTitle("Delete Product")
+//                        .setMessage("Are you sure you want to delete this product?")
+//                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                new tCustomerBasedMobileDetailProductBL().deleteDataByProductId(dtListDetailProduct.get(pos).get_intTrCustomerIdDetailProduct());
+//                                setTableProduct(_tCustomerBasedMobileDetailData, v);
+//                                setTablePerson();
+//                            }
+//                        })
+//                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                // do nothing
+//                            }
+//                        })
+//                        .show();
+//                return true;
+//            }
+//        });
 
     }
 
