@@ -399,11 +399,14 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                         final TextView tvConfirm = (TextView) _promptView.findViewById(R.id.tvTitle);
                         final TextView tvDesc = (TextView) _promptView.findViewById(R.id.tvDesc);
                         tvDesc.setVisibility(View.INVISIBLE);
+                        tvConfirm.setVisibility(View.GONE);
                         tvConfirm.setText("Check Out Data ?");
                         tvConfirm.setTextSize(18);
 
                         AlertDialog.Builder _alertDialogBuilder = new AlertDialog.Builder(MainMenu.this);
-                        _alertDialogBuilder.setView(_promptView);
+                        _alertDialogBuilder.setTitle("Confirm");
+                        _alertDialogBuilder.setMessage("Check Out Data ?");
+//                        _alertDialogBuilder.setView(_promptView);
                         _alertDialogBuilder
                                 .setCancelable(false)
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {

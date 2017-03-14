@@ -171,7 +171,6 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                 } else {
                     Collections.sort(modelItems, ModelListview.StuRollno);
                 }
-//                setListViewHeightBasedOnItems(listView);
             }
         });
 
@@ -623,6 +622,7 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
 
                     mDisplayedValues = (ArrayList<ModelListview>) results.values; // has the filtered values
                     notifyDataSetChanged();  // notifies the data with new filtered values
+                    setListViewHeightBasedOnItems(listView);
                 }
 
                 @Override
@@ -634,12 +634,6 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                         mOriginalValues = new ArrayList<ModelListview>(mDisplayedValues); // saves the original data in mOriginalValues
                     }
 
-                    /********
-                     *
-                     *  If constraint(CharSequence that is received) is null returns the mOriginalValues(Original) values
-                     *  else does the Filtering and returns FilteredArrList(Filtered)
-                     *
-                     ********/
                     if (constraint == null || constraint.length() == 0) {
 
                         // set the Original result to return
