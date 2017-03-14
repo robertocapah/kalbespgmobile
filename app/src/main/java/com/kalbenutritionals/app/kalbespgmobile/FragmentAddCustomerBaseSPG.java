@@ -642,7 +642,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                             data.set_intNo(String.valueOf(dtListDetail.size() + 1));
                         }
                         int day = dp.getDayOfMonth();
-                        int month = dp.getMonth();
+                        int month = dp.getMonth()+1;
                         int year = dp.getYear();
                         final String tglLahir = day + "-" + month + "-" + year;
 
