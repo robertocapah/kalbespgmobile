@@ -154,7 +154,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         mTypeSubmissionMobile dataByLastSelected = new mTypeSubmissionMobileBL().GetLastSelected();
 
-        if(dataByLastSelected != null){
+        if (dataByLastSelected != null) {
             spnSubmissionCode.setSelection(adapterSubmission.getPosition(dataByLastSelected.get_txtNamaMasterData()));
         }
 
@@ -419,7 +419,6 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         });
 
-
         btnAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -443,8 +442,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 data.set_txtInsertedBy(dtUser.get_txtUserId());
 
                 new tCustomerBasedMobileDetailProductBL().saveData(data);
-                spnKalbeProduct.setSelection(0);
-                spnCompetProduct.setAdapter(null);
+
+                if (spnKalbeProduct.getSelectedItemPosition() > 0) {
+                    spnCompetProduct.setAdapter(null);
+                    spnKalbeProduct.setSelection(0);
+                }
                 qty.setText("");
 
                 setTableProduct(dataDetail, promptView);
@@ -644,7 +646,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                             data.set_intNo(String.valueOf(dtListDetail.size() + 1));
                         }
                         int day = dp.getDayOfMonth();
-                        int month = dp.getMonth()+1;
+                        int month = dp.getMonth() + 1;
                         int year = dp.getYear();
                         final String tglLahir = day + "-" + month + "-" + year;
 
@@ -786,6 +788,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
     List<tCustomerBasedMobileDetailProductData> dtListDetailProduct;
     AdapterListProductCustomerBased AdapterProduct;
+
     private void setTableProduct(final tCustomerBasedMobileDetailData _tCustomerBasedMobileDetailData, final View v) {
 
         dtListDetailProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(_tCustomerBasedMobileDetailData.get_intTrCustomerIdDetail());
