@@ -35,7 +35,7 @@ public class AdapterListProductCustomerBased extends BaseAdapter implements List
 
     @Override
     public String getItem(int position) {
-        return String.valueOf("Product : " + mAppList.get(position).get_txtTitle()+"\n"+"Kompetitor : " + mAppList.get(position).get_txtDescription());
+        return String.valueOf("Product : " + mAppList.get(position).get_txtTitle()+"\n"+"Kompetitor : " + mAppList.get(position).get_txtDescription()+"\n" + "Qty : " + mAppList.get(position).get_intPIC());
     }
 
     @Override

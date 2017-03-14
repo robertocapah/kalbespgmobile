@@ -430,6 +430,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 String qtyProduct = null;
                 qtyProduct = qty.getText().toString();
 
+                if(qtyProduct.length()==0){
+                    qtyProduct = "0";
+                }
+
                 tCustomerBasedMobileDetailProductData data = new tCustomerBasedMobileDetailProductData();
                 data.set_intTrCustomerIdDetailProduct(new clsMainActivity().GenerateGuid());
                 data.set_intTrCustomerIdDetail(dataDetail.get_intTrCustomerIdDetail());
@@ -509,9 +513,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 switch (index) {
                     case 0:
                         lnHamil.setVisibility(View.GONE);
+                        usiaKehamilan.setText("");
                         break;
                     case 1:
                         lnHamil.setVisibility(View.VISIBLE);
+                        usiaKehamilan.setText(dataDetail.get_txtUsiaKehamilan());
                         break;
                 }
             }
@@ -520,6 +526,47 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         if (dataDetail.get_intTrCustomerIdDetail() != null) {
             nama.setText(dataDetail.get_txtNamaDepan());
+            usiaKehamilan.setText(dataDetail.get_txtUsiaKehamilan());
+
+            int year = 0;
+            int month = 0;
+            int day = 0;
+
+            if(dataDetail.get_intPIC().equals("1")){
+                if(dataDetail.get_txtTglLahir().equals("null")){
+                    dp.setMaxDate(System.currentTimeMillis());
+                } else {
+
+                    String stringDatedb = dataDetail.get_txtTglLahir();
+                    String[] parts = stringDatedb.split("-");
+                    String part1 = parts[0]; //year
+                    String part2 = parts[1]; //month
+                    String part3 = parts[2]; //date
+
+                    year = Integer.valueOf(part1);
+                    month = Integer.valueOf(part2)-1;
+                    day = Integer.valueOf(part3);
+
+                    dp.updateDate(year, month, day);
+                }
+            } else {
+                if(dataDetail.get_txtTglLahir().equals("null")){
+                    dp.setMaxDate(System.currentTimeMillis());
+                } else {
+
+                    String stringDatedb = dataDetail.get_txtTglLahir();
+                    String[] parts = stringDatedb.split("-");
+                    String part1 = parts[0]; //year
+                    String part2 = parts[1]; //month
+                    String part3 = parts[2]; //date
+
+                    year = Integer.valueOf(part1);
+                    month = Integer.valueOf(part2)-1;
+                    day = Integer.valueOf(part3);
+
+                    dp.updateDate(year, month, day);
+                }
+            }
 
             final RadioButton rbLaki = (RadioButton) promptView.findViewById(R.id.radioMale);
             RadioButton rbPerempuan = (RadioButton) promptView.findViewById(R.id.radioFemale);
@@ -648,7 +695,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         int day = dp.getDayOfMonth();
                         int month = dp.getMonth() + 1;
                         int year = dp.getYear();
-                        final String tglLahir = day + "-" + month + "-" + year;
+                        final String tglLahir = year + "-" + month + "-" + day;
 
                         data.set_intTrCustomerId(dtHeader.get_intTrCustomerId());
                         data.set_txtNamaDepan(nama.getText().toString());
@@ -803,6 +850,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             swplist.set_txtId(dtListDetailProduct.get(i).get_intTrCustomerIdDetailProduct());
             swplist.set_txtTitle(dtListDetailProduct.get(i).get_txtProductBrandName());
             swplist.set_txtDescription(dtListDetailProduct.get(i).get_txtProductCompetitorName());
+            swplist.set_intPIC(dtListDetailProduct.get(i).get_txtProductBrandQty());
             swipeListProduct.add(swplist);
         }
 
@@ -882,6 +930,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             if (data.get_intTrCustomerId() == null) {
                 data = new tCustomerBasedMobileDetailData();
                 data.set_intTrCustomerIdDetail(new clsMainActivity().GenerateGuid());
+                data.set_txtUsiaKehamilan("");
+            }
+
+            if(dtHeader.get_txtGender().equalsIgnoreCase("Laki-Laki")){
+                data.set_txtUsiaKehamilan("");
             }
 
             data.set_intTrCustomerId(dtHeader.get_intTrCustomerId());

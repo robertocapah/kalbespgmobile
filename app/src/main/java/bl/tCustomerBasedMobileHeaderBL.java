@@ -59,6 +59,13 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
     public Boolean submit(Context context) {
         SQLiteDatabase _db = getDb();
 
+        Calendar c = Calendar.getInstance();
+        int lYear = c.get(Calendar.YEAR);
+        int lMonth = c.get(Calendar.MONTH) + 1;
+        int lDay = c.get(Calendar.DATE);
+
+        String dateNow = Integer.valueOf(lYear) + "-" + Integer.valueOf(lMonth) + "-" + Integer.valueOf(lDay);
+
         Boolean status = false;
         tCustomerBasedMobileHeaderData dtHeader = getDataByBitActive();
         if (dtHeader != null) {
@@ -66,6 +73,11 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
             if (dtDetail != null) {
                 for (tCustomerBasedMobileDetailData dt : dtDetail) {
                     List<tCustomerBasedMobileDetailProductData> dtProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dt.get_intTrCustomerIdDetail());
+                    if(dt.get_txtTglLahir().equals(dateNow)){
+                        new clsMainActivity().showCustomToast(context, "Failed to save: " + dt.get_txtNamaDepan() + " belum set tanggal lahir", false);
+                        status = false;
+                        break;
+                    }
                     if (dtProduct == null || dtProduct.size() == 0) {
                         new clsMainActivity().showCustomToast(context, "Failed to save: " + dt.get_txtNamaDepan() + " belum memiliki produk", false);
                         status = false;
