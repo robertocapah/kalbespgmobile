@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.internal.NavigationMenu;
@@ -21,6 +22,11 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.daimajia.slider.library.Transformers.BaseTransformer;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -29,6 +35,9 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -206,6 +215,8 @@ public class FragmentViewHistoryAbsen extends Fragment implements IXListViewList
         final ImageView imgAbsen1 = (ImageView) promptView.findViewById(R.id.imgAbsen1);
         final ImageView imgAbsen2 = (ImageView) promptView.findViewById(R.id.imgAbsen2);
 
+        SliderLayout mDemoSlider = (SliderLayout) promptView.findViewById(R.id.slider);
+
         tUserLoginData dtLogin = new tUserLoginBL().getUserLoginByUserId(dt.get(position).get_txtUserId());
 
         tvUsername.setText(dtLogin.get_txtUserName());
@@ -214,47 +225,131 @@ public class FragmentViewHistoryAbsen extends Fragment implements IXListViewList
         tvCheckin.setText(dt.get(position).get_dtDateCheckIn());
         tvCheckout.setText(dt.get(position).get_dtDateCheckOut());
 
-        byte[] imgFile = dt.get(position).get_txtImg1();
+        File folder = new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/Kalbespgmobile/tempdata");
+        folder.mkdir();
+
+        final byte[] imgFile = dt.get(position).get_txtImg1();
         if (imgFile != null) {
             mybitmap1 = BitmapFactory.decodeByteArray(imgFile, 0, imgFile.length);
             Bitmap bitmap = Bitmap.createScaledBitmap(mybitmap1, 150, 150, true);
             imgAbsen1.setImageBitmap(bitmap);
+
+            File file = null;
+            try {
+                file = File.createTempFile("image-", ".jpg", new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/Kalbespgmobile/tempdata"));
+                FileOutputStream out = new FileOutputStream(file);
+                out.write(imgFile);
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TextSliderView textSliderView = new TextSliderView(getContext());
+            textSliderView
+                    .description("History Absen")
+                    .image(file)
+                    .setScaleType(BaseSliderView.ScaleType.Fit)
+                    .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                        @Override
+                        public void onSliderClick(BaseSliderView slider) {
+                            new clsMainActivity().zoomImage(mybitmap1, getActivity());
+                        }
+                    });
+
+            mDemoSlider.addSlider(textSliderView);
+
         } else {
-            imgAbsen1.setVisibility(View.INVISIBLE);
+            imgAbsen1.setVisibility(View.GONE);
         }
-        byte[] imgFile2 = dt.get(position).get_txtImg2();
-        if (imgFile2 != null && imgFile != null) {
+        final byte[] imgFile2 = dt.get(position).get_txtImg2();
+        if (imgFile2 != null) {
             mybitmap2 = BitmapFactory.decodeByteArray(imgFile2, 0, imgFile2.length);
             Bitmap bitmap = Bitmap.createScaledBitmap(mybitmap2, 150, 150, true);
             imgAbsen2.setImageBitmap(bitmap);
-        }
-        else if(imgFile2 != null && imgFile == null){
-            mybitmap1 = BitmapFactory.decodeByteArray(imgFile2, 0, imgFile2.length);
-            Bitmap bitmap = Bitmap.createScaledBitmap(mybitmap1, 150, 150, true);
-            imgAbsen1.setVisibility(View.VISIBLE);
-            imgAbsen1.setImageBitmap(bitmap);
-            imgAbsen2.setVisibility(View.INVISIBLE);
-        }
-        else{
-            imgAbsen2.setVisibility(View.INVISIBLE);
+
+            File file = null;
+            try {
+                file = File.createTempFile("image-", ".jpg", new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/Kalbespgmobile/tempdata"));
+                FileOutputStream out = new FileOutputStream(file);
+                out.write(imgFile2);
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TextSliderView textSliderView = new TextSliderView(getContext());
+            textSliderView
+                    .description("History Absen")
+                    .image(file)
+                    .setScaleType(BaseSliderView.ScaleType.Fit)
+                    .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                        @Override
+                        public void onSliderClick(BaseSliderView slider) {
+                            new clsMainActivity().zoomImage(mybitmap2, getActivity());
+                        }
+                    });
+
+            mDemoSlider.addSlider(textSliderView);
+        } else {
+            imgAbsen2.setVisibility(View.GONE);
         }
 
-        imgAbsen1.setClickable(true);
-        imgAbsen1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                new clsMainActivity().showCustomToast(getContext(), "tes", true);
-                new clsMainActivity().zoomImage(mybitmap1, getActivity());
-            }
-        });
+        if (imgFile == null || imgFile2 == null) {
+            mDemoSlider.stopAutoCycle();
+            mDemoSlider.setPagerTransformer(false, new BaseTransformer() {
+                @Override
+                protected void onTransform(View view, float v) {
+                }
+            });
+        } else {
+            mDemoSlider.stopAutoCycle();
+            mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
+            mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+            mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+            mDemoSlider.setDuration(4000);
+        }
 
-        imgAbsen2.setClickable(true);
-        imgAbsen2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new clsMainActivity().zoomImage(mybitmap2, getActivity());
-            }
-        });
+//        byte[] imgFile = dt.get(position).get_txtImg1();
+//        if (imgFile != null) {
+//            mybitmap1 = BitmapFactory.decodeByteArray(imgFile, 0, imgFile.length);
+//            Bitmap bitmap = Bitmap.createScaledBitmap(mybitmap1, 150, 150, true);
+//            imgAbsen1.setImageBitmap(bitmap);
+//        } else {
+//            imgAbsen1.setVisibility(View.INVISIBLE);
+//        }
+//        byte[] imgFile2 = dt.get(position).get_txtImg2();
+//        if (imgFile2 != null && imgFile != null) {
+//            mybitmap2 = BitmapFactory.decodeByteArray(imgFile2, 0, imgFile2.length);
+//            Bitmap bitmap = Bitmap.createScaledBitmap(mybitmap2, 150, 150, true);
+//            imgAbsen2.setImageBitmap(bitmap);
+//        }
+//        else if(imgFile2 != null && imgFile == null){
+//            mybitmap1 = BitmapFactory.decodeByteArray(imgFile2, 0, imgFile2.length);
+//            Bitmap bitmap = Bitmap.createScaledBitmap(mybitmap1, 150, 150, true);
+//            imgAbsen1.setVisibility(View.VISIBLE);
+//            imgAbsen1.setImageBitmap(bitmap);
+//            imgAbsen2.setVisibility(View.INVISIBLE);
+//        }
+//        else{
+//            imgAbsen2.setVisibility(View.INVISIBLE);
+//        }
+//
+//        imgAbsen1.setClickable(true);
+//        imgAbsen1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                new clsMainActivity().showCustomToast(getContext(), "tes", true);
+//                new clsMainActivity().zoomImage(mybitmap1, getActivity());
+//            }
+//        });
+//
+//        imgAbsen2.setClickable(true);
+//        imgAbsen2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                new clsMainActivity().zoomImage(mybitmap2, getActivity());
+//            }
+//        });
 
         GoogleMap mMap = ((MapFragment) (getActivity()).getFragmentManager().findFragmentById(R.id.map)).getMap();
 
