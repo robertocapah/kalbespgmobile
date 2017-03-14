@@ -1,58 +1,45 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Environment;
-import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Transformers.BaseTransformer;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import bl.tAbsenUserBL;
 import bl.tActivityBL;
-import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView;
-import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
-import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.bean.SwipeMenu;
-import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener;
-import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.SwipeMenuCreator;
-import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
 import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tAbsenUserData;
@@ -60,19 +47,20 @@ import library.salesforce.common.tActivityData;
 
 import static com.kalbenutritionals.app.kalbespgmobile.R.id.textView9;
 
-public class FragmentViewActvitySPG extends Fragment implements IXListViewListener {
+public class FragmentViewActvitySPG extends Fragment {
 
-    private static List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
+    private List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
     private AppAdapter mAdapter;
-    private PullToRefreshSwipeMenuListView mListView;
-    private Handler mHandler;
-    private static Map<String, HashMap> mapMenu;
+
+    private SwipeMenuListView mListView2;
+
+    private Map<String, HashMap> mapMenu;
     private SliderLayout mDemoSlider;
 
-    static List<tActivityData> dt;
+    private List<tActivityData> dt;
 
-    private static Bitmap mybitmap1;
-    private static Bitmap mybitmap2;
+    private Bitmap mybitmap1;
+    private Bitmap mybitmap2;
 
     private FloatingActionButton fab;
 
@@ -100,26 +88,6 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
         loadData();
 
         return v;
-    }
-
-    public void onRefresh() {
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadData();
-                mListView.stopRefresh();
-                mListView.stopLoadMore();
-            }
-        }, 500);
-    }
-
-    public void onLoadMore() {
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadData();
-            }
-        }, 1);
     }
 
     private void viewList(Context ctx, final int position) {
@@ -288,7 +256,6 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
 
         swipeList.clear();
 
-
         for (int i = 0; i < dt.size(); i++) {
             String status = dt.get(i).get_intSubmit().equals("1") && dt.get(i).get_intIdSyn().equals("1") ? "Sync" : "Submit";
             swplist = new clsSwipeList();
@@ -298,39 +265,32 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
         }
 
         clsMainActivity clsMain = new clsMainActivity();
+        mListView2 = (SwipeMenuListView) v.findViewById(R.id.SwipelistView);
 
-        mListView = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.listView);
         mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
-        mListView.setAdapter(mAdapter);
-        mListView.setPullRefreshEnable(true);
-        mListView.setPullLoadEnable(true);
-        mListView.setXListViewListener(this);
-        mListView.setEmptyView(v.findViewById(R.id.LayoutEmpty));
-        mHandler = new Handler();
+        mListView2.setAdapter(mAdapter);
 
         HashMap<String, String> mapView = new HashMap<String, String>();
 
         mapView.put("name", "View");
         mapView.put("bgColor", "#3498db");
 
-        mapMenu = new HashMap<String, HashMap>();
+        mapMenu = new HashMap<>();
         mapMenu.put("0", mapView);
 
-        SwipeMenuCreator creator = clsMain.setCreator(getActivity().getApplicationContext(), mapMenu);
-        mListView.setMenuCreator(creator);
-        mListView.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+        mListView2.setMenuCreator(clsMain.setCreatorListView(getActivity().getApplicationContext(), mapMenu));
+        mListView2.setEmptyView(v.findViewById(R.id.LayoutEmpty));
+        mListView2.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
-            public void onMenuItemClick(int position, SwipeMenu menu, int index) {
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
-                        viewList(getActivity().getApplicationContext(), position);
+                        viewList(getContext(), position);
                 }
+
+                return true;
             }
         });
-
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
-        RefreshTime.setRefreshTime(getContext(), " " + df.format(new Date()));
-        mListView.setRefreshTime(RefreshTime.getRefreshTime(getActivity().getApplicationContext()));
     }
 
 }
