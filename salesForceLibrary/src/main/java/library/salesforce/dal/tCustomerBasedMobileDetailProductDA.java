@@ -139,7 +139,7 @@ public class tCustomerBasedMobileDetailProductDA {
         };
         String groupBy = null;
         String havingBy = null;
-        String orderBy = dt.Property_txtProductBrandQty + " desc";
+        String orderBy = dt.Property_dtInserted + " desc";
 
         Cursor cursor = db.query(TABLE_NAME,
                 tableColumns,

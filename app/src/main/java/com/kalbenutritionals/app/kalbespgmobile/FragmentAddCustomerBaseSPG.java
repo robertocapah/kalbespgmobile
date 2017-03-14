@@ -1223,6 +1223,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         boolean validate = true;
         new clsMainActivity().removeErrorMessage(textInputLayoutNama);
         new clsMainActivity().removeErrorMessage(textInputLayoutTelp);
+        new clsMainActivity().removeErrorMessage(textInputLayoutTelp2);
         new clsMainActivity().removeErrorMessage(textInputLayoutTelpKantor);
         new clsMainActivity().removeErrorMessage(textInputLayoutEmail);
 
