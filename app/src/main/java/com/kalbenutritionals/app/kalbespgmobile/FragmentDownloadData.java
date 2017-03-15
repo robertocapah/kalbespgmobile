@@ -894,6 +894,7 @@ public class FragmentDownloadData extends Fragment {
                         _data.set_txtTelpKantor(String.valueOf(innerObj_detail.get("_txtTelpKantor")));
                         _data.set_intTrCustomerId(String.valueOf(innerObj_detail.get("_txtTrCustomerId")));
                         _data.set_txtUserId(String.valueOf(innerObj_detail.get("_txtUserId")));
+                        _data.set_txtTelp2(String.valueOf(innerObj_detail.get("_txtTelp2")));
                         new tCustomerBasedMobileHeaderBL().saveData(_data);
                     }
 
@@ -914,6 +915,8 @@ public class FragmentDownloadData extends Fragment {
                         _data.set_intTrCustomerId(String.valueOf(innerObj_detail.get("_txtTrCustomerId")));
                         _data.set_intTrCustomerIdDetail(String.valueOf(innerObj_detail.get("_txtTrCustomerIdDetail")));
                         _data.set_txtUpdatedBy(String.valueOf(innerObj_detail.get("_txtUpdatedBy")));
+                        _data.set_txtUsiaKehamilan(String.valueOf(innerObj_detail.get("_intUsiaKehamilan")));
+                        _data.set_txtTglLahir(String.valueOf(innerObj_detail.get("_txtDateOfBirth")));
                         new tCustomerBasedMobileDetailBL().saveData(_data);
                     }
 
@@ -933,6 +936,8 @@ public class FragmentDownloadData extends Fragment {
                         _data.set_intTrCustomerIdDetail(String.valueOf(innerObj_detail.get("_txtTrCustomerIdDetail")));
                         _data.set_txtUpdatedBy(String.valueOf(innerObj_detail.get("_txtUpdatedBy")));
                         _data.set_txtProductBrandQty(String.valueOf(innerObj_detail.get("_intProductBrandQty")));
+                        _data.set_txtProductCompetitorCode(String.valueOf(innerObj_detail.get("_txtProductCodeCompetitor")));
+                        _data.set_txtProductCompetitorName(String.valueOf(innerObj_detail.get("_txtProductNameCompetitor")));
                         new tCustomerBasedMobileDetailProductBL().saveData(_data);
                     }
                 }
