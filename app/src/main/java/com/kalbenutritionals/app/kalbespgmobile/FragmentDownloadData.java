@@ -1728,6 +1728,7 @@ public class FragmentDownloadData extends Fragment {
                 _data.set_txtName(String.valueOf(innerObj.get("TxtName")));
                 _data.set_txtProductDetailCode(String.valueOf(innerObj.get("TxtProductDetailCode")));
                 _data.set_txtProdukKompetitorID(String.valueOf(innerObj.get("TxtProdukKompetitorID")));
+                _data.set_txtProdukid(String.valueOf(innerObj.get("TxtProdukid")));
                 _array.add(_data.get_txtProdukKompetitorID());
                 _Listdata.add(_data);
             } else {
