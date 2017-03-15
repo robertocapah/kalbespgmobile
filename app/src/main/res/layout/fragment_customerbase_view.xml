@@ -46,5 +46,4 @@
         android:src="@drawable/ic_add_white_48dp"
         app:layout_anchorGravity="bottom|right|end" />
 
-
 </android.support.design.widget.CoordinatorLayout>

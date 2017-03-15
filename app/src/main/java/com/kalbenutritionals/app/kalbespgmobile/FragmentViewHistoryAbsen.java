@@ -225,7 +225,7 @@ public class FragmentViewHistoryAbsen extends Fragment implements IXListViewList
         tvCheckin.setText(dt.get(position).get_dtDateCheckIn());
         tvCheckout.setText(dt.get(position).get_dtDateCheckOut());
 
-        File folder = new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/Kalbespgmobile/tempdata");
+        File folder = new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/SPG.MOBILE/tempdata");
         folder.mkdir();
 
         final byte[] imgFile = dt.get(position).get_txtImg1();
@@ -236,7 +236,7 @@ public class FragmentViewHistoryAbsen extends Fragment implements IXListViewList
 
             File file = null;
             try {
-                file = File.createTempFile("image-", ".jpg", new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/Kalbespgmobile/tempdata"));
+                file = File.createTempFile("image-", ".jpg", new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/SPG.MOBILE/tempdata"));
                 FileOutputStream out = new FileOutputStream(file);
                 out.write(imgFile);
                 out.close();
@@ -269,7 +269,7 @@ public class FragmentViewHistoryAbsen extends Fragment implements IXListViewList
 
             File file = null;
             try {
-                file = File.createTempFile("image-", ".jpg", new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/Kalbespgmobile/tempdata"));
+                file = File.createTempFile("image-", ".jpg", new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/SPG.MOBILE/tempdata"));
                 FileOutputStream out = new FileOutputStream(file);
                 out.write(imgFile2);
                 out.close();

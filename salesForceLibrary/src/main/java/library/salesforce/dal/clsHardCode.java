@@ -10,10 +10,10 @@ import java.util.Date;
 import library.salesforce.common.tUserLoginData;
 
 public class clsHardCode  {
-	public String txtPathApp= Environment.getExternalStorageDirectory()+File.separator+"Android"+File.separator+"data"+File.separator+"Kalbespgmobile"+File.separator+"app_database"+File.separator;
+	public String txtPathApp= Environment.getExternalStorageDirectory()+File.separator+"Android"+File.separator+"data"+File.separator+"SPG.MOBILE"+File.separator+"app_database"+File.separator;
 	//public String txtPathApp= "data"+File.separator+"data"+File.separator+"com.example.kalbespgmobile"+File.separator+"databases"+File.separator;
 	//public String txtPathApp= "data"+File.separator+"data"+File.separator+"com.example.kalbespgmobile"+File.separator+"databases"+File.separator;
-	public String txtPathUserData= Environment.getExternalStorageDirectory()+File.separator+"Android"+File.separator+"data"+File.separator+"Kalbespgmobile"+File.separator+"user_data"+File.separator;
+	public String txtPathUserData= Environment.getExternalStorageDirectory()+File.separator+"Android"+File.separator+"data"+File.separator+"SPG.MOBILE"+File.separator+"user_data"+File.separator;
 	public String txtFolderNotification=txtPathUserData+"Notification"+File.separator;
 	public String txtFolderBrosur=txtPathUserData+"Brosur"+File.separator;
 	public String txtFolderAbsen=txtPathUserData+"Absen"+File.separator;
