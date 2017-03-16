@@ -378,6 +378,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             for (mEmployeeSalesProductData dt : listDataProductKalbe) {
                 dataProductKalbe.add(dt.get_txtProductBrandDetailGramName());
                 HMProduct.put(dt.get_txtProductBrandDetailGramName(), dt.get_txtBrandDetailGramCode());
+                HMProduct.put(dt.get_txtBrandDetailGramCode(), dt.get_txtProductDetailCode());
+                HMProduct.put(dt.get_txtProductDetailCode(), dt.get_txtLobName());
             }
         }
 
@@ -430,9 +432,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 tCustomerBasedMobileDetailProductData data = new tCustomerBasedMobileDetailProductData();
                 data.set_intTrCustomerIdDetailProduct(new clsMainActivity().GenerateGuid());
                 data.set_intTrCustomerIdDetail(dataDetail.get_intTrCustomerIdDetail());
-                data.set_txtProductBrandCode(HMProduct.get(selectedOneKNProduct));
+                data.set_txtProductBrandCode(HMProduct.get(selectedOneKNProduct));// brand name
                 data.set_txtProductBrandName(selectedOneKNProduct);
                 data.set_txtProductBrandQty(qtyProduct);
+                data.set_txtProductBrandCodeCRM(HMProduct.get(HMProduct.get(selectedOneKNProduct)));// brandcode
+                data.set_txtLOB(HMProduct.get(HMProduct.get(HMProduct.get(selectedOneKNProduct))));// brandcodeCRM
                 data.set_txtProductCompetitorCode(HMProductKompetitor.get(selectedOneCompetitorProduct));
                 data.set_txtProductCompetitorName(selectedOneCompetitorProduct);
                 data.set_dtInserted(date);

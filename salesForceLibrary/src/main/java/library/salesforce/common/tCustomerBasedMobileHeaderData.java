@@ -17,6 +17,7 @@ public class tCustomerBasedMobileHeaderData {
 	private String _txtUserId;
 	private String _intPIC;
 	private String _txtDeviceId;
+	private String _txtLOB;
 	private String _bitActive;
 	private String _dtDate;
 	private String _intSubmit;
@@ -44,6 +45,7 @@ public class tCustomerBasedMobileHeaderData {
 	public String Property_intSubmit="intSubmit";
 	public String Property_intSync="intSync";
 	public String Property_txtGender="txtGender";
+	public String Property_txtLOB="txtLOB";
 
 	public String Property_ListOftCustomerBasedMobileHeaderData="ListOftCustomerBasedMobileHeaderData";
 	public String Property_ALL=Property_intTrCustomerId + "," +
@@ -64,6 +66,7 @@ public class tCustomerBasedMobileHeaderData {
 			Property_intPIC + "," +
 			Property_txtDeviceId + "," +
 			Property_bitActive + "," +
+			Property_txtLOB + "," +
 			Property_dtDate + "," +
 			Property_intSubmit + "," +
 			Property_intSync;
@@ -185,20 +188,20 @@ public class tCustomerBasedMobileHeaderData {
 	public void set_intSync(String _intSync) {
 		this._intSync = _intSync;
 	}
-
 	public String get_txtGender() {
 		return _txtGender;
 	}
-
 	public void set_txtGender(String _txtGender) {
 		this._txtGender = _txtGender;
 	}
-
 	public String get_txtTelp2() {
 		return _txtTelp2;
 	}
-
 	public void set_txtTelp2(String _txtTelp2) {
 		this._txtTelp2 = _txtTelp2;
+	}
+	public String get_txtLOB(){ return _txtLOB; }
+	public void set_txtLOB(String _txtLOB){
+		this._txtLOB=_txtLOB;
 	}
 }

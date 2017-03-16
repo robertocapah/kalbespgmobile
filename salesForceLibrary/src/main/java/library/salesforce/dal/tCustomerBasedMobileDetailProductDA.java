@@ -26,6 +26,8 @@ public class tCustomerBasedMobileDetailProductDA {
 										+ dt.Property_txtProductCompetitorCode + " TEXT NULL,"
 										+ dt.Property_txtProductCompetitorName + " TEXT NULL,"
 										+ dt.Property_txtProductBrandQty + " INT NULL,"
+										+ dt.Property_txtProductBrandCodeCRM+ " TEXT NULL,"
+										+ dt.Property_txtLOB + " TEXT NULL,"
 										+ dt.Property_bitActive + " TEXT NULL,"
 										+ dt.Property_dtInserted + " TEXT NULL,"
 										+ dt.Property_dtUpdated + " TEXT NULL,"
@@ -56,6 +58,8 @@ public class tCustomerBasedMobileDetailProductDA {
 								+String.valueOf(data.get_txtProductCompetitorCode())+"','"
 								+String.valueOf(data.get_txtProductCompetitorName())+"','"
 								+String.valueOf(data.get_txtProductBrandQty())+"','"
+								+String.valueOf(data.get_txtProductBrandCodeCRM())+"','"
+								+String.valueOf(data.get_txtLOB())+"','"
 								+String.valueOf(data.get_bitActive())+"','"
 								+String.valueOf(data.get_dtInserted())+"','"
 								+String.valueOf(data.get_dtUpdated())+"','"
@@ -75,6 +79,8 @@ public class tCustomerBasedMobileDetailProductDA {
 												dt.Property_txtProductCompetitorCode,
 												dt.Property_txtProductCompetitorName,
 												dt.Property_txtProductBrandQty,
+												dt.Property_txtProductBrandCodeCRM,
+												dt.Property_txtLOB,
 												dt.Property_bitActive,
 												dt.Property_dtInserted,
 												dt.Property_dtUpdated,
@@ -106,11 +112,13 @@ public class tCustomerBasedMobileDetailProductDA {
 			contact.set_txtProductCompetitorCode(cursor.getString(4));
 			contact.set_txtProductCompetitorName(cursor.getString(5));
 			contact.set_txtProductBrandQty(cursor.getString(6));
-			contact.set_bitActive(cursor.getString(7));
-			contact.set_dtInserted(cursor.getString(8));
-			contact.set_dtUpdated(cursor.getString(9));
-			contact.set_txtInsertedBy(cursor.getString(10));
-			contact.set_txtUpdatedBy(cursor.getString(11));
+			contact.set_txtProductBrandCodeCRM(cursor.getString(7));
+			contact.set_txtLOB(cursor.getString(8));
+			contact.set_bitActive(cursor.getString(9));
+			contact.set_dtInserted(cursor.getString(10));
+			contact.set_dtUpdated(cursor.getString(11));
+			contact.set_txtInsertedBy(cursor.getString(12));
+			contact.set_txtUpdatedBy(cursor.getString(13));
 			// return contact
 			cursor.close();
 			return contact;
@@ -127,6 +135,8 @@ public class tCustomerBasedMobileDetailProductDA {
 				dt.Property_txtProductCompetitorCode,
 				dt.Property_txtProductCompetitorName,
                 dt.Property_txtProductBrandQty,
+				dt.Property_txtProductBrandCodeCRM,
+				dt.Property_txtLOB,
                 dt.Property_bitActive,
                 dt.Property_dtInserted,
                 dt.Property_dtUpdated,
@@ -158,12 +168,14 @@ public class tCustomerBasedMobileDetailProductDA {
                 contact.set_txtProductBrandName(cursor.getString(3));
 				contact.set_txtProductCompetitorCode(cursor.getString(4));
 				contact.set_txtProductCompetitorName(cursor.getString(5));
-                contact.set_txtProductBrandQty(cursor.getString(6));
-                contact.set_bitActive(cursor.getString(7));
-                contact.set_dtInserted(cursor.getString(8));
-                contact.set_dtUpdated(cursor.getString(9));
-                contact.set_txtInsertedBy(cursor.getString(10));
-                contact.set_txtUpdatedBy(cursor.getString(11));
+				contact.set_txtProductBrandQty(cursor.getString(6));
+				contact.set_txtProductBrandCodeCRM(cursor.getString(7));
+				contact.set_txtLOB(cursor.getString(8));
+                contact.set_bitActive(cursor.getString(9));
+                contact.set_dtInserted(cursor.getString(10));
+                contact.set_dtUpdated(cursor.getString(11));
+                contact.set_txtInsertedBy(cursor.getString(12));
+                contact.set_txtUpdatedBy(cursor.getString(13));
                 contactList.add(contact);
             } while (cursor.moveToNext());
         }
@@ -189,11 +201,14 @@ public class tCustomerBasedMobileDetailProductDA {
 				contact.set_txtProductBrandName(cursor.getString(3));
 				contact.set_txtProductCompetitorCode(cursor.getString(4));
 				contact.set_txtProductCompetitorName(cursor.getString(5));
-				contact.set_bitActive(cursor.getString(6));
-				contact.set_dtInserted(cursor.getString(7));
-				contact.set_dtUpdated(cursor.getString(8));
-				contact.set_txtInsertedBy(cursor.getString(9));
-				contact.set_txtUpdatedBy(cursor.getString(10));
+				contact.set_txtProductBrandQty(cursor.getString(6));
+				contact.set_txtProductBrandCodeCRM(cursor.getString(7));
+				contact.set_txtLOB(cursor.getString(8));
+				contact.set_bitActive(cursor.getString(9));
+				contact.set_dtInserted(cursor.getString(10));
+				contact.set_dtUpdated(cursor.getString(11));
+				contact.set_txtInsertedBy(cursor.getString(12));
+				contact.set_txtUpdatedBy(cursor.getString(13));
 				contactList.add(contact);
 				} while (cursor.moveToNext());
 		}
@@ -233,11 +248,13 @@ public class tCustomerBasedMobileDetailProductDA {
 				contact.set_txtProductCompetitorCode(cursor.getString(4));
 				contact.set_txtProductCompetitorName(cursor.getString(5));
 				contact.set_txtProductBrandQty(cursor.getString(6));
-                contact.set_bitActive(cursor.getString(7));
-				contact.set_dtInserted(cursor.getString(8));
-				contact.set_dtUpdated(cursor.getString(9));
-				contact.set_txtInsertedBy(cursor.getString(10));
-				contact.set_txtUpdatedBy(cursor.getString(11));
+				contact.set_txtProductBrandCodeCRM(cursor.getString(7));
+				contact.set_txtLOB(cursor.getString(8));
+                contact.set_bitActive(cursor.getString(9));
+				contact.set_dtInserted(cursor.getString(10));
+				contact.set_dtUpdated(cursor.getString(11));
+				contact.set_txtInsertedBy(cursor.getString(12));
+				contact.set_txtUpdatedBy(cursor.getString(13));
                 contactList.add(contact);
 				} while (cursor.moveToNext());
 		}
