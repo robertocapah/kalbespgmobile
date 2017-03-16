@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import library.salesforce.common.mEmployeeAreaData;
 import library.salesforce.common.mMenuData;
 import library.salesforce.common.tLeaveMobileData;
 import library.salesforce.dal.mEmployeeAreaDA;
@@ -76,14 +75,14 @@ public class mMenuBL extends clsMainBL {
 
                             validate = 1;
 
-                            List<mEmployeeAreaData> datamEmployeeArea = new mEmployeeAreaBL().GetAllData();
-
-                            for (mEmployeeAreaData dt : datamEmployeeArea) {
-                                if (dt.get_txtLatitude() == "" || dt.get_txtLatitude() == null || dt.get_txtLatitude().equals("")
-                                        && dt.get_txtLongitude() == "" || dt.get_txtLongitude() == null || dt.get_txtLongitude().equals("")) {
-                                    validate = 0;
-                                }
-                            }
+//                            List<mEmployeeAreaData> datamEmployeeArea = new mEmployeeAreaBL().GetAllData();
+//
+//                            for (mEmployeeAreaData dt : datamEmployeeArea) {
+//                                if (dt.get_txtLatitude() == "" || dt.get_txtLatitude() == null || dt.get_txtLatitude().equals("")
+//                                        && dt.get_txtLongitude() == "" || dt.get_txtLongitude() == null || dt.get_txtLongitude().equals("")) {
+//                                    validate = 0;
+//                                }
+//                            }
                         }
 
                         if (validate == 1) {

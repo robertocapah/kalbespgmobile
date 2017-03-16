@@ -90,7 +90,7 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
         }
 
         if (status) {
-            dtHeader.set_bitActive("0");
+            dtHeader.set_bitActive("1");
             dtHeader.set_intSubmit("1");
             new tCustomerBasedMobileHeaderDA(_db).SaveDatatCustomerBasedMobileHeaderData(_db, dtHeader);
 
@@ -118,6 +118,30 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
         SQLiteDatabase _db = getDb();
         List<tCustomerBasedMobileHeaderData> dt = new tCustomerBasedMobileHeaderDA(_db).getAllData(_db);
         return dt;
+    }
+
+    public int getCountAllCustomerBased() {
+        SQLiteDatabase _db = getDb();
+        int count = new tCustomerBasedMobileHeaderDA(_db).countCustomerBaseHome(_db);
+        return count;
+    }
+
+    public int getCountAllCustomerBasedAbsen(String code) {
+        SQLiteDatabase _db = getDb();
+        int count = new tCustomerBasedMobileHeaderDA(_db).countCustomerBaseHomeAbsen(_db, code);
+        return count;
+    }
+
+    public int getCountAllCustomerBasedAbsenByStatus(String status, String code) {
+        SQLiteDatabase _db = getDb();
+        int count = new tCustomerBasedMobileHeaderDA(_db).countCustomerBaseHomeAbsenByStatus(_db, status, code);
+        return count;
+    }
+
+    public int getCountAllCustomerBasedByStatus(String status) {
+        SQLiteDatabase _db = getDb();
+        int count = new tCustomerBasedMobileHeaderDA(_db).countCustomerBaseHomeByStatus(_db, status);
+        return count;
     }
 
     public List<tCustomerBasedMobileHeaderData> getAllDataByIntSyc(String val) {
@@ -170,7 +194,7 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
         String txtMethod = "GetDataCustomerBased";
         JSONObject resJson = new JSONObject();
         dtlinkAPI.set_txtMethod(txtMethod);
-        dtlinkAPI.set_txtParam(_dataUserLogin.get_txtUserId() + "|" + datenow);
+        dtlinkAPI.set_txtParam(_dataUserLogin.get_TxtEmpId() + "|" + datenow);
         dtlinkAPI.set_txtToken(new clsHardCode().txtTokenAPI);
         dtlinkAPI.set_txtVesion(versionName);
 

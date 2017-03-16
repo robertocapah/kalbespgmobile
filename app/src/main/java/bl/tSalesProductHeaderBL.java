@@ -93,6 +93,17 @@ public class tSalesProductHeaderBL extends clsMainBL {
         }
         return dt ;
     }
+
+    public List<tSalesProductHeaderData> getAllSalesProductHeaderByOutletCodeHome(String code){
+        SQLiteDatabase _db =getDb();
+        tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(_db);
+        List<tSalesProductHeaderData> dt = _tSalesProductHeaderDA.getAllDataByOutletCode(_db,code);
+        if(dt == null){
+            dt = new ArrayList<>(0);
+        }
+        return dt ;
+    }
+
     public List<tSalesProductHeaderData> getDataByNoSO(String noso){
         SQLiteDatabase _db =getDb();
         tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(_db);
