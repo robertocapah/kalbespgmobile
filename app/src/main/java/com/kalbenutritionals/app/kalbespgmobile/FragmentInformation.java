@@ -71,69 +71,63 @@ public class FragmentInformation extends Fragment implements View.OnClickListene
         List<tLeaveMobileData> dtLeave = new tLeaveMobileBL().getData("");
 
         List<tSalesProductHeaderData> dtReso = null;
-        List<tCustomerBasedMobileHeaderData> dtCbase = null;
+        int dtCbase = 0;
         List<tActivityData> dtActivity = null;
         List<tSalesProductHeaderData> dt_reso_unpush = null;
         List<tSalesProductHeaderData> dt_reso_push = null;
         List<tActivityData> dt_act_unpush = null;
         List<tActivityData> dt_act_push = null;
-        List<tCustomerBasedMobileHeaderData> dt_cb_unpush = null;
-        List<tCustomerBasedMobileHeaderData> dt_cb_push = new tCustomerBasedMobileHeaderBL().getAllDataByIntSyc("1");
+        int dt_cb_unpush = 0;
+        int dt_cb_push = 0;
 
         tvUsername.setText(dt.get_txtUserName());
 
-        if(dtLeave.size() > 0){
+        if (dtLeave.size() > 0) {
             tvBranchOutlet.setText(dtLeave.get(0).get_txtTypeAlasanName() + " - " + dtLeave.get(0).get_txtAlasan());
-        }
-        else if(dtAbsen != null){
+        } else if (dtAbsen != null) {
             tvBranchOutlet.setText(dtAbsen.get_txtBranchName() + " - " + dtAbsen.get_txtOutletName());
             dtReso = new tSalesProductHeaderBL().getAllSalesProductHeaderByOutletCode(dtAbsen.get_txtOutletCode());
             dtActivity = new tActivityBL().getAllDataByOutletCode(dtAbsen.get_txtOutletCode());
-            dtCbase = new tCustomerBasedMobileHeaderBL().getAllCustomerBasedMobileHeaderByOutletCode(dtAbsen.get_txtOutletCode());
+            dtCbase = new tCustomerBasedMobileHeaderBL().getCountAllCustomerBasedAbsen(dtAbsen.get_txtOutletCode());
             dt_reso_unpush = new tSalesProductHeaderBL().getAllDataByIntSycAndOutlet("0", dtAbsen.get_txtOutletCode());
             dt_reso_push = new tSalesProductHeaderBL().getAllDataByIntSycAndOutlet("1", dtAbsen.get_txtOutletCode());
             dt_act_unpush = new tActivityBL().getAllDataByIntSycAndOutlet("0", dtAbsen.get_txtOutletCode());
             dt_act_push = new tActivityBL().getAllDataByIntSycAndOutlet("1", dtAbsen.get_txtOutletCode());
-            dt_cb_unpush = new tCustomerBasedMobileHeaderBL().getAllDataByIntSycAndOutlet("0", dtAbsen.get_txtOutletCode());
-            dt_cb_push = new tCustomerBasedMobileHeaderBL().getAllDataByIntSycAndOutlet("1", dtAbsen.get_txtOutletCode());
-        }
-        else{
+            dt_cb_unpush = new tCustomerBasedMobileHeaderBL().getCountAllCustomerBasedAbsenByStatus("0", dtAbsen.get_txtOutletCode());
+            dt_cb_push = new tCustomerBasedMobileHeaderBL().getCountAllCustomerBasedAbsenByStatus("1", dtAbsen.get_txtOutletCode());
+        } else {
             tvBranchOutlet.setText("Inactive");
             dtReso = new tSalesProductHeaderBL().getAllSalesProductHeader();
-            dtCbase = new tCustomerBasedMobileHeaderBL().getAllData();
+            dtCbase = new tCustomerBasedMobileHeaderBL().getCountAllCustomerBased();
             dtActivity = new tActivityBL().getAllData();
             dt_reso_unpush = new tSalesProductHeaderBL().getAllDataByIntSyc("0");
             dt_reso_push = new tSalesProductHeaderBL().getAllDataByIntSyc("1");
             dt_act_unpush = new tActivityBL().getAllDataByIntSyc("0");
             dt_act_push = new tActivityBL().getAllDataByIntSyc("1");
-            dt_cb_unpush = new tCustomerBasedMobileHeaderBL().getAllDataByIntSyc("0");
-            dt_cb_push = new tCustomerBasedMobileHeaderBL().getAllDataByIntSyc("1");
+            dt_cb_unpush = new tCustomerBasedMobileHeaderBL().getCountAllCustomerBasedByStatus("0");
+            dt_cb_push = new tCustomerBasedMobileHeaderBL().getCountAllCustomerBasedByStatus("1");
         }
 
-        tvEmail.setText(dt.get_TxtEmail());
+        tvEmail.setText("(NIK : " + dt.get_TxtEmpId() + ")");
 
         tvTotalReso.setText(dtReso != null ? String.valueOf(dtReso.size()) : "0");
         tvTotalActivity.setText(dtActivity != null ? String.valueOf(dtActivity.size()) : "0");
-        tvTotalCustomerBase.setText(dtCbase != null ? String.valueOf(dtCbase.size()) : "0");
+        tvTotalCustomerBase.setText(String.valueOf(dtCbase));
 
-        if(dt_reso_unpush!=null){
+        if (dt_reso_unpush != null) {
             tv_reso1.setText(String.valueOf(dt_reso_unpush.size()));
         }
-        if(dt_reso_push!=null){
+        if (dt_reso_push != null) {
             tv_reso2.setText(String.valueOf(dt_reso_push.size()));
         }
-        if(dt_act_unpush!=null){
+        if (dt_act_unpush != null) {
             tv_act1.setText(String.valueOf(dt_act_unpush.size()));
         }
-        if(dt_act_push!=null){
+        if (dt_act_push != null) {
             tv_act2.setText(String.valueOf(dt_act_push.size()));
         }
-        if(dt_cb_unpush!=null){
-            tv_cb1.setText(String.valueOf(dt_cb_unpush.size()));
-        }
-        if(dt_cb_push!=null){
-            tv_cb2.setText(String.valueOf(dt_cb_push.size()));
-        }
+        tv_cb1.setText(String.valueOf(dt_cb_unpush));
+        tv_cb2.setText(String.valueOf(dt_cb_push));
 
         final NavigationView nv = (NavigationView) getActivity().findViewById(R.id.navigation_view);
         final Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
@@ -142,7 +136,7 @@ public class FragmentInformation extends Fragment implements View.OnClickListene
         tvTotalReso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dtAbsen != null){
+                if (dtAbsen != null) {
                     toolbar.setTitle("View Reso");
                     nv.setCheckedItem(0);
                     FragmentViewResoSPG fragmentViewResoSPG = new FragmentViewResoSPG();
@@ -155,7 +149,7 @@ public class FragmentInformation extends Fragment implements View.OnClickListene
         tvTotalActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(dtAbsen != null){
+                if (dtAbsen != null) {
                     toolbar.setTitle("View Actvity");
                     nv.setCheckedItem(1);
                     FragmentViewActvitySPG fragmentViewActvitySPG = new FragmentViewActvitySPG();
@@ -168,7 +162,7 @@ public class FragmentInformation extends Fragment implements View.OnClickListene
         tvTotalCustomerBase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(dtAbsen != null) {
+                if (dtAbsen != null) {
                     toolbar.setTitle("View Customer Base");
                     nv.setCheckedItem(2);
                     FragmentViewCustomerBaseSPG fragmentViewCustomerBaseSPG = new FragmentViewCustomerBaseSPG();

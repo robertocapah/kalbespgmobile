@@ -100,7 +100,27 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:text="My Location" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Outlet Location" />
+                </TableRow>
+
+                <TableRow
+                    android:background="#ffffff"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
                         android:text="Long" />
                     <TextView
                         android:id="@+id/tvLong"
@@ -109,6 +129,7 @@
                         android:layout_weight="1"
                         android:text="" />
                     <TextView
+                        android:id="@+id/tvLongOutlet"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -120,7 +141,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:text="Lat" />
                     <TextView
                         android:id="@+id/tvLat"
@@ -129,6 +150,7 @@
                         android:layout_weight="1"
                         android:text="" />
                     <TextView
+                        android:id="@+id/tvLatOutlet"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -140,7 +162,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:text="Acc" />
                     <TextView
                         android:id="@+id/tvAcc"
@@ -149,6 +171,7 @@
                         android:layout_weight="1"
                         android:text="" />
                     <TextView
+                        android:id="@+id/tvAccOutlet"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

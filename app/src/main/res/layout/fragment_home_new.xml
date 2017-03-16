@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true">
 
     <LinearLayout
@@ -14,63 +14,65 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:orientation="vertical"
+            android:layout_weight="1.8"
             android:background="#4CAF50"
             android:gravity="center"
-            android:layout_weight="1.8">
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/profile" />
+            android:orientation="vertical"
+            android:padding="10dp">
 
-        <TextView
-            android:id="@+id/tvUsername"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="SUSANTI"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/profile" />
 
-        <TextView
-            android:id="@+id/tvBranchOutlet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="KEDIRI - DRAGON, TOKO"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/tvUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="SUSANTI"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="arick_anjasmara@ymail.com"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/tvBranchOutlet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="KEDIRI - DRAGON, TOKO"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="arick_anjasmara@ymail.com"
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
+            android:layout_weight="1"
             android:background="@color/white"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_weight="1">
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <com.owater.library.CircleTextView
                     android:id="@+id/tvTotalReso"
@@ -100,8 +102,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <com.owater.library.CircleTextView
                     android:id="@+id/tvTotalActivity"
@@ -131,8 +133,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <com.owater.library.CircleTextView
                     android:id="@+id/tvTotalCustomerBase"
@@ -163,10 +165,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:padding="10dp"
             android:layout_weight="1.3"
             android:background="@color/white"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <TableLayout
                 android:id="@+id/tlAbesen"
@@ -176,102 +178,104 @@
 
                 <TableRow
                     android:background="#4CAF50"
-                    android:padding="5dp"
-                    android:gravity="center_horizontal">
+                    android:gravity="center_horizontal"
+                    android:padding="5dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Type"
                         android:layout_weight="1"
-                        />
+                        android:text="Type" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Unpushed"
                         android:layout_weight="1"
-                        />
+                        android:text="Unpushed" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pushed"
                         android:layout_weight="1"
-                        />
+                        android:text="Pushed" />
                 </TableRow>
 
                 <TableRow
                     android:background="#f0f0f0"
-                    android:padding="5dp"
-                    android:gravity="center_horizontal">
+                    android:gravity="center_horizontal"
+                    android:padding="5dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Reso"
                         android:layout_weight="1"
-                        />
+                        android:text="Reso" />
+
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/tv_reso1"
-                        android:text=""
-                        android:layout_weight="1"
-                        />
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="" />
+
+                    <TextView
                         android:id="@+id/tv_reso2"
-                        android:text=""
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        />
+                        android:text="" />
                 </TableRow>
+
                 <TableRow
                     android:background="#f0f0f0"
-                    android:padding="5dp"
-                    android:gravity="center_horizontal">
+                    android:gravity="center_horizontal"
+                    android:padding="5dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Activity"
                         android:layout_weight="1"
-                        />
+                        android:text="Activity" />
+
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/tv_act1"
-                        android:text=""
-                        android:layout_weight="1"
-                        />
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tv_act2"
-                        android:text=""
                         android:layout_weight="1"
-                        />
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/tv_act2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="" />
                 </TableRow>
+
                 <TableRow
                     android:background="#f0f0f0"
-                    android:padding="5dp"
-                    android:gravity="center_horizontal">
+                    android:gravity="center_horizontal"
+                    android:padding="5dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Customer Base"
                         android:layout_weight="1"
-                        />
+                        android:text="Customer Base" />
+
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/tv_cb1"
-                        android:text=""
-                        android:layout_weight="1"
-                        />
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tv_cb2"
-                        android:text=""
                         android:layout_weight="1"
-                        />
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/tv_cb2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="" />
                 </TableRow>
             </TableLayout>
         </LinearLayout>

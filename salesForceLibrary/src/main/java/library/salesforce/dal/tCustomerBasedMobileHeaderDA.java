@@ -194,12 +194,106 @@ public class tCustomerBasedMobileHeaderDA {
         return contactList;
     }
 
+    public int countCustomerBaseHome(SQLiteDatabase db) {
+        List<tCustomerBasedMobileHeaderData> contactList = new ArrayList<tCustomerBasedMobileHeaderData>();
+        // Select All Query
+        tCustomerBasedMobileHeaderData dt = new tCustomerBasedMobileHeaderData();
+
+        String selectQuery = "select a.intTrCustomerIdDetail, b.txtProductDetailCode,count(1) from tCustomerBasedMobileDetailProduct a left join mEmployeeSalesProduct b on a.txtProductBrandCode = b.txtBrandDetailGramCode group by a.intTrCustomerIdDetail, b.txtProductDetailCode";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        int count = 0;
+
+        if (cursor.moveToFirst()) {
+            do {
+                count++;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        // return contact list
+        return count;
+    }
+
+    public int countCustomerBaseHomeByStatus(SQLiteDatabase db, String status) {
+        List<tCustomerBasedMobileHeaderData> contactList = new ArrayList<tCustomerBasedMobileHeaderData>();
+        // Select All Query
+        tCustomerBasedMobileHeaderData dt = new tCustomerBasedMobileHeaderData();
+
+        String selectQuery = "select a.intTrCustomerIdDetail, b.txtProductDetailCode,count(1) from tCustomerBasedMobileDetailProduct a left join mEmployeeSalesProduct b on a.txtProductBrandCode = b.txtBrandDetailGramCode where a.intTrCustomerIdDetail in \n" +
+                "(select d.intTrCustomerIdDetail from tCustomerBasedMobileHeader c left join tCustomerBasedMobileDetail d on c.intTrCustomerId = d.intTrCustomerId where c.bitActive='1' and c.intSubmit='1' and c.intSync='" + status + "'" +
+                ") group by a.intTrCustomerIdDetail, b.txtProductDetailCode";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        int count = 0;
+
+        if (cursor.moveToFirst()) {
+            do {
+                count++;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        // return contact list
+        return count;
+    }
+
+    public int countCustomerBaseHomeAbsen(SQLiteDatabase db, String code) {
+        List<tCustomerBasedMobileHeaderData> contactList = new ArrayList<tCustomerBasedMobileHeaderData>();
+        // Select All Query
+        tCustomerBasedMobileHeaderData dt = new tCustomerBasedMobileHeaderData();
+
+        String selectQuery = "select a.intTrCustomerIdDetail, b.txtProductDetailCode,count(1) from tCustomerBasedMobileDetailProduct a left join mEmployeeSalesProduct b on a.txtProductBrandCode = b.txtBrandDetailGramCode where a.intTrCustomerIdDetail in \n" +
+                "(select d.intTrCustomerIdDetail from tCustomerBasedMobileHeader c left join tCustomerBasedMobileDetail d on c.intTrCustomerId = d.intTrCustomerId where txtSumberData='" + code + "') \n" +
+                "group by a.intTrCustomerIdDetail, b.txtProductDetailCode";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        int count = 0;
+
+        if (cursor.moveToFirst()) {
+            do {
+                count++;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        // return contact list
+        return count;
+    }
+
+    public int countCustomerBaseHomeAbsenByStatus(SQLiteDatabase db, String status, String code) {
+        List<tCustomerBasedMobileHeaderData> contactList = new ArrayList<tCustomerBasedMobileHeaderData>();
+        // Select All Query
+        tCustomerBasedMobileHeaderData dt = new tCustomerBasedMobileHeaderData();
+
+        String selectQuery = "select a.intTrCustomerIdDetail, b.txtProductDetailCode,count(1) from tCustomerBasedMobileDetailProduct a left join mEmployeeSalesProduct b on a.txtProductBrandCode = b.txtBrandDetailGramCode where a.intTrCustomerIdDetail in \n" +
+                "(select d.intTrCustomerIdDetail from tCustomerBasedMobileHeader c left join tCustomerBasedMobileDetail d on c.intTrCustomerId = d.intTrCustomerId where txtSumberData='" + code + "' and c.bitActive='1' and c.intSubmit='1' and c.intSync='" + status + "') \n" +
+                "group by a.intTrCustomerIdDetail, b.txtProductDetailCode";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        int count = 0;
+
+        if (cursor.moveToFirst()) {
+            do {
+                count++;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        // return contact list
+        return count;
+    }
+
     public List<tCustomerBasedMobileHeaderData> getAllDataByOutletCode(SQLiteDatabase db, String code) {
         List<tCustomerBasedMobileHeaderData> contactList = new ArrayList<tCustomerBasedMobileHeaderData>();
         // Select All Query
         tCustomerBasedMobileHeaderData dt = new tCustomerBasedMobileHeaderData();
 
-        String selectQuery = "SELECT  " + dt.Property_ALL + " FROM " + TABLE_NAME + " WHERE " + dt.Property_txtSumberData+ "='" + code + "'" + " AND " + dt.Property_intSubmit+ " ='1' ORDER BY txtSubmissionId DESC ";
+        String selectQuery = "SELECT  " + dt.Property_ALL + " FROM " + TABLE_NAME + " WHERE " + dt.Property_txtSumberData + "='" + code + "'" + " AND " + dt.Property_intSubmit + " ='1' ORDER BY txtSubmissionId DESC ";
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -348,7 +442,7 @@ public class tCustomerBasedMobileHeaderDA {
         tCustomerBasedMobileHeaderData contact = new tCustomerBasedMobileHeaderData();
 
         tCustomerBasedMobileHeaderData dt = new tCustomerBasedMobileHeaderData();
-        String selectQuery = "SELECT  " + dt.Property_ALL + " FROM " + TABLE_NAME + " WHERE " + dt.Property_bitActive + " = '1'";
+        String selectQuery = "SELECT  " + dt.Property_ALL + " FROM " + TABLE_NAME + " WHERE " + dt.Property_bitActive + " = '0'";
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 

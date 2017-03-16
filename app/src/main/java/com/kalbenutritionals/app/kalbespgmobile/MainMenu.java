@@ -356,7 +356,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                     case R.id.home:
                         toolbar.setTitle("Home");
 
-                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
 
                         FragmentInformation homeFragment = new FragmentInformation();
                         FragmentTransaction fragmentTransactionHome = getSupportFragmentManager().beginTransaction();
@@ -369,7 +369,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                     case R.id.historyAbsen:
                         toolbar.setTitle("History Absen");
 
-                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
 
                         FragmentViewHistoryAbsen fragmentViewHistoryAbsen = new FragmentViewHistoryAbsen();
                         FragmentTransaction fragmentTransactionHistoryAbsen = getSupportFragmentManager().beginTransaction();
@@ -445,7 +445,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
                         return true;
                     default:
-                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
                         try {
                             Class<?> fragmentClass = Class.forName(linkMenu[menuItem.getItemId()]);
                             try {

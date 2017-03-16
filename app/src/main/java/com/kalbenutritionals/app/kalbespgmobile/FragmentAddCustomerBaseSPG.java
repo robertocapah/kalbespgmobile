@@ -52,7 +52,6 @@ import bl.tAbsenUserBL;
 import bl.tCustomerBasedMobileDetailBL;
 import bl.tCustomerBasedMobileDetailProductBL;
 import bl.tCustomerBasedMobileHeaderBL;
-import bl.tSalesProductHeaderBL;
 import bl.tUserLoginBL;
 import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView;
 import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
@@ -69,7 +68,6 @@ import library.salesforce.common.mTypeSubmissionMobile;
 import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
-import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.common.tUserLoginData;
 
 public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClickListener, IXListViewListener {
@@ -86,7 +84,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     CheckBox cbPIC;
     RadioGroup radioGenderGroup;
     Button btnSave;
-    Button btnAddTgl;
+    List<tCustomerBasedMobileDetailProductData> dtListDetailProduct;
+    AdapterListProductCustomerBased AdapterProduct;
     View v;
 
     List<tCustomerBasedMobileDetailData> dtListDetail;
@@ -359,7 +358,6 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     private void popUpAddProduct(final tCustomerBasedMobileDetailData dataDetail) {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         final View promptView = layoutInflater.inflate(R.layout.popup_add_product, null);
-        final List<mEmployeeSalesProductData> data = new mEmployeeSalesProductBL().GetAllData();
         final TextView nama = (TextView) promptView.findViewById(R.id.add_nama);
         final Button btnAddProduct = (Button) promptView.findViewById(R.id.btn_add_product);
         final EditText qty = (EditText) promptView.findViewById(R.id.qty);
@@ -371,10 +369,9 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         final Spinner spnKalbeProduct = (Spinner) promptView.findViewById(R.id.spn_kn_product);
         final Spinner spnCompetProduct = (Spinner) promptView.findViewById(R.id.spn_cp_product);
 
-        List<String> dataProductKalbe = new ArrayList<String>();
-        final List<String> dataProductKompetitor = new ArrayList<String>();
+        List<String> dataProductKalbe = new ArrayList<>();
+        final List<String> dataProductKompetitor = new ArrayList<>();
 
-        List<tSalesProductHeaderData> listSalesProductHeaderData = new tSalesProductHeaderBL().getAllSalesProductHeader();
         final List<mEmployeeSalesProductData> listDataProductKalbe = new mEmployeeSalesProductBL().GetAllData();
 
         if (listDataProductKalbe.size() > 0) {
@@ -384,11 +381,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             }
         }
 
-        ArrayAdapter<String> adapterKalbeProduct = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataProductKalbe);
-        spnKalbeProduct.setAdapter(adapterKalbeProduct);
-
-        List<mProductCompetitorData> listDataProductCompet = new mProductCompetitorBL().GetAllData();
-
+        ArrayAdapter<String> adapterKalbeProduct = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, dataProductKalbe);
         spnKalbeProduct.setAdapter(adapterKalbeProduct);
 
         spnKalbeProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -833,9 +826,6 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
     }
 
-    List<tCustomerBasedMobileDetailProductData> dtListDetailProduct;
-    AdapterListProductCustomerBased AdapterProduct;
-
     private void setTableProduct(final tCustomerBasedMobileDetailData _tCustomerBasedMobileDetailData, final View v) {
 
         dtListDetailProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(_tCustomerBasedMobileDetailData.get_intTrCustomerIdDetail());
@@ -861,28 +851,6 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         ListView lvProduct = (ListView) v.findViewById(R.id.listViewProduct);
         lvProduct.setAdapter(AdapterProduct);
         lvProduct.setEmptyView(v.findViewById(R.id.LayoutEmpty));
-//        lvProduct.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, final int pos, long id) {
-//                new AlertDialog.Builder(v.getContext())
-//                        .setTitle("Delete Product")
-//                        .setMessage("Are you sure you want to delete this product?")
-//                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                new tCustomerBasedMobileDetailProductBL().deleteDataByProductId(dtListDetailProduct.get(pos).get_intTrCustomerIdDetailProduct());
-//                                setTableProduct(_tCustomerBasedMobileDetailData, v);
-//                                setTablePerson();
-//                            }
-//                        })
-//                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                // do nothing
-//                            }
-//                        })
-//                        .show();
-//                return true;
-//            }
-//        });
 
     }
 
@@ -916,7 +884,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         dtHeader.set_txtALamat(etAlamat.getText().toString());
         dtHeader.set_txtSubmissionId(etCustomerBasedNo.getText().toString());
         dtHeader.set_txtSubmissionCode(HMSubmision.get(spnSubmissionCode.getSelectedItem().toString()));
-        dtHeader.set_txtUserId(new tAbsenUserBL().getDataCheckInActive().get_txtUserId());
+        dtHeader.set_txtUserId(new tUserLoginBL().getUserLogin().get_TxtEmpId());
 
         int selectedId = radioGenderGroup.getCheckedRadioButtonId();
         RadioButton rbGender = (RadioButton) v.findViewById(selectedId);
@@ -941,7 +909,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             data.set_txtNamaDepan(dtHeader.get_txtNamaDepan());
             data.set_intNo(String.valueOf(dtDetail.size() + 1));
             data.set_intPIC("1");
-            data.set_bitActive("1");
+            data.set_bitActive("0");
             data.set_dtInserted(dateFormat.format(cal.getTime()));
             data.set_txtGender(rbGender.getText().toString());
 
@@ -959,7 +927,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         }
 
         dtHeader.set_txtDeviceId(new tAbsenUserBL().getDataCheckInActive().get_txtDeviceId());
-        dtHeader.set_bitActive("1");
+        dtHeader.set_bitActive("0");
         dtHeader.set_dtDate(dateFormat.format(cal.getTime()));
         dtHeader.set_intSubmit("0");
         dtHeader.set_intSync("0");

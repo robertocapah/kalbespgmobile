@@ -118,7 +118,7 @@ public class mEmployeeSalesProductDA {
 		// Select All Query
 		mEmployeeSalesProductData dt = new mEmployeeSalesProductData();
 		String selectQuery = "SELECT  " + dt.Property_All + " FROM "
-				+ TABLE_CONTACTS+" ORDER BY "+ dt.Property_txtBrandDetailGramCode+" ASC,"+dt.Property_decBobot+" DESC";
+				+ TABLE_CONTACTS+" ORDER BY "+ dt.Property_txtProductBrandDetailGramName +" ASC";
 		Cursor cursor = db.rawQuery(selectQuery, null);
 		// looping through all rows and adding to list
 		

@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -136,6 +137,9 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
 
     private Uri uriImage;
     private int countActivity;
+    private TextView tvLongOutlet;
+    private TextView tvLatOutlet;
+
 
     clsMainActivity _clsMainActivity = new clsMainActivity();
 
@@ -285,7 +289,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
             public void onClick(View v) {
 //                displayLocation(mLastLocation);
                 getLocation();
-                if (mLastLocation!=null){
+                if (mLastLocation != null) {
                     displayLocation(mLastLocation);
                 }
                 new clsMainActivity().showCustomToast(getContext(), "Location Updated", true);
@@ -294,7 +298,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
 
         getLocation();
 
-        if (mLastLocation!=null){
+        if (mLastLocation != null) {
             displayLocation(mLastLocation);
         }
 
@@ -390,7 +394,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
         });
 
         List<mEmployeeBranchData> listDataBranch = new mEmployeeBranchBL().GetAllData();
-        List<mEmployeeAreaData> listDataArea = new mEmployeeAreaBL().GetAllData();
+        final List<mEmployeeAreaData> listDataArea = new mEmployeeAreaBL().GetAllData();
         if (checkPlayServices()) {
             buildGoogleApiClient();
         }
@@ -574,10 +578,9 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         Boolean pRes = true;
+                                        String errorMessage = "Please Photo at least 1 photo";
                                         if (dttAbsenUserData == null) {
-
                                             pRes = false;
-
                                         } else {
                                             nameBranch = spnBranch.getSelectedItem().toString();
                                             if ((dttAbsenUserData.get_txtImg1() == null)
@@ -590,11 +593,21 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                                                 pRes = false;
                                             }
                                         }
+
+                                        double latitudeOutlet = 0;
+                                        double longitudeOutlet = 0;
+
+                                        if (tvLongOutlet.getText().toString().equals("Not Found")) {
+                                            errorMessage = "Location not found";
+                                        }
+                                        else{
+                                            latitudeOutlet = Double.parseDouble(HMoutletLat.get(spnOutlet.getSelectedItem().toString()));
+                                            longitudeOutlet = Double.parseDouble(HMoutletLang.get(spnOutlet.getSelectedItem().toString()));
+                                        }
+
                                         if (pRes) {
                                             double latitude = Double.parseDouble(String.valueOf(lblLang.getText()));
                                             double longitude = Double.parseDouble(String.valueOf(lblLong.getText()));
-                                            double latitudeOutlet = Double.parseDouble(HMoutletLat.get(spnOutlet.getSelectedItem().toString()));
-                                            double longitudeOutlet = Double.parseDouble(HMoutletLang.get(spnOutlet.getSelectedItem().toString()));
 
                                             Location locationA = new Location("point A");
 
@@ -610,10 +623,9 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
 
                                             tUserLoginData checkLocation = new tUserLoginBL().getUserLogin();
 
-                                            if((int) Math.ceil(distance) > 100 && checkLocation.get_txtCheckLocation().equals("1")){
+                                            if ((int) Math.ceil(distance) > 100 && checkLocation.get_txtCheckLocation().equals("1")) {
                                                 _clsMainActivity.showCustomToast(getContext(), "Failed checkin: Your location too far from outlet", false);
-                                            }
-                                            else{
+                                            } else {
                                                 nameBranch = spnBranch.getSelectedItem().toString();
                                                 nameOutlet = spnOutlet.getSelectedItem().toString();
                                                 branchCode = HMbranch.get(nameBranch);
@@ -670,7 +682,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                                             }
 
                                         } else {
-                                            _clsMainActivity.showCustomToast(getContext(), "Please Photo at least 1 photo..", false);
+                                            _clsMainActivity.showCustomToast(getContext(), errorMessage, false);
                                         }
                                     }
                                 })
@@ -695,8 +707,21 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
 
         });
 
-//        displayLocation();
+        tvLongOutlet = (TextView) v.findViewById(R.id.tvLongOutlet);
+        tvLatOutlet = (TextView) v.findViewById(R.id.tvLatOutlet);
 
+        spnOutlet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                tvLongOutlet.setText(listDataArea.get(i).get_txtLongitude().equals("") || listDataArea.get(i).get_txtLongitude().equals("null") ? "Not Found" : listDataArea.get(i).get_txtLongitude());
+                tvLatOutlet.setText(listDataArea.get(i).get_txtLatitude().equals("") || listDataArea.get(i).get_txtLatitude().equals("null") ? "Not Found" : listDataArea.get(i).get_txtLatitude());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         return v;
     }
 
@@ -708,7 +733,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
         }
         Location location = locationManager.getLastKnownLocation(provider);
 
-        if(location!=null){
+        if (location != null) {
             onLocationChanged(location);
         }
 
@@ -727,12 +752,12 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
             // getting network status
             boolean isNetworkEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-            boolean canGetLocation=false;
+            boolean canGetLocation = false;
             Location location = null;
 
             if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
-                new clsMainActivity().showCustomToast(getContext(), "no network provider is enabled", false );
+                new clsMainActivity().showCustomToast(getContext(), "no network provider is enabled", false);
             } else {
                 canGetLocation = true;
                 if (isNetworkEnabled) {
@@ -1074,7 +1099,6 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
             return false;
         }
     }
-
 
     @Override
     public void onLocationChanged(Location location) {
