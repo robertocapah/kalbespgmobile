@@ -73,7 +73,7 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
             if (dtDetail != null) {
                 for (tCustomerBasedMobileDetailData dt : dtDetail) {
                     List<tCustomerBasedMobileDetailProductData> dtProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dt.get_intTrCustomerIdDetail());
-                    if(dt.get_txtTglLahir().equals(dateNow)){
+                    if(dt.get_txtTglLahir().equals(dateNow) || dt.get_txtTglLahir() == null || dt.get_txtTglLahir().equals("null") || dt.get_txtTglLahir().equals("")){
                         new clsMainActivity().showCustomToast(context, "Failed to save: " + dt.get_txtNamaDepan() + " belum set tanggal lahir", false);
                         status = false;
                         break;
