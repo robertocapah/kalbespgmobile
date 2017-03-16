@@ -30,6 +30,7 @@ import library.salesforce.dal.mMenuDA;
 import library.salesforce.dal.mconfigDA;
 import library.salesforce.dal.tAbsenUserDA;
 import library.salesforce.dal.tActivityDA;
+import library.salesforce.dal.tCustomerBasedMobileHeaderDA;
 import library.salesforce.dal.tLeaveMobileDA;
 import library.salesforce.dal.tSalesProductDetailDA;
 import library.salesforce.dal.tSalesProductHeaderDA;
@@ -102,6 +103,7 @@ public class clsMainBL {
     	tActivityDA _tActivityDA=new tActivityDA(db);
     	tAbsenUserDA _tAbsenUserDA=new tAbsenUserDA(db);
     	tLeaveMobileDA _tLeaveMobileDA=new tLeaveMobileDA(db);
+		tCustomerBasedMobileHeaderDA _TCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(db);
     	mMenuDA _mMenuDA=new mMenuDA(db);
     	clsStatusMenuStart _clsStatusMenuStart =new clsStatusMenuStart();
     	if(_tUserLoginDA.CheckLoginNow(db)){
@@ -109,25 +111,26 @@ public class clsMainBL {
     		_clsStatusMenuStart.set_intStatus(enumStatusMenuStart.UserActiveLogin);
     	}else{
     		Boolean dvalid=false;
-    		List<tSalesProductHeaderData> listDataPush= _tSalesProductHeaderDA.getAllDataToPushData(db);
-    		List<tActivityData> listtActivityDataPush= _tActivityDA.getAllDataToPushData(db);
-    		List<tAbsenUserData> listtAbsenUserDataPush= _tAbsenUserDA.getAllDataToPushData(db);
-    		List<tLeaveMobileData> listTLeave= _tLeaveMobileDA.getAllDataPushData(db);
-    		if(listDataPush != null && dvalid==false){
+    		int countDataPushSalesProductHeader = _tSalesProductHeaderDA.getAllCheckToPushData(db);
+			int countDataPushActivity= _tActivityDA.getAllCheckToPushData(db);
+			int countDataPushAbsenUser= _tAbsenUserDA.getAllCheckToPushData(db);
+			int countDataPushLeave= _tLeaveMobileDA.getAllCheckPushData(db);
+			int countDataPushCustomerBased = _TCustomerBasedMobileHeaderDA.getAllCheckPushData(db);
+    		if(countDataPushSalesProductHeader > 0 && dvalid==false){
     			dvalid=true;
     		}
-    		if(listtActivityDataPush != null && dvalid==false){
+    		if(countDataPushActivity>0 && dvalid==false){
     			dvalid=true;
     		}
-    		if(listtAbsenUserDataPush != null && dvalid==false){
+    		if(countDataPushAbsenUser>0 && dvalid==false){
     			dvalid=true;
     		}
-    		if(listTLeave != null && dvalid==false){
+    		if(countDataPushLeave>0 && dvalid==false){
     			dvalid=true;
     		}
-    		if(listDataPush != null && dvalid==false){
-    			dvalid=true;
-    		}
+			if(countDataPushCustomerBased>0 && dvalid==false){
+				dvalid=true;
+			}
     		if(dvalid){
     			mMenuData listMenuData= _mMenuDA.getDataByName(db, "mnUploadDataMobile");
     			_clsStatusMenuStart.set_intStatus(enumStatusMenuStart.PushDataSPGMobile);

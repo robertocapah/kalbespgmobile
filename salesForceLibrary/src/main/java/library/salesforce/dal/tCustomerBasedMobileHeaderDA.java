@@ -335,6 +335,19 @@ public class tCustomerBasedMobileHeaderDA {
         return contactList;
     }
 
+    public int getAllCheckPushData(SQLiteDatabase db) {
+        List<tCustomerBasedMobileHeaderData> contactList = null;
+        // Select All Query
+        tCustomerBasedMobileHeaderData dt = new tCustomerBasedMobileHeaderData();
+        String selectQuery = "SELECT  1 FROM "
+                + TABLE_NAME +" WHERE " +dt.Property_intSync +" ='0' And "+dt.Property_intSubmit+"=1" ;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // return count
+        int index = cursor.getCount();
+        cursor.close();
+        return index;
+    }
+
     public List<tCustomerBasedMobileHeaderData> getPushData(SQLiteDatabase db) {
         List<tCustomerBasedMobileHeaderData> contactList = null;
         // Select All Query

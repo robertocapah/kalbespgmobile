@@ -158,6 +158,19 @@ public class tSalesProductHeaderDA {
     }
 
     // Getting All Contacts
+    public int getAllCheckToPushData(SQLiteDatabase db) {
+        // Select All Query
+        tSalesProductHeaderData dt = new tSalesProductHeaderData();
+        String selectQuery = "SELECT 1 FROM " + TABLE_CONTACTS + " WHERE " + dt.Property_intSubmit + "=1 AND " + dt.Property_intSync + "=0";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // return count
+        int index = cursor.getCount();
+        cursor.close();
+        return index;
+        // return contact list
+    }
+
     public List<tSalesProductHeaderData> getAllDataToPushData(SQLiteDatabase db) {
         List<tSalesProductHeaderData> contactList = null;
         // Select All Query

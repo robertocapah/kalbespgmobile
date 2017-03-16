@@ -1,12 +1,11 @@
 package library.salesforce.dal;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import library.salesforce.common.mTypeLeaveMobileData;
+import java.util.ArrayList;
+import java.util.List;
+
 import library.salesforce.common.tLeaveMobileData;
 
 public class tLeaveMobileDA {
@@ -123,6 +122,19 @@ public class tLeaveMobileDA {
 		// return contact list
 		return contactList;
 	}
+	public int getAllCheckPushData(SQLiteDatabase db) {
+		List<tLeaveMobileData> contactList = null;
+		// Select All Query
+		tLeaveMobileData dt = new tLeaveMobileData();
+		String selectQuery = "SELECT  1 FROM "
+				+ TABLE_CONTACTS +" WHERE " +dt.Property_intLeaveIdSync +" ='0' And "+dt.Property_intSubmit+"=1" ;
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		// return count
+		int index = cursor.getCount();
+		cursor.close();
+		return index;
+	}
+
 	public List<tLeaveMobileData> getAllDataPushData(SQLiteDatabase db) {
 		List<tLeaveMobileData> contactList = null;
 		// Select All Query
