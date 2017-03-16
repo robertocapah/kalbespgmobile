@@ -385,7 +385,8 @@ public class dataJson {
                     item1.put(dttCustomerBasedDetailProductData.Property_txtUpdatedBy, String.valueOf(data.get_txtUpdatedBy()));
                     item1.put(dttCustomerBasedDetailProductData.Property_txtProductCompetitorCode, String.valueOf(data.get_txtProductCompetitorCode()));
                     item1.put(dttCustomerBasedDetailProductData.Property_txtProductCompetitorName, String.valueOf(data.get_txtProductCompetitorName()));
-
+                    item1.put(dttCustomerBasedDetailProductData.Property_txtLOB, String.valueOf(data.get_txtLOB()));
+                    item1.put(dttCustomerBasedDetailProductData.Property_txtProductBrandCodeCRM, String.valueOf(data.get_txtProductBrandCodeCRM()));
                     itemsListJquey.add(item1);
                 }
                 resJson.put(dttCustomerBasedDetailProductData.Property_ListOftCustomerBasedMobileDetailProductData, new JSONArray(itemsListJquey));
