@@ -7,12 +7,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -23,9 +21,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.os.Handler;
 
-import com.baoyz.swipemenulistview.SwipeMenu;
-import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -42,6 +39,10 @@ import java.util.Map;
 
 import bl.tAbsenUserBL;
 import bl.tActivityBL;
+import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView;
+import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
+import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener;
+import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.SwipeMenuCreator;
 import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tAbsenUserData;
@@ -49,12 +50,12 @@ import library.salesforce.common.tActivityData;
 
 import static com.kalbenutritionals.app.kalbespgmobile.R.id.textView9;
 
-public class FragmentViewActvitySPG extends Fragment {
+public class FragmentViewActvitySPG extends Fragment implements IXListViewListener {
 
     private List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
     private AppAdapter mAdapter;
 
-    private SwipeMenuListView mListView2;
+    private PullToRefreshSwipeMenuListView mListView2;
 
     private Map<String, HashMap> mapMenu;
     private SliderLayout mDemoSlider;
@@ -65,6 +66,7 @@ public class FragmentViewActvitySPG extends Fragment {
     private Bitmap mybitmap2;
 
     private FloatingActionButton fab;
+    Handler mHandler;
 
     View v;
 
@@ -86,21 +88,10 @@ public class FragmentViewActvitySPG extends Fragment {
                 fragmentTransaction.commit();
             }
         });
-        final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadData();
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                }, 1000);
-            }
-        });
-        loadData();
+        final PullToRefreshSwipeMenuListView swipeMenuList = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.SwipelistView);
+        swipeMenuList.setPullRefreshEnable(true);
 
+        loadData();
         return v;
     }
 
@@ -121,6 +112,7 @@ public class FragmentViewActvitySPG extends Fragment {
         final RadioButton rbCompetitor = (RadioButton) promptView.findViewById(R.id.rbCompetitor);
         final TextView status = (TextView) promptView.findViewById(textView9);
         mDemoSlider = (SliderLayout) promptView.findViewById(R.id.slider);
+
 
         String statusText = dt.get(position).get_intSubmit().equals("1") && dt.get(position).get_intIdSyn().equals("1") ? "Sync" : "Submit";
 
@@ -279,10 +271,15 @@ public class FragmentViewActvitySPG extends Fragment {
         }
 
         clsMainActivity clsMain = new clsMainActivity();
-        mListView2 = (SwipeMenuListView) v.findViewById(R.id.SwipelistView);
+        mListView2 = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.SwipelistView);
 
         mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
         mListView2.setAdapter(mAdapter);
+        mListView2.setPullRefreshEnable(true);
+        mListView2.setPullLoadEnable(true);
+        mListView2.setEmptyView( v.findViewById(R.id.LayoutEmpty));
+        mListView2.setXListViewListener( this);
+        mHandler = new Handler();
 
         HashMap<String, String> mapView = new HashMap<String, String>();
 
@@ -292,19 +289,41 @@ public class FragmentViewActvitySPG extends Fragment {
         mapMenu = new HashMap<>();
         mapMenu.put("0", mapView);
 
-        mListView2.setMenuCreator(clsMain.setCreatorListView(getActivity().getApplicationContext(), mapMenu));
+        SwipeMenuCreator creator = clsMain.setCreator(getActivity().getApplicationContext(), mapMenu);
+        mListView2.setMenuCreator(creator);
         mListView2.setEmptyView(v.findViewById(R.id.LayoutEmpty));
-        mListView2.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+        mListView2.setOnMenuItemClickListener(new OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+            public void onMenuItemClick(int position, edu.swu.pulltorefreshswipemenulistview.library.swipemenu.bean.SwipeMenu menu, int index) {
+                clsSwipeList item = swipeList.get(position);
                 switch (index) {
                     case 0:
                         viewList(getContext(), position);
+                        break;
                 }
-
-                return true;
             }
         });
     }
 
+    @Override
+    public void onRefresh() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadData();
+                mListView2.stopRefresh();
+                mListView2.stopLoadMore();
+                }
+            }, 500);
+    }
+
+    @Override
+    public void onLoadMore() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadData();
+            }
+            }, 1);
+    }
 }

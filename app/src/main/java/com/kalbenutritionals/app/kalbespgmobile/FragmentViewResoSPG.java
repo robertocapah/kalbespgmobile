@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -21,9 +20,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.baoyz.swipemenulistview.SwipeMenu;
-import com.baoyz.swipemenulistview.SwipeMenuListView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +28,10 @@ import java.util.Map;
 import bl.tAbsenUserBL;
 import bl.tSalesProductDetailBL;
 import bl.tSalesProductHeaderBL;
+import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView;
+import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
+import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener;
+import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.SwipeMenuCreator;
 import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tAbsenUserData;
@@ -41,11 +41,11 @@ import library.salesforce.common.tSalesProductHeaderData;
 /**
  * Created by ASUS ZE on 26/07/2016.
  */
-public class FragmentViewResoSPG extends Fragment {
+public class FragmentViewResoSPG extends Fragment implements IXListViewListener {
     private static List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
     private AppAdapter mAdapter;
 
-    private SwipeMenuListView mListView2;
+    private PullToRefreshSwipeMenuListView mListView2;
 
     private Handler mHandler;
     private Map<String, HashMap> mapMenu;
@@ -74,7 +74,7 @@ public class FragmentViewResoSPG extends Fragment {
                 fragmentTransaction.commit();
             }
         });
-        final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
+        /*final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -86,7 +86,7 @@ public class FragmentViewResoSPG extends Fragment {
                     }
                 }, 1000);
             }
-        });
+        });*/
         loadData();
         return v;
     }
@@ -241,10 +241,14 @@ public class FragmentViewResoSPG extends Fragment {
 
         clsMainActivity clsMain = new clsMainActivity();
 
-        mListView2 = (SwipeMenuListView) v.findViewById(R.id.SwipelistView);
+        mListView2 = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.SwipelistView);
         mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
         mListView2.setAdapter(mAdapter);
-
+        mListView2.setPullRefreshEnable(true);
+        mListView2.setPullLoadEnable(true);
+        mListView2.setEmptyView( v.findViewById(R.id.LayoutEmpty));
+        mListView2.setXListViewListener(this);
+        mHandler = new Handler();
         HashMap<String, String> mapView = new HashMap<String, String>();
 
         mapView.put("name", "View");
@@ -253,18 +257,41 @@ public class FragmentViewResoSPG extends Fragment {
         mapMenu = new HashMap<String, HashMap>();
         mapMenu.put("0", mapView);
 
-        mListView2.setMenuCreator(clsMain.setCreatorListView(getActivity().getApplicationContext(), mapMenu));
+        SwipeMenuCreator creator = clsMain.setCreator(getActivity().getApplicationContext(), mapMenu);
+        mListView2.setMenuCreator(creator);
         mListView2.setEmptyView(v.findViewById(R.id.LayoutEmpty));
-        mListView2.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+        mListView2.setOnMenuItemClickListener(new OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+            public void onMenuItemClick(int position, edu.swu.pulltorefreshswipemenulistview.library.swipemenu.bean.SwipeMenu menu, int index) {
+                clsSwipeList item = swipeList.get(position);
                 switch (index) {
                     case 0:
                         viewList(getContext(), position);
+                        break;
                 }
-
-                return true;
             }
         });
+    }
+
+    @Override
+    public void onRefresh() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadData();
+                mListView2.stopRefresh();
+                mListView2.stopLoadMore();
+            }
+        }, 500);
+    }
+
+    @Override
+    public void onLoadMore() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadData();
+            }
+        }, 1);
     }
 }

@@ -35,6 +35,8 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.baoyz.swipemenulistview.SwipeMenuListView;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,12 +55,7 @@ import bl.tCustomerBasedMobileDetailBL;
 import bl.tCustomerBasedMobileDetailProductBL;
 import bl.tCustomerBasedMobileHeaderBL;
 import bl.tUserLoginBL;
-import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView;
 import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
-import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.bean.SwipeMenu;
-import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener;
-import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.SwipeMenuCreator;
-import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
 import library.salesforce.common.AppAdapter;
 import library.salesforce.common.ModelListview;
 import library.salesforce.common.clsSwipeList;
@@ -94,7 +91,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     private static ArrayList<clsSwipeList> swipeListProduct = new ArrayList<clsSwipeList>();
 
     private AppAdapter mAdapter;
-    private PullToRefreshSwipeMenuListView mListView;
+    private SwipeMenuListView mListView;
     private Handler mHandler;
     private static Map<String, HashMap> mapMenu;
     private HashMap<String, String> HMSubmision = new HashMap<String, String>();
@@ -783,12 +780,12 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         clsMainActivity clsMain = new clsMainActivity();
 
-        mListView = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.listView);
+        mListView = (SwipeMenuListView) v.findViewById(R.id.listView);
         mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
         mListView.setAdapter(mAdapter);
-        mListView.setPullRefreshEnable(false);
-        mListView.setPullLoadEnable(true);
-        mListView.setXListViewListener(this);
+//        mListView.setPullRefreshEnable(false);
+//        mListView.setPullLoadEnable(true);
+//        mListView.setXListViewListener(this);
         mHandler = new Handler();
 
         HashMap<String, String> mapEdit = new HashMap<String, String>();
@@ -809,9 +806,27 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         mapMenu.put("1", mapEdit);
         mapMenu.put("2", mapDelete);
 
-        SwipeMenuCreator creator = clsMain.setCreator(getActivity().getApplicationContext(), mapMenu);
-        mListView.setMenuCreator(creator);
-        mListView.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+        mListView.setMenuCreator(clsMain.setCreatorListView(getActivity().getApplicationContext(), mapMenu));
+
+        mListView.setEmptyView(v.findViewById(R.id.LayoutEmpty));
+        mListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, com.baoyz.swipemenulistview.SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        addList(getActivity().getApplicationContext(), position);
+                        break;
+                    case 1:
+                        editList(getActivity().getApplicationContext(), position);
+                        break;
+                    case 2:
+                        deleteList(getActivity().getApplicationContext(), position);
+                }
+
+                return true;
+            }
+        });
+        /*mListView.setOnMenuItemClickListener(new OnMenuItemClickListener() {
             @Override
             public void onMenuItemClick(int position, SwipeMenu menu, int index) {
                 clsSwipeList item = swipeList.get(position);
@@ -826,7 +841,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         deleteList(getActivity().getApplicationContext(), position);
                 }
             }
-        });
+        });*/
 
     }
 
@@ -941,10 +956,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     }
 
     private void onLoad() {
-        mListView.setRefreshTime(RefreshTime.getRefreshTime(getActivity().getApplicationContext()));
-        mListView.stopRefresh();
-
-        mListView.stopLoadMore();
+//        mListView.setRefreshTime(RefreshTime.getRefreshTime(getActivity().getApplicationContext()));
+//        mListView.stopRefresh();
+//
+//        mListView.stopLoadMore();
 
     }
 
