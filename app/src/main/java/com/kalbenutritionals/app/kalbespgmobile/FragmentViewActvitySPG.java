@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -94,11 +95,31 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
         });
         final PullToRefreshSwipeMenuListView swipeMenuList = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.SwipelistView);
         swipeMenuList.setPullRefreshEnable(true);
+        swipeMenuList.setOnScrollListener(new AbsListView.OnScrollListener() {
+            private int previousDistanceFromFirstCellToTop;
 
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                View firstCell = mListView2.getChildAt(0);
+                int distanceFromFirstCellTop = mListView2.getFirstVisiblePosition() * firstCell.getHeight()-firstCell.getTop();
+
+
+                if(distanceFromFirstCellTop > previousDistanceFromFirstCellToTop){
+                    fab.hide();
+                }
+                if(distanceFromFirstCellTop < previousDistanceFromFirstCellToTop){
+                    fab.show();
+                }
+                previousDistanceFromFirstCellToTop = distanceFromFirstCellTop;
+            }
+        });
         loadData();
         return v;
     }
-
     private void viewList(Context ctx, final int position) {
         LayoutInflater layoutInflater = LayoutInflater.from(this.getContext());
         final View promptView = layoutInflater.inflate(R.layout.fragment_activity_view_detail, null);

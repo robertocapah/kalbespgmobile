@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -78,19 +79,30 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
                 fragmentTransaction.commit();
             }
         });
-        /*final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        final PullToRefreshSwipeMenuListView swipeMenuList = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.SwipelistView);
+        swipeMenuList.setPullRefreshEnable(true);
+        swipeMenuList.setOnScrollListener(new AbsListView.OnScrollListener() {
+            private int previousDistanceFromFirstCellToTop;
+
             @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadData();
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                }, 1000);
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
             }
-        });*/
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                View firstCell = mListView2.getChildAt(0);
+                if(firstCell == null){ return; }
+                int distanceFromFirstCellTop = mListView2.getFirstVisiblePosition() * firstCell.getHeight()-firstCell.getTop();
+                if(distanceFromFirstCellTop > previousDistanceFromFirstCellToTop){
+                    fab.hide();
+                }
+                if(distanceFromFirstCellTop < previousDistanceFromFirstCellToTop){
+                    fab.show();
+                }
+                previousDistanceFromFirstCellToTop = distanceFromFirstCellTop;
+
+            }
+        });
         loadData();
         return v;
     }
