@@ -20,9 +20,12 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import bl.tAbsenUserBL;
@@ -32,6 +35,7 @@ import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuList
 import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.SwipeMenuCreator;
+import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
 import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tAbsenUserData;
@@ -271,6 +275,10 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
                 }
             }
         });
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
+        RefreshTime.setRefreshTime(getContext(), " " + df.format(new Date()));
+        mListView2.setRefreshTime(RefreshTime.getRefreshTime(getActivity().getApplicationContext()));
     }
 
     @Override

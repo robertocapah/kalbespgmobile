@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -21,7 +22,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.os.Handler;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -32,9 +32,12 @@ import com.daimajia.slider.library.Transformers.BaseTransformer;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import bl.tAbsenUserBL;
@@ -43,6 +46,7 @@ import edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuList
 import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.IXListViewListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.SwipeMenuCreator;
+import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
 import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tAbsenUserData;
@@ -251,6 +255,8 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
                 new clsMainActivity().zoomImage(mybitmap2, getActivity());
             }
         });
+
+
     }
 
     private void loadData() {
@@ -303,6 +309,9 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
                 }
             }
         });
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
+        RefreshTime.setRefreshTime(getContext(), " " + df.format(new Date()));
+        mListView2.setRefreshTime(RefreshTime.getRefreshTime(getActivity().getApplicationContext()));
     }
 
     @Override
