@@ -266,10 +266,8 @@ public class FragmentReporting extends Fragment {
                         int count = 0;
                         for(i=0 ; i < dtListDetail.size(); i++){
                             final List<tCustomerBasedMobileDetailProductData> list = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dtListDetail.get(i).get_intTrCustomerIdDetail());
-//                            for(i=0 ; i < dtListDetail.size(); i++){
-                                count = list.size();
-                                //count+=count;
-//                            }
+                               int count2 = list.size();
+                                count+=count2;
                         }
 
 
