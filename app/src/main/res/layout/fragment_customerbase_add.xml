@@ -392,16 +392,16 @@
                 </TableRow>
             </TableLayout>
 
-            <com.baoyz.swipemenulistview.SwipeMenuListView
+            <!--<com.baoyz.swipemenulistview.SwipeMenuListView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent" />-->
 
-           <!-- <edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView
+            <edu.swu.pulltorefreshswipemenulistview.library.PullToRefreshSwipeMenuListView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
--->
+                android:layout_height="match_parent"
+                />
         </LinearLayout>
     </LinearLayout>
 
