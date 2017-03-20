@@ -3,6 +3,7 @@ package com.kalbenutritionals.app.kalbespgmobile;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -27,6 +27,7 @@ import addons.tableview.ReportTableDataAdapter;
 import addons.tableview.SortableReportTableView;
 import bl.mEmployeeAreaBL;
 import bl.tCustomerBasedMobileDetailBL;
+import bl.tCustomerBasedMobileDetailProductBL;
 import bl.tCustomerBasedMobileHeaderBL;
 import bl.tSalesProductDetailBL;
 import bl.tSalesProductHeaderBL;
@@ -34,6 +35,7 @@ import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 import library.salesforce.common.ReportTable;
 import library.salesforce.common.mEmployeeAreaData;
 import library.salesforce.common.tCustomerBasedMobileDetailData;
+import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tSalesProductDetailData;
 import library.salesforce.common.tSalesProductHeaderData;
@@ -259,7 +261,21 @@ public class FragmentReporting extends Fragment {
 
                         final List<tCustomerBasedMobileDetailData> dtListDetail = new tCustomerBasedMobileDetailBL().getAllDataByHeaderId(datas.get_intTrCustomerId());
                         rt.set_total_member(String.valueOf(dtListDetail.size()));
-                        rt.set_total_product("-");
+
+
+                        int count = 0;
+                        for(i=0 ; i < dtListDetail.size(); i++){
+                            final List<tCustomerBasedMobileDetailProductData> list = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dtListDetail.get(i).get_intTrCustomerIdDetail());
+//                            for(i=0 ; i < dtListDetail.size(); i++){
+                                count = list.size();
+                                //count+=count;
+//                            }
+                        }
+
+
+
+
+                        rt.set_total_product(String.valueOf(count));
 
                         reportList.add(rt);
                     }
