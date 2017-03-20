@@ -467,7 +467,7 @@ public class clsMainActivity extends Activity {
 
     }
 
-    public static SwipeMenuCreator setCreator(final Context _ctx, final Map<String, HashMap> map) {
+    public SwipeMenuCreator setCreator(final Context _ctx, final Map<String, HashMap> map) {
         SwipeMenuCreator creator = new SwipeMenuCreator() {
 
             @Override
@@ -495,6 +495,10 @@ public class clsMainActivity extends Activity {
                         menuItem.setBackground(new ColorDrawable(Color.parseColor("#c0392b")));
                     } else if (map2.get("name") == "Add") {
                         int icon = R.drawable.ic_add_white;
+                        menuItem.setIcon(icon);
+                        menuItem.setBackground(new ColorDrawable(Color.parseColor("#27ae60")));
+                    } else if (map2.get("name") == "AddProduct") {
+                        int icon = R.drawable.ic_shopping_cart;
                         menuItem.setIcon(icon);
                         menuItem.setBackground(new ColorDrawable(Color.parseColor("#27ae60")));
                     }
@@ -616,7 +620,6 @@ public class clsMainActivity extends Activity {
 
         return mAdapter;
     }
-
 
     public edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener mmenuSwipeListener(final Context _ctx, final String action, final Map<String, HashMap> mapMenu, final List<clsRowItem> swipeList) {
         edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener listener = new edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener() {

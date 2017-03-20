@@ -84,7 +84,7 @@ public class clsHelper {
         String Result="";
         clsHelper _clsClsHelper = new clsHelper();
 
-        File folder = new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/Kalbespgmobile/tempdata");
+        File folder = new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/SPG.MOBILE/tempdata");
         folder.mkdir();
 
         try {
@@ -101,7 +101,7 @@ public class clsHelper {
 //                String value = entry.getValue();
 
                 byte [] array = entry.getValue();
-                File file = File.createTempFile("image-", ".jpg", new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/Kalbespgmobile/tempdata"));
+                File file = File.createTempFile("image-", ".jpg", new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/SPG.MOBILE/tempdata"));
                 FileOutputStream out = new FileOutputStream( file );
                 out.write( array );
                 out.close();

@@ -36,7 +36,6 @@ import library.salesforce.common.clsRowItem;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tNotificationData;
 
-import static com.kalbenutritionals.app.kalbespgmobile.clsMainActivity.setCreator;
 import static com.kalbenutritionals.app.kalbespgmobile.clsMainActivity.setListA;
 
 /**
@@ -125,7 +124,7 @@ public class FragmentNotifcation extends Fragment implements IXListViewListener{
         mapMenu = new HashMap<String, HashMap>();
         mapMenu.put("0", mapView);
 
-        SwipeMenuCreator creator = setCreator(getActivity(), mapMenu);
+        SwipeMenuCreator creator = new clsMainActivity().setCreator(getActivity(), mapMenu);
         mListView.setMenuCreator(creator);
 
 //        mListView.setOnMenuItemClickListener(new clsMainActivity().mmenuSwipeListener(getActivity(), "LNotifi", mapMenu, rowItems));

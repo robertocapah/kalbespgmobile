@@ -87,16 +87,16 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
     List<tCustomerBasedMobileDetailData> dtListDetail;
 
-    private static List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
-    private static ArrayList<clsSwipeList> swipeListProduct = new ArrayList<clsSwipeList>();
+    private List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
+    private ArrayList<clsSwipeList> swipeListProduct = new ArrayList<clsSwipeList>();
 
     private AppAdapter mAdapter;
     private SwipeMenuListView mListView;
     private Handler mHandler;
-    private static Map<String, HashMap> mapMenu;
+    private Map<String, HashMap> mapMenu;
     private HashMap<String, String> HMSubmision = new HashMap<String, String>();
 
-    static List<tCustomerBasedMobileHeaderData> dt;
+    private List<tCustomerBasedMobileHeaderData> dt;
 
     @Nullable
     @Override
@@ -792,7 +792,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         HashMap<String, String> mapDelete = new HashMap<String, String>();
         HashMap<String, String> mapAdd = new HashMap<String, String>();
 
-        mapAdd.put("name", "Add");
+        mapAdd.put("name", "AddProduct");
         mapAdd.put("bgColor", "#27ae60");
 
         mapEdit.put("name", "Edit");
@@ -873,7 +873,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
     }
 
-    public final static boolean isValidEmail(CharSequence target) {
+    public final boolean isValidEmail(CharSequence target) {
         if (target == null) {
             return false;
         } else {
