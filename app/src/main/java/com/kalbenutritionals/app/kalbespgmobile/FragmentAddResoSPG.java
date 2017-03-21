@@ -1,6 +1,5 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
-import android.support.v7.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,14 +13,15 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
@@ -125,7 +125,30 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
         new GetAllemployeeSalesProductDataList().execute();
 
         final ScrollView scrollView = (ScrollView) v.findViewById(R.id.scroll_reso);
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
+
+
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                LinearLayout lnLayout = (LinearLayout) v.findViewById(R.id.lnReso);
+
+                int coords[]={0,0};
+                lnLayout.getLocationInWindow(coords);
+
+                int absoluteTop = coords[1];
+ 
+                if(absoluteTop < 90){
+//                    fab.setVisibility(View.VISIBLE);
+                    fab.show();
+                }
+                else{
+//                    fab.setVisibility(View.INVISIBLE);
+                    fab.hide();
+                }
+            }
+        });
+
+        /*scrollView.setOnTouchListener(new View.OnTouchListener() {
 
             public boolean onTouch(View vi, MotionEvent event) {
                 LinearLayout lnLayout = (LinearLayout) v.findViewById(R.id.lnReso);
@@ -136,21 +159,24 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                 int absoluteTop = coords[1];
 
                 if(absoluteTop < 90){
-                    fab.setVisibility(View.VISIBLE);
+//                    fab.setVisibility(View.VISIBLE);
+                    fab.show();
                 }
                 else{
-                    fab.setVisibility(View.INVISIBLE);
+//                    fab.setVisibility(View.INVISIBLE);
+                    fab.hide();
                 }
 
                 return false;
             }
         });
-
+*/
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 scrollView.fullScroll(ScrollView.FOCUS_UP);
-                fab.setVisibility(View.INVISIBLE);
+//                fab.setVisibility(View.INVISIBLE);
+                fab.hide();
             }
         });
 
