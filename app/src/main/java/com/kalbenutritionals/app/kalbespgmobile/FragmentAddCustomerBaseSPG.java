@@ -767,7 +767,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             swplist.set_txtTitle("Nama \t \t \t \t \t \t: " + dtListDetail.get(i).get_txtNamaDepan() + PIC);
             swplist.set_txtDescription("Jenis Kelamin \t: " + dtListDetail.get(i).get_txtGender());
             String tgl_lahir=dtListDetail.get(i).get_txtTglLahir();
-            if (tgl_lahir.equals(dateNow)){
+            if (tgl_lahir.equals(dateNow) || tgl_lahir.equals("null") || tgl_lahir.equals("")){
                 tgl_lahir="not set";
             }else{
                 SimpleDateFormat dp = new SimpleDateFormat("yyyy-MMMM-dd");
