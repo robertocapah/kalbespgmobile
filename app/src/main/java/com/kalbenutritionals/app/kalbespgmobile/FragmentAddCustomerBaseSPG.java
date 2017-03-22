@@ -289,14 +289,14 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
                             saveCustomerBaseHeader();
 
-                            tvCode.setText("Code \t \t \t \t \t: " + new tCustomerBasedMobileHeaderBL().getDataByBitActive().get_txtSubmissionId());
-                            tvNama.setText("Nama  \t \t \t \t: " + etNama.getText().toString());
-                            tvTelp.setText("Telp  \t \t \t \t \t: " + etTelpon.getText().toString());
-                            tvTelp2.setText("Telp 2  \t \t \t \t: " + etTelpon2.getText().toString());
-                            tvTelpKantor.setText("Telp Kantor  \t: " + etTelponKantor.getText().toString());
-                            tvAlamat.setText("Alamat  \t \t \t: " + etAlamat.getText().toString());
-                            tvEmail.setText("Email  \t \t \t \t: " + etEmail.getText().toString());
-                            tvPinBBM.setText("Pin BBM  \t \t: " + etPinBBM.getText().toString());
+                            tvCode.setText(": " + new tCustomerBasedMobileHeaderBL().getDataByBitActive().get_txtSubmissionId());
+                            tvNama.setText(": " + etNama.getText().toString());
+                            tvTelp.setText(": " + etTelpon.getText().toString());
+                            tvTelp2.setText(": " + etTelpon2.getText().toString());
+                            tvTelpKantor.setText(": " + etTelponKantor.getText().toString());
+                            tvAlamat.setText(": " + etAlamat.getText().toString());
+                            tvEmail.setText(": " + etEmail.getText().toString());
+                            tvPinBBM.setText(": " + etPinBBM.getText().toString());
 
                         } else {
                             new clsMainActivity().setErrorMessage(getContext(), textInputLayoutEmail, etEmail, "Email not valid");
