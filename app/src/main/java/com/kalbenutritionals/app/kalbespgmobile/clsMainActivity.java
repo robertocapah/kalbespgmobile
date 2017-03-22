@@ -440,7 +440,25 @@ public class clsMainActivity extends Activity {
 
         for (int i = 0; i < swipeList.size(); i++) {
             clsSwipeList getswipeList = swipeList.get(i);
-            mAppList.add(getswipeList.get_txtTitle() + "\n" + getswipeList.get_txtDescription());
+            mAppList.add(getswipeList.get_txtTitle() + "\n" + getswipeList.get_txtDescription() );
+        }
+
+        mAdapter = new AppAdapter(_ctx, mAppList);
+
+        return mAdapter;
+
+    }
+
+    public AppAdapter setList2(Context _ctx, final List<clsSwipeList> swipeList) {
+        final AppAdapter mAdapter;
+        PullToRefreshSwipeMenuListView mListView;
+        Handler mHandler;
+
+        List<String> mAppList = new ArrayList<String>();
+
+        for (int i = 0; i < swipeList.size(); i++) {
+            clsSwipeList getswipeList = swipeList.get(i);
+            mAppList.add(getswipeList.get_txtTitle() + "\n" + getswipeList.get_txtDescription() + "\n" + getswipeList.get_txtDescription2() + "\n" + getswipeList.get_txtDescription3());
         }
 
         mAdapter = new AppAdapter(_ctx, mAppList);

@@ -289,14 +289,14 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
                             saveCustomerBaseHeader();
 
-                            tvCode.setText("Code : " + new tCustomerBasedMobileHeaderBL().getDataByBitActive().get_txtSubmissionId());
-                            tvNama.setText("Nama : " + etNama.getText().toString());
-                            tvTelp.setText("Telp : " + etTelpon.getText().toString());
-                            tvTelp2.setText("Telp 2 : " + etTelpon2.getText().toString());
-                            tvTelpKantor.setText("Telp Kantor : " + etTelponKantor.getText().toString());
-                            tvAlamat.setText("Alamat : " + etAlamat.getText().toString());
-                            tvEmail.setText("Email : " + etEmail.getText().toString());
-                            tvPinBBM.setText("Pin BBM : " + etPinBBM.getText().toString());
+                            tvCode.setText("Code \t \t \t \t \t: " + new tCustomerBasedMobileHeaderBL().getDataByBitActive().get_txtSubmissionId());
+                            tvNama.setText("Nama  \t \t \t \t: " + etNama.getText().toString());
+                            tvTelp.setText("Telp  \t \t \t \t \t: " + etTelpon.getText().toString());
+                            tvTelp2.setText("Telp 2  \t \t \t \t: " + etTelpon2.getText().toString());
+                            tvTelpKantor.setText("Telp Kantor  \t: " + etTelponKantor.getText().toString());
+                            tvAlamat.setText("Alamat  \t \t \t: " + etAlamat.getText().toString());
+                            tvEmail.setText("Email  \t \t \t \t: " + etEmail.getText().toString());
+                            tvPinBBM.setText("Pin BBM  \t \t: " + etPinBBM.getText().toString());
 
                         } else {
                             new clsMainActivity().setErrorMessage(getContext(), textInputLayoutEmail, etEmail, "Email not valid");
@@ -742,6 +742,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         clsSwipeList swplist;
 
         swipeList.clear();
+        Calendar c = Calendar.getInstance();
+        int lYear = c.get(Calendar.YEAR);
+        int lMonth = c.get(Calendar.MONTH) + 1;
+        int lDay = c.get(Calendar.DATE);
+        String dateNow = Integer.valueOf(lYear) + "-" + Integer.valueOf(lMonth) + "-" + Integer.valueOf(lDay);
 
         int totalProduct = 0;
         for (int i = 0; i < dtListDetail.size(); i++) {
@@ -759,8 +764,24 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             if (dtListDetail.get(i).get_intPIC().equals("1")) PIC = " (PIC)";
             else PIC = "";
 
-            swplist.set_txtTitle("Nama : " + dtListDetail.get(i).get_txtNamaDepan() + PIC);
-            swplist.set_txtDescription("Total Product : " + String.valueOf(totalProduct));
+            swplist.set_txtTitle("Nama \t \t \t \t \t \t: " + dtListDetail.get(i).get_txtNamaDepan() + PIC);
+            swplist.set_txtDescription("Jenis Kelamin \t: " + dtListDetail.get(i).get_txtGender());
+            String tgl_lahir=dtListDetail.get(i).get_txtTglLahir();
+            if (tgl_lahir.equals(dateNow)){
+                tgl_lahir="not set";
+            }else{
+                SimpleDateFormat dp = new SimpleDateFormat("yyyy-MMMM-dd");
+                clsMainActivity clsMainMonth = new clsMainActivity();
+                String[] parts = tgl_lahir.split("-");
+                String part1 = parts[0]; //year
+                String part2 = parts[1]; //month
+                String part3 = parts[2]; //date
+
+                String month = clsMainMonth.months[Integer.parseInt(part2)];
+                tgl_lahir = part3+" - " + month + " - " + part1;
+            }
+            swplist.set_txtDescription2("Tanggal Lahir \t \t: " + tgl_lahir);
+            swplist.set_txtDescription3("Total Product \t \t: " + String.valueOf(totalProduct));
             swipeList.add(swplist);
         }
 
@@ -783,7 +804,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         clsMainActivity clsMain = new clsMainActivity();
 
         mListView = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.listView);
-        mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
+        mAdapter = clsMain.setList2(getActivity().getApplicationContext(), swipeList);
         mListView.setAdapter(mAdapter);
         mListView.setPullRefreshEnable(false);
 
