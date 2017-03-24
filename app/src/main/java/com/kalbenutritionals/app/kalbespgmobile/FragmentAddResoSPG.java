@@ -550,7 +550,8 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                 holder = new ViewHolder();
 
                 holder.name = (TextView) convertView.findViewById(R.id.textViewproduk);
-                holder.code = (EditText) convertView.findViewById(R.id.editText4);
+                holder.code = (EditText) convertView.findViewById(R.id.editTextQty);
+//                holder.code.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
 
                 convertView.setTag(holder);
 

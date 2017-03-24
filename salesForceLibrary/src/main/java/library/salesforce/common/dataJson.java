@@ -339,6 +339,7 @@ public class dataJson {
                     item1.put(dttCustomerBasedHeaderData.Property_dtDate, String.valueOf(data.get_dtDate()));
                     item1.put(dttCustomerBasedHeaderData.Property_intSubmit, String.valueOf(data.get_intSubmit()));
                     item1.put(dttCustomerBasedHeaderData.Property_intSync, String.valueOf(data.get_intSync()));
+                    item1.put(dttCustomerBasedHeaderData.Property_txtTglLahir, String.valueOf(data.get_txtTglLahir()));
                     itemsListJquey.add(item1);
                 }
                 resJson.put(dttCustomerBasedHeaderData.Property_ListOftCustomerBasedMobileHeaderData, new JSONArray(itemsListJquey));

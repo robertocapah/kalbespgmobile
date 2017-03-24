@@ -520,7 +520,7 @@ public class Login extends clsMainActivity {
             List<mUserRoleData> roledata = new ArrayList<mUserRoleData>();
             try {
                 //EditText txt = (EditText) findViewById(R.id.txtLoginEmail);
-                roledata = new mUserRoleBL().getRoleAndOutlet(txtEmail1, pInfo.versionName);
+                roledata = new mUserRoleBL().getRoleAndOutlet(txtEmail1, pInfo.versionName, getApplicationContext());
 
             } catch (ParseException e) {
                 // TODO Auto-generated catch block

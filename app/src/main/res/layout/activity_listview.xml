@@ -15,7 +15,7 @@
     <EditText
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:id="@+id/editText4"
+        android:id="@+id/editTextQty"
         android:layout_gravity="center_horizontal"
         android:digits="0123456789"
         android:inputType="number"
