@@ -688,7 +688,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
                 clsMainActivity clsMainMonth = new clsMainActivity();
                 String month2 = clsMainMonth.months[Integer.parseInt(part2)];
-                tvTanggalLahir.setText(": "+ part3 + "-" + month2 + "-" + part1);
+                tvTanggalLahir.setText(": "+ part3 + " - " + month2 + " - " + part1);
                 tvJenisKelamin.setText(": "+dataDetail.get_txtGender());
                 if(dataDetail.get_txtGender().equals("Perempuan")){
                     lnHamil.setVisibility(View.VISIBLE);

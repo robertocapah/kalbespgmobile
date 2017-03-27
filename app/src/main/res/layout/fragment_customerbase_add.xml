@@ -377,6 +377,32 @@
                     </TableRow>
                     <TableRow
                         android:background="#ffffff"
+                        android:padding="5dp"
+                        android:id="@+id/row_alamat"
+                        android:visibility="gone">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="5dp"
+                            android:width="100dp"
+                            android:text="Alamat" />
+                        <TextView
+                            android:id="@+id/tvAlamatPreview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:width="300dp"
+                            android:text="Alamat" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:width="5dp"
+                            android:text="" />
+                    </TableRow>
+                    <TableRow
+                        android:background="#ffffff"
                         android:padding="5dp">
                         <TextView
                             android:layout_width="wrap_content"
@@ -463,32 +489,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="" />
-                    </TableRow>
-                    <TableRow
-                        android:background="#ffffff"
-                        android:padding="5dp"
-                        android:id="@+id/row_alamat"
-                        android:visibility="gone">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginLeft="5dp"
-                            android:width="100dp"
-                            android:text="Alamat" />
-                        <TextView
-                            android:id="@+id/tvAlamatPreview"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:width="300dp"
-                            android:text="Alamat" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:width="5dp"
                             android:text="" />
                     </TableRow>
                     <TableRow
