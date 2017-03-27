@@ -66,6 +66,7 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/bg_edtext"
         android:inputType="number"
+        android:maxLength="2"
         android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 

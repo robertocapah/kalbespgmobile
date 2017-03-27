@@ -225,7 +225,8 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
 
         String txtSubmissionId = null;
 
-        txtSubmissionId = txtSubmissionCode + "." + dd + mm + yy.substring(2) + "." + noCustomerBase;
+        txtSubmissionId = txtSubmissionCode;
+                //+ "." + dd + mm + yy.substring(2) + "." + noCustomerBase;
 
         return txtSubmissionId;
     }

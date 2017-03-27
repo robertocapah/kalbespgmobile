@@ -111,6 +111,37 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     private HashMap<String, String> HMSubmision = new HashMap<String, String>();
 
     private List<tCustomerBasedMobileHeaderData> dt;
+/*
+
+    //DatePicker
+    private int year,month, day;
+    @SuppressWarnings("deprecation")
+    public void setDate(android.view.View view){
+//        getContext().showDialog(999);
+        new DatePickerDialog(getContext(), myDateListener, year, month, day);
+        Toast.makeText(getContext(),"Masukan Tanggal Lahir",Toast.LENGTH_SHORT).show();
+    }
+
+    protected Dialog onCreateDialog(int id){
+        if(id==999){
+            return new DatePickerDialog(getContext(), myDateListener, year, month, day);
+        }
+        return null;
+    }
+
+    private DatePickerDialog.OnDateSetListener myDateListener = new
+            DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
+                    showDate(arg1, arg2+1, arg3);
+                }
+            };
+
+    private void showDate(int year, int month, int day) {
+        etTglLhr.setText(new StringBuilder().append(day).append("/")
+                .append(month).append("/").append(year));
+    }
+*/
 
     @Nullable
     @Override
@@ -161,6 +192,15 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         etNama = (EditText) v.findViewById(R.id.etNama);
 
         dpHeader = (DatePicker) v.findViewById(R.id.dp_tgl_lahir_header);
+
+       /* etTglLhr = (EditText) v.findViewById(R.id.etTanggalLahir);
+        etTglLhr.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+//                setDate(v);
+                return false;
+            }
+        });*/
 
         textInputLayoutTelp = (TextInputLayout) v.findViewById(R.id.input_layout_telp);
         etTelpon = (EditText) v.findViewById(R.id.etTelpon);
@@ -338,10 +378,151 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
             case R.id.btnAdd:
 
-                boolean validate = validateHeader();
+                final boolean validate = validateHeader();
+                if(validate) {
+                    dtHeader = new tCustomerBasedMobileHeaderBL().getDataByBitActive();
 
-                if (validate) {
-                    if (validate) {
+                    boolean validatedetailProduct = false;
+                    if(dtHeader.get_txtSubmissionCode() != null){
+                        List<tCustomerBasedMobileDetailData> tCustomerBasedMobileDetailDatas = new tCustomerBasedMobileDetailBL().getAllDataByHeaderId(dtHeader.get_intTrCustomerId());
+                        if (tCustomerBasedMobileDetailDatas.size() > 0) {
+                            for (tCustomerBasedMobileDetailData dataDetail : tCustomerBasedMobileDetailDatas) {
+                                List<tCustomerBasedMobileDetailProductData> listdetailProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dataDetail.get_intTrCustomerIdDetail());
+
+                                if (listdetailProduct.size() > 0) {
+                                    validatedetailProduct = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+
+                    if (validatedetailProduct && !dtHeader.get_txtSubmissionCode().equals(HMSubmision.get(spnSubmissionCode.getSelectedItem()))) {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                        builder.setTitle("Confirm");
+                        builder.setMessage("Anda telah merubah submission, apa anda yakin akan menghapus product yang terdaftar?");
+
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //spnSubmissionCode.setSelection();
+                            }
+                        });
+
+                        final AlertDialog alert = builder.create();
+                        alert.show();
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                dtHeader = new tCustomerBasedMobileHeaderBL().getDataByBitActive();
+
+                                List<tCustomerBasedMobileDetailData> tCustomerBasedMobileDetailDatas = new tCustomerBasedMobileDetailBL().getAllDataByHeaderId(dtHeader.get_intTrCustomerId());
+                                if (tCustomerBasedMobileDetailDatas.size() > 0) {
+                                    for (tCustomerBasedMobileDetailData dataDetail : tCustomerBasedMobileDetailDatas) {
+                                        List<tCustomerBasedMobileDetailProductData> listdetailProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dataDetail.get_intTrCustomerIdDetail());
+
+                                        if (listdetailProduct.size() > 0) {
+                                            for (tCustomerBasedMobileDetailProductData data : listdetailProduct) {
+                                                new tCustomerBasedMobileDetailProductBL().deleteDataByProductId(data.get_intTrCustomerIdDetailProduct());
+                                            }
+                                        }
+                                    }
+                                }
+                                setTablePerson();
+                                LinearLayout lnTop = (LinearLayout) v.findViewById(R.id.linearLayoutTop);
+                                LinearLayout lnBottom = (LinearLayout) v.findViewById(R.id.linearLayoutBottom);
+
+
+
+                                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+
+                                imgReadMore.setTag(1);
+                                imgReadMore.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                                row1.setVisibility(View.GONE);
+                                row2.setVisibility(View.GONE);
+                                row3.setVisibility(View.GONE);
+                                row4.setVisibility(View.GONE);
+                                row5.setVisibility(View.GONE);
+                                row6.setVisibility(View.GONE);
+
+//                        if (isValidEmail(etEmail.getText().toString())) {
+                                TextView tvCode = (TextView) v.findViewById(R.id.tvCode);
+                                TextView tvNama = (TextView) v.findViewById(R.id.tvNamaPreview);
+                                TextView tvGender = (TextView) v.findViewById(R.id.tvJenisKelamin);
+                                TextView tvTanggalLahir = (TextView) v.findViewById(R.id.tvTanggalLahir);
+                                TextView tvTelp = (TextView) v.findViewById(R.id.tvTelpPreview);
+                                TextView tvTelp2 = (TextView) v.findViewById(R.id.tvTelpPreview2);
+                                TextView tvTelpKantor = (TextView) v.findViewById(R.id.tvTelpKantor);
+                                TextView tvAlamat = (TextView) v.findViewById(R.id.tvAlamatPreview);
+                                TextView tvEmail = (TextView) v.findViewById(R.id.tvEmailPreview);
+                                TextView tvPinBBM = (TextView) v.findViewById(R.id.tvPinBBM);
+
+                                radioGenderGroup = (RadioGroup) v.findViewById(R.id.radioGender);
+
+                                lnTop.setVisibility(View.GONE);
+                                lnBottom.setVisibility(View.VISIBLE);
+
+                                saveCustomerBaseHeader();
+
+                                tvCode.setText(": " + new tCustomerBasedMobileHeaderBL().getDataByBitActive().get_txtSubmissionId());
+                                tvNama.setText(": " + etNama.getText().toString());
+
+                                int selectedgender = radioGenderGroup.getCheckedRadioButtonId();
+                                radioGenderButton = (RadioButton) v.findViewById(selectedgender);
+                                tvGender.setText(": " + radioGenderButton.getText());
+
+                                int day = dpHeader.getDayOfMonth();
+                                int month = dpHeader.getMonth() + 1;
+                                int year = dpHeader.getYear();
+                                clsMainActivity clsMainMonth = new clsMainActivity();
+                                String month2 = clsMainMonth.months[month];
+                                final String tglLahir = day+" - " + month2 + " - " + year ;
+//                        final String tglLahir = year + "-" + month + "-" + day;
+
+                                tvTanggalLahir.setText(": "+ tglLahir);
+                                tvTelp.setText(": " + etTelpon.getText().toString());
+                                tvTelp2.setText(": " + etTelpon2.getText().toString());
+                                tvTelpKantor.setText(": " + etTelponKantor.getText().toString());
+                                tvAlamat.setText(": " + etAlamat.getText().toString());
+                                tvEmail.setText(": " + etEmail.getText().toString());
+                                tvPinBBM.setText(": " + etPinBBM.getText().toString());
+//                        }
+//                        else {
+//                            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutEmail, etEmail, "Email not valid");
+//                            new clsMainActivity().showCustomToast(getContext(), "Email not valid", false);
+//                        }
+                                alert.dismiss();
+                            }
+                        });
+                    }else{
+                        lnTop = (LinearLayout) v.findViewById(R.id.linearLayoutTop);
+                        lnBottom = (LinearLayout) v.findViewById(R.id.linearLayoutBottom);
+
+
+
+                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+
+                        imgReadMore.setTag(1);
+                        imgReadMore.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                        row1.setVisibility(View.GONE);
+                        row2.setVisibility(View.GONE);
+                        row3.setVisibility(View.GONE);
+                        row4.setVisibility(View.GONE);
+                        row5.setVisibility(View.GONE);
+                        row6.setVisibility(View.GONE);
+
 //                        if (isValidEmail(etEmail.getText().toString())) {
                         TextView tvCode = (TextView) v.findViewById(R.id.tvCode);
                         TextView tvNama = (TextView) v.findViewById(R.id.tvNamaPreview);
@@ -383,12 +564,15 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         tvAlamat.setText(": " + etAlamat.getText().toString());
                         tvEmail.setText(": " + etEmail.getText().toString());
                         tvPinBBM.setText(": " + etPinBBM.getText().toString());
-
 //                        }
 //                        else {
 //                            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutEmail, etEmail, "Email not valid");
-////                            new clsMainActivity().showCustomToast(getContext(), "Email not valid", false);
+//                            new clsMainActivity().showCustomToast(getContext(), "Email not valid", false);
 //                        }
+                    }
+                }
+                if (validate) {
+                    if (validate) {
                     } else {
                         new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "No telp harus diawali dengan 0");
 //                        new clsMainActivity().showCustomToast(getContext(), "no telp atau no kantor diawali angka 0", false);
@@ -541,56 +725,63 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             @Override
             public void onClick(View v) {
                 if (!spnKalbeProduct.getSelectedItem().equals("Pilih Product Kalbe")) {
-                    if (!spnCompetProduct.getSelectedItem().equals("Pilih Product Kompetitor")) {
-                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(qty.getWindowToken(), 0);
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        String date = dateFormat.format(Calendar.getInstance().getTime());
-                        String selectedOneKNProduct = spnKalbeProduct.getSelectedItem().toString();
-                        String selectedOneCompetitorProduct = spnCompetProduct.getSelectedItem().toString();
-                        tUserLoginData dtUser = new tUserLoginBL().getUserActive();
-                        String qtyProduct = null;
-                        qtyProduct = qty.getText().toString();
-                        new clsMainActivity().removeErrorMessage(txtInputLayoutQty);
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(qty.getWindowToken(), 0);
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String date = dateFormat.format(Calendar.getInstance().getTime());
+                    String selectedOneKNProduct = spnKalbeProduct.getSelectedItem().toString();
+                    String selectedOneCompetitorProduct = spnCompetProduct.getSelectedItem().toString();
+                    tUserLoginData dtUser = new tUserLoginBL().getUserActive();
+                    String qtyProduct = null;
+                    qtyProduct = qty.getText().toString();
+                    new clsMainActivity().removeErrorMessage(txtInputLayoutQty);
 //                        int qtyProductInt = Integer.parseInt(qtyProduct);
-                        if (qtyProduct.length() == 0) {
-                            new clsMainActivity().setErrorMessage(getContext(), txtInputLayoutQty, qty, "Qty tidak boleh kosong");
-                            spnKalbeProduct.setSelection(spnKalbeProduct.getSelectedItemPosition());
-                            spnCompetProduct.setSelection(spnCompetProduct.getSelectedItemPosition());
-                        }else if(qtyProduct.equals("0")){
-                            new clsMainActivity().setErrorMessage(getContext(), txtInputLayoutQty, qty, "Qty tidak boleh nol");
-                            spnKalbeProduct.setSelection(spnKalbeProduct.getSelectedItemPosition());
-                            spnCompetProduct.setSelection(spnCompetProduct.getSelectedItemPosition());
-                        }else {
-                            new clsMainActivity().removeErrorMessage(txtInputLayoutQty);
-                            tCustomerBasedMobileDetailProductData data = new tCustomerBasedMobileDetailProductData();
-                            data.set_intTrCustomerIdDetailProduct(new clsMainActivity().GenerateGuid());
-                            data.set_intTrCustomerIdDetail(dataDetail.get_intTrCustomerIdDetail());
-                            data.set_txtProductBrandCode(HMProduct.get(selectedOneKNProduct));// brand name
-                            data.set_txtProductBrandName(selectedOneKNProduct);
-                            data.set_txtProductBrandQty(qtyProduct);
-                            data.set_txtProductBrandCodeCRM(HMProduct.get(HMProduct.get(selectedOneKNProduct)));// brandcode
-                            data.set_txtLOB(HMProduct.get(HMProduct.get(HMProduct.get(selectedOneKNProduct))));// brandcodeCRM
+                    if (qtyProduct.length() == 0) {
+                        new clsMainActivity().setErrorMessage(getContext(), txtInputLayoutQty, qty, "Qty tidak boleh kosong");
+                        spnKalbeProduct.setSelection(spnKalbeProduct.getSelectedItemPosition());
+                        spnCompetProduct.setSelection(spnCompetProduct.getSelectedItemPosition());
+                    }else if(qtyProduct.equals("0")){
+                        new clsMainActivity().setErrorMessage(getContext(), txtInputLayoutQty, qty, "Qty tidak boleh nol");
+                        spnKalbeProduct.setSelection(spnKalbeProduct.getSelectedItemPosition());
+                        spnCompetProduct.setSelection(spnCompetProduct.getSelectedItemPosition());
+                    }else {
+                        new clsMainActivity().removeErrorMessage(txtInputLayoutQty);
+                        tCustomerBasedMobileDetailProductData data = new tCustomerBasedMobileDetailProductData();
+                        data.set_intTrCustomerIdDetailProduct(new clsMainActivity().GenerateGuid());
+                        data.set_intTrCustomerIdDetail(dataDetail.get_intTrCustomerIdDetail());
+                        data.set_txtProductBrandCode(HMProduct.get(selectedOneKNProduct));// brand name
+                        data.set_txtProductBrandName(selectedOneKNProduct);
+                        data.set_txtProductBrandQty(qtyProduct);
+                        data.set_txtProductBrandCodeCRM(HMProduct.get(HMProduct.get(selectedOneKNProduct)));// brandcode
+                        data.set_txtLOB(HMProduct.get(HMProduct.get(HMProduct.get(selectedOneKNProduct))));// brandcodeCRM
+                        if (spnCompetProduct.getSelectedItem().equals("Pilih Product Kompetitor")) {
+                            data.set_txtProductCompetitorCode(null);
+                            data.set_txtProductCompetitorName(null);
+                        }else{
                             data.set_txtProductCompetitorCode(HMProductKompetitor.get(selectedOneCompetitorProduct));
                             data.set_txtProductCompetitorName(selectedOneCompetitorProduct);
-                            data.set_dtInserted(date);
-                            data.set_txtInsertedBy(dtUser.get_txtUserId());
+                        }
 
-                            new tCustomerBasedMobileDetailProductBL().saveData(data);
+                        data.set_dtInserted(date);
+                        data.set_txtInsertedBy(dtUser.get_txtUserId());
 
-                            if (spnKalbeProduct.getSelectedItemPosition() > 0) {
-                                spnCompetProduct.setAdapter(null);
-                                spnKalbeProduct.setSelection(0);
-                            }
-                            qty.setText("");
-                            spnKalbeProduct.setSelection(index);
+                        new tCustomerBasedMobileDetailProductBL().saveData(data);
+
+                        if (spnKalbeProduct.getSelectedItemPosition() > 0) {
                             spnCompetProduct.setAdapter(null);
-                            setTableProduct(dataDetail, promptView);
-                            //                setTablePerson();
-                        }//validasi product kompetitor
+                            spnKalbeProduct.setSelection(0);
+                        }
+                        qty.setText("");
+                        spnKalbeProduct.setSelection(index);
+                        spnCompetProduct.setAdapter(null);
+                        setTableProduct(dataDetail, promptView);
+                        //                setTablePerson();
+                    }//validasi product kompetitor
 
-                    } //validasi product kalbe /*new clsMainActivity().setErrorMessage(getContext(), txtInputLayoutProductKalbe, spnKalbeProduct, "Nama harus diisi");*/
 
+
+                }else {
+                    new clsMainActivity().showCustomToast(getContext(), "Product Kalbe belum terpilih", false);
                 }
 
             }
@@ -657,7 +848,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 switch (index) {
                     case 0:
                         lnHamil.setVisibility(View.GONE);
-                        usiaKehamilan.setText("");
+                        usiaKehamilan.setText(dataDetail.get_txtUsiaKehamilan());
                         break;
                     case 1:
                         lnHamil.setVisibility(View.VISIBLE);
@@ -692,6 +883,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 tvJenisKelamin.setText(": "+dataDetail.get_txtGender());
                 if(dataDetail.get_txtGender().equals("Perempuan")){
                     lnHamil.setVisibility(View.VISIBLE);
+                    if(!dataDetail.get_txtUsiaKehamilan().equals("")){
+                        usiaKehamilan.setText(dataDetail.get_txtUsiaKehamilan());
+                    }else{
+                        usiaKehamilan.setText(dataDetail.get_txtUsiaKehamilan());
+                    }
                 }else{
 
                 }
@@ -843,7 +1039,9 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         data.set_bitActive("1");
                         data.set_dtInserted(dateFormat.format(cal.getTime()));
                         data.set_txtTglLahir(tglLahir);
-
+                        if(dataDetail.get_intPIC().equals("1")){
+                        data.set_txtTglLahir(dataDetail.get_txtTglLahir());
+                        }
                         int selectedId = radioGroupGender.getCheckedRadioButtonId();
                         RadioButton rbGender = (RadioButton) promptView.findViewById(selectedId);
                         data.set_txtGender(rbGender.getText().toString());
@@ -1409,10 +1607,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             validate = false;
         }
 
-        /*if(dateNow.equals(tglLahir)){
+        if(dateNow.equals(tglLahir)){
             new clsMainActivity().showCustomToast(getContext(), "Tanggal Lahir Belum Di Set", false);
             validate = false;
-        }*/
+        }
 
         if (etTelpon.getText().toString().equals("")) {
             new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "Telpon wajib diisi");
