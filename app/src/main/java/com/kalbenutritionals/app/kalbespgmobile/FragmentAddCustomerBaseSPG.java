@@ -368,7 +368,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         int day = dpHeader.getDayOfMonth();
                         int month = dpHeader.getMonth() + 1;
                         int year = dpHeader.getYear();
-                        final String tglLahir = year + "-" + month + "-" + day;
+                        clsMainActivity clsMainMonth = new clsMainActivity();
+                        String month2 = clsMainMonth.months[month];
+                        final String tglLahir = day+" - " + month2 + " - " + year ;
+//                        final String tglLahir = year + "-" + month + "-" + day;
 
                         tvTanggalLahir.setText(": "+ tglLahir);
                         tvTelp.setText(": " + etTelpon.getText().toString());
@@ -444,8 +447,6 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         final HashMap<String, String> HMProduct = new HashMap<String, String>();
         final HashMap<String, String> HMProductKompetitor = new HashMap<String, String>();
         final TextInputLayout txtInputLayoutQty = (TextInputLayout) promptView.findViewById(R.id.input_layout_qty);
-        final TextInputLayout txtInputLayoutProductKalbe = (TextInputLayout) promptView.findViewById(R.id.input_layout_spinner_kalbe);
-        final TextInputLayout txtInputLayoutProductKompetitor = (TextInputLayout) promptView.findViewById(R.id.input_layout_spinner_competitor);
 
         setTableProduct(dataDetail, promptView);
 
@@ -681,7 +682,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 lnPic.setVisibility(View.VISIBLE);
                 lnNonPic.setVisibility(View.GONE);
                 tvNama.setText(": "+dataDetail.get_txtNamaDepan());
-                tvTanggalLahir.setText(": "+part1 + "-" + part2 + "-" + part3);
+
+                clsMainActivity clsMainMonth = new clsMainActivity();
+                String month2 = clsMainMonth.months[Integer.parseInt(part2)];
+                tvTanggalLahir.setText(": "+ part3 + "-" + month2 + "-" + part1);
                 tvJenisKelamin.setText(": "+dataDetail.get_txtGender());
                 if(dataDetail.get_txtGender().equals("Perempuan")){
                     lnHamil.setVisibility(View.VISIBLE);
