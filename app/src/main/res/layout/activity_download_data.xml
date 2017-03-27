@@ -159,6 +159,78 @@
                 android:text="Download Brand" />
 
             <View
+                android:id="@+id/view912"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/btnDlBrand"
+                android:layout_marginTop="10dp"
+                android:background="#bfbfbf" />
+
+            <TextView
+                android:id="@+id/txtVwProductSPGCusBase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view912"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Product SPG CustomerBased"
+                android:textColor="#000" />
+
+            <Spinner
+                android:id="@+id/spnProdSPGCusBase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtVwProductSPGCusBase"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_edtext" />
+
+            <Button
+                android:id="@+id/btnProdSPGCusBase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spnLeave"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/btn_on_click"
+                android:text="Download Product SPG CustomerBased" />
+
+            <View
+                android:id="@+id/view913"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/btnProdSPGCusBase"
+                android:layout_marginTop="10dp"
+                android:background="#bfbfbf" />
+
+            <TextView
+                android:id="@+id/txtVwProductPICCusBase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view913"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Product PIC CustomerBased"
+                android:textColor="#000" />
+
+            <Spinner
+                android:id="@+id/spnProdPICCusBase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtVwProductPICCusBase"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_edtext" />
+
+            <Button
+                android:id="@+id/btnProdPICCusBase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spnProdPICCusBase"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/btn_on_click"
+                android:text="Download Product PIC CustomerBased" />
+
+            <View
                 android:id="@+id/view91"
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"

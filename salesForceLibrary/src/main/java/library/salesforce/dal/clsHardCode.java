@@ -34,6 +34,8 @@ public class clsHardCode  {
 	public String txtTable_mUserRole = "mUserRole";
 	public String txtTable_mUserCabang = "mUserCabang";
 	public String txtTable_mEmployeeSalesProduct = "mEmployeeSalesProduct";
+	public String txtTable_mProductSPG = "mProductSPG";
+	public String txtTable_mProductPIC = "mProductPIC";
 	public String txtTable_mNotification = "mNotification";
 	public String txtTable_mProductBrandHeaderData = "mProductBrandHeaderData";
 	public String txtTable_mProductCompetitorData = "mProductCompetitorData";
