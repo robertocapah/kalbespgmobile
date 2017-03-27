@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -49,6 +50,8 @@ import java.util.Map;
 import addons.adapter.AdapterListProductCustomerBased;
 import bl.mEmployeeSalesProductBL;
 import bl.mProductCompetitorBL;
+import bl.mProductPICBL;
+import bl.mProductSPGBL;
 import bl.mTypeSubmissionMobileBL;
 import bl.tAbsenUserBL;
 import bl.tCustomerBasedMobileDetailBL;
@@ -65,6 +68,8 @@ import library.salesforce.common.ModelListview;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.mEmployeeSalesProductData;
 import library.salesforce.common.mProductCompetitorData;
+import library.salesforce.common.mProductPICData;
+import library.salesforce.common.mProductSPGData;
 import library.salesforce.common.mTypeSubmissionMobile;
 import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
@@ -186,6 +191,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             for (mTypeSubmissionMobile dt : typeSubmissionDataList) {
                 arrData.add(dt.get_txtNamaMasterData());
                 HMSubmision.put(dt.get_txtNamaMasterData(), dt.get_txtKeterangan());
+                HMSubmision.put(dt.get_txtKeterangan(), dt.get_txtMasterID());
             }
         }
         ArrayAdapter<String> adapterSubmission = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, arrData);
@@ -437,6 +443,9 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         final EditText qty = (EditText) promptView.findViewById(R.id.qty);
         final HashMap<String, String> HMProduct = new HashMap<String, String>();
         final HashMap<String, String> HMProductKompetitor = new HashMap<String, String>();
+        final TextInputLayout txtInputLayoutQty = (TextInputLayout) promptView.findViewById(R.id.input_layout_qty);
+        final TextInputLayout txtInputLayoutProductKalbe = (TextInputLayout) promptView.findViewById(R.id.input_layout_spinner_kalbe);
+        final TextInputLayout txtInputLayoutProductKompetitor = (TextInputLayout) promptView.findViewById(R.id.input_layout_spinner_competitor);
 
         setTableProduct(dataDetail, promptView);
 
@@ -445,41 +454,77 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         List<String> dataProductKalbe = new ArrayList<>();
         final List<String> dataProductKompetitor = new ArrayList<>();
+        final List<mProductSPGData> mProductSPGDataList = new mProductSPGBL().GetDataByMasterId(HMSubmision.get(HMSubmision.get(spnSubmissionCode.getSelectedItem())));
+        final List<mProductPICData> mProductPICDataList = new mProductPICBL().GetDataByMasterId(HMSubmision.get(HMSubmision.get(spnSubmissionCode.getSelectedItem())));
 
+        if (dataDetail.get_intPIC().equals("1")) {
+            if (mProductPICDataList.size() > 0) {
+                for (mProductPICData dt : mProductPICDataList) {
+                    dataProductKalbe.add(dt.get_txtProductBrandDetailGramName());
+                    HMProduct.put(dt.get_txtProductBrandDetailGramName(), dt.get_txtBrandDetailGramCode());
+                    HMProduct.put(dt.get_txtBrandDetailGramCode(), dt.get_txtProductDetailCode());
+                    HMProduct.put(dt.get_txtProductDetailCode(), dt.get_txtLobName());
+                }
+                dataProductKalbe.add("Pilih Product Kalbe");
+            }
+        }else{
+            if (mProductSPGDataList.size() > 0) {
+                for (mProductSPGData dt : mProductSPGDataList) {
+                    dataProductKalbe.add(dt.get_txtProductBrandDetailGramName());
+                    HMProduct.put(dt.get_txtProductBrandDetailGramName(), dt.get_txtBrandDetailGramCode());
+                    HMProduct.put(dt.get_txtBrandDetailGramCode(), dt.get_txtProductDetailCode());
+                    HMProduct.put(dt.get_txtProductDetailCode(), dt.get_txtLobName());
+                }
+                dataProductKalbe.add("Pilih Product Kalbe");
+            }
+        }
         final List<mEmployeeSalesProductData> listDataProductKalbe = new mEmployeeSalesProductBL().GetAllData();
 
-        if (listDataProductKalbe.size() > 0) {
+        /*if (listDataProductKalbe.size() > 0) {
             for (mEmployeeSalesProductData dt : listDataProductKalbe) {
                 dataProductKalbe.add(dt.get_txtProductBrandDetailGramName());
                 HMProduct.put(dt.get_txtProductBrandDetailGramName(), dt.get_txtBrandDetailGramCode());
                 HMProduct.put(dt.get_txtBrandDetailGramCode(), dt.get_txtProductDetailCode());
                 HMProduct.put(dt.get_txtProductDetailCode(), dt.get_txtLobName());
             }
-        }
+            dataProductKalbe.add("Pilih Product Kalbe");
+        }*/
+
+
 
         ArrayAdapter<String> adapterKalbeProduct = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, dataProductKalbe);
         spnKalbeProduct.setAdapter(adapterKalbeProduct);
-
+        final int index = spnKalbeProduct.getAdapter().getCount()-1;
+        spnKalbeProduct.setSelection(index);
         spnKalbeProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-                HMProductKompetitor.clear();
-                dataProductKompetitor.clear();
-
-                String txtProductDetailCode = listDataProductKalbe.get(position).get_txtProductDetailCode();
-                List<mProductCompetitorData> listProductKompetitor = new mProductCompetitorBL().GetListDataByProductKN(txtProductDetailCode);
-
-                if (listProductKompetitor.size() > 0) {
-                    for (mProductCompetitorData dt : listProductKompetitor) {
-                        dataProductKompetitor.add(dt.get_txtProdukKompetitorID());
-                        HMProductKompetitor.put(dt.get_txtProdukKompetitorID(), dt.get_txtProdukKompetitorID());
+                if(spnKalbeProduct.getSelectedItemPosition()<index) {
+                    HMProductKompetitor.clear();
+                    dataProductKompetitor.clear();
+                    String txtProductDetailCode = null;
+                    if (dataDetail.get_intPIC().equals("1")) {
+                        txtProductDetailCode = mProductPICDataList.get(position).get_txtProductDetailCode();
+                    }else{
+                        txtProductDetailCode = mProductSPGDataList.get(position).get_txtProductDetailCode();
                     }
+
+                    List<mProductCompetitorData> listProductKompetitor = new mProductCompetitorBL().GetListDataByProductKN(txtProductDetailCode);
+
+                    if (listProductKompetitor.size() > 0) {
+                        for (mProductCompetitorData dt : listProductKompetitor) {
+                            dataProductKompetitor.add(dt.get_txtProdukKompetitorID());
+                            HMProductKompetitor.put(dt.get_txtProdukKompetitorID(), dt.get_txtProdukKompetitorID());
+                        }
+                        dataProductKompetitor.add("Pilih Product Kompetitor");
+                    }
+
+                    ArrayAdapter<String> adapterKompetProduct = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataProductKompetitor);
+                    spnCompetProduct.setAdapter(adapterKompetProduct);
+                    final int index = spnCompetProduct.getAdapter().getCount()-1;
+                    spnCompetProduct.setSelection(index);
                 }
-
-                ArrayAdapter<String> adapterKompetProduct = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataProductKompetitor);
-                spnCompetProduct.setAdapter(adapterKompetProduct);
-
             }
 
             @Override
@@ -491,41 +536,59 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         btnAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String date = dateFormat.format(Calendar.getInstance().getTime());
-                String selectedOneKNProduct = spnKalbeProduct.getSelectedItem().toString();
-                String selectedOneCompetitorProduct = spnCompetProduct.getSelectedItem().toString();
-                tUserLoginData dtUser = new tUserLoginBL().getUserActive();
-                String qtyProduct = null;
-                qtyProduct = qty.getText().toString();
+                if (!spnKalbeProduct.getSelectedItem().equals("Pilih Product Kalbe")) {
+                    if (!spnCompetProduct.getSelectedItem().equals("Pilih Product Kompetitor")) {
+                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(qty.getWindowToken(), 0);
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String date = dateFormat.format(Calendar.getInstance().getTime());
+                        String selectedOneKNProduct = spnKalbeProduct.getSelectedItem().toString();
+                        String selectedOneCompetitorProduct = spnCompetProduct.getSelectedItem().toString();
+                        tUserLoginData dtUser = new tUserLoginBL().getUserActive();
+                        String qtyProduct = null;
+                        qtyProduct = qty.getText().toString();
+                        new clsMainActivity().removeErrorMessage(txtInputLayoutQty);
+//                        int qtyProductInt = Integer.parseInt(qtyProduct);
+                        if (qtyProduct.length() == 0) {
+                            new clsMainActivity().setErrorMessage(getContext(), txtInputLayoutQty, qty, "Qty tidak boleh kosong");
+                            spnKalbeProduct.setSelection(spnKalbeProduct.getSelectedItemPosition());
+                            spnCompetProduct.setSelection(spnCompetProduct.getSelectedItemPosition());
+                        }else if(qtyProduct.equals("0")){
+                            new clsMainActivity().setErrorMessage(getContext(), txtInputLayoutQty, qty, "Qty tidak boleh nol");
+                            spnKalbeProduct.setSelection(spnKalbeProduct.getSelectedItemPosition());
+                            spnCompetProduct.setSelection(spnCompetProduct.getSelectedItemPosition());
+                        }else {
+                            new clsMainActivity().removeErrorMessage(txtInputLayoutQty);
+                            tCustomerBasedMobileDetailProductData data = new tCustomerBasedMobileDetailProductData();
+                            data.set_intTrCustomerIdDetailProduct(new clsMainActivity().GenerateGuid());
+                            data.set_intTrCustomerIdDetail(dataDetail.get_intTrCustomerIdDetail());
+                            data.set_txtProductBrandCode(HMProduct.get(selectedOneKNProduct));// brand name
+                            data.set_txtProductBrandName(selectedOneKNProduct);
+                            data.set_txtProductBrandQty(qtyProduct);
+                            data.set_txtProductBrandCodeCRM(HMProduct.get(HMProduct.get(selectedOneKNProduct)));// brandcode
+                            data.set_txtLOB(HMProduct.get(HMProduct.get(HMProduct.get(selectedOneKNProduct))));// brandcodeCRM
+                            data.set_txtProductCompetitorCode(HMProductKompetitor.get(selectedOneCompetitorProduct));
+                            data.set_txtProductCompetitorName(selectedOneCompetitorProduct);
+                            data.set_dtInserted(date);
+                            data.set_txtInsertedBy(dtUser.get_txtUserId());
 
-                if(qtyProduct.length()==0){
-                    qtyProduct = "0";
+                            new tCustomerBasedMobileDetailProductBL().saveData(data);
+
+                            if (spnKalbeProduct.getSelectedItemPosition() > 0) {
+                                spnCompetProduct.setAdapter(null);
+                                spnKalbeProduct.setSelection(0);
+                            }
+                            qty.setText("");
+                            spnKalbeProduct.setSelection(index);
+                            spnCompetProduct.setAdapter(null);
+                            setTableProduct(dataDetail, promptView);
+                            //                setTablePerson();
+                        }//validasi product kompetitor
+
+                    } //validasi product kalbe /*new clsMainActivity().setErrorMessage(getContext(), txtInputLayoutProductKalbe, spnKalbeProduct, "Nama harus diisi");*/
+
                 }
 
-                tCustomerBasedMobileDetailProductData data = new tCustomerBasedMobileDetailProductData();
-                data.set_intTrCustomerIdDetailProduct(new clsMainActivity().GenerateGuid());
-                data.set_intTrCustomerIdDetail(dataDetail.get_intTrCustomerIdDetail());
-                data.set_txtProductBrandCode(HMProduct.get(selectedOneKNProduct));// brand name
-                data.set_txtProductBrandName(selectedOneKNProduct);
-                data.set_txtProductBrandQty(qtyProduct);
-                data.set_txtProductBrandCodeCRM(HMProduct.get(HMProduct.get(selectedOneKNProduct)));// brandcode
-                data.set_txtLOB(HMProduct.get(HMProduct.get(HMProduct.get(selectedOneKNProduct))));// brandcodeCRM
-                data.set_txtProductCompetitorCode(HMProductKompetitor.get(selectedOneCompetitorProduct));
-                data.set_txtProductCompetitorName(selectedOneCompetitorProduct);
-                data.set_dtInserted(date);
-                data.set_txtInsertedBy(dtUser.get_txtUserId());
-
-                new tCustomerBasedMobileDetailProductBL().saveData(data);
-
-                if (spnKalbeProduct.getSelectedItemPosition() > 0) {
-                    spnCompetProduct.setAdapter(null);
-                    spnKalbeProduct.setSelection(0);
-                }
-                qty.setText("");
-
-                setTableProduct(dataDetail, promptView);
-//                setTablePerson();
             }
         });
 
@@ -554,6 +617,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         final EditText nama = (EditText) promptView.findViewById(R.id.etNama);
         final EditText usiaKehamilan = (EditText) promptView.findViewById(R.id.usiaKehamilan);
+        final TextView tvNama = (TextView) promptView.findViewById(R.id.tvNamaPopUp);
+        final TextView tvTanggalLahir = (TextView) promptView.findViewById(R.id.tvTanggalLahir);
+        final TextView tvJenisKelamin = (TextView) promptView.findViewById(R.id.tvJenisKelamin);
+
         usiaKehamilan.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -564,7 +631,9 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         final RadioGroup radioGroupGender = (RadioGroup) promptView.findViewById(R.id.radioGender);
         final TextInputLayout textInputLayoutNamaPopup = (TextInputLayout) promptView.findViewById(R.id.input_layout_nama);
         final DatePicker dp = (DatePicker) promptView.findViewById(R.id.dp_tgl_lahir);
-
+        LinearLayout lnPic = (LinearLayout) promptView.findViewById(R.id.ln_pic);
+        LinearLayout lnNonPic = (LinearLayout) promptView.findViewById(R.id.ln_non_pic);
+        final LinearLayout lnHamil = (LinearLayout) promptView.findViewById(R.id.lnUsiaKehamilan);
         dp.setMaxDate(System.currentTimeMillis());
 
 //        format tgl
@@ -580,7 +649,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 View radioGender = radioGroupGender.findViewById(checkedId);
                 int index = radioGroupGender.indexOfChild(radioGender);
-                LinearLayout lnHamil = (LinearLayout) promptView.findViewById(R.id.lnUsiaKehamilan);
+
                 switch (index) {
                     case 0:
                         lnHamil.setVisibility(View.GONE);
@@ -602,36 +671,28 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             int year = 0;
             int month = 0;
             int day = 0;
+            String stringDatedb = dataDetail.get_txtTglLahir();
+            String[] parts = stringDatedb.split("-");
+            String part1 = parts[0]; //year
+            String part2 = parts[1]; //month
+            String part3 = parts[2]; //date
 
             if(dataDetail.get_intPIC().equals("1")){
-                if(dataDetail.get_txtTglLahir().equals("null")){
-                    dp.setMaxDate(System.currentTimeMillis());
-                } else {
+                lnPic.setVisibility(View.VISIBLE);
+                lnNonPic.setVisibility(View.GONE);
+                tvNama.setText(": "+dataDetail.get_txtNamaDepan());
+                tvTanggalLahir.setText(": "+part1 + "-" + part2 + "-" + part3);
+                tvJenisKelamin.setText(": "+dataDetail.get_txtGender());
+                if(dataDetail.get_txtGender().equals("Perempuan")){
+                    lnHamil.setVisibility(View.VISIBLE);
+                }else{
 
-                    String stringDatedb = dataDetail.get_txtTglLahir();
-                    String[] parts = stringDatedb.split("-");
-                    String part1 = parts[0]; //year
-                    String part2 = parts[1]; //month
-                    String part3 = parts[2]; //date
-
-                    year = Integer.valueOf(part1);
-                    month = Integer.valueOf(part2)-1;
-                    day = Integer.valueOf(part3);
-
-                    dp.updateDate(year, month, day);
                 }
-                dp.setEnabled(false);
+
             } else {
                 if(dataDetail.get_txtTglLahir().equals("null")){
                     dp.setMaxDate(System.currentTimeMillis());
                 } else {
-
-                    String stringDatedb = dataDetail.get_txtTglLahir();
-                    String[] parts = stringDatedb.split("-");
-                    String part1 = parts[0]; //year
-                    String part2 = parts[1]; //month
-                    String part3 = parts[2]; //date
-
                     year = Integer.valueOf(part1);
                     month = Integer.valueOf(part2)-1;
                     day = Integer.valueOf(part3);
@@ -1341,10 +1402,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             validate = false;
         }
 
-        if(dateNow.equals(tglLahir)){
+        /*if(dateNow.equals(tglLahir)){
             new clsMainActivity().showCustomToast(getContext(), "Tanggal Lahir Belum Di Set", false);
             validate = false;
-        }
+        }*/
 
         if (etTelpon.getText().toString().equals("")) {
             new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "Telpon wajib diisi");

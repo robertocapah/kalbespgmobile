@@ -55,6 +55,10 @@
         android:layout_height="wrap_content"
         android:text="Qty" />
 
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_qty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <EditText
         android:id="@+id/qty"
         android:layout_width="match_parent"
@@ -63,6 +67,7 @@
         android:background="@drawable/bg_edtext"
         android:inputType="number"
         android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/btn_add_product"

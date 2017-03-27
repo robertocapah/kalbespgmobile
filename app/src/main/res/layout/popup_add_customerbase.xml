@@ -7,8 +7,103 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ln_pic"
+        android:padding="15dp"
+        android:visibility="gone">
+        <TableLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/tlAbesen"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/view2">
+            <TableRow
+                    android:background="#ffffff"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="5dp"
+                        android:text="Nama" />
+                    <TextView
+                        android:id="@+id/tvNamaPopUp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Nama" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="" />
+            </TableRow>
+            <TableRow
+                android:background="#ffffff"
+                android:padding="5dp"
+                android:id="@+id/row_gender"
+                android:visibility="visible">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:width="150dp"
+                    android:text="Jenis Kelamin" />
+                <TextView
+                    android:id="@+id/tvJenisKelamin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:width="300dp"
+                    android:text="jeniskelamin" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:width="5dp"
+                    android:text="" />
+            </TableRow>
+            <TableRow
+                android:background="#ffffff"
+                android:padding="5dp"
+                android:id="@+id/row_tgl_lahir"
+                android:visibility="visible">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:width="150dp"
+                    android:text="Tanggal lahir" />
+                <TextView
+                    android:id="@+id/tvTanggalLahir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:width="300dp"
+                    android:text="tgl lahir" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:width="5dp"
+                    android:text="" />
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:id="@+id/ln_non_pic">
 
         <TextView
             android:id="@+id/tvNama"
@@ -75,12 +170,15 @@
 
         </RadioGroup>
 
+    </LinearLayout>
         <LinearLayout
             android:id="@+id/lnUsiaKehamilan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="25dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -111,7 +209,5 @@
 
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
-
 </ScrollView>
