@@ -124,6 +124,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         row3 = (TableRow) v.findViewById(R.id.row_bbm);
         row4 = (TableRow) v.findViewById(R.id.row_alamat);
         row5 = (TableRow) v.findViewById(R.id.row_status);
+        row6 = (TableRow) v.findViewById(R.id.row_email);
         imgReadMore = (ImageView) v.findViewById(R.id.img_read_more);
         imgReadMore.setTag(1);
         imgReadMore.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +139,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                     row3.setVisibility(View.VISIBLE);
                     row4.setVisibility(View.VISIBLE);
                     row5.setVisibility(View.VISIBLE);
+                    row6.setVisibility(View.VISIBLE);
                 }else if(tag.equals("2")){
                     imgReadMore.setTag(1);
                     imgReadMore.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
@@ -146,6 +148,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                     row3.setVisibility(View.GONE);
                     row4.setVisibility(View.GONE);
                     row5.setVisibility(View.GONE);
+                    row6.setVisibility(View.GONE);
                 }
             }
         });
