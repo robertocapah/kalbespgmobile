@@ -822,7 +822,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 usiaKehamilan.setText("");
             }
         });*/
-        
+
 //        final EditText searchProduct = (EditText) promptView.findViewById(R.id.searchProduct);
         final RadioGroup radioGroupGender = (RadioGroup) promptView.findViewById(R.id.radioGender);
         final TextInputLayout textInputLayoutNamaPopup = (TextInputLayout) promptView.findViewById(R.id.input_layout_nama);
@@ -840,7 +840,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         List<tCustomerBasedMobileDetailProductData> dataProduct = null;
 
-        if(!dataDetail.get_intPIC().equals("1")){
+//        if(!dataDetail.get_intPIC().equals("1")){
             radioGroupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -859,7 +859,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                     }
                 }
             });
-        }
+//        }
 
         if (dataDetail.get_intTrCustomerIdDetail() != null) {
             nama.setText(dataDetail.get_txtNamaDepan());
@@ -874,7 +874,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             String part2 = parts[1]; //month
             String part3 = parts[2]; //date
 
-            if(dataDetail.get_intPIC().equals("1")){
+            if(dataDetail.get_intPIC()!=null && dataDetail.get_intPIC().equals("1")){
                 lnPic.setVisibility(View.VISIBLE);
                 lnNonPic.setVisibility(View.GONE);
                 tvNama.setText(": "+dataDetail.get_txtNamaDepan());
@@ -1021,7 +1021,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                             if (dataDetail.get_intPIC() == null) {
                                 data.set_intPIC("0");
                             } else {
-                                data.set_intPIC(dataDetail.get_intPIC());
+                                data.set_intPIC("1");
                             }
 
                             data.set_intNo(String.valueOf(dtListDetail.size() + 1));
@@ -1038,8 +1038,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         data.set_dtInserted(dateFormat.format(cal.getTime()));
 
 //                        data.set_txtTglLahir(tglLahir);
-                        if(!dataDetail.get_intPIC().equals("1")){
+                        if(dataDetail.get_intPIC()==null){
                         data.set_txtTglLahir(tglLahir);
+                        }else if(dataDetail.get_intPIC()!=null && dataDetail.get_intPIC().equals("0")){
+                            data.set_txtTglLahir(tglLahir);
                         }
                         int selectedId = radioGroupGender.getCheckedRadioButtonId();
                         RadioButton rbGender = (RadioButton) promptView.findViewById(selectedId);
