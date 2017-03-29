@@ -62,13 +62,13 @@ public class ReportTableDataAdapter extends TableDataAdapter<ReportTable> {
 	            	renderedView = renderString(data.get_no_tlp(), "right");
 	            	break;
                 case 4:
-                    renderedView = renderString(data.get_pic(), "left");
-                    break;
-                case 5:
                     renderedView = renderString(data.get_total_member(), "right");
                     break;
+                case 5:
+                    renderedView = renderString(data.get_total_product(), "right");
+                    break;
                 case 6:
-                    renderedView = renderString(data.get_total_product(),"right");
+                    renderedView = renderString(data.get_total_item(),"right");
                     break;
                 default:
                     break;

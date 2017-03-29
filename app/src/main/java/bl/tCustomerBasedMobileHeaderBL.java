@@ -48,8 +48,24 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
 
     public List<tCustomerBasedMobileHeaderData> getAllCustomerBasedMobileHeaderByOutletCode(String code) {
         SQLiteDatabase _db = getDb();
+        List<tCustomerBasedMobileHeaderData> dt;
         tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(_db);
-        List<tCustomerBasedMobileHeaderData> dt = _tCustomerBasedMobileHeaderDA.getAllDataByOutletCode(_db, code);
+            dt = _tCustomerBasedMobileHeaderDA.getAllDataByOutletCode(_db, code);
+        if (dt == null) {
+            dt = new ArrayList<>(0);
+        }
+        return dt;
+    }
+
+    public List<tCustomerBasedMobileHeaderData> getAllCustomerBasedMobileHeaderByOutletCodeReporting(String code) {
+        SQLiteDatabase _db = getDb();
+        List<tCustomerBasedMobileHeaderData> dt;
+        tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(_db);
+        if(code.equals("ALLOUTLET")){
+            dt = _tCustomerBasedMobileHeaderDA.getAllDataReporting(_db);
+        } else {
+            dt = _tCustomerBasedMobileHeaderDA.getAllDataByOutletCode(_db, code);
+        }
         if (dt == null) {
             dt = new ArrayList<>(0);
         }
@@ -123,6 +139,18 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
     public int getCountAllCustomerBased() {
         SQLiteDatabase _db = getDb();
         int count = new tCustomerBasedMobileHeaderDA(_db).countCustomerBaseHome(_db);
+        return count;
+    }
+
+    public int getCountProductAllCustomerBased(String intTrCustomerId, String code) {
+        SQLiteDatabase _db = getDb();
+        int count = 0;
+        if(code.equals("ALLOUTLET")){
+            count = new tCustomerBasedMobileHeaderDA(_db).countCustomerBaseReportingAll(_db, intTrCustomerId);
+        } else {
+            count = new tCustomerBasedMobileHeaderDA(_db).countCustomerBaseReportingOutlet(_db, intTrCustomerId, code);
+        }
+
         return count;
     }
 

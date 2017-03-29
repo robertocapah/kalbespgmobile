@@ -86,8 +86,14 @@ public class tSalesProductHeaderBL extends clsMainBL {
 
     public List<tSalesProductHeaderData> getAllSalesProductHeaderByOutletCode(String code){
         SQLiteDatabase _db =getDb();
+        List<tSalesProductHeaderData> dt;
         tSalesProductHeaderDA _tSalesProductHeaderDA = new tSalesProductHeaderDA(_db);
-        List<tSalesProductHeaderData> dt = _tSalesProductHeaderDA.getAllDataByOutletCode(_db,code);
+        if(code.equals("ALLOUTLET")){
+            dt = _tSalesProductHeaderDA.getAllData(_db);
+        } else {
+            dt = _tSalesProductHeaderDA.getAllDataByOutletCode(_db,code);
+        }
+
         if(dt == null){
             dt = new ArrayList<>(0);
         }

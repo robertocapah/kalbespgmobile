@@ -30,6 +30,10 @@ public final class ReportComparators {
         return new totalProductComparator();
     }
 
+    public static Comparator<ReportTable> getTotalQuantityComparator() {
+        return new totalQuantityComparator();
+    }
+
     public  static  Comparator<ReportTable> getNoCbComparator(){
         return  new NoCbComparator();
     }
@@ -99,6 +103,15 @@ public final class ReportComparators {
     }
 
     private static class totalProductComparator implements Comparator<ReportTable> {
+
+        @Override
+        public int compare(final ReportTable data1, final ReportTable data2) {
+            if (Integer.parseInt(data1.get_total_product()) < Integer.parseInt(data2.get_total_product())) return -1;
+            if (Integer.parseInt(data1.get_total_product()) > Integer.parseInt(data2.get_total_product())) return 1;
+            return 0;
+        }
+    }
+    private static class totalQuantityComparator implements Comparator<ReportTable> {
 
         @Override
         public int compare(final ReportTable data1, final ReportTable data2) {
