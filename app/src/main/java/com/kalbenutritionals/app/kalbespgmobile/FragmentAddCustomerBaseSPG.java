@@ -487,7 +487,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                                 int year = dpHeader.getYear();
                                 clsMainActivity clsMainMonth = new clsMainActivity();
                                 String month2 = clsMainMonth.months[month];
-                                final String tglLahir = day+" - " + month2 + " - " + year ;
+
+
+                                String tglLahir = day+" - " + month2 + " - " + year ;
+
+
 //                        final String tglLahir = year + "-" + month + "-" + day;
 
                                 tvTanggalLahir.setText(": "+ tglLahir);
@@ -554,8 +558,20 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         int year = dpHeader.getYear();
                         clsMainActivity clsMainMonth = new clsMainActivity();
                         String month2 = clsMainMonth.months[month];
-                        final String tglLahir = day+" - " + month2 + " - " + year ;
+
+                        Calendar c = Calendar.getInstance();
+                        int lYear = c.get(Calendar.YEAR);
+                        int lMonth = c.get(Calendar.MONTH) + 1;
+                        int lDay = c.get(Calendar.DATE);
+
+                        String dateNow = Integer.valueOf(lYear) + " - " + Integer.valueOf(lMonth) + " - " + Integer.valueOf(lDay);
+                        String tglLahirNumber = year+" - " + month + " - " + day ;
+
+                        String tglLahir = day+" - " + month2 + " - " + year ;
 //                        final String tglLahir = year + "-" + month + "-" + day;
+                        if(tglLahirNumber.equals(dateNow)){
+                            tglLahir = "Not set";
+                        }
 
                         tvTanggalLahir.setText(": "+ tglLahir);
                         tvTelp.setText(": " + etTelpon.getText().toString());
@@ -813,7 +829,9 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         final EditText nama = (EditText) promptView.findViewById(R.id.etNama);
         final EditText usiaKehamilan = (EditText) promptView.findViewById(R.id.usiaKehamilan);
         final TextView tvNama = (TextView) promptView.findViewById(R.id.tvNamaPopUp);
+        final TableRow trTanggalLahir = (TableRow) promptView.findViewById(R.id.row_tgl_lahir);
         final TextView tvTanggalLahir = (TextView) promptView.findViewById(R.id.tvTanggalLahir);
+        final TextView tvtvTanggalLahir = (TextView) promptView.findViewById(R.id.tvTvTanggalLahir);
         final TextView tvJenisKelamin = (TextView) promptView.findViewById(R.id.tvJenisKelamin);
 
         /*usiaKehamilan.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -827,8 +845,12 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         final RadioGroup radioGroupGender = (RadioGroup) promptView.findViewById(R.id.radioGender);
         final TextInputLayout textInputLayoutNamaPopup = (TextInputLayout) promptView.findViewById(R.id.input_layout_nama);
         final DatePicker dp = (DatePicker) promptView.findViewById(R.id.dp_tgl_lahir);
+//        TextView tvDp = (TextView) promptView.findViewById(R.id.tv_dp_tgl_lahir);
         LinearLayout lnPic = (LinearLayout) promptView.findViewById(R.id.ln_pic);
-        LinearLayout lnNonPic = (LinearLayout) promptView.findViewById(R.id.ln_non_pic);
+        LinearLayout lnNama = (LinearLayout) promptView.findViewById(R.id.ln_nama);
+        LinearLayout lnDp = (LinearLayout) promptView.findViewById(R.id.lnDp);
+        LinearLayout lnJenisKelamin = (LinearLayout) promptView.findViewById(R.id.ln_jenis_kelamin);
+//        LinearLayout lnNonPic = (LinearLayout) promptView.findViewById(R.id.ln_non_pic);
         final LinearLayout lnHamil = (LinearLayout) promptView.findViewById(R.id.lnUsiaKehamilan);
         dp.setMaxDate(System.currentTimeMillis());
 
@@ -868,21 +890,37 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             int year = 0;
             int month = 0;
             int day = 0;
+            String part1 = "";
+            String part2 = "";
+            String part3 = "";
             String stringDatedb = dataDetail.get_txtTglLahir();
-            String[] parts = stringDatedb.split("-");
-            String part1 = parts[0]; //year
-            String part2 = parts[1]; //month
-            String part3 = parts[2]; //date
-
+            if (!stringDatedb.equals("null")) {
+                String[] parts = stringDatedb.split("-");
+                part1 = parts[0]; //year
+                part2 = parts[1]; //month
+                part3 = parts[2]; //date
+            }
             if(dataDetail.get_intPIC()!=null && dataDetail.get_intPIC().equals("1")){
                 lnPic.setVisibility(View.VISIBLE);
-                lnNonPic.setVisibility(View.GONE);
+//                lnNonPic.setVisibility(View.GONE);
+                lnNama.setVisibility(View.GONE);
+                lnDp.setVisibility(View.GONE);
+                lnJenisKelamin.setVisibility(View.GONE);
+
                 tvNama.setText(": "+dataDetail.get_txtNamaDepan());
 
                 clsMainActivity clsMainMonth = new clsMainActivity();
-                String month2 = clsMainMonth.months[Integer.parseInt(part2)];
-                tvTanggalLahir.setText(": "+ part3 + " - " + month2 + " - " + part1);
-                tvJenisKelamin.setText(": "+dataDetail.get_txtGender());
+
+                if (!stringDatedb.equals("null")) {
+                    String month2 = clsMainMonth.months[Integer.parseInt(part2)];
+                    tvTanggalLahir.setText(": " + part3 + " - " + month2 + " - " + part1);
+                    tvTanggalLahir.setVisibility(View.VISIBLE);
+                }else if (stringDatedb.equals("null")) {
+                    lnDp.setVisibility(View.VISIBLE);
+                    dp.setMaxDate(System.currentTimeMillis());
+                    trTanggalLahir.setVisibility(View.GONE);
+                }
+                tvJenisKelamin.setText(": " + dataDetail.get_txtGender());
                 if(dataDetail.get_txtGender().equals("Perempuan")){
                     lnHamil.setVisibility(View.VISIBLE);
                     usiaKehamilan.setText(dataDetail.get_txtUsiaKehamilan());
@@ -1041,6 +1079,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         if(dataDetail.get_intPIC()==null){
                         data.set_txtTglLahir(tglLahir);
                         }else if(dataDetail.get_intPIC()!=null && dataDetail.get_intPIC().equals("0")){
+                            data.set_txtTglLahir(tglLahir);
+                        }else if (dataDetail.get_intPIC()!=null && dataDetail.get_intPIC().equals("1") && dataDetail.get_txtTglLahir().equals("null")){
                             data.set_txtTglLahir(tglLahir);
                         }
                         int selectedId = radioGroupGender.getCheckedRadioButtonId();
@@ -1276,8 +1316,16 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         int day = dpHeader.getDayOfMonth();
         int month = dpHeader.getMonth() + 1;
         int year = dpHeader.getYear();
-        final String tglLahir = year + "-" + month + "-" + day;
+        String tglLahir = year + "-" + month + "-" + day;
 
+        Calendar c = Calendar.getInstance();
+        int lYear = c.get(Calendar.YEAR);
+        int lMonth = c.get(Calendar.MONTH) + 1;
+        int lDay = c.get(Calendar.DATE);
+        String dateNow = Integer.valueOf(lYear) + "-" + Integer.valueOf(lMonth) + "-" + Integer.valueOf(lDay);
+        if(dateNow.equals(tglLahir)){
+            tglLahir = null;
+        }
         dtHeader.set_txtTglLahir(tglLahir);
 
         int selectedId = radioGenderGroup.getCheckedRadioButtonId();
@@ -1608,10 +1656,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             validate = false;
         }
 
-        if(dateNow.equals(tglLahir)){
+        /*if(dateNow.equals(tglLahir)){
             new clsMainActivity().showCustomToast(getContext(), "Tanggal Lahir Belum Di Set", false);
             validate = false;
-        }
+        }*/
 
         if (etTelpon.getText().toString().equals("")) {
             new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "Telpon wajib diisi");

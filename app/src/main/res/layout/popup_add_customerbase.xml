@@ -77,6 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:id="@+id/tvTvTanggalLahir"
                     android:layout_marginLeft="5dp"
                     android:width="150dp"
                     android:text="Tanggal lahir" />
@@ -103,7 +104,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="15dp"
-        android:id="@+id/ln_non_pic">
+        android:id="@+id/ln_nama">
 
         <TextView
             android:id="@+id/tvNama"
@@ -126,23 +127,36 @@
                 android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>
-
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:id="@+id/lnDp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:id="@+id/tv_dp_tgl_lahir"
             android:text="Tanggal Lahir *" />
 
-        <DatePicker
-            android:id="@+id/dp_tgl_lahir"
+            <DatePicker
+                android:id="@+id/dp_tgl_lahir"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_below="@+id/tv_tgl_lahir"
+                android:layout_marginBottom="10dp"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                android:visibility="visible" />
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_below="@+id/tv_tgl_lahir"
-            android:layout_marginBottom="10dp"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner"
-            android:visibility="visible" />
-
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:id="@+id/ln_jenis_kelamin">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
