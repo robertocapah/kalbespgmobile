@@ -193,15 +193,6 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         dpHeader = (DatePicker) v.findViewById(R.id.dp_tgl_lahir_header);
 
-       /* etTglLhr = (EditText) v.findViewById(R.id.etTanggalLahir);
-        etTglLhr.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-//                setDate(v);
-                return false;
-            }
-        });*/
-
         textInputLayoutTelp = (TextInputLayout) v.findViewById(R.id.input_layout_telp);
         etTelpon = (EditText) v.findViewById(R.id.etTelpon);
 
@@ -248,7 +239,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             spnSubmissionCode.setSelection(adapterSubmission.getPosition(dataByLastSelected.get_txtNamaMasterData()));
         }
 
-        dpHeader.setMaxDate(System.currentTimeMillis());
+        dpHeader.setMaxDate(System.currentTimeMillis()-24*60*60*1000);
 
         int year = 0;
         int month = 0;
@@ -265,7 +256,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             etPinBBM.setText(dtHeader.get_txtPINBBM());
             cbPIC.setChecked(dtHeader.get_intPIC().equals("1") ? true : false);
             if(dtHeader.get_txtTglLahir().equals("null")){
-                dpHeader.setMaxDate(System.currentTimeMillis());
+                dpHeader.setMaxDate(System.currentTimeMillis()-24*60*60*1000);
             } else {
 
                 String stringDatedb = dtHeader.get_txtTglLahir();
@@ -663,23 +654,25 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         if (dataDetail.get_intPIC().equals("1")) {
             if (mProductPICDataList.size() > 0) {
+                dataProductKalbe.add("Pilih Product Kalbe");
                 for (mProductPICData dt : mProductPICDataList) {
                     dataProductKalbe.add(dt.get_txtProductBrandDetailGramName());
                     HMProduct.put(dt.get_txtProductBrandDetailGramName(), dt.get_txtBrandDetailGramCode());
                     HMProduct.put(dt.get_txtBrandDetailGramCode(), dt.get_txtProductDetailCode());
                     HMProduct.put(dt.get_txtProductDetailCode(), dt.get_txtLobName());
                 }
-                dataProductKalbe.add("Pilih Product Kalbe");
+
             }
         }else{
             if (mProductSPGDataList.size() > 0) {
+                dataProductKalbe.add("Pilih Product Kalbe");
                 for (mProductSPGData dt : mProductSPGDataList) {
                     dataProductKalbe.add(dt.get_txtProductBrandDetailGramName());
                     HMProduct.put(dt.get_txtProductBrandDetailGramName(), dt.get_txtBrandDetailGramCode());
                     HMProduct.put(dt.get_txtBrandDetailGramCode(), dt.get_txtProductDetailCode());
                     HMProduct.put(dt.get_txtProductDetailCode(), dt.get_txtLobName());
                 }
-                dataProductKalbe.add("Pilih Product Kalbe");
+
             }
         }
         final List<mEmployeeSalesProductData> listDataProductKalbe = new mEmployeeSalesProductBL().GetAllData();
@@ -699,12 +692,12 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         ArrayAdapter<String> adapterKalbeProduct = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, dataProductKalbe);
         spnKalbeProduct.setAdapter(adapterKalbeProduct);
         final int index = spnKalbeProduct.getAdapter().getCount()-1;
-        spnKalbeProduct.setSelection(index);
+        spnKalbeProduct.setSelection(0);
         spnKalbeProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-                if(spnKalbeProduct.getSelectedItemPosition()<index) {
+                if(spnKalbeProduct.getSelectedItemPosition()>0) {
                     HMProductKompetitor.clear();
                     dataProductKompetitor.clear();
                     String txtProductDetailCode = null;
@@ -717,17 +710,18 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                     List<mProductCompetitorData> listProductKompetitor = new mProductCompetitorBL().GetListDataByProductKN(txtProductDetailCode);
 
                     if (listProductKompetitor.size() > 0) {
+                        dataProductKompetitor.add("Pilih Product Kompetitor");
                         for (mProductCompetitorData dt : listProductKompetitor) {
                             dataProductKompetitor.add(dt.get_txtProdukKompetitorID());
                             HMProductKompetitor.put(dt.get_txtProdukKompetitorID(), dt.get_txtProdukKompetitorID());
                         }
-                        dataProductKompetitor.add("Pilih Product Kompetitor");
+
                     }
 
                     ArrayAdapter<String> adapterKompetProduct = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataProductKompetitor);
                     spnCompetProduct.setAdapter(adapterKompetProduct);
-                    final int index = spnCompetProduct.getAdapter().getCount()-1;
-                    spnCompetProduct.setSelection(index);
+                    //final int index = spnCompetProduct.getAdapter().getCount()-1;
+                    spnCompetProduct.setSelection(0);
                 }
             }
 
@@ -788,7 +782,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                             spnKalbeProduct.setSelection(0);
                         }
                         qty.setText("");
-                        spnKalbeProduct.setSelection(index);
+                        spnKalbeProduct.setSelection(0);
                         spnCompetProduct.setAdapter(null);
                         setTableProduct(dataDetail, promptView);
                         //                setTablePerson();
@@ -852,7 +846,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         LinearLayout lnJenisKelamin = (LinearLayout) promptView.findViewById(R.id.ln_jenis_kelamin);
 //        LinearLayout lnNonPic = (LinearLayout) promptView.findViewById(R.id.ln_non_pic);
         final LinearLayout lnHamil = (LinearLayout) promptView.findViewById(R.id.lnUsiaKehamilan);
-        dp.setMaxDate(System.currentTimeMillis());
+        dp.setMaxDate(System.currentTimeMillis()-24*60*60*1000);
 
 //        format tgl
 
@@ -917,7 +911,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                     tvTanggalLahir.setVisibility(View.VISIBLE);
                 }else if (stringDatedb.equals("null")) {
                     lnDp.setVisibility(View.VISIBLE);
-                    dp.setMaxDate(System.currentTimeMillis());
+                    dp.setMaxDate(System.currentTimeMillis()-24*60*60*1000);
                     trTanggalLahir.setVisibility(View.GONE);
                 }
                 tvJenisKelamin.setText(": " + dataDetail.get_txtGender());
@@ -930,7 +924,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
             } else {
                 if(dataDetail.get_txtTglLahir().equals("null")){
-                    dp.setMaxDate(System.currentTimeMillis());
+                    dp.setMaxDate(System.currentTimeMillis()-24*60*60*1000);
                 } else {
                     year = Integer.valueOf(part1);
                     month = Integer.valueOf(part2)-1;
@@ -1266,7 +1260,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             swplist = new clsSwipeList();
             swplist.set_txtId(dtListDetailProduct.get(i).get_intTrCustomerIdDetailProduct());
             swplist.set_txtTitle(dtListDetailProduct.get(i).get_txtProductBrandName());
-            swplist.set_txtDescription(dtListDetailProduct.get(i).get_txtProductCompetitorName());
+            if(dtListDetailProduct.get(i).get_txtProductCompetitorName().equals("null")){
+                swplist.set_txtDescription("Not set");
+            }else{
+                swplist.set_txtDescription(dtListDetailProduct.get(i).get_txtProductCompetitorName());
+            }
             swplist.set_intPIC(dtListDetailProduct.get(i).get_txtProductBrandQty());
             swipeListProduct.add(swplist);
         }
