@@ -100,7 +100,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Tanggal Lahir *" />
+                android:text="Tanggal Lahir *"
+                android:visibility="gone"/>
 
             <DatePicker
                 android:id="@+id/dp_tgl_lahir_header"
@@ -110,7 +111,26 @@
                 android:layout_marginBottom="10dp"
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner"
-                android:visibility="visible" />
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_tgl_lahir2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Tanggal Lahir" />
+
+            <EditText
+                android:id="@+id/etTanggalLahir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edtext"
+                android:maxLength="100"
+                android:clickable="true"
+                android:hint="Not set"
+                android:drawableRight="@drawable/ic_date_range_black_24dp"
+                android:editable="false"
+                android:singleLine="true" />
 
             <TextView
                 android:id="@+id/textView8"

@@ -1,5 +1,6 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -39,12 +40,15 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import addons.adapter.AdapterListProductCustomerBased;
@@ -111,37 +115,6 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     private HashMap<String, String> HMSubmision = new HashMap<String, String>();
 
     private List<tCustomerBasedMobileHeaderData> dt;
-/*
-
-    //DatePicker
-    private int year,month, day;
-    @SuppressWarnings("deprecation")
-    public void setDate(android.view.View view){
-//        getContext().showDialog(999);
-        new DatePickerDialog(getContext(), myDateListener, year, month, day);
-        Toast.makeText(getContext(),"Masukan Tanggal Lahir",Toast.LENGTH_SHORT).show();
-    }
-
-    protected Dialog onCreateDialog(int id){
-        if(id==999){
-            return new DatePickerDialog(getContext(), myDateListener, year, month, day);
-        }
-        return null;
-    }
-
-    private DatePickerDialog.OnDateSetListener myDateListener = new
-            DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
-                    showDate(arg1, arg2+1, arg3);
-                }
-            };
-
-    private void showDate(int year, int month, int day) {
-        etTglLhr.setText(new StringBuilder().append(day).append("/")
-                .append(month).append("/").append(year));
-    }
-*/
 
     @Nullable
     @Override
@@ -192,6 +165,32 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         etNama = (EditText) v.findViewById(R.id.etNama);
 
         dpHeader = (DatePicker) v.findViewById(R.id.dp_tgl_lahir_header);
+
+        etTglLhr = (EditText) v.findViewById(R.id.etTanggalLahir);
+        /*etTglLhr.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                showDatePicker();
+                if (v == etTglLhr){
+                    showDatePicker();
+                }
+                return false;
+            }
+        });*/
+        /*etTglLhr.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                showDatePicker();
+            }
+        });*/
+        etTglLhr.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(etTglLhr){
+            @Override
+            public boolean onDrawableClick() {
+                showDatePicker();
+                return false;
+            }
+        });
+
 
         textInputLayoutTelp = (TextInputLayout) v.findViewById(R.id.input_layout_telp);
         etTelpon = (EditText) v.findViewById(R.id.etTelpon);
@@ -263,11 +262,15 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 String[] parts = stringDatedb.split("-");
 
                 year = Integer.valueOf(parts[0]);
-                month = Integer.valueOf(parts[1])-1;
+                month = Integer.valueOf(parts[1]);
                 day = Integer.valueOf(parts[2]);
 
                 dpHeader.updateDate(year, month, day);
+                clsMainActivity clsMainMonth = new clsMainActivity();
+                String month2 = clsMainMonth.months[month];
+                etTglLhr.setText(day + " - " + month2 + " - " + year);
             }
+
 
             RadioButton rbLaki = (RadioButton) v.findViewById(R.id.radioMale);
             RadioButton rbPerempuan = (RadioButton) v.findViewById(R.id.radioFemale);
@@ -350,6 +353,48 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         return v;
     }
+
+    private void showDatePicker() {
+        DatePickerFragment date = new DatePickerFragment();
+        /**
+         * Set Up Current Date Into dialog
+         */
+        Calendar calender = Calendar.getInstance();
+        calender.add(Calendar.DATE,-1);
+        String dt = dtHeader.get_txtTglLahir();
+        Bundle args = new Bundle();
+        if(dt==null) {
+            args.putInt("year", calender.get(Calendar.YEAR));
+            args.putInt("month", calender.get(Calendar.MONTH));
+            args.putInt("day", calender.get(Calendar.DAY_OF_MONTH));
+            date.setArguments(args);
+
+        }else{
+            String[] parts = dt.split("-");
+            String part1 = parts[0]; //year
+            String part2 = parts[1]; //month
+            String part3 = parts[2]; //date
+            args.putInt("year", Integer.parseInt(part1));
+            args.putInt("month", Integer.parseInt(part2)-1);
+            args.putInt("day", Integer.parseInt(part3));
+            date.setArguments(args);
+        }
+        /**
+         * Set Call back to capture selected date
+         */
+        date.setCallBack(ondate);
+        date.show(getFragmentManager(), "Date Picker");
+    }
+
+    DatePickerDialog.OnDateSetListener ondate = new DatePickerDialog.OnDateSetListener() {
+
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            clsMainActivity clsMainMonth = new clsMainActivity();
+            String month2 = clsMainMonth.months[monthOfYear+1];
+            etTglLhr.setText(String.valueOf(dayOfMonth) + " - " + month2 + " - " + String.valueOf(year));
+        }
+    };
 
     @Override
     public void onClick(View view) {
@@ -547,6 +592,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         int day = dpHeader.getDayOfMonth();
                         int month = dpHeader.getMonth() + 1;
                         int year = dpHeader.getYear();
+
+
                         clsMainActivity clsMainMonth = new clsMainActivity();
                         String month2 = clsMainMonth.months[month];
 
@@ -555,10 +602,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         int lMonth = c.get(Calendar.MONTH) + 1;
                         int lDay = c.get(Calendar.DATE);
 
-                        String dateNow = Integer.valueOf(lYear) + " - " + Integer.valueOf(lMonth) + " - " + Integer.valueOf(lDay);
+                        String dateNow = Integer.valueOf(lYear) + " - " + clsMainMonth.months[Integer.valueOf(lMonth)] + " - " + Integer.valueOf(lDay);
                         String tglLahirNumber = year+" - " + month + " - " + day ;
 
-                        String tglLahir = day+" - " + month2 + " - " + year ;
+//                        String tglLahir = day+" - " + month2 + " - " + year ;
+                        String tglLahir = etTglLhr.getText().toString();
 //                        final String tglLahir = year + "-" + month + "-" + day;
                         if(tglLahirNumber.equals(dateNow)){
                             tglLahir = "Not set";
@@ -1314,7 +1362,34 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         int day = dpHeader.getDayOfMonth();
         int month = dpHeader.getMonth() + 1;
         int year = dpHeader.getYear();
-        String tglLahir = year + "-" + month + "-" + day;
+
+        String tgl = etTglLhr.getText().toString();
+        String[] parts = tgl.split("-");
+        String part1 = parts[0];//year
+        String part2 = parts[1];//month
+        String part3 = parts[2];//day
+
+        clsMainActivity clsMainMonth = new clsMainActivity();
+//        String month2 = clsMainMonth.months[Integer.parseInt(part2]);
+        /*int month2 = 0;
+        for (int i = 0; i<=12 ; i++){
+            String bulan = clsMainMonth.months[i];
+            if (part2.equals(bulan)){
+                month2 = i;
+            }
+        }*/
+        DateFormat oriForm = new SimpleDateFormat("dd - MMMM - yyyy", Locale.ENGLISH);
+        DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = oriForm.parse(tgl);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String tglLahir = targetFormat.format(date);
+
+//        String tglLahir = year + "-" + month + "-" + day;
+//        String tglLahir = part3 + "-" + month2 + "-" + part1;
 
         Calendar c = Calendar.getInstance();
         int lYear = c.get(Calendar.YEAR);
