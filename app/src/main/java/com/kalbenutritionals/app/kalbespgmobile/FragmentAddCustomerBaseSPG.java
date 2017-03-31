@@ -394,7 +394,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
                         builder.setTitle("Confirm");
-                        builder.setMessage("Anda telah merubah submission, apa anda yakin akan menghapus product yang terdaftar?");
+                        builder.setMessage("You have changed the submission, are you sure to delete the registered product?");
 
                         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -654,7 +654,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         if (dataDetail.get_intPIC().equals("1")) {
             if (mProductPICDataList.size() > 0) {
-                dataProductKalbe.add("Pilih Product Kalbe");
+                dataProductKalbe.add("Select Product");
                 for (mProductPICData dt : mProductPICDataList) {
                     dataProductKalbe.add(dt.get_txtProductBrandDetailGramName());
                     HMProduct.put(dt.get_txtProductBrandDetailGramName(), dt.get_txtBrandDetailGramCode());
@@ -665,7 +665,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             }
         }else{
             if (mProductSPGDataList.size() > 0) {
-                dataProductKalbe.add("Pilih Product Kalbe");
+                dataProductKalbe.add("Select Product");
                 for (mProductSPGData dt : mProductSPGDataList) {
                     dataProductKalbe.add(dt.get_txtProductBrandDetailGramName());
                     HMProduct.put(dt.get_txtProductBrandDetailGramName(), dt.get_txtBrandDetailGramCode());
@@ -710,7 +710,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                     List<mProductCompetitorData> listProductKompetitor = new mProductCompetitorBL().GetListDataByProductKN(txtProductDetailCode);
 
                     if (listProductKompetitor.size() > 0) {
-                        dataProductKompetitor.add("Pilih Product Kompetitor");
+                        dataProductKompetitor.add("Select Previous Product");
                         for (mProductCompetitorData dt : listProductKompetitor) {
                             dataProductKompetitor.add(dt.get_txtProdukKompetitorID());
                             HMProductKompetitor.put(dt.get_txtProdukKompetitorID(), dt.get_txtProdukKompetitorID());
@@ -734,7 +734,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         btnAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!spnKalbeProduct.getSelectedItem().equals("Pilih Product Kalbe")) {
+                if (!spnKalbeProduct.getSelectedItem().equals("Select Product")) {
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(qty.getWindowToken(), 0);
                     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -747,11 +747,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                     new clsMainActivity().removeErrorMessage(txtInputLayoutQty);
 //                        int qtyProductInt = Integer.parseInt(qtyProduct);
                     if (qtyProduct.length() == 0) {
-                        new clsMainActivity().setErrorMessage(getContext(), txtInputLayoutQty, qty, "Qty tidak boleh kosong");
+                        new clsMainActivity().setErrorMessage(getContext(), txtInputLayoutQty, qty, "Qty cannot empty");
                         spnKalbeProduct.setSelection(spnKalbeProduct.getSelectedItemPosition());
                         spnCompetProduct.setSelection(spnCompetProduct.getSelectedItemPosition());
                     }else if(qtyProduct.equals("0")){
-                        new clsMainActivity().setErrorMessage(getContext(), txtInputLayoutQty, qty, "Qty tidak boleh nol");
+                        new clsMainActivity().setErrorMessage(getContext(), txtInputLayoutQty, qty, "Qty cannot 0");
                         spnKalbeProduct.setSelection(spnKalbeProduct.getSelectedItemPosition());
                         spnCompetProduct.setSelection(spnCompetProduct.getSelectedItemPosition());
                     }else {
@@ -764,7 +764,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         data.set_txtProductBrandQty(qtyProduct);
                         data.set_txtProductBrandCodeCRM(HMProduct.get(HMProduct.get(selectedOneKNProduct)));// brandcode
                         data.set_txtLOB(HMProduct.get(HMProduct.get(HMProduct.get(selectedOneKNProduct))));// brandcodeCRM
-                        if (spnCompetProduct.getSelectedItem().equals("Pilih Product Kompetitor")) {
+                        if (spnCompetProduct.getSelectedItem().equals("Select Previous Product")) {
                             data.set_txtProductCompetitorCode(null);
                             data.set_txtProductCompetitorName(null);
                         }else{
@@ -791,7 +791,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
 
                 }else {
-                    new clsMainActivity().showCustomToast(getContext(), "Product Kalbe belum terpilih", false);
+                    new clsMainActivity().showCustomToast(getContext(), "Please Choose Product first", false);
                 }
 
             }
@@ -1103,7 +1103,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         new clsMainActivity().showCustomToast(getContext(), "Select at least 1 product", false);
                     }
                 } else {
-                    new clsMainActivity().setErrorMessage(getContext(), textInputLayoutNamaPopup, nama, "Nama harus diisi");
+                    new clsMainActivity().setErrorMessage(getContext(), textInputLayoutNamaPopup, nama, "Name cannot empty");
 //                    new clsMainActivity().showCustomToast(getContext(), "Nama cannot empty", false);
                 }
             }
@@ -1141,8 +1141,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             if (dtListDetail.get(i).get_intPIC().equals("1")) PIC = " (PIC)";
             else PIC = "";
 
-            swplist.set_txtTitle("Nama \t \t \t \t \t \t: " + dtListDetail.get(i).get_txtNamaDepan() + PIC);
-            swplist.set_txtDescription("Jenis Kelamin \t: " + dtListDetail.get(i).get_txtGender());
+            swplist.set_txtTitle("Name \t \t \t \t \t \t: " + dtListDetail.get(i).get_txtNamaDepan() + PIC);
+            swplist.set_txtDescription("Gender \t: " + dtListDetail.get(i).get_txtGender());
             String tgl_lahir=dtListDetail.get(i).get_txtTglLahir();
             if (tgl_lahir.equals(dateNow) || tgl_lahir.equals("null") || tgl_lahir.equals("")){
                 tgl_lahir="not set";
@@ -1157,7 +1157,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 String month = clsMainMonth.months[Integer.parseInt(part2)];
                 tgl_lahir = part3+" - " + month + " - " + part1;
             }
-            swplist.set_txtDescription2("Tanggal Lahir \t \t: " + tgl_lahir);
+            swplist.set_txtDescription2("Date of Birth \t \t: " + tgl_lahir);
             swplist.set_txtDescription3("Total Product \t \t: " + String.valueOf(totalProduct));
             swipeList.add(swplist);
         }
@@ -1599,7 +1599,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         tCustomerBasedMobileDetailData dtDetail = dtListDetail.get(position);
 
         if (dtDetail.get_intPIC().equals("1")) {
-            new clsMainActivity().showCustomToast(getContext(), "PIC tidak bisa dihapus", false);
+            new clsMainActivity().showCustomToast(getContext(), "PIC cannot deleted", false);
         } else {
             new tCustomerBasedMobileDetailProductBL().deleteData(dtDetail.get_intTrCustomerIdDetail());
             new tCustomerBasedMobileDetailBL().deleteData(dtDetail);
@@ -1650,7 +1650,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         new clsMainActivity().removeErrorMessage(textInputLayoutEmail);
 
         if (etNama.getText().toString().equals("")) {
-            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutNama, etNama, "Nama wajib diisi");
+            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutNama, etNama, "Name cannot empty");
             validate = false;
         }
 
@@ -1660,31 +1660,55 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         }*/
 
         if (etTelpon.getText().toString().equals("")) {
-            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "Telpon wajib diisi");
+            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "Phones cannot empty");
             validate = false;
         } else if (!firstNotelp.equals("0")) {
-            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "No telpon diawali dengan angka 0");
+            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "Telephone number beginning with the digits 0");
             validate = false;
+        } else if (firstNotelp.equals("0")){
+            if(notelp.length()<4){
+                new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "telephone number at least 4 digits");
+                validate = false;
+            } else if(notelp.length()>15){
+                new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "telephone number maximum 15 digits");
+                validate = false;
+            }
         }
 
         if (etTelpon2.getText().toString().equals("")) {
         } else if (!secondNotelp.equals("0")) {
-            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp2, etTelpon2, "No telpon diawali dengan angka 0");
+            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp2, etTelpon2, "Telephone number beginning with the digits 0");
             validate = false;
+        } else if (secondNotelp.equals("0")){
+            if(notelp2.length()<4){
+                new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp2, etTelpon2, "telephone number at least 4 digits");
+                validate = false;
+            } else if(notelp2.length()>15){
+                new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp2, etTelpon2, "telephone number maximum 15 digits");
+                validate = false;
+            }
         }
 
         if (etEmail.getText().length()>0) {
 //            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutEmail, etEmail, "Email wajib diisi");
 //            validate = false;
             if (!isValidEmail(etEmail.getText().toString())) {
-                new clsMainActivity().setErrorMessage(getContext(), textInputLayoutEmail, etEmail, "Email tidak valid");
+                new clsMainActivity().setErrorMessage(getContext(), textInputLayoutEmail, etEmail, "Email not valid");
                 validate = false;
             }
         }
 
         if (firstNotelpkantor != null && !firstNotelpkantor.equals("0")) {
-            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelpKantor, etTelponKantor, "No telpon kantor diawali dengan angka 0");
+            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelpKantor, etTelponKantor, "Telephone number beginning with the digits 0");
             validate = false;
+        } else if (firstNotelpkantor != null && firstNotelpkantor.equals("0")){
+            if(notelpkantor.length()<4){
+                new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelpKantor, etTelponKantor, "telephone number at least 4 digits");
+                validate = false;
+            } else if(notelpkantor.length()>15){
+                new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelpKantor, etTelponKantor, "telephone number maximum 15 digits");
+                validate = false;
+            }
         }
 
         return validate;

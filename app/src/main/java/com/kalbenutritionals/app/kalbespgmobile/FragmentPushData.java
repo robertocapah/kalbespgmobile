@@ -36,6 +36,7 @@ import bl.tAbsenUserBL;
 import bl.tNotificationBL;
 import bl.tUserLoginBL;
 import come.example.viewbadger.ShortcutBadger;
+import library.salesforce.common.APIData;
 import library.salesforce.common.clsPushData;
 import library.salesforce.common.dataJson;
 import library.salesforce.common.tAbsenUserData;
@@ -490,11 +491,27 @@ public class FragmentPushData extends Fragment {
                 try {
                     JSONArray Jresult= new clsHelperBL().callPushDataReturnJson(versionName,dtJson.getDtdataJson().txtJSON().toString(),dtJson.getFileUpload());
                     new clsHelperBL().saveDataPush(dtJson.getDtdataJson(),Jresult);
+
+                    APIData dtAPIDATA = new APIData();
+                    Iterator i = Jresult.iterator();
+                    boolean validPush = false;
+                    while (i.hasNext()) {
+                        org.json.simple.JSONObject innerObj = (org.json.simple.JSONObject) i.next();
+                        int boolValid = Integer.valueOf(String.valueOf(innerObj.get(dtAPIDATA.boolValid)));
+                        if (boolValid == Integer.valueOf(new clsHardCode().intSuccess)) {
+                            validPush = true;
+                        } else {
+                            validPush = false;
+                            break;
+                        }
+                    }
+
                     dtdataJson.setIntResult("1");
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                     dtdataJson.setIntResult("0");
+                    dtdataJson.setTxtMessage("Please Check Your Connection !!!");
                 }
             }
             else

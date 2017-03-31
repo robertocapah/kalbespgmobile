@@ -25,6 +25,7 @@ import addons.tableview.ReportComparators;
 import addons.tableview.ReportTableDataAdapter;
 import addons.tableview.SortableReportTableView;
 import bl.mEmployeeAreaBL;
+import bl.mTypeSubmissionMobileBL;
 import bl.tCustomerBasedMobileDetailBL;
 import bl.tCustomerBasedMobileDetailProductBL;
 import bl.tCustomerBasedMobileHeaderBL;
@@ -33,13 +34,12 @@ import bl.tSalesProductHeaderBL;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 import library.salesforce.common.ReportTable;
 import library.salesforce.common.mEmployeeAreaData;
+import library.salesforce.common.mTypeSubmissionMobile;
 import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tSalesProductDetailData;
 import library.salesforce.common.tSalesProductHeaderData;
-
-import static android.R.id.list;
 
 public class FragmentReporting extends Fragment {
 
@@ -131,7 +131,10 @@ public class FragmentReporting extends Fragment {
         arrOutlet = new HashMap<>();
         arrData.add(0, "Reso");
         arrData.add(1, "Customer Base");
-        int i = 0;
+
+        arrDataOutlet.add(0, "ALL OUTLET");
+        int i = 1;
+
         for (mEmployeeAreaData outlet: listOutlet) {
             arrOutlet.put(outlet.get_txtOutletName(), outlet.get_txtOutletCode());
             arrDataOutlet.add(i, outlet.get_txtOutletName());
@@ -139,7 +142,6 @@ public class FragmentReporting extends Fragment {
         }
 
         arrOutlet.put("ALL OUTLET","ALLOUTLET");
-        arrDataOutlet.add(i, "ALL OUTLET");
 
         spnTypeReport.setAdapter(new MyAdapter(getContext(), R.layout.custom_spinner, arrData));
         spnOutlet.setAdapter(new MyAdapter(getContext(), R.layout.custom_spinner, arrDataOutlet));
@@ -235,7 +237,7 @@ public class FragmentReporting extends Fragment {
 
             case "Customer Base":
                 header = new String[7];
-                header[1] = "Sub. Id";
+                header[1] = "Type";
                 header[2] = "Name";
                 header[3] = "Telp";
                 header[4] = "Pengguna";
@@ -257,7 +259,7 @@ public class FragmentReporting extends Fragment {
                 ReportTableView.setColumnComparator(5, ReportComparators.getTotalProductComparator());
                 ReportTableView.setColumnComparator(6, ReportComparators.getTotalItemComparator());
 
-                ReportTableView.setColumnWeight(1, 1);
+                ReportTableView.setColumnWeight(1, 2);
                 ReportTableView.setColumnWeight(2, 2);
                 ReportTableView.setColumnWeight(3, 2);
                 ReportTableView.setColumnWeight(4, 1);
@@ -276,9 +278,11 @@ public class FragmentReporting extends Fragment {
 
                         ReportTable rt = new ReportTable();
 
+                        mTypeSubmissionMobile mtTypeSubmissionMobile = new mTypeSubmissionMobile();
+                        mtTypeSubmissionMobile = new mTypeSubmissionMobileBL().getDataBySubmissionCode(datas.get_txtSubmissionCode());
+
                         rt.set_report_type("Customer Base");
-                        rt.set_no_cb(datas.get_txtSubmissionCode()
-                        );
+                        rt.set_no_cb(mtTypeSubmissionMobile.get_txtNamaMasterData());
                         rt.set_customer_name(datas.get_txtNamaDepan());
                         rt.set_no_tlp(datas.get_txtTelp());
 
@@ -297,13 +301,13 @@ public class FragmentReporting extends Fragment {
 
 
                         int count = 0;
-                        final List<tCustomerBasedMobileDetailProductData> list = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dtListDetail.get(0).get_intTrCustomerIdDetail());
-                        for(i=0 ; i < list.size(); i++){
-                               int count2 = Integer.valueOf(list.get(i).get_txtProductBrandQty());
+                        for(int j=0;j<dtListDetail.size();j++){
+                            final List<tCustomerBasedMobileDetailProductData> list = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dtListDetail.get(j).get_intTrCustomerIdDetail());
+                            for(i=0 ; i < list.size(); i++){
+                                int count2 = Integer.valueOf(list.get(i).get_txtProductBrandQty());
                                 count+=count2;
+                            }
                         }
-
-
 
 
                         rt.set_total_item(String.valueOf(count));

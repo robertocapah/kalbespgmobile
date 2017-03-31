@@ -31,6 +31,12 @@ public class mTypeSubmissionMobileBL extends clsMainBL {
             _mTypeSubmissionMobileDA.SaveDataMConfig(db, data);
         }
     }
+    public mTypeSubmissionMobile getDataBySubmissionCode(String submissionCode) {
+        SQLiteDatabase db = getDb();
+        mTypeSubmissionMobileDA _mTypeSubmissionMobileDA = new mTypeSubmissionMobileDA(db);
+        mTypeSubmissionMobile typeSubmissionMobile = _mTypeSubmissionMobileDA.getDataForReporting(db, submissionCode);
+        return  typeSubmissionMobile;
+    }
 
     public List<mTypeSubmissionMobile> GetAllData() {
         SQLiteDatabase db = getDb();

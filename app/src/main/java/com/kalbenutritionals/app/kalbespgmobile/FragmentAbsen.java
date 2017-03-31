@@ -578,6 +578,8 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         Boolean pRes = true;
+                                        Boolean isLocationDetected = true;
+                                        Boolean isLocationOutletDetected = true;
                                         String errorMessage = "Please Photo at least 1 photo";
                                         if (dttAbsenUserData == null) {
                                             pRes = false;
@@ -597,90 +599,108 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                                         double latitudeOutlet = 0;
                                         double longitudeOutlet = 0;
 
-                                        if (tvLongOutlet.getText().toString().equals("Not Found")) {
-                                            errorMessage = "Location not found";
-                                        }
-                                        else{
-                                            latitudeOutlet = Double.parseDouble(HMoutletLat.get(spnOutlet.getSelectedItem().toString()));
-                                            longitudeOutlet = Double.parseDouble(HMoutletLang.get(spnOutlet.getSelectedItem().toString()));
-                                        }
+//                                        if (tvLongOutlet.getText().toString().equals("Not Found")) {
+//                                            errorMessage = "Location not found";
+//                                        }
+//                                        else{
+//                                        }
 
                                         if (pRes) {
-                                            double latitude = Double.parseDouble(String.valueOf(lblLang.getText()));
-                                            double longitude = Double.parseDouble(String.valueOf(lblLong.getText()));
-
-                                            Location locationA = new Location("point A");
-
-                                            locationA.setLatitude(latitude);
-                                            locationA.setLongitude(longitude);
-
-                                            Location locationB = new Location("point B");
-
-                                            locationB.setLatitude(latitudeOutlet);
-                                            locationB.setLongitude(longitudeOutlet);
-
-                                            float distance = locationA.distanceTo(locationB);
-
-                                            tUserLoginData checkLocation = new tUserLoginBL().getUserLogin();
-
-                                            if ((int) Math.ceil(distance) > 100 && checkLocation.get_txtCheckLocation().equals("1")) {
-                                                _clsMainActivity.showCustomToast(getContext(), "Failed checkin: Your location too far from outlet", false);
-                                            } else {
-                                                nameBranch = spnBranch.getSelectedItem().toString();
-                                                nameOutlet = spnOutlet.getSelectedItem().toString();
-                                                branchCode = HMbranch.get(nameBranch);
-                                                outletCode = HMoutlet.get(nameOutlet);
-                                                if (dttAbsenUserData == null) {
-                                                    dttAbsenUserData = new tAbsenUserData();
-                                                }
-                                                tAbsenUserData datatAbsenUserData = dttAbsenUserData;
-                                                tUserLoginData dataUserActive = new tUserLoginBL().getUserActive();
-                                                String idUserActive = String.valueOf(dataUserActive.get_txtUserId());
-                                                List<tDeviceInfoUserData> dataDeviceInfoUser = new tDeviceInfoUserBL().getData(1);
-                                                String deviceInfo = String.valueOf(dataDeviceInfoUser.get(0).get_txtDeviceId());
-                                                List<tAbsenUserData> absenUserDatas = new ArrayList<tAbsenUserData>();
-                                                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                                Calendar cal = Calendar.getInstance();
-                                                datatAbsenUserData.set_dtDateCheckIn(dateFormat.format(cal.getTime()));
-                                                datatAbsenUserData.set_intId(txtHDId.getText().toString());
-                                                datatAbsenUserData.set_intSubmit("0");
-                                                datatAbsenUserData.set_intSync("0");
-                                                datatAbsenUserData.set_txtAbsen("0");//
-                                                datatAbsenUserData.set_txtBranchCode(HMbranch.get(nameBranch));
-                                                datatAbsenUserData.set_txtBranchName(spnBranch.getSelectedItem().toString());
-                                                datatAbsenUserData.set_txtAccuracy(lblAcc.getText().toString());
-                                                datatAbsenUserData.set_txtLatitude(lblLang.getText().toString());
-                                                datatAbsenUserData.set_txtLongitude(lblLong.getText().toString());
-                                                datatAbsenUserData.set_txtOutletCode(outletCode);
-                                                datatAbsenUserData.set_txtOutletName(nameOutlet);
-                                                datatAbsenUserData.set_txtDeviceId(deviceInfo);
-                                                datatAbsenUserData.set_txtUserId(idUserActive);
-                                                datatAbsenUserData.set_dtDateCheckOut(null);
-                                                absenUserDatas.add(datatAbsenUserData);
-                                                new tAbsenUserBL().saveData(absenUserDatas);
-                                                spnBranch.setEnabled(false);
-                                                spnOutlet.setEnabled(false);
-                                                imgPrevNoImg1.setClickable(false);
-                                                imgPrevNoImg2.setClickable(false);
-                                                btnRefreshMaps.setClickable(false);
-                                                btnRefreshMaps.setVisibility(View.GONE);
-
-
-                                                _clsMainActivity.showCustomToast(getContext(), "Saved", true);
-                                                try {
-                                                    clazz = Class.forName(myClass);
-                                                    Intent myIntent = new Intent(getContext(), MainMenu.class);
-                                                    myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
-                                                    myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
-                                                    myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);
-                                                    getActivity().finish();
-                                                    startActivity(myIntent);
-                                                } catch (ClassNotFoundException e) {
-                                                    // TODO Auto-generated catch block
-                                                    e.printStackTrace();
-                                                }
+                                            if(lblLang.getText().toString().equals("")&&lblLong.getText().toString().equals("")){
+                                                isLocationDetected = false;
+                                                _clsMainActivity.showCustomToast(getContext(), "Failed checkin: Location not found, please check your GPS", false);
+                                            } else if(lblLang.getText()==null&&lblLong.getText()==null){
+                                                isLocationDetected = false;
+                                                _clsMainActivity.showCustomToast(getContext(), "Failed checkin: Location not found, please check your GPS", false);
                                             }
 
+                                            if(HMoutletLat.get(spnOutlet.getSelectedItem().toString()).equals("")&&HMoutletLang.get(spnOutlet.getSelectedItem().toString()).equals("")){
+                                                isLocationOutletDetected = false;
+                                                _clsMainActivity.showCustomToast(getContext(), "Failed checkin: Location outlet not found", false);
+                                            } else if (HMoutletLat.get(spnOutlet.getSelectedItem().toString()).equalsIgnoreCase("null")&&HMoutletLang.get(spnOutlet.getSelectedItem().toString()).equalsIgnoreCase("null")){
+                                                isLocationOutletDetected = false;
+                                                _clsMainActivity.showCustomToast(getContext(), "Failed checkin: Location outlet not found", false);
+                                            }
+
+                                            if(isLocationDetected&&isLocationOutletDetected){
+                                                double latitude = Double.parseDouble(String.valueOf(lblLang.getText()));
+                                                double longitude = Double.parseDouble(String.valueOf(lblLong.getText()));
+
+                                                latitudeOutlet = Double.parseDouble(HMoutletLat.get(spnOutlet.getSelectedItem().toString()));
+                                                longitudeOutlet = Double.parseDouble(HMoutletLang.get(spnOutlet.getSelectedItem().toString()));
+
+                                                Location locationA = new Location("point A");
+
+                                                locationA.setLatitude(latitude);
+                                                locationA.setLongitude(longitude);
+
+                                                Location locationB = new Location("point B");
+
+                                                locationB.setLatitude(latitudeOutlet);
+                                                locationB.setLongitude(longitudeOutlet);
+
+                                                float distance = locationA.distanceTo(locationB);
+
+                                                tUserLoginData checkLocation = new tUserLoginBL().getUserLogin();
+
+                                                if ((int) Math.ceil(distance) > 100 && checkLocation.get_txtCheckLocation().equals("1")) {
+                                                    _clsMainActivity.showCustomToast(getContext(), "Failed checkin: Your location too far from outlet", false);
+                                                } else {
+                                                    nameBranch = spnBranch.getSelectedItem().toString();
+                                                    nameOutlet = spnOutlet.getSelectedItem().toString();
+                                                    branchCode = HMbranch.get(nameBranch);
+                                                    outletCode = HMoutlet.get(nameOutlet);
+                                                    if (dttAbsenUserData == null) {
+                                                        dttAbsenUserData = new tAbsenUserData();
+                                                    }
+                                                    tAbsenUserData datatAbsenUserData = dttAbsenUserData;
+                                                    tUserLoginData dataUserActive = new tUserLoginBL().getUserActive();
+                                                    String idUserActive = String.valueOf(dataUserActive.get_txtUserId());
+                                                    List<tDeviceInfoUserData> dataDeviceInfoUser = new tDeviceInfoUserBL().getData(1);
+                                                    String deviceInfo = String.valueOf(dataDeviceInfoUser.get(0).get_txtDeviceId());
+                                                    List<tAbsenUserData> absenUserDatas = new ArrayList<tAbsenUserData>();
+                                                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                    Calendar cal = Calendar.getInstance();
+                                                    datatAbsenUserData.set_dtDateCheckIn(dateFormat.format(cal.getTime()));
+                                                    datatAbsenUserData.set_intId(txtHDId.getText().toString());
+                                                    datatAbsenUserData.set_intSubmit("0");
+                                                    datatAbsenUserData.set_intSync("0");
+                                                    datatAbsenUserData.set_txtAbsen("0");//
+                                                    datatAbsenUserData.set_txtBranchCode(HMbranch.get(nameBranch));
+                                                    datatAbsenUserData.set_txtBranchName(spnBranch.getSelectedItem().toString());
+                                                    datatAbsenUserData.set_txtAccuracy(lblAcc.getText().toString());
+                                                    datatAbsenUserData.set_txtLatitude(lblLang.getText().toString());
+                                                    datatAbsenUserData.set_txtLongitude(lblLong.getText().toString());
+                                                    datatAbsenUserData.set_txtOutletCode(outletCode);
+                                                    datatAbsenUserData.set_txtOutletName(nameOutlet);
+                                                    datatAbsenUserData.set_txtDeviceId(deviceInfo);
+                                                    datatAbsenUserData.set_txtUserId(idUserActive);
+                                                    datatAbsenUserData.set_dtDateCheckOut(null);
+                                                    absenUserDatas.add(datatAbsenUserData);
+                                                    new tAbsenUserBL().saveData(absenUserDatas);
+                                                    spnBranch.setEnabled(false);
+                                                    spnOutlet.setEnabled(false);
+                                                    imgPrevNoImg1.setClickable(false);
+                                                    imgPrevNoImg2.setClickable(false);
+                                                    btnRefreshMaps.setClickable(false);
+                                                    btnRefreshMaps.setVisibility(View.GONE);
+
+
+                                                    _clsMainActivity.showCustomToast(getContext(), "Saved", true);
+                                                    try {
+                                                        clazz = Class.forName(myClass);
+                                                        Intent myIntent = new Intent(getContext(), MainMenu.class);
+                                                        myIntent.putExtra(clsParameterPutExtra.MenuID, MenuID);
+                                                        myIntent.putExtra(clsParameterPutExtra.BranchCode, branchCode);
+                                                        myIntent.putExtra(clsParameterPutExtra.OutletCode, outletCode);
+                                                        getActivity().finish();
+                                                        startActivity(myIntent);
+                                                    } catch (ClassNotFoundException e) {
+                                                        // TODO Auto-generated catch block
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            }
                                         } else {
                                             _clsMainActivity.showCustomToast(getContext(), errorMessage, false);
                                         }

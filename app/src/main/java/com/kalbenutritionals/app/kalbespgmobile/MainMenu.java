@@ -64,7 +64,7 @@ import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 import service.MyServiceNative;
 
-public class MainMenu extends AppCompatActivity implements View.OnClickListener {
+public class    MainMenu extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
     private NavigationView navigationView;

@@ -97,6 +97,31 @@ public class mTypeSubmissionMobileDA {
         return contact;
     }
 
+    public mTypeSubmissionMobile getDataForReporting(SQLiteDatabase db, String id) {
+        mTypeSubmissionMobile dt = new mTypeSubmissionMobile();
+        Cursor cursor = db.query(TABLE_CONTACTS, new String[]{
+                        dt.Property_txtGrupMasterID, dt.Property_txtMasterID
+                        , dt.Property_txtNamaMasterData
+                        , dt.Property_txtKeterangan, dt.Property_intLastActiveSelection
+                },
+                dt.Property_txtKeterangan + "=?", new String[]{String.valueOf(id)},
+                null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        mTypeSubmissionMobile contact = new mTypeSubmissionMobile();
+        if (cursor.getCount() > 0) {
+            contact.set_txtGrupMasterID(cursor.getString(0));
+            contact.set_txtMasterID(cursor.getString(1));
+            contact.set_txtNamaMasterData(cursor.getString(2));
+            contact.set_txtKeterangan(cursor.getString(3));
+            contact.set_intLastActiveSelection(cursor.getString(4));
+        } else {
+            contact = null;
+        }
+        cursor.close();
+        return contact;
+    }
+
     public mTypeSubmissionMobile getLastSelected(SQLiteDatabase db, String id) {
         mTypeSubmissionMobile dt = new mTypeSubmissionMobile();
         String selectQuery = "SELECT " + dt.Property_All + " FROM " + TABLE_CONTACTS + " WHERE " + dt.Property_intLastActiveSelection + "='1'";

@@ -274,7 +274,7 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
 
                     TableLayout tl = new TableLayout(getContext());
 
-                    String[] colTextHeader = {"Nama", "Qty", "Price", "Amount"};
+                    String[] colTextHeader = {"Name", "Qty", "Price", "Amount"};
 
                     for (String text : colTextHeader) {
                         TextView tv = new TextView(getContext());
