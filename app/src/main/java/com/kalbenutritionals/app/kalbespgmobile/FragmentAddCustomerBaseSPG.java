@@ -29,6 +29,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -98,7 +99,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     CheckBox cbPIC;
     RadioGroup radioGenderGroup;
     RadioButton radioGenderButton;
-    Button btnSave;
+    ImageButton btnSave, btnSubmit;
     List<tCustomerBasedMobileDetailProductData> dtListDetailProduct;
     AdapterListProductCustomerBased AdapterProduct;
     View v;
@@ -116,12 +117,18 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
     private List<tCustomerBasedMobileHeaderData> dt;
 
+    String idTrCustomer = null;
+    String param = null;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dtDetail = new ArrayList<>();
         v = inflater.inflate(R.layout.fragment_customerbase_add, container, false);
 
+        Bundle mBundle = getArguments();
+        idTrCustomer = mBundle.getString("idTrCustomer").toString();
+        param = mBundle.getString("param").toString();
 
         row1 = (TableRow) v.findViewById(R.id.row_telp2);
         row2 = (TableRow) v.findViewById(R.id.row_telp_kantor);
@@ -209,8 +216,16 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
         etTelpon.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(etTelpon) {
             public boolean onDrawableClick() {
-                if (!etTelpon.getText().equals("")) {
+                if (!etTelpon.getText().toString().equals("")) {
                     startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", etTelpon.getText().toString(), null)));
+                }
+                return true;
+            }
+        });
+        etTelpon2.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(etTelpon2) {
+            public boolean onDrawableClick() {
+                if (!etTelpon2.getText().toString().equals("")) {
+                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", etTelpon2.getText().toString(), null)));
                 }
                 return true;
             }
@@ -291,6 +306,55 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             }
 
             spnSubmissionCode.setSelection(adapterSubmission.getPosition(key));
+        } else if (!idTrCustomer.equals("null")){
+            dtHeader = new tCustomerBasedMobileHeaderBL().getDataById(idTrCustomer);
+
+            etCustomerBasedNo.setText(dtHeader.get_txtSubmissionId());
+            etAlamat.setText(dtHeader.get_txtALamat());
+            etNama.setText(dtHeader.get_txtNamaDepan());
+            etTelpon.setText(dtHeader.get_txtTelp());
+            etTelpon2.setText(dtHeader.get_txtTelp2());
+            etTelponKantor.setText(dtHeader.get_txtTelpKantor());
+            etEmail.setText(dtHeader.get_txtEmail());
+            etPinBBM.setText(dtHeader.get_txtPINBBM());
+            cbPIC.setChecked(dtHeader.get_intPIC().equals("1") ? true : false);
+            if(dtHeader.get_txtTglLahir().equals("null")){
+                dpHeader.setMaxDate(System.currentTimeMillis()-24*60*60*1000);
+            } else {
+
+                String stringDatedb = dtHeader.get_txtTglLahir();
+                String[] parts = stringDatedb.split("-");
+
+                year = Integer.valueOf(parts[0]);
+                month = Integer.valueOf(parts[1]);
+                day = Integer.valueOf(parts[2]);
+
+                dpHeader.updateDate(year, month, day);
+                clsMainActivity clsMainMonth = new clsMainActivity();
+                String month2 = clsMainMonth.months[month];
+                etTglLhr.setText(day + " - " + month2 + " - " + year);
+            }
+
+
+            RadioButton rbLaki = (RadioButton) v.findViewById(R.id.radioMale);
+            RadioButton rbPerempuan = (RadioButton) v.findViewById(R.id.radioFemale);
+
+            if (dtHeader.get_txtGender().equals("Perempuan")) {
+                rbPerempuan.setChecked(true);
+                rbLaki.setChecked(false);
+            } else {
+                rbLaki.setChecked(true);
+                rbPerempuan.setChecked(false);
+            }
+
+            String key = "";
+            for (Map.Entry<String, String> entry : HMSubmision.entrySet()) {
+                if (entry.getValue().equals(dtHeader.get_txtSubmissionCode())) {
+                    key = entry.getKey();
+                }
+            }
+
+            spnSubmissionCode.setSelection(adapterSubmission.getPosition(key));
         }
 
         spnSubmissionCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -306,13 +370,19 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         });
 
         Button btnAdd = (Button) v.findViewById(R.id.btnAdd);
-        Button btnAddPerson = (Button) v.findViewById(R.id.btnAddPerson);
-        btnSave = (Button) v.findViewById(R.id.btnSave);
-        Button btnBack = (Button) v.findViewById(R.id.btnBackToHeader);
+        ImageButton btnAddPerson = (ImageButton) v.findViewById(R.id.btnAddPerson);
+        btnSave = (ImageButton) v.findViewById(R.id.btnSave);
+        ImageButton btnBack = (ImageButton) v.findViewById(R.id.btnBackToHeader);
+//        btnSubmit = (Button) v.findViewById(R.id.btnSubmit);
         btnAdd.setOnClickListener(this);
         btnAddPerson.setOnClickListener(this);
         btnSave.setOnClickListener(this);
         btnBack.setOnClickListener(this);
+//        btnSubmit.setOnClickListener(this);
+
+//        if (param.equals("edit")){
+//            btnSubmit.setVisibility(View.VISIBLE);
+//        }
 
         InputFilter[] fArray = new InputFilter[3];
 
@@ -363,7 +433,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         calender.add(Calendar.DATE,-1);
         String dt = dtHeader.get_txtTglLahir();
         Bundle args = new Bundle();
-        if(dt==null) {
+        if(dt==null||dt.equals("null")) {
             args.putInt("year", calender.get(Calendar.YEAR));
             args.putInt("month", calender.get(Calendar.MONTH));
             args.putInt("day", calender.get(Calendar.DAY_OF_MONTH));
@@ -418,6 +488,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 if(validate) {
                     dtHeader = new tCustomerBasedMobileHeaderBL().getDataByBitActive();
 
+                    if(dtHeader.get_intTrCustomerId()==null&&!idTrCustomer.equals("null")){
+                        dtHeader = new tCustomerBasedMobileHeaderBL().getDataById(idTrCustomer);
+                    }
+
                     boolean validatedetailProduct = false;
                     if(dtHeader.get_txtSubmissionCode() != null){
                         List<tCustomerBasedMobileDetailData> tCustomerBasedMobileDetailDatas = new tCustomerBasedMobileDetailBL().getAllDataByHeaderId(dtHeader.get_intTrCustomerId());
@@ -438,8 +512,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-                        builder.setTitle("Confirm");
-                        builder.setMessage("You have changed the submission, are you sure to delete the registered product?");
+                        builder.setTitle("Warning");
+                        builder.setMessage("You have changed the Submission Type, are you sure to delete registered Product?");
 
                         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -459,182 +533,25 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         alert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-
-                                dtHeader = new tCustomerBasedMobileHeaderBL().getDataByBitActive();
-
-                                List<tCustomerBasedMobileDetailData> tCustomerBasedMobileDetailDatas = new tCustomerBasedMobileDetailBL().getAllDataByHeaderId(dtHeader.get_intTrCustomerId());
-                                if (tCustomerBasedMobileDetailDatas.size() > 0) {
-                                    for (tCustomerBasedMobileDetailData dataDetail : tCustomerBasedMobileDetailDatas) {
-                                        List<tCustomerBasedMobileDetailProductData> listdetailProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dataDetail.get_intTrCustomerIdDetail());
-
-                                        if (listdetailProduct.size() > 0) {
-                                            for (tCustomerBasedMobileDetailProductData data : listdetailProduct) {
-                                                new tCustomerBasedMobileDetailProductBL().deleteDataByProductId(data.get_intTrCustomerIdDetailProduct());
-                                            }
-                                        }
-                                    }
-                                }
-                                setTablePerson();
-                                LinearLayout lnTop = (LinearLayout) v.findViewById(R.id.linearLayoutTop);
-                                LinearLayout lnBottom = (LinearLayout) v.findViewById(R.id.linearLayoutBottom);
-
-
-
-                                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
-
-                                imgReadMore.setTag(1);
-                                imgReadMore.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
-                                row1.setVisibility(View.GONE);
-                                row2.setVisibility(View.GONE);
-                                row3.setVisibility(View.GONE);
-                                row4.setVisibility(View.GONE);
-                                row5.setVisibility(View.GONE);
-                                row6.setVisibility(View.GONE);
-
-//                        if (isValidEmail(etEmail.getText().toString())) {
-                                TextView tvCode = (TextView) v.findViewById(R.id.tvCode);
-                                TextView tvNama = (TextView) v.findViewById(R.id.tvNamaPreview);
-                                TextView tvGender = (TextView) v.findViewById(R.id.tvJenisKelamin);
-                                TextView tvTanggalLahir = (TextView) v.findViewById(R.id.tvTanggalLahir);
-                                TextView tvTelp = (TextView) v.findViewById(R.id.tvTelpPreview);
-                                TextView tvTelp2 = (TextView) v.findViewById(R.id.tvTelpPreview2);
-                                TextView tvTelpKantor = (TextView) v.findViewById(R.id.tvTelpKantor);
-                                TextView tvAlamat = (TextView) v.findViewById(R.id.tvAlamatPreview);
-                                TextView tvEmail = (TextView) v.findViewById(R.id.tvEmailPreview);
-                                TextView tvPinBBM = (TextView) v.findViewById(R.id.tvPinBBM);
-
-                                radioGenderGroup = (RadioGroup) v.findViewById(R.id.radioGender);
-
-                                lnTop.setVisibility(View.GONE);
-                                lnBottom.setVisibility(View.VISIBLE);
-
-                                saveCustomerBaseHeader();
-
-                                tvCode.setText(": " + new tCustomerBasedMobileHeaderBL().getDataByBitActive().get_txtSubmissionId());
-                                tvNama.setText(": " + etNama.getText().toString());
-
-                                int selectedgender = radioGenderGroup.getCheckedRadioButtonId();
-                                radioGenderButton = (RadioButton) v.findViewById(selectedgender);
-                                tvGender.setText(": " + radioGenderButton.getText());
-
-                                int day = dpHeader.getDayOfMonth();
-                                int month = dpHeader.getMonth() + 1;
-                                int year = dpHeader.getYear();
-                                clsMainActivity clsMainMonth = new clsMainActivity();
-                                String month2 = clsMainMonth.months[month];
-
-
-                                String tglLahir = day+" - " + month2 + " - " + year ;
-
-
-//                        final String tglLahir = year + "-" + month + "-" + day;
-
-                                tvTanggalLahir.setText(": "+ tglLahir);
-                                tvTelp.setText(": " + etTelpon.getText().toString());
-                                tvTelp2.setText(": " + etTelpon2.getText().toString());
-                                tvTelpKantor.setText(": " + etTelponKantor.getText().toString());
-                                tvAlamat.setText(": " + etAlamat.getText().toString());
-                                tvEmail.setText(": " + etEmail.getText().toString());
-                                tvPinBBM.setText(": " + etPinBBM.getText().toString());
-//                        }
-//                        else {
-//                            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutEmail, etEmail, "Email not valid");
-//                            new clsMainActivity().showCustomToast(getContext(), "Email not valid", false);
-//                        }
+                                boolean deleteDetailProduct = true;
+                                viewListPerson(deleteDetailProduct);
                                 alert.dismiss();
                             }
                         });
                     }else{
-                        lnTop = (LinearLayout) v.findViewById(R.id.linearLayoutTop);
-                        lnBottom = (LinearLayout) v.findViewById(R.id.linearLayoutBottom);
-
-
-
-                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
-
-                        imgReadMore.setTag(1);
-                        imgReadMore.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
-                        row1.setVisibility(View.GONE);
-                        row2.setVisibility(View.GONE);
-                        row3.setVisibility(View.GONE);
-                        row4.setVisibility(View.GONE);
-                        row5.setVisibility(View.GONE);
-                        row6.setVisibility(View.GONE);
-
-//                        if (isValidEmail(etEmail.getText().toString())) {
-                        TextView tvCode = (TextView) v.findViewById(R.id.tvCode);
-                        TextView tvNama = (TextView) v.findViewById(R.id.tvNamaPreview);
-                        TextView tvGender = (TextView) v.findViewById(R.id.tvJenisKelamin);
-                        TextView tvTanggalLahir = (TextView) v.findViewById(R.id.tvTanggalLahir);
-                        TextView tvTelp = (TextView) v.findViewById(R.id.tvTelpPreview);
-                        TextView tvTelp2 = (TextView) v.findViewById(R.id.tvTelpPreview2);
-                        TextView tvTelpKantor = (TextView) v.findViewById(R.id.tvTelpKantor);
-                        TextView tvAlamat = (TextView) v.findViewById(R.id.tvAlamatPreview);
-                        TextView tvEmail = (TextView) v.findViewById(R.id.tvEmailPreview);
-                        TextView tvPinBBM = (TextView) v.findViewById(R.id.tvPinBBM);
-
-                        radioGenderGroup = (RadioGroup) v.findViewById(R.id.radioGender);
-
-                        lnTop.setVisibility(View.GONE);
-                        lnBottom.setVisibility(View.VISIBLE);
-
-                        saveCustomerBaseHeader();
-
-                        tvCode.setText(": " + new tCustomerBasedMobileHeaderBL().getDataByBitActive().get_txtSubmissionId());
-                        tvNama.setText(": " + etNama.getText().toString());
-
-                        int selectedgender = radioGenderGroup.getCheckedRadioButtonId();
-                        radioGenderButton = (RadioButton) v.findViewById(selectedgender);
-                        tvGender.setText(": " + radioGenderButton.getText());
-
-                        int day = dpHeader.getDayOfMonth();
-                        int month = dpHeader.getMonth() + 1;
-                        int year = dpHeader.getYear();
-
-
-                        clsMainActivity clsMainMonth = new clsMainActivity();
-                        String month2 = clsMainMonth.months[month];
-
-                        Calendar c = Calendar.getInstance();
-                        int lYear = c.get(Calendar.YEAR);
-                        int lMonth = c.get(Calendar.MONTH) + 1;
-                        int lDay = c.get(Calendar.DATE);
-
-                        String dateNow = Integer.valueOf(lYear) + " - " + clsMainMonth.months[Integer.valueOf(lMonth)] + " - " + Integer.valueOf(lDay);
-                        String tglLahirNumber = year+" - " + month + " - " + day ;
-
-//                        String tglLahir = day+" - " + month2 + " - " + year ;
-                        String tglLahir = etTglLhr.getText().toString();
-//                        final String tglLahir = year + "-" + month + "-" + day;
-                        if(tglLahirNumber.equals(dateNow)){
-                            tglLahir = "Not set";
-                        }
-
-                        tvTanggalLahir.setText(": "+ tglLahir);
-                        tvTelp.setText(": " + etTelpon.getText().toString());
-                        tvTelp2.setText(": " + etTelpon2.getText().toString());
-                        tvTelpKantor.setText(": " + etTelponKantor.getText().toString());
-                        tvAlamat.setText(": " + etAlamat.getText().toString());
-                        tvEmail.setText(": " + etEmail.getText().toString());
-                        tvPinBBM.setText(": " + etPinBBM.getText().toString());
-//                        }
-//                        else {
-//                            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutEmail, etEmail, "Email not valid");
-//                            new clsMainActivity().showCustomToast(getContext(), "Email not valid", false);
-//                        }
+                        boolean deleteDetailProduct = false;
+                        viewListPerson(deleteDetailProduct);
                     }
                 }
-                if (validate) {
-                    if (validate) {
-                    } else {
-                        new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "No telp harus diawali dengan 0");
-//                        new clsMainActivity().showCustomToast(getContext(), "no telp atau no kantor diawali angka 0", false);
-                    }
-                } else {
-//                    new clsMainActivity().showCustomToast(getContext(), "Nama, telp, or email cannot empty", false);
-                }
+//                if (validate) {
+//                    if (validate) {
+//                    } else {
+//                        new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "No telp harus diawali dengan 0");
+////                        new clsMainActivity().showCustomToast(getContext(), "no telp atau no kantor diawali angka 0", false);
+//                    }
+//                } else {
+////                    new clsMainActivity().showCustomToast(getContext(), "Nama, telp, or email cannot empty", false);
+//                }
 
                 break;
 
@@ -660,7 +577,132 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 AlertDialog alert = builder.create();
                 alert.show();
                 break;
+//            case R.id.btnSubmit:
+//                AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+//
+//                builder2.setTitle("Confirm");
+//                builder2.setMessage("Are you sure?");
+//
+//                builder2.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        submitCustomerBased();
+//                    }
+//                });
+//
+//                builder2.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                AlertDialog alert2 = builder2.create();
+//                alert2.show();
+//                break;
         }
+    }
+
+    private void submitCustomerBased() {
+        tCustomerBasedMobileHeaderData data = new tCustomerBasedMobileHeaderData();
+        data.set_intTrCustomerId(dtHeader.get_intTrCustomerId());
+        data.set_intSubmit("1");
+        new tCustomerBasedMobileHeaderBL().updateDataSubmit(data);
+        viewCustomerBaseFragment();
+    }
+
+    private void viewListPerson(boolean deleteDetailProduct){
+        dtHeader = new tCustomerBasedMobileHeaderBL().getDataByBitActive();
+
+        if(dtHeader.get_intTrCustomerId()==null&&!idTrCustomer.equals("null")){
+            dtHeader = new tCustomerBasedMobileHeaderBL().getDataById(idTrCustomer);
+        }
+
+        if(deleteDetailProduct){
+            List<tCustomerBasedMobileDetailData> tCustomerBasedMobileDetailDatas = new tCustomerBasedMobileDetailBL().getAllDataByHeaderId(dtHeader.get_intTrCustomerId());
+            if (tCustomerBasedMobileDetailDatas.size() > 0) {
+                for (tCustomerBasedMobileDetailData dataDetail : tCustomerBasedMobileDetailDatas) {
+                    List<tCustomerBasedMobileDetailProductData> listdetailProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dataDetail.get_intTrCustomerIdDetail());
+
+                    if (listdetailProduct.size() > 0) {
+                        for (tCustomerBasedMobileDetailProductData data : listdetailProduct) {
+                            new tCustomerBasedMobileDetailProductBL().deleteDataByProductId(data.get_intTrCustomerIdDetailProduct());
+                        }
+                    }
+                }
+            }
+        }
+
+        setTablePerson();
+        LinearLayout lnTop = (LinearLayout) v.findViewById(R.id.linearLayoutTop);
+        LinearLayout lnBottom = (LinearLayout) v.findViewById(R.id.linearLayoutBottom);
+
+
+
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+
+        imgReadMore.setTag(1);
+        imgReadMore.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+        row1.setVisibility(View.GONE);
+        row2.setVisibility(View.GONE);
+        row3.setVisibility(View.GONE);
+        row4.setVisibility(View.GONE);
+        row5.setVisibility(View.GONE);
+        row6.setVisibility(View.GONE);
+
+//                        if (isValidEmail(etEmail.getText().toString())) {
+        TextView tvCode = (TextView) v.findViewById(R.id.tvCode);
+        TextView tvNama = (TextView) v.findViewById(R.id.tvNamaPreview);
+        TextView tvGender = (TextView) v.findViewById(R.id.tvJenisKelamin);
+        TextView tvTanggalLahir = (TextView) v.findViewById(R.id.tvTanggalLahir);
+        TextView tvTelp = (TextView) v.findViewById(R.id.tvTelpPreview);
+        TextView tvTelp2 = (TextView) v.findViewById(R.id.tvTelpPreview2);
+        TextView tvTelpKantor = (TextView) v.findViewById(R.id.tvTelpKantor);
+        TextView tvAlamat = (TextView) v.findViewById(R.id.tvAlamatPreview);
+        TextView tvEmail = (TextView) v.findViewById(R.id.tvEmailPreview);
+        TextView tvPinBBM = (TextView) v.findViewById(R.id.tvPinBBM);
+
+        radioGenderGroup = (RadioGroup) v.findViewById(R.id.radioGender);
+
+        lnTop.setVisibility(View.GONE);
+        lnBottom.setVisibility(View.VISIBLE);
+
+        saveCustomerBaseHeader();
+
+        String typeSubmission = new tCustomerBasedMobileHeaderBL().getDataByBitActive().get_txtSubmissionCode();
+
+        tvCode.setText(": " + spnSubmissionCode.getSelectedItem().toString());
+        tvNama.setText(": " + etNama.getText().toString());
+
+        int selectedgender = radioGenderGroup.getCheckedRadioButtonId();
+        radioGenderButton = (RadioButton) v.findViewById(selectedgender);
+        tvGender.setText(": " + radioGenderButton.getText());
+
+        int day = dpHeader.getDayOfMonth();
+        int month = dpHeader.getMonth() + 1;
+        int year = dpHeader.getYear();
+        clsMainActivity clsMainMonth = new clsMainActivity();
+        String month2 = clsMainMonth.months[month];
+
+
+        String tglLahir = day+" - " + month2 + " - " + year ;
+
+
+//                        final String tglLahir = year + "-" + month + "-" + day;
+        String dob = etTglLhr.getText().toString().equals("") ? "Not Set" : etTglLhr.getText().toString();
+
+        tvTanggalLahir.setText(": "+ dob);
+        tvTelp.setText(": " + etTelpon.getText().toString());
+        tvTelp2.setText(": " + etTelpon2.getText().toString());
+        tvTelpKantor.setText(": " + etTelponKantor.getText().toString());
+        tvAlamat.setText(": " + etAlamat.getText().toString());
+        tvEmail.setText(": " + etEmail.getText().toString());
+        tvPinBBM.setText(": " + etPinBBM.getText().toString());
+//                        }
+//                        else {
+//                            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutEmail, etEmail, "Email not valid");
+//                            new clsMainActivity().showCustomToast(getContext(), "Email not valid", false);
+//                        }
     }
 
     private void viewCustomerBaseFragment() {
@@ -672,7 +714,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     }
 
     private void saveCustomerBase() {
-        Boolean status = new tCustomerBasedMobileHeaderBL().submit(getContext());
+        Boolean status = new tCustomerBasedMobileHeaderBL().save(getContext());
 
         if (status) {
             viewCustomerBaseFragment();
@@ -750,9 +792,9 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                     dataProductKompetitor.clear();
                     String txtProductDetailCode = null;
                     if (dataDetail.get_intPIC().equals("1")) {
-                        txtProductDetailCode = mProductPICDataList.get(position).get_txtProductDetailCode();
+                        txtProductDetailCode = mProductPICDataList.get(position-1).get_txtProductDetailCode();
                     }else{
-                        txtProductDetailCode = mProductSPGDataList.get(position).get_txtProductDetailCode();
+                        txtProductDetailCode = mProductSPGDataList.get(position-1).get_txtProductDetailCode();
                     }
 
                     List<mProductCompetitorData> listProductKompetitor = new mProductCompetitorBL().GetListDataByProductKN(txtProductDetailCode);
@@ -959,10 +1001,14 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                     tvTanggalLahir.setVisibility(View.VISIBLE);
                 }else if (stringDatedb.equals("null")) {
                     lnDp.setVisibility(View.VISIBLE);
+                    dp.setMaxDate(System.currentTimeMillis()-1);
                     dp.setMaxDate(System.currentTimeMillis()-24*60*60*1000);
                     trTanggalLahir.setVisibility(View.GONE);
                 }
-                tvJenisKelamin.setText(": " + dataDetail.get_txtGender());
+
+                String gender = dataDetail.get_txtGender().toString().equals("Laki-laki") ? "Male" : "Female";
+
+                tvJenisKelamin.setText(": " + gender);
                 if(dataDetail.get_txtGender().equals("Perempuan")){
                     lnHamil.setVisibility(View.VISIBLE);
                     usiaKehamilan.setText(dataDetail.get_txtUsiaKehamilan());
@@ -1127,7 +1173,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         }
                         int selectedId = radioGroupGender.getCheckedRadioButtonId();
                         RadioButton rbGender = (RadioButton) promptView.findViewById(selectedId);
-                        data.set_txtGender(rbGender.getText().toString());
+
+                        String gender = rbGender.getText().toString().equals("Male") ? "Laki-laki" : "Perempuan";
+
+                        data.set_txtGender(gender);
                         dtDetail.add(data);
                         new tCustomerBasedMobileDetailBL().saveData(data);
                         for (int i = 0; i < modelItems.size(); i++) {
@@ -1189,8 +1238,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             if (dtListDetail.get(i).get_intPIC().equals("1")) PIC = " (PIC)";
             else PIC = "";
 
-            swplist.set_txtTitle("Name \t \t \t \t \t \t: " + dtListDetail.get(i).get_txtNamaDepan() + PIC);
-            swplist.set_txtDescription("Gender \t: " + dtListDetail.get(i).get_txtGender());
+            String gender = dtListDetail.get(i).get_txtGender().toString().equals("Laki-laki") ? "Male" : "Female";
+
+            swplist.set_txtTitle("Name             : " + dtListDetail.get(i).get_txtNamaDepan() + PIC);
+            swplist.set_txtDescription("Gender           : " + gender);
             String tgl_lahir=dtListDetail.get(i).get_txtTglLahir();
             if (tgl_lahir.equals(dateNow) || tgl_lahir.equals("null") || tgl_lahir.equals("")){
                 tgl_lahir="not set";
@@ -1205,8 +1256,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 String month = clsMainMonth.months[Integer.parseInt(part2)];
                 tgl_lahir = part3+" - " + month + " - " + part1;
             }
-            swplist.set_txtDescription2("Date of Birth \t \t: " + tgl_lahir);
-            swplist.set_txtDescription3("Total Product \t \t: " + String.valueOf(totalProduct));
+            swplist.set_txtDescription2("Date of Birth : " + tgl_lahir);
+            swplist.set_txtDescription3("Total Product : " + String.valueOf(totalProduct));
             swipeList.add(swplist);
         }
 
@@ -1224,7 +1275,6 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 index++;
             }
         }
-
 
         clsMainActivity clsMain = new clsMainActivity();
 
@@ -1364,10 +1414,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         int year = dpHeader.getYear();
 
         String tgl = etTglLhr.getText().toString();
-        String[] parts = tgl.split("-");
-        String part1 = parts[0];//year
-        String part2 = parts[1];//month
-        String part3 = parts[2];//day
+//        String[] parts = tgl.split("-");
+//        String part1 = parts[0];//year
+//        String part2 = parts[1];//month
+//        String part3 = parts[2];//day
 
         clsMainActivity clsMainMonth = new clsMainActivity();
 //        String month2 = clsMainMonth.months[Integer.parseInt(part2]);
@@ -1378,33 +1428,38 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 month2 = i;
             }
         }*/
-        DateFormat oriForm = new SimpleDateFormat("dd - MMMM - yyyy", Locale.ENGLISH);
-        DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = oriForm.parse(tgl);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        String tglLahir = targetFormat.format(date);
+        String tglLahir = null;
+
+        if(!tgl.equals("")){
+            DateFormat oriForm = new SimpleDateFormat("dd - MMMM - yyyy", Locale.ENGLISH);
+            DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = null;
+            try {
+                date = oriForm.parse(tgl);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            tglLahir = targetFormat.format(date);
 
 //        String tglLahir = year + "-" + month + "-" + day;
 //        String tglLahir = part3 + "-" + month2 + "-" + part1;
 
-        Calendar c = Calendar.getInstance();
-        int lYear = c.get(Calendar.YEAR);
-        int lMonth = c.get(Calendar.MONTH) + 1;
-        int lDay = c.get(Calendar.DATE);
-        String dateNow = Integer.valueOf(lYear) + "-" + Integer.valueOf(lMonth) + "-" + Integer.valueOf(lDay);
-        if(dateNow.equals(tglLahir)){
-            tglLahir = null;
+            Calendar c = Calendar.getInstance();
+            int lYear = c.get(Calendar.YEAR);
+            int lMonth = c.get(Calendar.MONTH) + 1;
+            int lDay = c.get(Calendar.DATE);
+            String dateNow = Integer.valueOf(lYear) + "-" + Integer.valueOf(lMonth) + "-" + Integer.valueOf(lDay);
+            if(dateNow.equals(tglLahir)){
+                tglLahir = null;
+            }
+            dtHeader.set_txtTglLahir(tglLahir);
         }
-        dtHeader.set_txtTglLahir(tglLahir);
 
         int selectedId = radioGenderGroup.getCheckedRadioButtonId();
         RadioButton rbGender = (RadioButton) v.findViewById(selectedId);
 
-        dtHeader.set_txtGender(rbGender.getText().toString());
+        String genderFinal = rbGender.getText().toString().equals("Male") ? "Laki-laki" : "Perempuan";
+        dtHeader.set_txtGender(genderFinal);
 
         if (cbPIC.isChecked()) {
             tCustomerBasedMobileDetailData data = new tCustomerBasedMobileDetailBL().getAllDataByHeaderIdandintPIC(dtHeader.get_intTrCustomerId());
@@ -1417,7 +1472,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             }
 
             if(dtHeader.get_txtGender().equalsIgnoreCase("Laki-Laki")){
-                data.set_txtUsiaKehamilan(null);
+                data.set_txtUsiaKehamilan("");
             }
 
             data.set_intTrCustomerId(dtHeader.get_intTrCustomerId());
@@ -1426,7 +1481,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             data.set_intPIC("1");
             data.set_bitActive("0");
             data.set_dtInserted(dateFormat.format(cal.getTime()));
-            data.set_txtGender(rbGender.getText().toString());
+            data.set_txtGender(genderFinal);
             data.set_txtTglLahir(tglLahir);
 
             dtDetail.add(data);
@@ -1741,8 +1796,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "Telephone number beginning with the digits 0");
             validate = false;
         } else if (firstNotelp.equals("0")){
-            if(notelp.length()<4){
-                new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "telephone number at least 4 digits");
+            if(notelp.length()<8){
+                new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "telephone number at least 8 digits");
                 validate = false;
             } else if(notelp.length()>15){
                 new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp, etTelpon, "telephone number maximum 15 digits");
@@ -1755,8 +1810,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp2, etTelpon2, "Telephone number beginning with the digits 0");
             validate = false;
         } else if (secondNotelp.equals("0")){
-            if(notelp2.length()<4){
-                new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp2, etTelpon2, "telephone number at least 4 digits");
+            if(notelp2.length()<8){
+                new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp2, etTelpon2, "telephone number at least 8 digits");
                 validate = false;
             } else if(notelp2.length()>15){
                 new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelp2, etTelpon2, "telephone number maximum 15 digits");
@@ -1777,8 +1832,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelpKantor, etTelponKantor, "Telephone number beginning with the digits 0");
             validate = false;
         } else if (firstNotelpkantor != null && firstNotelpkantor.equals("0")){
-            if(notelpkantor.length()<4){
-                new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelpKantor, etTelponKantor, "telephone number at least 4 digits");
+            if(notelpkantor.length()<8){
+                new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelpKantor, etTelponKantor, "telephone number at least 8 digits");
                 validate = false;
             } else if(notelpkantor.length()>15){
                 new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTelpKantor, etTelponKantor, "telephone number maximum 15 digits");

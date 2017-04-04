@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Person Name" />
+        android:text="Consumer Name" />
 
     <EditText
         android:id="@+id/add_nama"
@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Product Kalbe Nutritionals" />
+        android:text="Product Kalbe" />
 
     <Spinner
         android:id="@+id/spn_kn_product"
@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Product Competitor" />
+        android:text="Previous Product" />
 
     <Spinner
         android:id="@+id/spn_cp_product"

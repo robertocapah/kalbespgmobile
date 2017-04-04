@@ -373,13 +373,13 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
                     alertDialogBuilder.setView(promptView);
                     alertDialogBuilder
                             .setCancelable(false)
-                            .setPositiveButton("Save",
+                            .setPositiveButton("Submit",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                                             alertDialog.setTitle("Confirm");
                                             alertDialog.setMessage("Are you sure?");
-                                            alertDialog.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
+                                            alertDialog.setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     saveReso();

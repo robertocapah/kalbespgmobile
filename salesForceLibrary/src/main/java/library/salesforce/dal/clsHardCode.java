@@ -168,6 +168,8 @@ public class clsHardCode  {
 	public String txtMessGetDetailPO = "Getting Detail PO..";
 	public String txtMessLogOut = "Logout..";
 	public String txtMessLogin = "Login..";
+	public String txtMessReset = "Reset..";
+	public String txtMessChangePass = "Change Password..";
 	public String txtMessDownloadBranch = "Download Branch";
 	public String txtMessDownloadOutlet = "Download Outlet";
 	public String txtMessDownloadProduct = "Download Product";

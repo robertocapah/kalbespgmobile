@@ -529,6 +529,51 @@ public class clsMainActivity extends Activity {
 
     }
 
+
+    public SwipeMenuCreator setCreatorForCusBased(final Context _ctx, final Map<String, HashMap> map) {
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+            @Override
+            public void create(SwipeMenu menu) {
+
+                HashMap<String, String> map2 = new HashMap<String, String>();
+
+                for (int i = 0; i < map.size(); i++) {
+                    map2 = map.get(String.valueOf(i));
+
+                    SwipeMenuItem menuItem = new SwipeMenuItem(_ctx);
+                    menuItem.setWidth(dp2px(_ctx, 90));
+
+                    if (map2.get("name") == "View") {
+                        int icon = R.drawable.ic_view;
+                        menuItem.setIcon(icon);
+                        menuItem.setBackground(new ColorDrawable(Color.parseColor("#16a085")));
+                    } else if (map2.get("name") == "Edit") {
+                        int icon = R.drawable.ic_edit_white;
+                        menuItem.setIcon(icon);
+                        if(map2.get("status") == "Sync"){
+                            menuItem.setBackground(new ColorDrawable(Color.parseColor("#bfbfbf")));
+                        } else {
+                            menuItem.setBackground(new ColorDrawable(Color.parseColor("#2980b9")));
+                        }
+                    } else if (map2.get("name") == "Delete") {
+                        int icon = R.drawable.ic_delete_white;
+                        menuItem.setIcon(icon);
+                        if(map2.get("status") == "Sync"){
+                            menuItem.setBackground(new ColorDrawable(Color.parseColor("#bfbfbf")));
+                        } else {
+                            menuItem.setBackground(new ColorDrawable(Color.parseColor("#c0392b")));
+                        }
+                    }
+                    menu.addMenuItem(menuItem);
+                }
+            }
+        };
+
+        return creator;
+
+    }
+
     public com.baoyz.swipemenulistview.SwipeMenuCreator setCreatorListView(final Context _ctx, final Map<String, HashMap> map) {
         com.baoyz.swipemenulistview.SwipeMenuCreator creator = new com.baoyz.swipemenulistview.SwipeMenuCreator() {
 

@@ -91,6 +91,7 @@ public class Login extends clsMainActivity {
     private String txtPassword;
     private String[] arrdefaultBranch = new String[]{"-"};
     private String[] arrdefaultOutlet = new String[]{"-"};
+    private String userName="";
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -351,6 +352,8 @@ public class Login extends clsMainActivity {
         AsyncCallAppVesion task = new AsyncCallAppVesion();
         task.execute();
     }
+
+    private android.support.v7.app.AlertDialog alertDialog;
     private void resetAccount(){
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View promptView = inflater.inflate(R.layout.fragment_reset_password, null);
@@ -366,13 +369,15 @@ public class Login extends clsMainActivity {
                 if(etEmail.getText().toString().equals("")){
                     new clsMainActivity().setErrorMessage(getApplicationContext(), tiEmail, etEmail, "Email cannot empty");
                 }else if(!etEmail.getText().toString().equals("")){
-                    new clsMainActivity().showCustomToast(getApplicationContext(), "Email not found", false);
+                    userName = etEmail.getText().toString();
+                    AsyncCallReset task = new AsyncCallReset();
+                    task.execute();
                 }
             }
         });
         android.support.v7.app.AlertDialog.Builder alertBuilder = new android.support.v7.app.AlertDialog.Builder(this);
         alertBuilder.setView(promptView);
-        final android.support.v7.app.AlertDialog alertDialog = alertBuilder.create();
+        alertDialog = alertBuilder.create();
         alertBuilder.setCancelable(false);
         alertDialog.show();
     }
@@ -913,5 +918,72 @@ public class Login extends clsMainActivity {
                 startActivity(intent);
             }
         }
+    }
+
+    private class AsyncCallReset extends AsyncTask<JSONArray, Void, JSONArray> {
+        @Override
+        protected JSONArray doInBackground(JSONArray... params) {
+            JSONArray Json=null;
+            try {
+                Json= new tUserLoginBL().resetPassword(String.valueOf(userName), pInfo.versionName);
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return Json ;
+        }
+
+        private ProgressDialog Dialog = new ProgressDialog(Login.this);
+        @Override
+        protected void onCancelled() {
+            Dialog.dismiss();
+            showCustomToast(Login.this, new clsHardCode().txtMessCancelRequest, false);
+        }
+        @Override
+        protected void onPostExecute(JSONArray roledata) {
+            if (roledata.size() > 0){
+                Iterator i = roledata.iterator();
+                while (i.hasNext()) {
+                    JSONObject innerObj = (JSONObject) i.next();
+                    Long IntResult=(Long) innerObj.get("_pboolValid");
+                    String PstrMessage=(String) innerObj.get("_pstrMessage");
+
+                    if(IntResult == 1){
+                        showCustomToast(Login.this, PstrMessage, true);
+                        alertDialog.dismiss();
+                    }else{
+                        showCustomToast(Login.this, "Failed"+PstrMessage, false);
+                    }
+                }
+            }else{
+                if(intProcesscancel==1){
+                    onCancelled();
+                }else{
+                    showCustomToast(Login.this, new clsHardCode().txtMessDataNotFound, false);
+                }
+            }
+            Dialog.dismiss();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            //Make ProgressBar invisible
+            //pg.setVisibility(View.VISIBLE);
+            Dialog.setMessage(new clsHardCode().txtMessReset);
+            Dialog.setCancelable(false);
+            Dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    intProcesscancel=1;
+                }
+            });
+            Dialog.show();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            Dialog.dismiss();
+        }
+
     }
 }

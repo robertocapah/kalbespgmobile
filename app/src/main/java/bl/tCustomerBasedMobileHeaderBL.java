@@ -40,9 +40,25 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
         _tCustomerBasedMobileHeaderDA.SaveDatatCustomerBasedMobileHeaderData(_db, dt);
     }
 
+    public void deleteTrId(String intTrCustomerId) {
+        SQLiteDatabase _db=getDb();
+        new tCustomerBasedMobileHeaderDA(_db).deleteByID(_db, intTrCustomerId);
+    }
+
+    public void updateDataSubmit(tCustomerBasedMobileHeaderData dt) {
+        SQLiteDatabase _db = getDb();
+        tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(_db);
+        _tCustomerBasedMobileHeaderDA.updateDataSubmit(_db, dt);
+    }
+
     public tCustomerBasedMobileHeaderData getDataByBitActive() {
         SQLiteDatabase _db = getDb();
         tCustomerBasedMobileHeaderData dt = new tCustomerBasedMobileHeaderDA(_db).getDataByBitActive(_db);
+        return dt;
+    }
+    public tCustomerBasedMobileHeaderData getDataById(String idTrCustomer) {
+        SQLiteDatabase _db = getDb();
+        tCustomerBasedMobileHeaderData dt = new tCustomerBasedMobileHeaderDA(_db).getData(_db, idTrCustomer);
         return dt;
     }
 
@@ -72,7 +88,7 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
         return dt;
     }
 
-    public Boolean submit(Context context) {
+    public Boolean save(Context context) {
         SQLiteDatabase _db = getDb();
 
         Calendar c = Calendar.getInstance();
@@ -107,7 +123,7 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
 
         if (status) {
             dtHeader.set_bitActive("1");
-            dtHeader.set_intSubmit("1");
+            dtHeader.set_intSubmit("0");
             new tCustomerBasedMobileHeaderDA(_db).SaveDatatCustomerBasedMobileHeaderData(_db, dtHeader);
 
             List<tCustomerBasedMobileDetailData> dtDetail = new tCustomerBasedMobileDetailBL().getAllDataByHeaderId(dtHeader.get_intTrCustomerId());

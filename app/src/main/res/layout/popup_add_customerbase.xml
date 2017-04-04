@@ -29,13 +29,13 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginLeft="5dp"
-                        android:text="Nama" />
+                        android:text="Name" />
                     <TextView
                         android:id="@+id/tvNamaPopUp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Nama" />
+                        android:text="Name" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -53,14 +53,14 @@
                     android:layout_weight="1"
                     android:layout_marginLeft="5dp"
                     android:width="150dp"
-                    android:text="Jenis Kelamin" />
+                    android:text="Gender" />
                 <TextView
                     android:id="@+id/tvJenisKelamin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:width="300dp"
-                    android:text="jeniskelamin" />
+                    android:text="Gender" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -80,14 +80,14 @@
                     android:id="@+id/tvTvTanggalLahir"
                     android:layout_marginLeft="5dp"
                     android:width="150dp"
-                    android:text="Tanggal lahir" />
+                    android:text="Date of Birth" />
                 <TextView
                     android:id="@+id/tvTanggalLahir"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:width="300dp"
-                    android:text="tgl lahir" />
+                    android:text="Date of Birth" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Nama *" />
+            android:text="Consumer Name *" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_nama"
@@ -139,7 +139,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:id="@+id/tv_dp_tgl_lahir"
-            android:text="Tanggal Lahir *" />
+            android:text="Date of Birth *" />
 
             <DatePicker
                 android:id="@+id/dp_tgl_lahir"
@@ -161,7 +161,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Jenis Kelamin *" />
+            android:text="Gender *" />
 
         <RadioGroup
             android:id="@+id/radioGender"
@@ -174,13 +174,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Laki-Laki" />
+                android:text="Male" />
 
             <RadioButton
                 android:id="@+id/radioFemale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Perempuan" />
+                android:text="Female" />
 
         </RadioGroup>
 
@@ -197,7 +197,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Usia Kehamilan (Optional)"
+                android:text="Gestation (Optional)"
                 android:layout_marginTop="10dp"/>
 
             <LinearLayout

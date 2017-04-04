@@ -43,7 +43,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Code" />
+                        android:text="Submission Type" />
                     <TextView
                         android:id="@+id/tvSubmissionId"
                         android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nama" />
+                        android:text="Name" />
                     <TextView
                         android:id="@+id/tvNama"
                         android:layout_width="wrap_content"
@@ -70,7 +70,49 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Telp" />
+                        android:text="Gender" />
+                    <TextView
+                        android:id="@+id/tvGender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                </TableRow>
+                <TableRow
+                    android:background="#ffffff"
+                    android:visibility="gone"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="Date of Birth" />
+                    <TextView
+                        android:id="@+id/tvDob"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                </TableRow>
+                <TableRow
+                    android:background="#ffffff"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Address" />
+                    <TextView
+                        android:id="@+id/tvAlamat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                </TableRow>
+                <TableRow
+                    android:background="#ffffff"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Phone" />
                     <TextView
                         android:id="@+id/tvTelp"
                         android:layout_width="wrap_content"
@@ -83,9 +125,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Telp Kantor" />
+                        android:text="Phone 2" />
                     <TextView
-                        android:id="@+id/tvTelpKantor"
+                        android:id="@+id/tvTelp2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
@@ -96,9 +138,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Email" />
+                        android:text="Office Phone Number" />
                     <TextView
-                        android:id="@+id/tvEmail"
+                        android:id="@+id/tvTelpKantor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
@@ -122,9 +164,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Alamat" />
+                        android:text="Email" />
                     <TextView
-                        android:id="@+id/tvAlamat"
+                        android:id="@+id/tvEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
@@ -135,7 +177,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="PIC Pelanggan" />
+                        android:text="Consumers" />
                     <TextView
                         android:id="@+id/tvPicPelanggan"
                         android:layout_width="wrap_content"
@@ -160,7 +202,7 @@
                         android:padding="10dp"
                         android:background="@color/colorAccent"
                         android:textColor="#fff"
-                        android:text="Nama"
+                        android:text="Name"
                         android:gravity="center"/>
 
                     <TextView
@@ -170,7 +212,7 @@
                         android:padding="10dp"
                         android:background="@color/colorAccent"
                         android:textColor="#fff"
-                        android:text="Produk"
+                        android:text="Product"
                         android:gravity="center"/>
                 </TableRow>
             </TableLayout>

@@ -1,6 +1,10 @@
 package com.kalbenutritionals.app.kalbespgmobile;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -16,6 +20,16 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+
+import java.util.Iterator;
+
+import bl.tUserLoginBL;
+import library.salesforce.common.tUserLoginData;
+import library.salesforce.dal.clsHardCode;
+
 /**
  * Created by Robert on 03/04/2017.
  */
@@ -25,12 +39,25 @@ public class FragmentSettings extends Fragment {
     View v;
 
     String[] menuList = {"Ubah Password"};
+    String userName, oldPassword, newPassword = "";
+    private PackageInfo pInfo = null;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_settings, null);
         ArrayAdapter arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.activity_listview_settings, menuList);
+
+        tUserLoginData dt = new tUserLoginBL().getUserActive();
+
+        userName = dt.get_txtUserName().toString();
+
+
+        try {
+            pInfo = getContext().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         ListView listView = (ListView) v.findViewById(R.id.menu_list);
         listView.setAdapter(arrayAdapter);
@@ -157,11 +184,139 @@ public class FragmentSettings extends Fragment {
                 }
 
                 if(validate){
+                    oldPassword = passLama.getText().toString();
+                    newPassword = passBaru1.getText().toString();
+                    AsyncCallChangePassword task = new AsyncCallChangePassword();
+                    task.execute();
                     alertDialog.dismiss();
-                    new clsMainActivity().showCustomToast(getContext(), "Password telah di ubah", true);
+//                    new clsMainActivity().showCustomToast(getContext(), "Password telah di ubah", true);
                 }
             }
         });
     }
 
+    int intProcesscancel = 0;
+    private class AsyncCallChangePassword extends AsyncTask<JSONArray, Void, JSONArray> {
+        @Override
+        protected JSONArray doInBackground(JSONArray... params) {
+//            android.os.Debug.waitForDebugger();
+            JSONArray Json=null;
+            try {
+                Json= new tUserLoginBL().changePassword(String.valueOf(userName), newPassword, oldPassword, pInfo.versionName);
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return Json ;
+        }
+
+        private ProgressDialog Dialog = new ProgressDialog(getContext());
+        @Override
+        protected void onCancelled() {
+            Dialog.dismiss();
+            new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessCancelRequest, false);
+        }
+        @Override
+        protected void onPostExecute(JSONArray roledata) {
+            if ( roledata!=null&&roledata.size() > 0){
+                Iterator i = roledata.iterator();
+                while (i.hasNext()) {
+                    JSONObject innerObj = (JSONObject) i.next();
+                    Long IntResult=(Long) innerObj.get("_pboolValid");
+                    String PstrMessage=(String) innerObj.get("_pstrMessage");
+
+                    if(IntResult == 1){
+//                        tUserLoginData _tUserLoginData=new tUserLoginData();
+//                        new mCounterNumberBL().saveDateTimeServer((String) innerObj.get("DatetimeNow"));
+//                        _tUserLoginData.set_intId(1);
+//                        _tUserLoginData.set_txtCab((String) innerObj.get("TxtCab"));
+//                        _tUserLoginData.set_txtDataId((String) innerObj.get("TxtDataId"));
+//                        _tUserLoginData.set_txtDeviceId((String) innerObj.get("TxtDeviceId"));
+//                        _tUserLoginData.set_TxtEmail((String) innerObj.get("TxtEmail"));
+//                        _tUserLoginData.set_TxtEmpId((String) innerObj.get("TxtEmpId"));
+//                        _tUserLoginData.set_txtName((String) innerObj.get("TxtName"));
+//                        _tUserLoginData.set_txtPassword((String) innerObj.get("TxtPassword"));
+//                        _tUserLoginData.set_txtPathImage((String) innerObj.get("TxtPathImage"));
+//                        _tUserLoginData.set_txtRoleId((String) innerObj.get("TxtRoleId"));
+//                        _tUserLoginData.set_txtRoleName((String) innerObj.get("TxtRoleName"));
+//                        _tUserLoginData.set_txtUserId((String) innerObj.get("TxtUserId"));
+//                        _tUserLoginData.set_txtUserName((String) innerObj.get("TxtUserName"));
+//                        _tUserLoginData.set_dtLastLogin((String) innerObj.get("DtLastLogin"));
+//                        _tUserLoginData.set_txtOutletCode((String) innerObj.get("TxtOutletCode"));
+//                        _tUserLoginData.set_txtOutletName((String) innerObj.get("TxtOutletName"));
+//                        _tUserLoginData.set_txtBranchCode((String) innerObj.get("TxtBranchCode"));
+//                        _tUserLoginData.set_txtSubmissionID((String) innerObj.get("TxtSubmissonId"));
+//                        _tUserLoginData.set_txtCheckLocation((String) innerObj.get("TDeviceInfoUser_mobile"));
+//
+//                        String TxtSubmissonId = (String) innerObj.get("TxtSubmissonId");
+//                        if(TxtSubmissonId.equals("")||TxtSubmissonId==null){
+//                            showCustomToast(Login.this, new clsHardCode().txtMessDataSubmissionIdNotFound, false);
+//                            Dialog.dismiss();
+//                            return;
+//                        }
+//
+//                        new tDeviceInfoUserBL().SaveInfoDevice(_tUserLoginData.get_TxtEmpId(), _tUserLoginData.get_txtDeviceId());
+//                        new tUserLoginBL().saveData(_tUserLoginData);
+//
+////                        String nameOutlet = spnOutlet.getSelectedItem().toString();
+////                        new mEmployeeAreaBL().DeleteEmployeeNotInId(HMOutletCode.get(nameOutlet));
+//
+//                        JSONArray JsonArrayDetail=(JSONArray) innerObj.get("ListOfMWebMenuAPI");
+//                        Iterator iDetail = JsonArrayDetail.iterator();
+//                        List<mMenuData> listData=new ArrayList<mMenuData>();
+//                        while (iDetail.hasNext()) {
+//                            JSONObject innerObjDetail = (JSONObject) iDetail.next();
+//                            mMenuData data=new mMenuData();
+//                            data.set_IntMenuID(String.valueOf((Long) innerObjDetail.get("IntMenuID")));
+//                            data.set_IntOrder((Long) innerObjDetail.get("IntOrder"));
+//                            data.set_IntParentID((Long) innerObjDetail.get("IntParentID"));
+//                            data.set_TxtDescription((String) innerObjDetail.get("TxtDescription"));
+//                            data.set_TxtLink((String) innerObjDetail.get("TxtLink"));
+//                            data.set_TxtMenuName((String) innerObjDetail.get("TxtMenuName"));
+//                            listData.add(data);
+//                        }
+//                        new mMenuBL().SaveData(listData);
+////                        startService(new Intent(Login.this, MyServiceNative.class));
+//                        finish();
+//                        Intent myIntent = new Intent(Login.this, MainMenu.class);
+//                        myIntent.putExtra("keyMainMenu", "main_menu");
+//                        startActivity(myIntent);
+                        new clsMainActivity().showCustomToast(getContext(), PstrMessage, true);
+                    }else{
+                        new clsMainActivity().showCustomToast(getContext(), PstrMessage, false);
+                    }
+                }
+
+            }else{
+                if(intProcesscancel==1){
+                    onCancelled();
+                }else{
+                    new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessNetworkOffline, false);
+                }
+
+            }
+            Dialog.dismiss();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            //Make ProgressBar invisible
+            //pg.setVisibility(View.VISIBLE);
+            Dialog.setMessage(new clsHardCode().txtMessChangePass);
+            Dialog.setCancelable(false);
+            Dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    intProcesscancel=1;
+                }
+            });
+            Dialog.show();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            Dialog.dismiss();
+        }
+
+    }
 }

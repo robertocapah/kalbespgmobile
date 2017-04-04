@@ -195,7 +195,7 @@ public class FragmentAddActvitySPG extends Fragment implements View.OnClickListe
                     final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                     alertDialog.setTitle("Confirm");
                     alertDialog.setMessage("Are you sure?");
-                    alertDialog.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
+                    alertDialog.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 

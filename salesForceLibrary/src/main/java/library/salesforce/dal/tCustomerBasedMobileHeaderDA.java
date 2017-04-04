@@ -1,5 +1,6 @@
 package library.salesforce.dal;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -209,7 +210,7 @@ public class tCustomerBasedMobileHeaderDA {
         // Select All Query
         tCustomerBasedMobileHeaderData dt = new tCustomerBasedMobileHeaderData();
 
-        String selectQuery = "SELECT  " + dt.Property_ALL + " FROM " + TABLE_NAME + " WHERE " + dt.Property_intSubmit + "='1' AND bitActive='1' ORDER BY txtSubmissionId DESC";
+        String selectQuery = "SELECT  " + dt.Property_ALL + " FROM " + TABLE_NAME + " WHERE " + dt.Property_bitActive + "='1' ORDER BY txtSubmissionId DESC";
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -413,8 +414,8 @@ public class tCustomerBasedMobileHeaderDA {
         // Select All Query
         tCustomerBasedMobileHeaderData dt = new tCustomerBasedMobileHeaderData();
 
-        String selectQuery = "SELECT  " + dt.Property_ALL + " FROM " + TABLE_NAME + " WHERE " + dt.Property_txtSumberData + "='" + code + "'" + " AND " + dt.Property_intSubmit + " ='1' AND bitActive = '1' ORDER BY txtSubmissionId DESC ";
-
+//        String selectQuery = "SELECT  " + dt.Property_ALL + " FROM " + TABLE_NAME + " WHERE " + dt.Property_txtSumberData + "='" + code + "'" + " AND " + dt.Property_intSubmit + " ='1' AND bitActive = '1' ORDER BY txtSubmissionId DESC ";
+        String selectQuery = "SELECT  " + dt.Property_ALL + " FROM " + TABLE_NAME + " WHERE " + dt.Property_txtSumberData + "='" + code + "'" + " AND bitActive='1' ORDER BY txtSubmissionId DESC ";
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
@@ -747,5 +748,16 @@ public class tCustomerBasedMobileHeaderDA {
         cursor.close();
         // return contact list
         return contactList;
+    }
+
+    public int updateDataSubmit(SQLiteDatabase db, tCustomerBasedMobileHeaderData data) {
+        tCustomerBasedMobileHeaderData dt = new tCustomerBasedMobileHeaderData();
+
+        ContentValues values = new ContentValues();
+        values.put(dt.Property_intSubmit, "1");
+
+        // updating row
+        return db.update(TABLE_NAME, values, dt.Property_intTrCustomerId + " = ? ",
+                new String[] { String.valueOf(data.get_intTrCustomerId()) });
     }
 }
