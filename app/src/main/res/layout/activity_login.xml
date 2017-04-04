@@ -135,7 +135,18 @@ android:fillViewport="true">
             android:textStyle="bold"
             android:id="@+id/buttonPing"
             android:layout_marginTop="5dp"
-            android:background="@drawable/btn_on_click"/>
+            android:background="@drawable/btn_on_click"
+            android:visibility="gone"/>
+        <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Forgot password"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textStyle="bold"
+        android:id="@+id/button_reset"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/btn_on_click"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

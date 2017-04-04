@@ -13,6 +13,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.StrictMode;
+import android.support.design.widget.TextInputLayout;
+import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
@@ -328,6 +330,14 @@ public class Login extends clsMainActivity {
                 }
             }
         });
+        Button btnResetPass = (Button) findViewById(R.id.button_reset);
+        btnResetPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetAccount();
+            }
+        });
+
         ArrayAdapter<String> adapterspnBranch = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, arrdefaultBranch);
         spnRole.setAdapter(adapterspnBranch);
@@ -340,6 +350,31 @@ public class Login extends clsMainActivity {
 
         AsyncCallAppVesion task = new AsyncCallAppVesion();
         task.execute();
+    }
+    private void resetAccount(){
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View promptView = inflater.inflate(R.layout.fragment_reset_password, null);
+        final EditText etEmail = (EditText) promptView.findViewById(R.id.et_email_reset);
+        final TextInputLayout tiEmail = (TextInputLayout) promptView.findViewById(R.id.input_layout_email_reset);
+        etEmail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+
+        Button btnReset = (Button) promptView.findViewById(R.id.button_reset);
+        new clsMainActivity().removeErrorMessage(tiEmail);
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(etEmail.getText().toString().equals("")){
+                    new clsMainActivity().setErrorMessage(getApplicationContext(), tiEmail, etEmail, "Email cannot empty");
+                }else if(!etEmail.getText().toString().equals("")){
+                    new clsMainActivity().showCustomToast(getApplicationContext(), "Email not found", false);
+                }
+            }
+        });
+        android.support.v7.app.AlertDialog.Builder alertBuilder = new android.support.v7.app.AlertDialog.Builder(this);
+        alertBuilder.setView(promptView);
+        final android.support.v7.app.AlertDialog alertDialog = alertBuilder.create();
+        alertBuilder.setCancelable(false);
+        alertDialog.show();
     }
 
     int intProcesscancel = 0;
