@@ -379,6 +379,19 @@ public class    MainMenu extends AppCompatActivity implements View.OnClickListen
 
                         return true;
 
+                    case R.id.settings:
+                        toolbar.setTitle("Settings");
+
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+
+                        FragmentSettings fragmentSettings = new FragmentSettings();
+                        FragmentTransaction fragmentTransactionSettings = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactionSettings.replace(R.id.frame, fragmentSettings);
+                        fragmentTransactionSettings.commit();
+                        selectedId = 99;
+
+                        return true;
+
 //                    case R.id.information:
 //                        toolbar.setTitle("Information");
 //

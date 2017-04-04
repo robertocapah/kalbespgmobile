@@ -283,6 +283,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
         lblAcc.setText("");
         MenuID = "mnAbsenKBN";
 
+
         final mMenuData dtmenuData = new mMenuBL().getMenuDataByMenuName(MenuID);
         btnRefreshMaps.setOnClickListener(new OnClickListener() {
             @Override
@@ -350,7 +351,6 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                             finalMMap.setOnCameraChangeListener(null);
                         }
                     });
-
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                     alertDialogBuilder.setView(promptView);
@@ -455,6 +455,7 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                 dttAbsenUserData.set_intSubmit("0");
                 dttAbsenUserData.set_intSync("0");
                 dttAbsenUserData.set_txtAbsen("0");//
+                dttAbsenUserData.set_dtDateCheckOut("-");
                 dttAbsenUserData.set_txtAccuracy(lblAcc.getText().toString());
                 dttAbsenUserData.set_txtBranchCode(branchCode);
                 dttAbsenUserData.set_txtBranchName(nameBranch);
@@ -507,13 +508,16 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
             lblAcc.setText(dttAbsenUserData.get_txtAccuracy());
             lblLang.setText(dttAbsenUserData.get_txtLatitude());
             lblLong.setText(dttAbsenUserData.get_txtLongitude());
+//            MapsInitializer.initialize(getContext().getApplicationContext());
+
 
             double latitude = Double.valueOf(lblLang.getText().toString());
             double longitude = Double.valueOf(lblLong.getText().toString());
             MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Updating Location!");
             marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+            initilizeMap();
             try {
-                initilizeMap();
+
                 // Changing map type
                 mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 

@@ -98,8 +98,13 @@ public class FragmentPushData extends Fragment {
         btnPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AsyncCallRole task=new AsyncCallRole();
-                task.execute();
+                if (tlAbsen.getChildCount()>1){
+                    AsyncCallRole task=new AsyncCallRole();
+                    task.execute();
+                }else{
+                    new clsMainActivity().showCustomToast(getContext(), "Table kosong", false);
+                }
+
 //                AsyncCallLogOut task2= new AsyncCallLogOut();
 //                task.execute();
             }
