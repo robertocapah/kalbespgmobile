@@ -202,7 +202,7 @@ public class FragmentSettings extends Fragment {
 //            android.os.Debug.waitForDebugger();
             JSONArray Json=null;
             try {
-                Json= new tUserLoginBL().changePassword(String.valueOf(userName), newPassword, oldPassword, pInfo.versionName);
+                Json= new tUserLoginBL().changePassword(String.valueOf(userName), oldPassword, newPassword, pInfo.versionName);
             } catch (ParseException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

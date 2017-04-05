@@ -42,14 +42,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|right"-->
+        <!--android:layout_marginBottom="34dp"-->
+        <!--android:layout_marginRight="28dp"-->
+        <!--android:src="@drawable/ic_add_white_48dp"-->
+        <!--app:layout_anchorGravity="bottom|right|end" />-->
+
+
+    <io.github.yavski.fabspeeddial.FabSpeedDial
+        android:id="@+id/fabView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="34dp"
-        android:layout_marginRight="28dp"
-        android:src="@drawable/ic_add_white_48dp"
-        app:layout_anchorGravity="bottom|right|end" />
+        android:layout_gravity="bottom|end"
+        app:fabGravity="bottom_end"
+        app:fabMenu="@menu/menu_main_view_cb"
+        app:miniFabBackgroundTint="@android:color/white"
+        app:miniFabDrawableTint="@color/black"
+        app:miniFabTitleTextColor="@color/black"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        app:touchGuardDrawable="#B3000000"/>
 
 </android.support.design.widget.CoordinatorLayout>

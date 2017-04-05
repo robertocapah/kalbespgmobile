@@ -8,12 +8,14 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +43,8 @@ import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.bean.SwipeMenu;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.SwipeMenuCreator;
 import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
+import io.github.yavski.fabspeeddial.FabSpeedDial;
+import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 import library.salesforce.common.AppAdapter;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.mTypeSubmissionMobile;
@@ -70,23 +74,59 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
 
         v = inflater.inflate(R.layout.fragment_customerbase_view, container, false);
 
-        fab = (FloatingActionButton) v.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-                toolbar.setTitle("Add Customer Base SPG");
+//        fab = (FloatingActionButton) v.findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+//                toolbar.setTitle("Add Customer Base SPG");
+//
+//                FragmentAddCustomerBaseSPG fragmentAddCustomerBaseSPG = new FragmentAddCustomerBaseSPG();
+//                Bundle args = new Bundle();
+//                args.putString("idTrCustomer", "null");
+//                args.putString("param", "null");
+//                fragmentAddCustomerBaseSPG.setArguments(args);
+//                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//                fragmentTransaction.replace(R.id.frame, fragmentAddCustomerBaseSPG);
+//                fragmentTransaction.commit();
+//            }
+//        });
 
-                FragmentAddCustomerBaseSPG fragmentAddCustomerBaseSPG = new FragmentAddCustomerBaseSPG();
-                Bundle args = new Bundle();
-                args.putString("idTrCustomer", "null");
-                args.putString("param", "null");
-                fragmentAddCustomerBaseSPG.setArguments(args);
+        final FabSpeedDial fab = (FabSpeedDial) v.findViewById(R.id.fabView);
+
+        fab.setMenuListener(new SimpleMenuListenerAdapter() {
+            @Override
+            public boolean onMenuItemSelected(MenuItem menuItem) {
+                Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+                NavigationView nv = (NavigationView) getActivity().findViewById(R.id.navigation_view);
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frame, fragmentAddCustomerBaseSPG);
-                fragmentTransaction.commit();
+
+                switch(menuItem.getItemId()){
+
+                    case R.id.action_add_customerbase:
+                        toolbar.setTitle("Add Customer Base SPG");
+                        nv.setCheckedItem(0);
+                        FragmentAddCustomerBaseSPG fragmentAddCustomerBaseSPG = new FragmentAddCustomerBaseSPG();
+                        Bundle args = new Bundle();
+                        args.putString("idTrCustomer", "null");
+                        args.putString("param", "null");
+                        fragmentAddCustomerBaseSPG.setArguments(args);
+                        fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frame, fragmentAddCustomerBaseSPG);
+                        fragmentTransaction.commit();
+                        return true;
+
+                    case R.id.action_submitAll:
+                        nv.setCheckedItem(1);
+                        new clsMainActivity().showCustomToast(getContext(), "submit", true);
+                        return true;
+
+                    default:
+                        return false;
+                }
             }
         });
+
         final PullToRefreshSwipeMenuListView swipeMenuList = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.SwipelistView);
         swipeMenuList.setPullRefreshEnable(true);
         final CoordinatorLayout coordinatorLayout= (CoordinatorLayout) v.findViewById(R.id.main_content);

@@ -162,8 +162,8 @@ public class tUserLoginBL extends clsMainBL{
 		//String txtParam= txtDomain+"|"+txtUserName+"|"+txtPass+"||"+dt.get_txtVersion()+"|"+dt.get_txtDevice()+"|"+dt.get_txtModel()+"|"+intRoleId;
 		JSONObject resJson = new JSONObject();
 		resJson.put("txtUserID", txtUserName);
-		resJson.put("ptxtPasswordOLD", txtUserName);
-		resJson.put("ptxtPasswordNEW", txtUserName);
+		resJson.put("ptxtPasswordOLD", oldPass);
+		resJson.put("ptxtPasswordNEW", newPass);
 		linkAPI dtlinkAPI=new linkAPI();
 		dtlinkAPI.set_txtMethod("ChangePassword");
 		dtlinkAPI.set_txtParam("");
