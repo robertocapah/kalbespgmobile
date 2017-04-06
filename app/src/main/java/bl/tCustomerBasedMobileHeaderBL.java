@@ -73,6 +73,17 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
         return dt;
     }
 
+    public List<tCustomerBasedMobileHeaderData> getAllCustomerBasedMobileHeaderByOutletCodeUnsubmit(String code) {
+        SQLiteDatabase _db = getDb();
+        List<tCustomerBasedMobileHeaderData> dt;
+        tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(_db);
+        dt = _tCustomerBasedMobileHeaderDA.getAllDataByOutletCodeUnsubmit(_db, code);
+        if (dt == null) {
+            dt = new ArrayList<>(0);
+        }
+        return dt;
+    }
+
     public List<tCustomerBasedMobileHeaderData> getAllCustomerBasedMobileHeaderByOutletCodeReporting(String code) {
         SQLiteDatabase _db = getDb();
         List<tCustomerBasedMobileHeaderData> dt;
@@ -106,12 +117,12 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
                 for (tCustomerBasedMobileDetailData dt : dtDetail) {
                     List<tCustomerBasedMobileDetailProductData> dtProduct = new tCustomerBasedMobileDetailProductBL().getDataByCustomerDetailId(dt.get_intTrCustomerIdDetail());
                     if(dt.get_txtTglLahir().equals(dateNow) || dt.get_txtTglLahir() == null || dt.get_txtTglLahir().equals("null") || dt.get_txtTglLahir().equals("")){
-                        new clsMainActivity().showCustomToast(context, "Failed to save: " + dt.get_txtNamaDepan() + " belum set tanggal lahir", false);
+                        new clsMainActivity().showCustomToast(context, "Failed to save: \n" + dt.get_txtNamaDepan() + "'s Date of birth has not been set", false);
                         status = false;
                         break;
                     }
                     if (dtProduct == null || dtProduct.size() == 0) {
-                        new clsMainActivity().showCustomToast(context, "Failed to save: " + dt.get_txtNamaDepan() + " belum memiliki produk", false);
+                        new clsMainActivity().showCustomToast(context, "Failed to save: \n" + dt.get_txtNamaDepan() + "'s product usage has not defined", false);
                         status = false;
                         break;
                     } else {

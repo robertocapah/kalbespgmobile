@@ -121,6 +121,9 @@ public class FragmentViewHistoryAbsen extends Fragment implements IXListViewList
                         toolbar.setTitle("Add Customer Base SPG");
                         nv.setCheckedItem(2);
                         FragmentAddCustomerBaseSPG fragmentAddCustomerBaseSPG = new FragmentAddCustomerBaseSPG();
+                        Bundle args = new Bundle();
+                        args.putString("idTrCustomer", "null");
+                        args.putString("param", "null");
                         fragmentTransaction.replace(R.id.frame, fragmentAddCustomerBaseSPG);
                         fragmentTransaction.commit();
                         return true;

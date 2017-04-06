@@ -78,7 +78,7 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_customerbase_view, container, false);
+        v = inflater.inflate(R.layout.fragment_view_global, container, false);
 
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

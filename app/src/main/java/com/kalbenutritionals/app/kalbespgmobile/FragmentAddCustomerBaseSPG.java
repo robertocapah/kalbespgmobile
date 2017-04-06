@@ -127,9 +127,10 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         v = inflater.inflate(R.layout.fragment_customerbase_add, container, false);
 
         Bundle mBundle = getArguments();
-        idTrCustomer = mBundle.getString("idTrCustomer").toString();
-        param = mBundle.getString("param").toString();
-
+        if(mBundle!=null){
+            idTrCustomer = mBundle.getString("idTrCustomer").toString();
+            param = mBundle.getString("param").toString();
+        }
         row1 = (TableRow) v.findViewById(R.id.row_telp2);
         row2 = (TableRow) v.findViewById(R.id.row_telp_kantor);
         row3 = (TableRow) v.findViewById(R.id.row_bbm);
@@ -306,7 +307,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             }
 
             spnSubmissionCode.setSelection(adapterSubmission.getPosition(key));
-        } else if (!idTrCustomer.equals("null")){
+        } else if (mBundle!=null&&!idTrCustomer.equals("null")){
             dtHeader = new tCustomerBasedMobileHeaderBL().getDataById(idTrCustomer);
 
             etCustomerBasedNo.setText(dtHeader.get_txtSubmissionId());
@@ -1001,8 +1002,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                     tvTanggalLahir.setVisibility(View.VISIBLE);
                 }else if (stringDatedb.equals("null")) {
                     lnDp.setVisibility(View.VISIBLE);
-                    dp.setMaxDate(System.currentTimeMillis()-1);
-                    dp.setMaxDate(System.currentTimeMillis()-24*60*60*1000);
+                    dp.setMaxDate(System.currentTimeMillis());
                     trTanggalLahir.setVisibility(View.GONE);
                 }
 

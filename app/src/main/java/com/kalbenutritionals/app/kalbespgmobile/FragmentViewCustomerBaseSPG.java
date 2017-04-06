@@ -105,7 +105,7 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
 
                     case R.id.action_add_customerbase:
                         toolbar.setTitle("Add Customer Base SPG");
-                        nv.setCheckedItem(0);
+                        nv.setCheckedItem(2);
                         FragmentAddCustomerBaseSPG fragmentAddCustomerBaseSPG = new FragmentAddCustomerBaseSPG();
                         Bundle args = new Bundle();
                         args.putString("idTrCustomer", "null");
@@ -117,8 +117,8 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
                         return true;
 
                     case R.id.action_submitAll:
-                        nv.setCheckedItem(1);
-                        new clsMainActivity().showCustomToast(getContext(), "submit", true);
+                        saveDataSubmitAll();
+//                        new clsMainActivity().showCustomToast(getContext(), "submit", true);
                         return true;
 
                     default:
@@ -172,6 +172,41 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
         });
         loadData();
         return v;
+    }
+
+    private void saveDataSubmitAll() {
+
+        tAbsenUserData dtActive = new tAbsenUserBL().getDataCheckInActive();
+        final List<tCustomerBasedMobileHeaderData> data = new tCustomerBasedMobileHeaderBL().getAllCustomerBasedMobileHeaderByOutletCodeUnsubmit(dtActive.get_txtOutletCode());
+
+        if(data.size()!=0){
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+            builder.setTitle("Confirm");
+            builder.setMessage("Are you sure to submit all transaction ? ");
+
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    for(tCustomerBasedMobileHeaderData dt : data){
+                        new tCustomerBasedMobileHeaderBL().updateDataSubmit(dt);
+                    }
+                    new clsMainActivity().showCustomToast(getContext(), "submit successfull", true);
+                    loadData();
+                }
+            });
+
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
+        } else {
+            new clsMainActivity().showCustomToast(getContext(), "There is No data to submit", false);
+        }
     }
 
     private void viewList(Context ctx, final int position) {

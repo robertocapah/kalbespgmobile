@@ -171,8 +171,13 @@ public class Login extends clsMainActivity {
                     intProcesscancel = 0;
                     txtEmail1 = txtLoginEmail.getText().toString();
                     txtPassword1 = txtLoginPassword.getText().toString();
-                    AsyncCallRole task = new AsyncCallRole();
-                    task.execute();
+                    if (!txtEmail1.equals("")) {
+                        AsyncCallRole task = new AsyncCallRole();
+                        task.execute();
+                    } else {
+                        txtLoginEmail.requestFocus();
+                        showCustomToast(Login.this, "Please input username", false);
+                    }
                     return true;
                 }
                 return false;
@@ -601,6 +606,8 @@ public class Login extends clsMainActivity {
 //
 //                spnOutlet.setAdapter(new MyAdapter2(getApplicationContext(), R.layout.custom_spinner, arroutlet));
 //                spnOutlet.setEnabled(true);
+            } else if (roledata.size()==0){
+                txtLoginEmail.requestFocus();
             } else {
                 if (intProcesscancel == 1) {
                     onCancelled();
@@ -611,7 +618,7 @@ public class Login extends clsMainActivity {
                     spnOutlet.setAdapter(null);
                     txtLoginEmail.requestFocus();
                 }
-
+                txtLoginEmail.requestFocus();
             }
             Dialog.dismiss();
         }
@@ -941,7 +948,7 @@ public class Login extends clsMainActivity {
         }
         @Override
         protected void onPostExecute(JSONArray roledata) {
-            if (roledata.size() > 0){
+            if (roledata!=null&&roledata.size() > 0){
                 Iterator i = roledata.iterator();
                 while (i.hasNext()) {
                     JSONObject innerObj = (JSONObject) i.next();
@@ -959,7 +966,7 @@ public class Login extends clsMainActivity {
                 if(intProcesscancel==1){
                     onCancelled();
                 }else{
-                    showCustomToast(Login.this, new clsHardCode().txtMessDataNotFound, false);
+                    showCustomToast(Login.this, new clsHardCode().txtMessUnableToConnect, false);
                 }
             }
             Dialog.dismiss();
