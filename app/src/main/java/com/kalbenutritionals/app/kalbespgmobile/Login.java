@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -92,6 +93,7 @@ public class Login extends clsMainActivity {
     private String[] arrdefaultBranch = new String[]{"-"};
     private String[] arrdefaultOutlet = new String[]{"-"};
     private String userName="";
+    private TextView tvForgotPassword;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -260,7 +262,14 @@ public class Login extends clsMainActivity {
             }
 
         });
-
+        tvForgotPassword = (TextView) findViewById(R.id.tv_forgot_password);
+        tvForgotPassword.setPaintFlags(tvForgotPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tvForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetAccount();
+            }
+        });
         btnLogin=(Button)findViewById(R.id.buttonLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {

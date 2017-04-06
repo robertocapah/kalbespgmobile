@@ -197,7 +197,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Gestation (Optional)"
+                android:text="Pregnant period (Optional)"
                 android:layout_marginTop="10dp"/>
 
             <LinearLayout

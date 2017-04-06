@@ -232,7 +232,7 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
         mTypeSubmissionMobile mtTypeSubmissionMobile = new mTypeSubmissionMobile();
         mtTypeSubmissionMobile = new mTypeSubmissionMobileBL().getDataBySubmissionCode(dt.get(position).get_txtSubmissionCode());
 
-        String gender = dt.get(position).get_txtTglLahir().toString().equals("Laki-laki") ? "Male" : "Female";
+        String gender = dt.get(position).get_txtGender().toString().equals("Laki-laki") ? "Male" : "Female";
         String stringDatedb = dt.get(position).get_txtTglLahir().toString();
 
 //        int year = 0;
@@ -348,8 +348,19 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.getContext());
         alertDialogBuilder.setView(promptView);
         alertDialogBuilder
-                .setCancelable(false)
+                .setCancelable(false)/*
                 .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        tCustomerBasedMobileHeaderData data = new tCustomerBasedMobileHeaderData();
+                        data.set_intTrCustomerId(dt.get(position).get_intTrCustomerId());
+                        data.set_intSubmit("1");
+                        new tCustomerBasedMobileHeaderBL().updateDataSubmit(data);
+                        dialog.cancel();
+                        loadData();
+                    }
+                })*/
+                .setNeutralButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         tCustomerBasedMobileHeaderData data = new tCustomerBasedMobileHeaderData();
@@ -365,6 +376,7 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
                         dialog.cancel();
                     }
                 });
+
 
         final AlertDialog alertD = alertDialogBuilder.create();
         alertD.show();
@@ -393,7 +405,7 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
             } else if (dt.get(i).get_intSubmit().equals("1") && dt.get(i).get_intSync().equals("0")){
                 status = "Submit";
             } else if(dt.get(i).get_intSubmit().equals("0") && dt.get(i).get_intSync().equals("0")){
-                status = "Save";
+                status = "Saved";
             }
             swplist = new clsSwipeList();
             swplist.set_txtTitle("SPG Id : " + dt.get(i).get_txtSubmissionId());
