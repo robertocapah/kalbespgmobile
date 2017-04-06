@@ -258,7 +258,7 @@ public class FragmentAddResoSPG extends Fragment implements View.OnClickListener
 
                     final TextView _tvNoSO = (TextView) promptView.findViewById(R.id.tvnoSOtbl);
                     final TextView _tvKet = (TextView) promptView.findViewById(R.id.tvkettbl);
-                    _tvNoSO.setText(noso);
+                    _tvNoSO.setText(": " + noso);
                     _tvKet.setText(": " + edketerangan.getText().toString());
 
                     arr = new ArrayList<ModelListview>();

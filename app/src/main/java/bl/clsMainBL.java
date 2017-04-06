@@ -116,6 +116,7 @@ public class clsMainBL {
 			int countDataPushAbsenUser= _tAbsenUserDA.getAllCheckToPushData(db);
 			int countDataPushLeave= _tLeaveMobileDA.getAllCheckPushData(db);
 			int countDataPushCustomerBased = _TCustomerBasedMobileHeaderDA.getAllCheckPushData(db);
+			int counDataSaveCustomerBased = _TCustomerBasedMobileHeaderDA.getAllDataSave(db);
     		if(countDataPushSalesProductHeader > 0 && dvalid==false){
     			dvalid=true;
     		}
@@ -129,6 +130,9 @@ public class clsMainBL {
     			dvalid=true;
     		}
 			if(countDataPushCustomerBased>0 && dvalid==false){
+				dvalid=true;
+			}
+			if(counDataSaveCustomerBased>0 && dvalid==false){
 				dvalid=true;
 			}
     		if(dvalid){

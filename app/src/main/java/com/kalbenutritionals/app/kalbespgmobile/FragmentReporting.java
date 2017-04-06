@@ -173,7 +173,7 @@ public class FragmentReporting extends Fragment {
                 header = new String[6];
                 header[1] = "SO";
                 header[2] = "Tot. Product";
-                header[3] = "Tot. Item";
+                header[3] = "Tot. Qty";
                 header[4] = "Tot. Price";
                 header[5] = "Outlet";
 

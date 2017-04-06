@@ -163,6 +163,12 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
         return dt;
     }
 
+    public List<tCustomerBasedMobileHeaderData> getAllDataToSubmit() {
+        SQLiteDatabase _db = getDb();
+        List<tCustomerBasedMobileHeaderData> dt = new tCustomerBasedMobileHeaderDA(_db).getDataToSubmit(_db);
+        return dt;
+    }
+
     public int getCountAllCustomerBased() {
         SQLiteDatabase _db = getDb();
         int count = new tCustomerBasedMobileHeaderDA(_db).countCustomerBaseHome(_db);

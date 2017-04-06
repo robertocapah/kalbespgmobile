@@ -18,6 +18,7 @@ import android.support.design.widget.TextInputLayout;
 import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -229,9 +230,10 @@ public class Login extends clsMainActivity {
             }
         });
 
-
+        String linkAPI = new clsMainBL().getLinkAPI();
         txtVersionLogin = (TextView) findViewById(R.id.txtVersionLogin);
-        txtVersionLogin.setText(pInfo.versionName);
+        txtVersionLogin.setText(pInfo.versionName + "\n" + linkAPI);
+        txtVersionLogin.setGravity(Gravity.CENTER_HORIZONTAL);
         spnRole=(Spinner)findViewById(R.id.spnType);
 
         spnRole.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

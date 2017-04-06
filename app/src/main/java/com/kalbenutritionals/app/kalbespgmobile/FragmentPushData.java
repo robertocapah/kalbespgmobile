@@ -33,6 +33,7 @@ import java.util.List;
 
 import bl.clsHelperBL;
 import bl.tAbsenUserBL;
+import bl.tCustomerBasedMobileHeaderBL;
 import bl.tNotificationBL;
 import bl.tUserLoginBL;
 import come.example.viewbadger.ShortcutBadger;
@@ -98,17 +99,26 @@ public class FragmentPushData extends Fragment {
         btnPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tlAbsen.getChildCount()>1){
+//                if (tlAbsen.getChildCount()>1){
                     AsyncCallRole task=new AsyncCallRole();
                     task.execute();
-                }else{
-                    new clsMainActivity().showCustomToast(getContext(), "Table kosong", false);
-                }
+//                }
+//                else{
+//                    new clsMainActivity().showCustomToast(getContext(), "Table kosong", false);
+//                }
 
 //                AsyncCallLogOut task2= new AsyncCallLogOut();
 //                task.execute();
             }
         });
+
+        List<tCustomerBasedMobileHeaderData> tCustomerBasedMobileHeaderDatas = new tCustomerBasedMobileHeaderBL().getAllDataToSubmit();
+
+        if(tCustomerBasedMobileHeaderDatas!=null&&tCustomerBasedMobileHeaderDatas.size()>0){
+            for(tCustomerBasedMobileHeaderData data : tCustomerBasedMobileHeaderDatas){
+                new tCustomerBasedMobileHeaderBL().updateDataSubmit(data);
+            }
+        }
 
         loadData();
 

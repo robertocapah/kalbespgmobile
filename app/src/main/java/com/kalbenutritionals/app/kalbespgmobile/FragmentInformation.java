@@ -95,6 +95,26 @@ public class FragmentInformation extends Fragment implements View.OnClickListene
             dt_act_push = new tActivityBL().getAllDataByIntSycAndOutlet("1", dtAbsen.get_txtOutletCode());
             dt_cb_unpush = new tCustomerBasedMobileHeaderBL().getCountAllCustomerBasedAbsenByStatus("0", dtAbsen.get_txtOutletCode());
             dt_cb_push = new tCustomerBasedMobileHeaderBL().getCountAllCustomerBasedAbsenByStatus("1", dtAbsen.get_txtOutletCode());
+
+            tvTotalReso.setText(dtReso != null ? String.valueOf(dtReso.size()) : "0");
+            tvTotalActivity.setText(dtActivity != null ? String.valueOf(dtActivity.size()) : "0");
+            tvTotalCustomerBase.setText(String.valueOf(dtCbase));
+
+            if (dt_reso_unpush != null) {
+                tv_reso1.setText(String.valueOf(dt_reso_unpush.size()));
+            }
+            if (dt_reso_push != null) {
+                tv_reso2.setText(String.valueOf(dt_reso_push.size()));
+            }
+            if (dt_act_unpush != null) {
+                tv_act1.setText(String.valueOf(dt_act_unpush.size()));
+            }
+            if (dt_act_push != null) {
+                tv_act2.setText(String.valueOf(dt_act_push.size()));
+            }
+            tv_cb1.setText(String.valueOf(dt_cb_unpush));
+            tv_cb2.setText(String.valueOf(dt_cb_push));
+
         } else {
             tvBranchOutlet.setText("Inactive");
             dtReso = new tSalesProductHeaderBL().getAllSalesProductHeader();
@@ -106,28 +126,19 @@ public class FragmentInformation extends Fragment implements View.OnClickListene
             dt_act_push = new tActivityBL().getAllDataByIntSyc("1");
             dt_cb_unpush = new tCustomerBasedMobileHeaderBL().getCountAllCustomerBasedByStatus("0");
             dt_cb_push = new tCustomerBasedMobileHeaderBL().getCountAllCustomerBasedByStatus("1");
+
+            tvTotalReso.setText("0");
+            tvTotalActivity.setText("0");
+            tvTotalCustomerBase.setText("0");
+            tv_reso1.setText("0");
+            tv_reso2.setText("0");
+            tv_act1.setText("0");
+            tv_act2.setText("0");
+            tv_cb1.setText("0");
+            tv_cb2.setText("0");
         }
 
         tvEmail.setText("(NIK : " + dt.get_TxtEmpId() + ")");
-
-        tvTotalReso.setText(dtReso != null ? String.valueOf(dtReso.size()) : "0");
-        tvTotalActivity.setText(dtActivity != null ? String.valueOf(dtActivity.size()) : "0");
-        tvTotalCustomerBase.setText(String.valueOf(dtCbase));
-
-        if (dt_reso_unpush != null) {
-            tv_reso1.setText(String.valueOf(dt_reso_unpush.size()));
-        }
-        if (dt_reso_push != null) {
-            tv_reso2.setText(String.valueOf(dt_reso_push.size()));
-        }
-        if (dt_act_unpush != null) {
-            tv_act1.setText(String.valueOf(dt_act_unpush.size()));
-        }
-        if (dt_act_push != null) {
-            tv_act2.setText(String.valueOf(dt_act_push.size()));
-        }
-        tv_cb1.setText(String.valueOf(dt_cb_unpush));
-        tv_cb2.setText(String.valueOf(dt_cb_push));
 
         final NavigationView nv = (NavigationView) getActivity().findViewById(R.id.navigation_view);
         final Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);

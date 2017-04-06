@@ -114,6 +114,25 @@ public class    MainMenu extends AppCompatActivity implements View.OnClickListen
 
         AlertDialog alert = builder.create();
         alert.show();
+//        int count = getFragmentManager().getBackStackEntryCount();
+//
+//        if (count == 0) {
+//            super.onBackPressed();
+//            //additional code
+//        } else {
+//            getFragmentManager().popBackStack();
+//        }
+//        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+//            if(fragment!=null&&fragment.toString().contains("FragmentInformation")&&getSupportFragmentManager().getFragments().size()==1){
+//                finish();
+//            }else{
+//                toolbar.setTitle("Home");
+//                FragmentInformation homeFragment = new FragmentInformation();
+//                FragmentTransaction fragmentTransactionHome = getSupportFragmentManager().beginTransaction();
+//                fragmentTransactionHome.replace(R.id.frame, homeFragment);
+//                fragmentTransactionHome.commit();
+//            }
+//        }
     }
 
     @Override
