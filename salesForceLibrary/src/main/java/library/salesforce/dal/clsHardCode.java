@@ -41,6 +41,7 @@ public class clsHardCode  {
 	public String txtTable_mProductCompetitorData = "mProductCompetitorData";
 	public String txtTable_tErrorLog = "tErrorLog";
 	public String txtTable_tDisplayPicture = "tDisplayPicture";
+	public String txtTable_tTestingSaveBlob = "tTestingSaveBlob";
 	public String txtTable_mTypeLeaveMobile = "mTypeLeaveMobile";
 	public String txtTable_tLeaveMobile = "tLeaveMobile";
 	public String txtPhotoNotAvailabe = "../styles/css/images/no_image.gif";

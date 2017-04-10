@@ -64,7 +64,7 @@ import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 import service.MyServiceNative;
 
-public class    MainMenu extends AppCompatActivity implements View.OnClickListener {
+public class MainMenu extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
     private NavigationView navigationView;
@@ -90,30 +90,33 @@ public class    MainMenu extends AppCompatActivity implements View.OnClickListen
 
     private GoogleApiClient client;
 
+    private MenuItem mMenuItemHome;
+    private int menuActive = 0;
+
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle("Exit");
-        builder.setMessage("Do you want to exit?");
-
-        builder.setPositiveButton("EXIT", new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-
-        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        AlertDialog alert = builder.create();
-        alert.show();
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//
+//        builder.setTitle("Exit");
+//        builder.setMessage("Do you want to exit?");
+//
+//        builder.setPositiveButton("EXIT", new DialogInterface.OnClickListener() {
+//
+//            public void onClick(DialogInterface dialog, int which) {
+//                finish();
+//            }
+//        });
+//
+//        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        AlertDialog alert = builder.create();
+//        alert.show();
 //        int count = getFragmentManager().getBackStackEntryCount();
 //
 //        if (count == 0) {
@@ -122,17 +125,30 @@ public class    MainMenu extends AppCompatActivity implements View.OnClickListen
 //        } else {
 //            getFragmentManager().popBackStack();
 //        }
-//        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-//            if(fragment!=null&&fragment.toString().contains("FragmentInformation")&&getSupportFragmentManager().getFragments().size()==1){
-//                finish();
-//            }else{
-//                toolbar.setTitle("Home");
-//                FragmentInformation homeFragment = new FragmentInformation();
-//                FragmentTransaction fragmentTransactionHome = getSupportFragmentManager().beginTransaction();
-//                fragmentTransactionHome.replace(R.id.frame, homeFragment);
-//                fragmentTransactionHome.commit();
-//            }
-//        }
+        boolean isHome = false;
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment != null && fragment.toString().contains("FragmentInformation") && getSupportFragmentManager().getFragments().size() == 1) {
+                isHome = true;
+                finish();
+            } else if (fragment != null && fragment.toString().contains("FragmentInformation") && getSupportFragmentManager().getFragments().size() > 1) {
+                if (fragment.isVisible()) {
+                    finish();
+                }
+            } else if (fragment != null && !fragment.toString().contains("FragmentInformation") && getSupportFragmentManager().getFragments().size() > 1) {
+                isHome = false;
+            }
+        }
+        if (!isHome) {
+//            NavigationView nv = (NavigationView) getWindow().findViewById(R.id.navigation_view);
+            toolbar.setTitle("Home");
+            FragmentInformation homeFragment = new FragmentInformation();
+            FragmentTransaction fragmentTransactionHome = getSupportFragmentManager().beginTransaction();
+            fragmentTransactionHome.replace(R.id.frame, homeFragment);
+            fragmentTransactionHome.commit();
+            navigationView.getMenu().getItem(0).setChecked(true);
+        } else {
+            finish();
+        }
     }
 
     @Override
@@ -196,7 +212,6 @@ public class    MainMenu extends AppCompatActivity implements View.OnClickListen
         String i_view = intent.getStringExtra("key_view");
 
         int statusAbsen = 0;
-        int menuActive = 0;
 
         if (dtAbsens == null) {
             menuActive = R.id.groupListMenu;
@@ -215,9 +230,9 @@ public class    MainMenu extends AppCompatActivity implements View.OnClickListen
                 listMenu[i] = menu.get(i).get_TxtMenuName();
             }
 
-            if (i_view != null){
+            if (i_view != null) {
 
-                if (i_view.equals("Notification")){
+                if (i_view.equals("Notification")) {
                     Class<?> fragmentClass = null;
                     try {
                         fragmentClass = Class.forName("com.kalbenutritionals.app.kalbespgmobile.Fragment" + i_view);
@@ -291,14 +306,14 @@ public class    MainMenu extends AppCompatActivity implements View.OnClickListen
 
 //        TextView view = (TextView) navigationView.getMenu().findItem(R.id.home).getActionView();
 //        view.setText("99");
-        if (i_view!=null){
-            if (i_view.equals("View Reso")){
+        if (i_view != null) {
+            if (i_view.equals("View Reso")) {
                 navigationView.getMenu().findItem(0).setChecked(true);
-            } else if (i_view.equals("View Actvity")){
+            } else if (i_view.equals("View Actvity")) {
                 navigationView.getMenu().findItem(1).setChecked(true);
-            } else if (i_view.equals("View Customer Base")){
+            } else if (i_view.equals("View Customer Base")) {
                 navigationView.getMenu().findItem(2).setChecked(true);
-            } else if (i_view.equals("Notifcation")){
+            } else if (i_view.equals("Notifcation")) {
 //                    navigationView.getMenu().findItem(R.id.information).setChecked(true);
             }
         }
@@ -352,6 +367,7 @@ public class    MainMenu extends AppCompatActivity implements View.OnClickListen
                                 })
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
+                                        navigationView.getMenu().getItem(0).setChecked(true);
                                         dialog.cancel();
                                     }
                                 });
@@ -373,6 +389,8 @@ public class    MainMenu extends AppCompatActivity implements View.OnClickListen
                         return true;
 
                     case R.id.home:
+                        mMenuItemHome = menuItem;
+
                         toolbar.setTitle("Home");
 
                         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
@@ -549,7 +567,7 @@ public class    MainMenu extends AppCompatActivity implements View.OnClickListen
             fragmentTransaction.replace(R.id.frame, fragment);
             fragmentTransaction.commit();
 
-            selectedId=id;
+            selectedId = id;
 
             if (!isSubMenu) isSubMenu = true;
             else isSubMenu = false;
@@ -617,8 +635,7 @@ public class    MainMenu extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    public void pickImage2()
-    {
+    public void pickImage2() {
         CropImage.startPickImageActivity(this);
     }
 
@@ -639,7 +656,7 @@ public class    MainMenu extends AppCompatActivity implements View.OnClickListen
                 startActivity(intent);
                 finish();
             }
-        } else if (requestCode==100 || requestCode == 130){
+        } else if (requestCode == 100 || requestCode == 130) {
             for (Fragment fragment : getSupportFragmentManager().getFragments()) {
                 fragment.onActivityResult(requestCode, resultCode, data);
             }

@@ -237,6 +237,19 @@ public final class MainFragment extends Fragment
 
             new tDisplayPictureBL().saveData(dtList);
 
+//            tTestingSaveBlobData tTestingSaveBlobData = new tTestingSaveBlobData();
+//            tTestingSaveBlobData.set_intID("20e7a9e3-2506-49e1-afb3-20bf1a574860");
+//            tTestingSaveBlobData.set_image1(pht);
+//            tTestingSaveBlobData.set_image2(pht);
+//            tTestingSaveBlobData.set_image3(pht);
+//            tTestingSaveBlobData.set_image4(pht);
+//
+//            List<tTestingSaveBlobData> dtList2 = new ArrayList<>();
+//
+//            dtList2.add(tTestingSaveBlobData);
+//
+//            new tDisplayPictureBL().saveDatatTestingSaveBlob(dtList2);
+
             new clsMainActivity().showCustomToast(getContext(), "Saved", true);
 
             Intent intent = new Intent(getActivity(), MainMenu.class);

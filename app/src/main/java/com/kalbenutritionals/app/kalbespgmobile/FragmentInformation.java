@@ -16,12 +16,8 @@ import android.widget.TextView;
 import com.owater.library.CircleTextView;
 import com.theartofdev.edmodo.cropper.CropImage;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
-import bl.mEmployeeSalesProductBL;
-import bl.mProductBrandHeaderBL;
 import bl.tAbsenUserBL;
 import bl.tActivityBL;
 import bl.tCustomerBasedMobileHeaderBL;
@@ -30,14 +26,12 @@ import bl.tLeaveMobileBL;
 import bl.tSalesProductHeaderBL;
 import bl.tUserLoginBL;
 import de.hdodenhof.circleimageview.CircleImageView;
-import library.salesforce.common.mEmployeeSalesProductData;
-import library.salesforce.common.mProductBrandHeaderData;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
-import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tDisplayPictureData;
 import library.salesforce.common.tLeaveMobileData;
 import library.salesforce.common.tSalesProductHeaderData;
+import library.salesforce.common.tTestingSaveBlobData;
 import library.salesforce.common.tUserLoginData;
 
 public class FragmentInformation extends Fragment implements View.OnClickListener {
@@ -51,6 +45,7 @@ public class FragmentInformation extends Fragment implements View.OnClickListene
         v = inflater.inflate(R.layout.fragment_home_new, container, false);
 
         tDisplayPictureData tDisplayPictureData = new tDisplayPictureBL().getData();
+//        tTestingSaveBlobData tTestingSaveBlobData = new tDisplayPictureBL().getDataTestingSaveBlob();
 
         CircleImageView ivProfile = (CircleImageView) v.findViewById(R.id.profile_image);
         CircleTextView tvTotalReso = (CircleTextView) v.findViewById(R.id.tvTotalReso);

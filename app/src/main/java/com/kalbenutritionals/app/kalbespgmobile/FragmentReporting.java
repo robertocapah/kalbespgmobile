@@ -172,7 +172,7 @@ public class FragmentReporting extends Fragment {
             case "Reso":
                 header = new String[6];
                 header[1] = "SO";
-                header[2] = "Tot. Product";
+                header[2] = "Tot. Prd";
                 header[3] = "Tot. Qty";
                 header[4] = "Tot. Price";
                 header[5] = "Outlet";
@@ -202,7 +202,7 @@ public class FragmentReporting extends Fragment {
                 List<tSalesProductHeaderData> dt_so = new tSalesProductHeaderBL().getAllSalesProductHeaderByOutletCode(outletcode);
                 reportList = new ArrayList<>();
 
-                if(dt_so != null){
+                if(dt_so != null&&dt_so.size()>0){
                     for(tSalesProductHeaderData datas : dt_so ){
                         ReportTable rt = new ReportTable();
 
@@ -230,6 +230,8 @@ public class FragmentReporting extends Fragment {
 
                         reportList.add(rt);
                     }
+                } else {
+                    new clsMainActivity().showCustomToast(getContext(), "No Data to Show", false);
                 }
 
                 ReportTableView.setDataAdapter(new ReportTableDataAdapter(getContext(), reportList));
@@ -239,9 +241,9 @@ public class FragmentReporting extends Fragment {
                 header = new String[7];
                 header[1] = "Type";
                 header[2] = "Name";
-                header[3] = "Telp";
-                header[4] = "Pengguna";
-                header[5] = "Product";
+                header[3] = "Phone";
+                header[4] = "Csmr";
+                header[5] = "Prod";
                 header[6] = "Qty";
 
                 ReportTableView.setColumnCount(header.length);
@@ -272,7 +274,7 @@ public class FragmentReporting extends Fragment {
 
                 reportList = new ArrayList<>();
 
-                if (data_cb!=null){
+                if (data_cb!=null&&data_cb.size()>0){
 
                     for(tCustomerBasedMobileHeaderData datas : data_cb){
 
@@ -314,6 +316,8 @@ public class FragmentReporting extends Fragment {
 
                         reportList.add(rt);
                     }
+                } else {
+                    new clsMainActivity().showCustomToast(getContext(), "No Data to Show", false);
                 }
 
                 ReportTableView.setDataAdapter(new ReportTableDataAdapter(getContext(), reportList));
