@@ -93,6 +93,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     EditText etCustomerBasedNo, etEmail, etNama, etTelpon, etTelpon2, etAlamat, etTelponKantor, etPinBBM, etTglLhr;
     TextInputLayout textInputLayoutNama, textInputLayoutTelp, textInputLayoutTelp2, textInputLayoutTelpKantor, textInputLayoutEmail, textInputLayoutTglLahir;
     DatePicker dpHeader;
+    ScrollView sv;
 
     TableRow row1, row2, row3, row4, row5, row6;
     ImageView imgReadMore;
@@ -545,6 +546,9 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                         boolean deleteDetailProduct = false;
                         viewListPerson(deleteDetailProduct);
                     }
+                }else{
+                    sv = (ScrollView) v.findViewById(R.id.scroll);
+                    sv.fullScroll(ScrollView.FOCUS_UP);
                 }
 //                if (validate) {
 //                    if (validate) {
@@ -1223,9 +1227,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
     }
 
     private void setTablePerson() {
-        ScrollView sv = (ScrollView) v.findViewById(R.id.scroll);
+        sv = (ScrollView) v.findViewById(R.id.scroll);
         sv.setFillViewport(true);
-
         dtListDetail = new tCustomerBasedMobileDetailBL().getAllDataByHeaderId(dtHeader.get_intTrCustomerId());
 
         clsSwipeList swplist;
@@ -1806,8 +1809,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         if (cbPIC.isChecked() && etTglLhr.getText().toString().equals("")){
             validate = false;
 //            new clsMainActivity().showCustomToast(getContext(),"PIC must set PIC Date of Birth", false);
-            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTglLahir, etTglLhr, "PIC mus set PIC Date of Birth");
-            etTglLhr.setFocusable(false);
+            new clsMainActivity().setErrorMessage(getContext(), textInputLayoutTglLahir, etTglLhr, "PIC must set PIC Date of Birth");
+            etTglLhr.setFocusable(true);
         }
 
         if (etTelpon.getText().toString().equals("")) {
