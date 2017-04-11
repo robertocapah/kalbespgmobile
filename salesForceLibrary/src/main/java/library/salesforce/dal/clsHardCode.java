@@ -64,6 +64,7 @@ public class clsHardCode  {
 	public String txtTable_tStockOpnameDetail_mobile = "tStockOpnameDetail_mobile";
 	public String txtTable_tGRNHeader_mobile = "tGRNHeader_mobile";
 	public String txtTable_tGRNDetail_mobile = "tGRNDetail_mobile";
+	public String txtLogError = "tLogError";
 	public String txtTable_mItemSalesPack_Stock = "mItemSalesPack_Stock";
 	public String txtTable_mItemSalesPack_StockLog = "mItemSalesPack_StockLog";
 	public String txtTable_mProductBarcode = "mProductBarcode";
