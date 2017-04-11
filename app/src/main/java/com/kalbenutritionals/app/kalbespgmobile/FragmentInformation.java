@@ -31,7 +31,7 @@ import library.salesforce.common.tActivityData;
 import library.salesforce.common.tDisplayPictureData;
 import library.salesforce.common.tLeaveMobileData;
 import library.salesforce.common.tSalesProductHeaderData;
-import library.salesforce.common.tTestingSaveBlobData;
+//import library.salesforce.common.tTestingSaveBlobData;
 import library.salesforce.common.tUserLoginData;
 
 public class FragmentInformation extends Fragment implements View.OnClickListener {
