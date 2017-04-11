@@ -62,7 +62,7 @@ public class mTypeSubmissionMobileDA {
     public void UpdateLastSelected(SQLiteDatabase db, String id) {
         mTypeSubmissionMobile dt = new mTypeSubmissionMobile();
         db.execSQL("update " + TABLE_CONTACTS + " set " + dt.Property_intLastActiveSelection + "='0'");
-        db.execSQL("update " + TABLE_CONTACTS + " set " + dt.Property_intLastActiveSelection + "='1' where " + dt.Property_txtMasterID + "='" + id + "'");
+        db.execSQL("update " + TABLE_CONTACTS + " set " + dt.Property_intLastActiveSelection + "='1' where " + dt.Property_txtKeterangan + "='" + id + "'");
     }
 
     public void DeleteAllDataMConfig(SQLiteDatabase db) {

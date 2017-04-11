@@ -724,8 +724,8 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
         Boolean status = new tCustomerBasedMobileHeaderBL().save(getContext());
 
         if (status) {
-            viewCustomerBaseFragment();
             new mTypeSubmissionMobileBL().updateLastSelected(dtHeader.get_txtSubmissionCode());
+            viewCustomerBaseFragment();
         }
     }
 
