@@ -201,6 +201,11 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 return false;
             }
         });
+        if(etTglLhr.getText().toString().equals("")) {
+            etTglLhr.setHint("Not set");
+        }else{
+            etTglLhr.setHint("");
+        }
 
 
         textInputLayoutTelp = (TextInputLayout) v.findViewById(R.id.input_layout_telp);
@@ -275,6 +280,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             cbPIC.setChecked(dtHeader.get_intPIC().equals("1") ? true : false);
             if(dtHeader.get_txtTglLahir().equals("null")){
                 dpHeader.setMaxDate(System.currentTimeMillis()-24*60*60*1000);
+                etTglLhr.setHint("Not set");
             } else {
 
                 String stringDatedb = dtHeader.get_txtTglLahir();
@@ -337,6 +343,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
                 clsMainActivity clsMainMonth = new clsMainActivity();
                 String month2 = clsMainMonth.months[month];
                 etTglLhr.setText(day + " - " + month2 + " - " + year);
+                etTglLhr.setHint("");
             }
 
 
@@ -467,6 +474,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
             clsMainActivity clsMainMonth = new clsMainActivity();
             String month2 = clsMainMonth.months[monthOfYear+1];
             etTglLhr.setText(String.valueOf(dayOfMonth) + " - " + month2 + " - " + String.valueOf(year));
+            etTglLhr.setHint("");
         }
     };
 
@@ -1801,6 +1809,7 @@ public class FragmentAddCustomerBaseSPG extends Fragment implements View.OnClick
 
 
         boolean validate = true;
+        new clsMainActivity().removeErrorMessage(textInputLayoutTglLahir);
         new clsMainActivity().removeErrorMessage(textInputLayoutNama);
         new clsMainActivity().removeErrorMessage(textInputLayoutTelp);
         new clsMainActivity().removeErrorMessage(textInputLayoutTelp2);
