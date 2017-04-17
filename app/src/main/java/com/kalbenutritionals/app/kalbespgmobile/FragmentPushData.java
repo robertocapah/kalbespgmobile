@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import bl.clsHelperBL;
+import bl.clsMainBL;
 import bl.tAbsenUserBL;
 import bl.tCustomerBasedMobileHeaderBL;
 import bl.tNotificationBL;
@@ -47,6 +49,7 @@ import library.salesforce.common.tLeaveMobileData;
 import library.salesforce.common.tNotificationData;
 import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.dal.clsHardCode;
+import library.salesforce.dal.tUserLoginDA;
 import service.MyServiceNative;
 
 public class FragmentPushData extends Fragment {
@@ -99,25 +102,56 @@ public class FragmentPushData extends Fragment {
         btnPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (tlAbsen.getChildCount()>1){
+
+                boolean areDataToPush = false;
+                if (tlSOHeader.getChildCount()>1){
+                    areDataToPush=true ;
+                }
+
+                if (tlActivity.getChildCount()>1){
+                    areDataToPush=true ;
+                }
+
+                if (tlCustomerBase.getChildCount()>1){
+                    areDataToPush=true ;
+                }
+
+                if (tlAbsen.getChildCount()>1){
+                    areDataToPush=true ;
+                }
+
+                if (tlLeave.getChildCount()>1){
+                    areDataToPush=true ;
+                }
+
+                if(areDataToPush){
                     AsyncCallRole task=new AsyncCallRole();
                     task.execute();
-//                }
-//                else{
-//                    new clsMainActivity().showCustomToast(getContext(), "Table kosong", false);
-//                }
+                } else{
+                    new clsMainActivity().showCustomToast(getContext(), "No Data to Push", false);
+                }
 
 //                AsyncCallLogOut task2= new AsyncCallLogOut();
-//                task.execute();
+//                task2.execute();
             }
         });
 
-        List<tCustomerBasedMobileHeaderData> tCustomerBasedMobileHeaderDatas = new tCustomerBasedMobileHeaderBL().getAllDataToSubmit();
+        SQLiteDatabase db = new clsMainBL().getDb();
 
-        if(tCustomerBasedMobileHeaderDatas!=null&&tCustomerBasedMobileHeaderDatas.size()>0){
-            for(tCustomerBasedMobileHeaderData data : tCustomerBasedMobileHeaderDatas){
-                new tCustomerBasedMobileHeaderBL().updateDataSubmit(data);
+        tUserLoginDA _tUserLoginDA=new tUserLoginDA(db);
+
+        try {
+            if(!_tUserLoginDA.CheckLoginNow(db)){
+                List<tCustomerBasedMobileHeaderData> tCustomerBasedMobileHeaderDatas = new tCustomerBasedMobileHeaderBL().getAllDataToSubmit();
+
+                if(tCustomerBasedMobileHeaderDatas!=null&&tCustomerBasedMobileHeaderDatas.size()>0){
+                    for(tCustomerBasedMobileHeaderData data : tCustomerBasedMobileHeaderDatas){
+                        new tCustomerBasedMobileHeaderBL().updateDataSubmit(data);
+                    }
+                }
             }
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
         }
 
         loadData();
@@ -560,7 +594,7 @@ public class FragmentPushData extends Fragment {
                     startActivity(myIntent);
                 }
             }else{
-                new clsMainActivity().showToast(getContext(), roledata.get(0).getTxtMessage());
+                new clsMainActivity().showCustomToast(getContext(), roledata.get(0).getTxtMessage(), false);
             }
             Dialog.dismiss();
         }

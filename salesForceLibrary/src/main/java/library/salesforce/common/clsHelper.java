@@ -57,7 +57,6 @@ import library.salesforce.dal.tLeaveMobileDA;
 import library.salesforce.dal.tNotificationDA;
 import library.salesforce.dal.tSalesProductDetailDA;
 import library.salesforce.dal.tSalesProductHeaderDA;
-//import library.salesforce.dal.tTestingSaveBlobDA;
 import library.salesforce.dal.tUserLoginDA;
 
 public class clsHelper {
@@ -243,7 +242,6 @@ public class clsHelper {
 		mPriceInOutletDA _mPriceInOutletDA=new mPriceInOutletDA(db);
 		mProductBarcodeDA _mProductBarcodeDA=new mProductBarcodeDA(db);
 		tDisplayPictureDA _tDisplayPictureDA = new tDisplayPictureDA(db);
-//		tTestingSaveBlobDA _tTestingSaveBlobDA = new tTestingSaveBlobDA(db);
 		mTypeSubmissionMobileDA _mTypeSubmissionMobileDA = new mTypeSubmissionMobileDA(db);
 		mProductCompetitorDA _mProductCompetitorDA = new mProductCompetitorDA(db);
 		mProductSPGDA _mProductSPGDA = new mProductSPGDA(db);
@@ -252,11 +250,9 @@ public class clsHelper {
 		tCustomerBasedMobileDetailDA _tCustomerBasedMobileDetailDA = new tCustomerBasedMobileDetailDA(db);
 		tCustomerBasedMobileDetailProductDA _tCustomerBasedMobileDetailProductDA = new tCustomerBasedMobileDetailProductDA(db);
 		_tDisplayPictureDA = new tDisplayPictureDA(db);
-//		_tTestingSaveBlobDA = new tTestingSaveBlobDA(db);
 
 
 		//_tDisplayPictureDA.DropTable(db);
-//		_tTestingSaveBlobDA.DropTable(db);
 		_mProductSPGDA.DropTable(db);
 		_mProductPICDA.DropTable(db);
 		_mTypeSubmissionMobileDA.DropTable(db);
@@ -284,7 +280,6 @@ public class clsHelper {
 		_tAbsenUserDA.DropTable(db);
 		_mTypeLeaveMobileDA.DropTable(db);
 
-//		_tTestingSaveBlobDA = new tTestingSaveBlobDA(db);
 		_mTypeSubmissionMobileDA = new mTypeSubmissionMobileDA(db);
 		_mProductCompetitorDA = new mProductCompetitorDA(db);
 		_mProductSPGDA = new mProductSPGDA(db);

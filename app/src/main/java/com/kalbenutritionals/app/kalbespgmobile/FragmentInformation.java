@@ -45,7 +45,6 @@ public class FragmentInformation extends Fragment implements View.OnClickListene
         v = inflater.inflate(R.layout.fragment_home_new, container, false);
 
         tDisplayPictureData tDisplayPictureData = new tDisplayPictureBL().getData();
-//        tTestingSaveBlobData tTestingSaveBlobData = new tDisplayPictureBL().getDataTestingSaveBlob();
 
         CircleImageView ivProfile = (CircleImageView) v.findViewById(R.id.profile_image);
         CircleTextView tvTotalReso = (CircleTextView) v.findViewById(R.id.tvTotalReso);

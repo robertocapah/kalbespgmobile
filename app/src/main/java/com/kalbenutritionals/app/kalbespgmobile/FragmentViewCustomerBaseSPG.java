@@ -53,6 +53,8 @@ import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
 
+import static android.R.attr.name;
+
 public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewListener {
 
     private List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
@@ -363,12 +365,32 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
                 .setNeutralButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        tCustomerBasedMobileHeaderData data = new tCustomerBasedMobileHeaderData();
-                        data.set_intTrCustomerId(dt.get(position).get_intTrCustomerId());
-                        data.set_intSubmit("1");
-                        new tCustomerBasedMobileHeaderBL().updateDataSubmit(data);
-                        dialog.cancel();
-                        loadData();
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                        builder.setTitle("Warning");
+                        builder.setMessage("Are you sure to submit ");
+
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                tCustomerBasedMobileHeaderData data = new tCustomerBasedMobileHeaderData();
+                                data.set_intTrCustomerId(dt.get(position).get_intTrCustomerId());
+                                data.set_intSubmit("1");
+                                new tCustomerBasedMobileHeaderBL().updateDataSubmit(data);
+                                dialog.cancel();
+                                loadData();
+                            }
+                        });
+
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog alert = builder.create();
+                        alert.show();
                     }
                 })
                 .setNegativeButton("Close", new DialogInterface.OnClickListener() {
@@ -382,9 +404,9 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
         alertD.show();
 
         if(!statusTran.equals("")&&statusTran.equals("Save")){
-            alertD.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+            alertD.getButton(AlertDialog.BUTTON_NEUTRAL).setEnabled(true);
         } else {
-            alertD.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+            alertD.getButton(AlertDialog.BUTTON_NEUTRAL).setEnabled(false);
         }
     }
 
