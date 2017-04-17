@@ -54,11 +54,13 @@ import library.salesforce.dal.tCustomerBasedMobileHeaderDA;
 import library.salesforce.dal.tDeviceInfoUserDA;
 import library.salesforce.dal.tDisplayPictureDA;
 import library.salesforce.dal.tLeaveMobileDA;
+import library.salesforce.dal.tLogErrorDA;
 import library.salesforce.dal.tNotificationDA;
 import library.salesforce.dal.tSalesProductDetailDA;
 import library.salesforce.dal.tSalesProductHeaderDA;
-//import library.salesforce.dal.tTestingSaveBlobDA;
 import library.salesforce.dal.tUserLoginDA;
+
+//import library.salesforce.dal.tTestingSaveBlobDA;
 
 public class clsHelper {
 	public void InitlizeDB(){
@@ -80,6 +82,59 @@ public class clsHelper {
 		 String randomUUIDString = uuid.toString();
 		 return randomUUIDString;
 	 }
+
+	public String PushErrorFile(String urlToRead, String DataJson,Integer intTimeOut,HashMap<String,byte[]> ListOfDataFile){
+		String charset = "UTF-8";
+		File uploadFile1 = null;
+		String requestURL = urlToRead;
+		String Result="";
+		clsHelper _clsClsHelper = new clsHelper();
+		clsHardCode _path = new clsHardCode();
+		File folder = new File(_path.txtPathApp);
+		try {
+			MultipartUtility multipart = new MultipartUtility(requestURL, charset,intTimeOut);
+
+			//multipart.addHeaderField("User-Agent", "CodeJava");
+			//multipart.addHeaderField("DataHeader", DataJson);
+
+			multipart.addFormField("dataField",DataJson);
+			//multipart.addFormField("keywords", "Java,upload,Spring");
+
+			for(Entry<String, byte[]> entry : ListOfDataFile.entrySet()) {
+				String key = entry.getKey();
+//                String value = entry.getValue();
+
+				byte [] array = entry.getValue();
+				File file = new File(_path.txtPathApp + "log_17-04-2017.txt");
+				FileOutputStream out = new FileOutputStream( file );
+				out.write( array );
+				out.close();
+
+				multipart.addFilePart(key, new File(file.getAbsolutePath()));
+			}
+			List<String> response = multipart.finish();
+			//System.out.println("SERVER REPLIED:");
+
+			for (String line : response) {
+				Result+=line;
+				System.out.println(line);
+			}
+		} catch (IOException ex) {
+			System.err.println(ex);
+		}
+
+		if (folder.isDirectory())
+		{
+			String[] children = folder.list();
+			for (int i = 0; i < children.length; i++)
+			{
+				new File(folder, children[i]).delete();
+			}
+			folder.delete();
+		}
+		return _clsClsHelper.ResultJsonData(Result);
+	}
+
 	public String PushDataWithFile(String urlToRead,String DataJson,Integer intTimeOut,HashMap<String,byte[]> ListOfDataFile){
 		String charset = "UTF-8";
 	    
@@ -252,8 +307,9 @@ public class clsHelper {
 		tCustomerBasedMobileDetailDA _tCustomerBasedMobileDetailDA = new tCustomerBasedMobileDetailDA(db);
 		tCustomerBasedMobileDetailProductDA _tCustomerBasedMobileDetailProductDA = new tCustomerBasedMobileDetailProductDA(db);
 		_tDisplayPictureDA = new tDisplayPictureDA(db);
-//		_tTestingSaveBlobDA = new tTestingSaveBlobDA(db);
 
+//		_tTestingSaveBlobDA = new tTestingSaveBlobDA(db);
+		tLogErrorDA _tLogErrorDA = new tLogErrorDA(db);
 
 		//_tDisplayPictureDA.DropTable(db);
 //		_tTestingSaveBlobDA.DropTable(db);
@@ -283,6 +339,7 @@ public class clsHelper {
 		_mCounterNumberDA.DropTable(db);
 		_tAbsenUserDA.DropTable(db);
 		_mTypeLeaveMobileDA.DropTable(db);
+		_tLogErrorDA.DropTable(db);
 
 //		_tTestingSaveBlobDA = new tTestingSaveBlobDA(db);
 		_mTypeSubmissionMobileDA = new mTypeSubmissionMobileDA(db);
@@ -312,6 +369,7 @@ public class clsHelper {
 		_mMenuDA=new mMenuDA(db);
 		_mProductBrandHeaderDA=new mProductBrandHeaderDA(db);
 		_tNotificationDA=new tNotificationDA(db);
+		_tLogErrorDA = new tLogErrorDA(db);
 		clsHardCode clsdthc=new clsHardCode();
 		clsHelper _clsHelper=new clsHelper();
 		File dir = new File(clsdthc.txtPathUserData); 

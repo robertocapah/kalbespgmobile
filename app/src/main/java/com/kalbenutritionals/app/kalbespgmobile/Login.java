@@ -94,7 +94,7 @@ public class Login extends clsMainActivity {
     private String[] arrdefaultBranch = new String[]{"-"};
     private String[] arrdefaultOutlet = new String[]{"-"};
     private String userName="";
-    private TextView tvForgotPassword;
+    private TextView tvForgotPassword, tvPushError;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -272,6 +272,16 @@ public class Login extends clsMainActivity {
                 resetAccount();
             }
         });
+        tvPushError = (TextView) findViewById(R.id.tv_push_error);
+        tvPushError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pushError = new Intent(Login.this, ActivityPushError.class);
+                startActivity(pushError);
+//                pushError();
+            }
+        });
+
         btnLogin=(Button)findViewById(R.id.buttonLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
@@ -382,6 +392,8 @@ public class Login extends clsMainActivity {
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int a = 2/0;
+                System.out.println(a);
                 if(etEmail.getText().toString().equals("")){
                     new clsMainActivity().setErrorMessage(getApplicationContext(), tiEmail, etEmail, "Email cannot empty");
                 }else if(!etEmail.getText().toString().equals("")){
@@ -396,6 +408,28 @@ public class Login extends clsMainActivity {
         alertDialog = alertBuilder.create();
         alertBuilder.setCancelable(false);
         alertDialog.show();
+    }
+    private void pushError(){
+
+
+       /* ActivityPushError activityPushError = new ActivityPushError();
+        FragmentTransaction fragmentTransactionPushError = getFragmentManager().beginTransaction();
+
+        FrameLayout frame = new FrameLayout(this);
+        frame.setId(1);
+        setContentView(frame,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        fragmentTransactionPushError.add(frame.getId(), activityPushError).commit();
+        */
+       /* LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View promptView = inflater.inflate(R.layout.fragment_push_error, null);
+        final Button btnPushError = (Button) promptView.findViewById(R.id.btn_push_err);
+        btnPushError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });*/
+
     }
 
     int intProcesscancel = 0;

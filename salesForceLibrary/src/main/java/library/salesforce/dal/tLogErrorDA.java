@@ -19,11 +19,11 @@ public class tLogErrorDA {
         tLogErrorData dt = new tLogErrorData();
         String CREATE_CONTACT_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
                 + dt.Property_intLogId + " TEXT PRIMARY KEY,"
-                + dt.Property_txtLogDesk + " TEXT NULL"
-                + dt.Property_dtDate + " TEXT NULL"
-                + dt.Property_txtDeviceId + " TEXT NULL"
-                + dt.Property_intSubmit + " TEXT NULL"
-                + dt.Property_intSync + " TEXT NULL"
+                + dt.Property_txtUserId + " TEXT NULL,"
+                + dt.Property_dtDate + " TEXT NULL,"
+                + dt.Property_txtDeviceId + " TEXT NULL,"
+                + dt.Property_intSubmit + " TEXT NULL,"
+                + dt.Property_intSync + " TEXT NULL,"
                 + dt.Property_txtFileName + " TEXT NULL" + ")";
         db.execSQL(CREATE_CONTACT_TABLE);
     }
@@ -41,8 +41,12 @@ public class tLogErrorDA {
         tLogErrorData dt = new tLogErrorData();
         db.execSQL("INSERT OR REPLACE into " + TABLE_NAME + " (" + dt.Property_All + ") " +
                 "values('" + String.valueOf(data.get_intLogId()) + "','"
-                + String.valueOf(data.get_intLogId()) + "','"
-                + String.valueOf(data.get_TxtLogDesk()) + "')"
+                + String.valueOf(data.get_TxtUserId()) + "','"
+                + String.valueOf(data.get_txtDeviceId()) + "','"
+                + String.valueOf(data.get_dtDate()) + "','"
+                + String.valueOf(data.get_intSubmit()) + "','"
+                + String.valueOf(data.get_intSync()) + "','"
+                + String.valueOf(data.get_txtFileName()) + "')"
         );
     }
 
@@ -57,7 +61,7 @@ public class tLogErrorDA {
             do {
                 tLogErrorData data = new tLogErrorData();
                 data.set_intLogId(cursor.getString(0));
-                data.set_txtLogDesk(cursor.getString(1));
+                data.set_txtUserId(cursor.getString(1));
             } while (cursor.moveToNext());
         }
         cursor.close();
