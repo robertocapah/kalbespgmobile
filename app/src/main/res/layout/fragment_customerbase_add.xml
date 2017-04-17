@@ -132,7 +132,7 @@
                 android:background="@drawable/bg_edtext"
                 android:maxLength="100"
                 android:clickable="true"
-                android:hint="Not set"
+                android:hint=""
                 android:drawableRight="@drawable/ic_date_range_black_24dp"
                 android:editable="false"
                 android:singleLine="true" />
