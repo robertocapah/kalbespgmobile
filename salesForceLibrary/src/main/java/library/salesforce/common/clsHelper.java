@@ -83,7 +83,7 @@ public class clsHelper {
 		 return randomUUIDString;
 	 }
 
-	public String PushErrorFile(String urlToRead, String DataJson,Integer intTimeOut,HashMap<String,byte[]> ListOfDataFile){
+	public String PushErrorFile(String urlToRead, String DataJson,Integer intTimeOut,HashMap<String,String> ListOfDataFile){
 		String charset = "UTF-8";
 		File uploadFile1 = null;
 		String requestURL = urlToRead;
@@ -100,15 +100,15 @@ public class clsHelper {
 			multipart.addFormField("dataField",DataJson);
 			//multipart.addFormField("keywords", "Java,upload,Spring");
 
-			for(Entry<String, byte[]> entry : ListOfDataFile.entrySet()) {
+			for(Entry<String, String> entry : ListOfDataFile.entrySet()) {
 				String key = entry.getKey();
 //                String value = entry.getValue();
 
-				byte [] array = entry.getValue();
+//				byte [] array = entry.getValue();
 				File file = new File(_path.txtPathApp + "log_17-04-2017.txt");
-				FileOutputStream out = new FileOutputStream( file );
-				out.write( array );
-				out.close();
+//				FileOutputStream out = new FileOutputStream( file );
+//				out.write( array );
+//				out.close();
 
 				multipart.addFilePart(key, new File(file.getAbsolutePath()));
 			}
@@ -123,21 +123,21 @@ public class clsHelper {
 			System.err.println(ex);
 		}
 
-		if (folder.isDirectory())
-		{
-			String[] children = folder.list();
-			for (int i = 0; i < children.length; i++)
-			{
-				new File(folder, children[i]).delete();
-			}
-			folder.delete();
-		}
+//		if (folder.isDirectory())
+//		{
+//			String[] children = folder.list();
+//			for (int i = 0; i < children.length; i++)
+//			{
+//				new File(folder, children[i]).delete();
+//			}
+//			folder.delete();
+//		}
 		return _clsClsHelper.ResultJsonData(Result);
 	}
 
 	public String PushDataWithFile(String urlToRead,String DataJson,Integer intTimeOut,HashMap<String,byte[]> ListOfDataFile){
 		String charset = "UTF-8";
-	    
+
         String requestURL = urlToRead;
         String Result="";
         clsHelper _clsClsHelper = new clsHelper();
@@ -147,10 +147,10 @@ public class clsHelper {
 
         try {
             MultipartUtility multipart = new MultipartUtility(requestURL, charset,intTimeOut);
-             
+
             //multipart.addHeaderField("User-Agent", "CodeJava");
             //multipart.addHeaderField("DataHeader", DataJson);
-             
+
             multipart.addFormField("dataField",DataJson);
             //multipart.addFormField("keywords", "Java,upload,Spring");
 
@@ -168,7 +168,7 @@ public class clsHelper {
             }
             List<String> response = multipart.finish();
             //System.out.println("SERVER REPLIED:");
-             
+
             for (String line : response) {
             	Result+=line;
                 System.out.println(line);
@@ -194,38 +194,38 @@ public class clsHelper {
 		File uploadFile1 = null;
 		File uploadFile2 = null;
 		if(File1.contains("file:")){
-			uploadFile1 = new File(File1.substring(7));	
+			uploadFile1 = new File(File1.substring(7));
 		}
-        
+
         if(File2.contains("file:")){
-        	uploadFile2 = new File(File2.substring(7));	
+        	uploadFile2 = new File(File2.substring(7));
         }
-        
+
         String requestURL = urlToRead;
         String Result="";
         clsHelper _clsClsHelper = new clsHelper();
         try {
             MultipartUtility multipart = new MultipartUtility(requestURL, charset,intTimeOut);
-             
+
             multipart.addHeaderField("User-Agent", "CodeJava");
             multipart.addHeaderField("DataHeader", DataJson);
-             
+
             multipart.addFormField("dataField",DataJson);
             multipart.addFormField("keywords", "Java,upload,Spring");
             if(uploadFile1 != null){
             	if(uploadFile1.exists()){
-                	multipart.addFilePart("fileUpload1", uploadFile1);	
-                }	
+                	multipart.addFilePart("fileUpload1", uploadFile1);
+                }
             }
             if(uploadFile2 != null){
             	if(uploadFile2.exists()){
-                	multipart.addFilePart("fileUpload2", uploadFile2);	
-                }	
+                	multipart.addFilePart("fileUpload2", uploadFile2);
+                }
             }
             List<String> response = multipart.finish();
-             
+
             System.out.println("SERVER REPLIED:");
-             
+
             for (String line : response) {
             	Result+=line;
                 System.out.println(line);
@@ -276,7 +276,7 @@ public class clsHelper {
 	      }
 	      return result;
 	   }
-	
+
 	public void DeleteAllDB(SQLiteDatabase db){
 		tUserLoginDA _tUserLoginDA=new tUserLoginDA(db);
 		tSalesProductHeaderDA _tSalesProductHeaderDA=new tSalesProductHeaderDA(db);
@@ -372,16 +372,16 @@ public class clsHelper {
 		_tLogErrorDA = new tLogErrorDA(db);
 		clsHardCode clsdthc=new clsHardCode();
 		clsHelper _clsHelper=new clsHelper();
-		File dir = new File(clsdthc.txtPathUserData); 
+		File dir = new File(clsdthc.txtPathUserData);
 		_clsHelper.DeleteRecursive(dir);
 		mconfigDA _mconfigDA = new mconfigDA(db);
 		int sumdata = _mconfigDA.getContactsCount(db);
 		if (sumdata == 0) {
 			_mconfigDA.InsertDefaultMconfig(db);
 		}
-		
+
 	}
-	
+
 	public String ResultJsonData(String dt){
 		return dt.substring(16,dt.length()-2);
 	}
@@ -472,7 +472,7 @@ public class clsHelper {
 	public void createFolderApp(){
 		clsHardCode clsdthc = new clsHardCode();
 		File appDir=new File(clsdthc.txtPathApp);
-		if(!appDir.exists() && !appDir.isDirectory()) 
+		if(!appDir.exists() && !appDir.isDirectory())
 	    {
 	        // create empty directory
 	        if (appDir.mkdirs())
@@ -496,9 +496,9 @@ public class clsHelper {
 		Long num0x= (long) 0 ;
 
 		if(itemID.contains("0")){
-			num0x = Long.valueOf(itemID.substring(itemID.indexOf("0")));	
+			num0x = Long.valueOf(itemID.substring(itemID.indexOf("0")));
 		}else{
-			num0x = Long.valueOf(itemID);	
+			num0x = Long.valueOf(itemID);
 		}
 		String second = split[0]+Separator+String.format("%0"+Length+"d", num0x + 1);
 		return second;

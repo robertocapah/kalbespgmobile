@@ -92,7 +92,7 @@ public class clsHelperBL extends clsMainBL {
         String ErrorMess = "";
         clsHelper _clsHelper = new clsHelper();
     }
-    public org.json.simple.JSONArray callPushErrorReturnJson(String versionName, String strJson, HashMap<String, byte[]> ListOfDataFile) throws Exception {
+    public org.json.simple.JSONArray callPushErrorReturnJson(String versionName, String strJson, HashMap<String, String> ListOfDataFile) throws Exception {
         SQLiteDatabase _db = getDb();
         Boolean flag = true;
         String ErrorMess = "";
@@ -103,9 +103,9 @@ public class clsHelperBL extends clsMainBL {
         dtlinkAPI.set_txtMethod(txtMethod);
         tUserLoginDA _tUserLoginDA = new tUserLoginDA(_db);
         tUserLoginData _dataUserLogin = _tUserLoginDA.getData(_db, 1);
-        dtlinkAPI.set_txtParam(_dataUserLogin.get_txtUserId() + "|||");
-        dtlinkAPI.set_txtToken(new clsHardCode().txtTokenAPI);
-        dtlinkAPI.set_txtVesion(versionName);
+//        dtlinkAPI.set_txtParam(_dataUserLogin.get_txtUserId() + "|||");
+//        dtlinkAPI.set_txtToken(new clsHardCode().txtTokenAPI);
+//        dtlinkAPI.set_txtVesion(versionName);
         String strVal2 = "";
         mconfigDA _mconfigDA = new mconfigDA(_db);
         mconfigData dataAPI = _mconfigDA.getData(db, enumConfigData.ApiKalbe.getidConfigData());
@@ -116,7 +116,7 @@ public class clsHelperBL extends clsMainBL {
         dataAPI = _mconfigDA.getData(_db, enumConfigData.BackGroundServiceOnline.getidConfigData());
         String TimeOut = dataAPI.get_txtValue();
         String strLinkAPI = dtlinkAPI.QueryString(strVal2);
-        String JsonData = _help.PushDataWithFile(strLinkAPI, strJson, Integer.valueOf(TimeOut), ListOfDataFile);
+        String JsonData = _help.PushErrorFile(strLinkAPI, strJson, Integer.valueOf(TimeOut), ListOfDataFile);
         //String JsonData= _help.ResultJsonData(_help.getHTML(strLinkAPI));
         org.json.simple.JSONArray JsonArray = _help.ResultJsonArray(JsonData);
         APIData dtAPIDATA = new APIData();
