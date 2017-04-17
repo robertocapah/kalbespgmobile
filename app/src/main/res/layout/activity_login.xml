@@ -117,6 +117,19 @@
                 android:textColor="@color/colorForgotPass"
                 android:textStyle="italic|bold" />
 
+            <TextView
+                android:id="@+id/tv_push_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:clickable="true"
+                android:text="Report Error"
+                android:textColor="@color/red"
+                android:textStyle="italic|bold"
+                android:background="@drawable/bg_edtext"/>
+
             <Button
                 android:id="@+id/buttonLogin"
                 android:layout_width="match_parent"

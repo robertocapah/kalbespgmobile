@@ -21,6 +21,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import bl.tLogErrorBL;
+import library.salesforce.common.tLogErrorData;
 import library.salesforce.dal.clsHardCode;
 
 /**
@@ -43,6 +45,20 @@ public class LocalReportSender implements ReportSender {
         crashReport = null;
         try {
             crashReport = new FileWriter(logFile, true);
+            String idData = new tLogErrorData().Property_intLogId;
+            tLogErrorData _tLogErrorData = new tLogErrorData();
+            if (_tLogErrorData.get_intLogId()!=null){
+                _tLogErrorData.set_intLogId(idData);
+            }else{
+                _tLogErrorData.set_intLogId(new clsMainActivity().GenerateGuid());
+            }
+
+            _tLogErrorData.set_txtFileName(fileName);
+            _tLogErrorData.set_dtDate(new Date().toString());
+            _tLogErrorData.set_txtUserId("test");
+            _tLogErrorData.set_intSubmit("1");
+
+            new tLogErrorBL().saveData(_tLogErrorData);
 
         } catch (IOException e) {
             e.printStackTrace();

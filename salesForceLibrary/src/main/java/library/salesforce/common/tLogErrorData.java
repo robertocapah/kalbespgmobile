@@ -6,7 +6,7 @@ package library.salesforce.common;
 
 public class tLogErrorData {
     private String _intLogId;
-    private String _txtLogDesk;
+    private String _txtUserId;
     private String _dtDate;
     private String _txtDeviceId;
     private String _intSubmit;
@@ -14,13 +14,13 @@ public class tLogErrorData {
     private String _txtFileName;
 
     public String Property_intLogId = "intLogId";
-    public String Property_txtLogDesk = "txtLogDesk";
+    public String Property_txtUserId = "txtLogUserId";
     public String Property_txtDeviceId = "txtDeviceId";
     public String Property_dtDate = "dtDate";
     public String Property_intSubmit = "intSubmit";
     public String Property_intSync = "intSync";
     public String Property_txtFileName = "txtFileName";
-    public String Property_All = Property_intLogId + "," + Property_txtLogDesk + "," + Property_txtDeviceId + "," + Property_dtDate + "," + Property_intSubmit + "," + Property_intSync + "," + Property_txtFileName;
+    public String Property_All = Property_intLogId + "," + Property_txtUserId + "," + Property_txtDeviceId + "," + Property_dtDate + "," + Property_intSubmit + "," + Property_intSync + "," + Property_txtFileName;
 
     public String get_intLogId() {
         return _intLogId;
@@ -30,12 +30,12 @@ public class tLogErrorData {
         this._intLogId = _intLogId;
     }
 
-    public String get_TxtLogDesk() {
-        return _txtLogDesk;
+    public String get_TxtUserId() {
+        return _txtUserId;
     }
 
-    public void set_txtLogDesk(String _txtLogDesk) {
-        this._txtLogDesk = _txtLogDesk;
+    public void set_txtUserId(String _txtUserId) {
+        this._txtUserId = _txtUserId;
     }
 
     public String get_dtDate() {
