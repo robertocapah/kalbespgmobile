@@ -70,7 +70,7 @@
     <string name="button_sertting_ubah_password">Ubah</string>
     <string name="error_advice">Your system has been detected some errors, my developers need this information. please push button below to send the errors</string>
 
-    <string name="crash_toast_text">Wadawww aww ! Your Application has Stopped, but a report has been sent to my developer to help fix the issue !</string>
+    <string name="crash_toast_text">ups ! Your Application has Stopped, but a report has been sent to my developer to help fix the issue !</string>
 
     <string name="crash_dialog_title">SPG Mobile has crashed</string>
 <string name="crash_dialog_text">An unexpected error occurred forcing the

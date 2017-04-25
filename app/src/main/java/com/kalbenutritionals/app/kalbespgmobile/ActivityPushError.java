@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -56,6 +57,7 @@ public class ActivityPushError extends clsMainActivity {
             @Override
             public void onClick(View v) {
                 btnPush.setEnabled(false);
+                btnPush.setBackgroundColor(Color.GREEN);
                 AsyncCallRole asyncCallRole = new AsyncCallRole();
                 asyncCallRole.execute();
             }
@@ -63,6 +65,7 @@ public class ActivityPushError extends clsMainActivity {
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Push Error");
     }
 
     @Override
@@ -141,6 +144,7 @@ public class ActivityPushError extends clsMainActivity {
 //            return uploadFile(params[0]);
             return null;
         }
+        private ProgressDialog Dialog = new ProgressDialog(getApplicationContext());
 
         @Override
         protected void onPostExecute(List<tErrorLogData> tErrorLogDatas) {
@@ -172,8 +176,6 @@ public class ActivityPushError extends clsMainActivity {
             }
 
         }
-
-        private ProgressDialog Dialog = new ProgressDialog(ActivityPushError.this);
 
         @Override
         protected void onProgressUpdate(Integer... values) {

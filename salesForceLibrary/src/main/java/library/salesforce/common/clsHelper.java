@@ -54,7 +54,6 @@ import library.salesforce.dal.tCustomerBasedMobileHeaderDA;
 import library.salesforce.dal.tDeviceInfoUserDA;
 import library.salesforce.dal.tDisplayPictureDA;
 import library.salesforce.dal.tLeaveMobileDA;
-import library.salesforce.dal.tLogErrorDA;
 import library.salesforce.dal.tNotificationDA;
 import library.salesforce.dal.tSalesProductDetailDA;
 import library.salesforce.dal.tSalesProductHeaderDA;
@@ -308,7 +307,7 @@ public class clsHelper {
 		_tDisplayPictureDA = new tDisplayPictureDA(db);
 
 //		_tTestingSaveBlobDA = new tTestingSaveBlobDA(db);
-		tLogErrorDA _tLogErrorDA = new tLogErrorDA(db);
+//		tLogErrorDA _tLogErrorDA = new tLogErrorDA(db);
 
 		//_tDisplayPictureDA.DropTable(db);
 		_mProductSPGDA.DropTable(db);
@@ -337,7 +336,7 @@ public class clsHelper {
 		_mCounterNumberDA.DropTable(db);
 		_tAbsenUserDA.DropTable(db);
 		_mTypeLeaveMobileDA.DropTable(db);
-		_tLogErrorDA.DropTable(db);
+//		_tLogErrorDA.DropTable(db);
 
 		_mTypeSubmissionMobileDA = new mTypeSubmissionMobileDA(db);
 		_mProductCompetitorDA = new mProductCompetitorDA(db);
@@ -366,7 +365,7 @@ public class clsHelper {
 		_mMenuDA=new mMenuDA(db);
 		_mProductBrandHeaderDA=new mProductBrandHeaderDA(db);
 		_tNotificationDA=new tNotificationDA(db);
-		_tLogErrorDA = new tLogErrorDA(db);
+//		_tLogErrorDA = new tLogErrorDA(db);
 		clsHardCode clsdthc=new clsHardCode();
 		clsHelper _clsHelper=new clsHelper();
 		File dir = new File(clsdthc.txtPathUserData);
