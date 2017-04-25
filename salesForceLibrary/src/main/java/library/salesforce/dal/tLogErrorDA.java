@@ -20,6 +20,8 @@ public class tLogErrorDA {
         String CREATE_CONTACT_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
                 + dt.Property_intLogId + " TEXT PRIMARY KEY,"
                 + dt.Property_txtUserId + " TEXT NULL,"
+                + dt.Property_txtRoleId + " TEXT NULL,"
+                + dt.Property_txtRoleName + " TEXT NULL,"
                 + dt.Property_dtDate + " TEXT NULL,"
                 + dt.Property_txtDeviceId + " TEXT NULL,"
                 + dt.Property_intSubmit + " TEXT NULL,"
@@ -42,6 +44,8 @@ public class tLogErrorDA {
         db.execSQL("INSERT OR REPLACE into " + TABLE_NAME + " (" + dt.Property_All + ") " +
                 "values('" + String.valueOf(data.get_intLogId()) + "','"
                 + String.valueOf(data.get_TxtUserId()) + "','"
+                + String.valueOf(data.get_txtRoleId()) + "','"
+                + String.valueOf(data.get_txtRoleName()) + "','"
                 + String.valueOf(data.get_txtDeviceId()) + "','"
                 + String.valueOf(data.get_dtDate()) + "','"
                 + String.valueOf(data.get_intSubmit()) + "','"
@@ -62,6 +66,40 @@ public class tLogErrorDA {
                 tLogErrorData data = new tLogErrorData();
                 data.set_intLogId(cursor.getString(0));
                 data.set_txtUserId(cursor.getString(1));
+                data.set_txtRoleId(cursor.getString(2));
+                data.set_txtRoleName(cursor.getString(3));
+                data.set_txtDeviceId(cursor.getString(4));
+                data.set_dtDate(cursor.getString(5));
+                data.set_intSubmit(cursor.getString(6));
+                data.set_intSync(cursor.getString(7));
+                data.set_txtFileName(cursor.getString(8));
+                dataList.add(data);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return dataList;
+    }
+    public List<tLogErrorData> getPushData(SQLiteDatabase db) {
+        tLogErrorData dt = new tLogErrorData();
+        List<tLogErrorData> dataList = new ArrayList<tLogErrorData>();
+
+        String selectQuery = "SELECT " + dt.Property_All + " FROM " + TABLE_NAME;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                tLogErrorData data = new tLogErrorData();
+                data.set_intLogId(cursor.getString(0));
+                data.set_txtUserId(cursor.getString(1));
+                data.set_txtRoleId(cursor.getString(2));
+                data.set_txtRoleName(cursor.getString(3));
+                data.set_txtDeviceId(cursor.getString(4));
+                data.set_dtDate(cursor.getString(5));
+                data.set_intSubmit(cursor.getString(6));
+                data.set_intSync(cursor.getString(7));
+                data.set_txtFileName(cursor.getString(8));
+                dataList.add(data);
             } while (cursor.moveToNext());
         }
         cursor.close();

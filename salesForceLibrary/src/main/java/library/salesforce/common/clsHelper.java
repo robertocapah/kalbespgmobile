@@ -105,7 +105,7 @@ public class clsHelper {
 //                String value = entry.getValue();
 
 //				byte [] array = entry.getValue();
-				File file = new File(_path.txtPathApp + "log_17-04-2017.txt");
+				File file = new File(entry.getValue());
 //				FileOutputStream out = new FileOutputStream( file );
 //				out.write( array );
 //				out.close();

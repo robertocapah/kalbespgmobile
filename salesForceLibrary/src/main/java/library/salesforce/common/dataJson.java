@@ -10,6 +10,20 @@ import java.util.List;
 
 public class dataJson {
 
+   /* public synchronized List<tLogErrorData> getListLogErrorData(){
+        return ListLogError;
+    }
+    public synchronized void setListLogErrorData(List<tLogErrorData> listLogError){
+        ListLogError = listLogError;
+    }*/
+   public synchronized List<tLogErrorData> getListOftErrorLogData() {
+       return ListOftErrorLogData;
+   }
+
+    public synchronized void setListOftErrorLogData(List<tLogErrorData> listOftErrorLogData) {
+        ListOftErrorLogData = listOftErrorLogData;
+    }
+
     public synchronized List<tEmployeeBRWithLOBData> getListOftEmployeeBRWithLOBData() {
         return ListOftEmployeeBRWithLOBData;
     }
@@ -109,15 +123,6 @@ public class dataJson {
         ListOfmNotificationData = listOfmNotificationData;
     }
 
-    public synchronized List<tErrorLogData> getListOftErrorLogData() {
-        return ListOftErrorLogData;
-    }
-
-    public synchronized void setListOftErrorLogData(
-            List<tErrorLogData> listOftErrorLogData) {
-        ListOftErrorLogData = listOftErrorLogData;
-    }
-
     public synchronized List<tSalesProductDetailData> getListOftSalesProductDetailData() {
         return ListOftSalesProductDetailData;
     }
@@ -181,6 +186,21 @@ public class dataJson {
         JSONObject resJson = new JSONObject();
         Collection<JSONObject> itemsListJquey = new ArrayList<JSONObject>();
         try {
+            if(this.getListOftErrorLogData() != null){
+                tLogErrorData _tLogErrorData = new tLogErrorData();
+                for (tLogErrorData data : this.getListOftErrorLogData()){
+                    JSONObject item1 = new JSONObject();
+                    item1.put(_tLogErrorData.Property_intLogId, String.valueOf(data.get_intLogId()));
+                    item1.put(_tLogErrorData.Property_txtUserId, String.valueOf(data.get_TxtUserId()));
+                    item1.put(_tLogErrorData.Property_txtRoleId, String.valueOf(data.get_txtRoleId()));
+                    item1.put(_tLogErrorData.Property_txtRoleName, String.valueOf(data.get_txtRoleName()));
+                    item1.put(_tLogErrorData.Property_txtDeviceId, String.valueOf(data.get_txtDeviceId()));
+                    item1.put(_tLogErrorData.Property_txtFileName, String.valueOf(data.get_txtFileName()));
+                    itemsListJquey.add(item1);
+                }
+                resJson.put(_tLogErrorData.Property_ListLogError, new JSONArray(itemsListJquey));
+            }
+
             if (this.getListDatamConfig() != null) {
                 mconfigData dtConfig = new mconfigData();
                 for (mconfigData data : this.getListDatamConfig()) {
@@ -717,7 +737,7 @@ public class dataJson {
     private List<mEmployeeBranchData> ListOfmEmployeeBranchData;
     private List<mEmployeeSalesProductData> ListOfmEmployeeSalesProductData;
     private List<mNotificationData> ListOfmNotificationData;
-    private List<tErrorLogData> ListOftErrorLogData;
+    private List<tLogErrorData> ListOftErrorLogData;
     private List<tAbsenUserData> ListOftAbsenUserData;
     private List<mGeolocationOutletSPGData> ListOfmGeolocationOutletSPGData;
     private List<tActivityData> ListOftActivityData;
@@ -728,6 +748,13 @@ public class dataJson {
 
     private List<mProductBarcodeData> _ListOfmProductBarcodeData;
 
+    /*private List<tLogErrorData> _tLogErrorData;
+    public List<tLogErrorData> get_ListOfErrorData(){
+        return _tLogErrorData;
+    }
+    public void set_tLogErrorData(List<tLogErrorData> _tLogErrorData){
+        this._tLogErrorData = _tLogErrorData;
+    }*/
     public List<tCustomerBasedMobileHeaderData> get_ListOftCustomerBasedMobileHeaderData() {
         return _ListOftCustomerBasedMobileHeaderData;
     }
