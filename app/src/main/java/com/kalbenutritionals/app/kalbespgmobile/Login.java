@@ -404,8 +404,8 @@ public class Login extends clsMainActivity {
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int a = 2/0;
-                System.out.println(a);
+//                int a = 2/0;
+//                System.out.println(a);
                 if(etEmail.getText().toString().equals("")){
                     new clsMainActivity().setErrorMessage(getApplicationContext(), tiEmail, etEmail, "Email cannot empty");
                 }else if(!etEmail.getText().toString().equals("")){
