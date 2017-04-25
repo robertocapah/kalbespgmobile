@@ -11,10 +11,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.StrictMode;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.FileProvider;
 import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -979,6 +981,15 @@ public class Login extends clsMainActivity {
                 String txtPath = new clsHardCode().txtPathUserData + "kalbespgmobile.apk";
                 intent.setDataAndType(Uri.fromFile(new File(txtPath)), "application/vnd.android.package-archive");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    intent.setDataAndType(FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", new File(txtPath)), "application/vnd.android.package-archive");
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }else{
+                    intent.setDataAndType(Uri.fromFile(new File(txtPath)), "application/vnd.android.package-archive");
+                }
+                //intent.setDataAndType(Uri.fromFile(new File(txtPath)), "application/vnd.android.package-archive");
+
                 startActivity(intent);
             }
         }
