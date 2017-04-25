@@ -58,9 +58,11 @@ import bl.mCounterNumberBL;
 import bl.mMenuBL;
 import bl.mUserRoleBL;
 import bl.tDeviceInfoUserBL;
+import bl.tLogErrorBL;
 import bl.tUserLoginBL;
 import library.salesforce.common.mMenuData;
 import library.salesforce.common.mUserRoleData;
+import library.salesforce.common.tLogErrorData;
 import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 import library.salesforce.dal.enumConfigData;
@@ -272,11 +274,21 @@ public class Login extends clsMainActivity {
                 resetAccount();
             }
         });
+
+        List<tLogErrorData> datass = new tLogErrorBL().getAllData();
+
+        tvPushError = (TextView) findViewById(R.id.tv_push_error);
+        if(datass.size()>0 ){
+            tvPushError.setVisibility(View.VISIBLE);
+        }else{
+            tvPushError.setVisibility(View.GONE);
+        }
         tvPushError = (TextView) findViewById(R.id.tv_push_error);
         tvPushError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent pushError = new Intent(Login.this, ActivityPushError.class);
+                pushError.putExtra("status", 0);
                 startActivity(pushError);
 //                pushError();
             }

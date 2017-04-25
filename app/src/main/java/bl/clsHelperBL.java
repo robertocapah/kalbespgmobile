@@ -26,6 +26,7 @@ import library.salesforce.common.tCustomerBasedMobileDetailData;
 import library.salesforce.common.tCustomerBasedMobileDetailProductData;
 import library.salesforce.common.tCustomerBasedMobileHeaderData;
 import library.salesforce.common.tLeaveMobileData;
+import library.salesforce.common.tLogErrorData;
 import library.salesforce.common.tSalesProductDetailData;
 import library.salesforce.common.tSalesProductHeaderData;
 import library.salesforce.common.tUserLoginData;
@@ -40,6 +41,7 @@ import library.salesforce.dal.tCustomerBasedMobileDetailDA;
 import library.salesforce.dal.tCustomerBasedMobileDetailProductDA;
 import library.salesforce.dal.tCustomerBasedMobileHeaderDA;
 import library.salesforce.dal.tLeaveMobileDA;
+import library.salesforce.dal.tLogErrorDA;
 import library.salesforce.dal.tSalesProductDetailDA;
 import library.salesforce.dal.tSalesProductHeaderDA;
 import library.salesforce.dal.tUserLoginDA;
@@ -96,13 +98,13 @@ public class clsHelperBL extends clsMainBL {
         SQLiteDatabase _db = getDb();
         Boolean flag = true;
         String ErrorMess = "";
-        String txtMethod = "PushDataSPGMobile";
+        String txtMethod = "PushDataErrorSPGMobile";
         linkAPI dtlinkAPI = new linkAPI();
         clsHelper _help = new clsHelper();
         dtlinkAPI = new linkAPI();
         dtlinkAPI.set_txtMethod(txtMethod);
         tUserLoginDA _tUserLoginDA = new tUserLoginDA(_db);
-        tUserLoginData _dataUserLogin = _tUserLoginDA.getData(_db, 1);
+//        tUserLoginData _dataUserLogin = _tUserLoginDA.getData(_db, 1);
 //        dtlinkAPI.set_txtParam(_dataUserLogin.get_txtUserId() + "|||");
 //        dtlinkAPI.set_txtToken(new clsHardCode().txtTokenAPI);
 //        dtlinkAPI.set_txtVesion(versionName);
@@ -277,12 +279,37 @@ public class clsHelperBL extends clsMainBL {
         _db.close();
     }
 
+    public clsPushData pushDataError(){
+        clsPushData dtclsPushData = new clsPushData();
+        dataJson dtPush = new dataJson();
+        SQLiteDatabase db = getDb();
+        tLogErrorDA _tLogErrorDA = new tLogErrorDA(db);
+
+        List<tLogErrorData> ListOftLogError = _tLogErrorDA.getPushData(db);
+
+        if (ListOftLogError != null){
+            dtPush.setListOftErrorLogData(ListOftLogError);
+            HashMap<String, byte[]> FileUpload = new HashMap<String, byte[]>();
+            if(dtPush.getListOftErrorLogData()!= null){
+                for (tLogErrorData dttLogErrorData : ListOftLogError) {
+//                    if()
+                }
+            }
+        }else{
+            dtPush = null;
+        }
+        db.close();
+        dtclsPushData.setDtdataJson(dtPush);
+        return dtclsPushData;
+    }
+
     public clsPushData pushData() {
         clsPushData dtclsPushData = new clsPushData();
         dataJson dtPush = new dataJson();
         SQLiteDatabase db = getDb();
         tUserLoginDA _tUserLoginDA = new tUserLoginDA(db);
         HashMap<String, byte[]> FileUpload = null;
+
         if (_tUserLoginDA.getContactsCount(db) > 0) {
             tUserLoginData _tUserLoginData = _tUserLoginDA.getData(db, 1);
             dtPush.set_txtUserId(_tUserLoginData.get_txtUserId());
@@ -311,8 +338,6 @@ public class clsHelperBL extends clsMainBL {
             tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(db);
             tCustomerBasedMobileDetailDA _tCustomerBasedMobileDetailDA = new tCustomerBasedMobileDetailDA(db);
             tCustomerBasedMobileDetailProductDA _tCustomerBasedMobileDetailProductDA = new tCustomerBasedMobileDetailProductDA(db);
-
-
             List<tCustomerBasedMobileHeaderData> ListOftCustomerBasedMobileHeader = _tCustomerBasedMobileHeaderDA.getPushData(db);
             List<tCustomerBasedMobileDetailData> ListOftCustomerBasedMobileDetail = _tCustomerBasedMobileDetailDA.getPushData(db, ListOftCustomerBasedMobileHeader);
             List<tCustomerBasedMobileDetailProductData> ListOftCustomerBasedMobileDetailProduct = _tCustomerBasedMobileDetailProductDA.getPushData(db, ListOftCustomerBasedMobileDetail);

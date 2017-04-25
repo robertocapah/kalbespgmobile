@@ -18,11 +18,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import bl.tLogErrorBL;
+import bl.tUserLoginBL;
 import library.salesforce.common.tLogErrorData;
+import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 
 /**
@@ -33,32 +37,17 @@ public class LocalReportSender implements ReportSender {
 
     private final Map<ReportField, String> mMapping = new HashMap<ReportField, String>();
     private FileWriter crashReport;
-
+    Date date = new Date();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    String fileName = "log_"+dateFormat.format(date)+".txt";
     public LocalReportSender(Context ctx) {
         // the destination
-        Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        String fileName = "log_"+dateFormat.format(date)+".txt";
         File logFile = new File(new clsHardCode().txtPathApp, fileName);
-
-
         crashReport = null;
         try {
             crashReport = new FileWriter(logFile, true);
-            String idData = new tLogErrorData().Property_intLogId;
-            tLogErrorData _tLogErrorData = new tLogErrorData();
-            if (_tLogErrorData.get_intLogId()!=null){
-                _tLogErrorData.set_intLogId(idData);
-            }else{
-                _tLogErrorData.set_intLogId(new clsMainActivity().GenerateGuid());
-            }
+//            String idData = new tLogErrorBL().;
 
-            _tLogErrorData.set_txtFileName(fileName);
-            _tLogErrorData.set_dtDate(new Date().toString());
-            _tLogErrorData.set_txtUserId("test");
-            _tLogErrorData.set_intSubmit("1");
-
-            new tLogErrorBL().saveData(_tLogErrorData);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -103,6 +92,74 @@ public class LocalReportSender implements ReportSender {
                 Map.Entry<String, String> me = (Map.Entry<String, String>) i.next();
                 buf.append("[" + me.getKey() + "] = " + "'"+me.getValue()+"'").append("\n");
             }
+            /*List<tLogErrorData> dataError = new tLogErrorBL().getAllData();
+            tLogErrorData _tLogErrorData = new tLogErrorData();
+            if (dataError.size()>0){
+                for(tLogErrorData data : dataError){
+                    if(data.get_txtFileName().equals(fileName)){
+                        String id = data.get_intLogId();
+                        _tLogErrorData.set_intLogId(id);
+
+                        String roleId = data.get_txtRoleId();
+                        _tLogErrorData.set_txtRoleId(roleId);
+
+                        String roleName = data.get_txtRoleName();
+                        _tLogErrorData.set_txtRoleName(roleName);
+                    }else{
+                        _tLogErrorData.set_intLogId(new clsMainActivity().GenerateGuid());
+                    }
+                }
+
+
+            }else{
+                _tLogErrorData.set_intLogId(new clsMainActivity().GenerateGuid());
+            }
+
+            _tLogErrorData.set_txtFileName(fileName);
+            _tLogErrorData.set_dtDate(new Date().toString());*/
+          tLogErrorData _tLogErrorData = new tLogErrorData();
+            tUserLoginData dataLogin = new tUserLoginBL().getUserLogin();
+
+            if (dataLogin!=null){
+                _tLogErrorData.set_txtUserId(dataLogin.get_txtUserId());
+
+            }else{
+                _tLogErrorData.set_txtUserId("null");
+            }
+            List<tLogErrorData> dataError = new tLogErrorBL().getAllData();
+            if (dataError.size()>0){
+                for(tLogErrorData data : dataError){
+                    if(data.get_txtFileName().equals(fileName)){
+                        String id = data.get_intLogId();
+                        _tLogErrorData.set_intLogId(id);
+
+                        String roleId = data.get_txtRoleId();
+                        _tLogErrorData.set_txtRoleId(roleId);
+
+                        String roleName = data.get_txtRoleName();
+                        _tLogErrorData.set_txtRoleName(roleName);
+                    }else{
+                        _tLogErrorData.set_intLogId(GenerateGuid());
+                    }
+                }
+
+
+            }else{
+                _tLogErrorData.set_intLogId(GenerateGuid());
+            }
+//            _tLogErrorData.set_intLogId(GenerateGuid());
+            _tLogErrorData.set_intSubmit("1");
+            _tLogErrorData.set_txtFileName(fileName);
+            _tLogErrorData.set_dtDate(new Date().toString());
+            if (dataLogin!=null){
+                _tLogErrorData.set_txtRoleId(dataLogin.get_txtRoleId());
+                _tLogErrorData.set_txtUserId(dataLogin.get_txtUserId());
+                _tLogErrorData.set_txtRoleName(dataLogin.get_txtRoleName());
+                buf.append("\n").append("User  id :"+ dataLogin.get_txtUserId() );
+                buf.append("\n").append("Role  id :"+ dataLogin.get_txtRoleId() );
+                buf.append("\n").append("Role  name :"+ dataLogin.get_txtRoleName() );
+            }
+            new tLogErrorBL().saveData(_tLogErrorData);
             buf.append("\n").append("----------------*****----------------");
             buf.append("\n").append("\n");
             buf.flush();
@@ -110,5 +167,10 @@ public class LocalReportSender implements ReportSender {
         } catch (IOException e) {
             Log.e("TAG", "IO ERROR", e);
         }
+    }
+    public String GenerateGuid() {
+        UUID uuid = UUID.randomUUID();
+        String randomUUIDString = uuid.toString();
+        return randomUUIDString;
     }
 }

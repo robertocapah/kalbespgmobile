@@ -2,6 +2,7 @@ package com.kalbenutritionals.app.kalbespgmobile;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -25,8 +26,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.util.Iterator;
+import java.util.List;
 
+import bl.tLogErrorBL;
 import bl.tUserLoginBL;
+import library.salesforce.common.tLogErrorData;
 import library.salesforce.common.tUserLoginData;
 import library.salesforce.dal.clsHardCode;
 
@@ -38,7 +42,7 @@ public class FragmentSettings extends Fragment {
 
     View v;
 
-    String[] menuList = {"Ubah Password"};
+    String[] menuList = {"Ubah Password", "Push Data Error"};
     String userName, oldPassword, newPassword = "";
     private PackageInfo pInfo = null;
 
@@ -58,14 +62,23 @@ public class FragmentSettings extends Fragment {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
+        final List<tLogErrorData> datass = new tLogErrorBL().getAllData();
+        boolean push = false;
+        if (datass.size() > 0) {
+            push = true;
+        }
         ListView listView = (ListView) v.findViewById(R.id.menu_list);
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
+                if (position == 0) {
                     ubahPassword();
+                }
+                if (position == 1 && datass.size() == 0) {
+                    new clsMainActivity().showCustomToast(getContext(), "No Error", true);
+                } else if (position == 1 && datass.size() > 0) {
+                    pushError();
                 }
             }
         });
@@ -86,10 +99,18 @@ public class FragmentSettings extends Fragment {
 
         return v;
     }
+
+    private void pushError() {
+        Intent intent = new Intent(getActivity(), ActivityPushError.class);
+        intent.putExtra("status", 1);
+        startActivity(intent);
+    }
+
     int intSet1 = 1;
     int intSet2 = 1;
     int intSet3 = 1;
-    private void ubahPassword(){
+
+    private void ubahPassword() {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         final View promptView = layoutInflater.inflate(R.layout.popup_setting_ubah_password, null);
 
@@ -98,7 +119,7 @@ public class FragmentSettings extends Fragment {
         final EditText passBaru2 = (EditText) promptView.findViewById(R.id.etPassbaru2);
 
         final TextInputLayout tiPassLama = (TextInputLayout) promptView.findViewById(R.id.input_pass_lama);
-        final  TextInputLayout tiPassBaru1 = (TextInputLayout) promptView.findViewById(R.id.input_pass_baru1);
+        final TextInputLayout tiPassBaru1 = (TextInputLayout) promptView.findViewById(R.id.input_pass_baru1);
         final TextInputLayout tiPassBaru2 = (TextInputLayout) promptView.findViewById(R.id.input_pass_baru2);
 
         passLama.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(passLama) {
@@ -142,7 +163,6 @@ public class FragmentSettings extends Fragment {
         });
 
 
-
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
         alertBuilder.setView(promptView);
         alertBuilder.setCancelable(false)
@@ -157,7 +177,7 @@ public class FragmentSettings extends Fragment {
                                 dialog.cancel();
                             }
                         });
-    final AlertDialog alertDialog = alertBuilder.create();
+        final AlertDialog alertDialog = alertBuilder.create();
         alertDialog.show();
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,24 +186,24 @@ public class FragmentSettings extends Fragment {
                 new clsMainActivity().removeErrorMessage(tiPassBaru1);
                 new clsMainActivity().removeErrorMessage(tiPassBaru2);
 
-                boolean validate = true ;
-                if (passLama.getText().toString().equals("")){
+                boolean validate = true;
+                if (passLama.getText().toString().equals("")) {
                     validate = false;
                     new clsMainActivity().setErrorMessage(getContext(), tiPassLama, passLama, "Password lama wajib di isi");
                 }
-                if (passBaru1.getText().toString().equals("")){
+                if (passBaru1.getText().toString().equals("")) {
                     validate = false;
                     new clsMainActivity().setErrorMessage(getContext(), tiPassBaru1, passBaru1, "Password baru wajib di isi");
                 }
-                if (passBaru2.getText().toString().equals("")){
+                if (passBaru2.getText().toString().equals("")) {
                     new clsMainActivity().setErrorMessage(getContext(), tiPassBaru2, passBaru2, "Ulangi password baru wajib di isi");
                     validate = false;
-                }else if (!passBaru1.getText().toString().equals(passBaru2.getText().toString()) && !passBaru2.getText().toString().equals("")){
+                } else if (!passBaru1.getText().toString().equals(passBaru2.getText().toString()) && !passBaru2.getText().toString().equals("")) {
                     new clsMainActivity().setErrorMessage(getContext(), tiPassBaru2, passBaru2, "Password baru tidak sama");
                     validate = false;
                 }
 
-                if(validate){
+                if (validate) {
                     oldPassword = passLama.getText().toString();
                     newPassword = passBaru1.getText().toString();
                     AsyncCallChangePassword task = new AsyncCallChangePassword();
@@ -196,36 +216,39 @@ public class FragmentSettings extends Fragment {
     }
 
     int intProcesscancel = 0;
+
     private class AsyncCallChangePassword extends AsyncTask<JSONArray, Void, JSONArray> {
         @Override
         protected JSONArray doInBackground(JSONArray... params) {
 //            android.os.Debug.waitForDebugger();
-            JSONArray Json=null;
+            JSONArray Json = null;
             try {
-                Json= new tUserLoginBL().changePassword(String.valueOf(userName), oldPassword, newPassword, pInfo.versionName);
+                Json = new tUserLoginBL().changePassword(String.valueOf(userName), oldPassword, newPassword, pInfo.versionName);
             } catch (ParseException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            return Json ;
+            return Json;
         }
 
         private ProgressDialog Dialog = new ProgressDialog(getContext());
+
         @Override
         protected void onCancelled() {
             Dialog.dismiss();
             new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessCancelRequest, false);
         }
+
         @Override
         protected void onPostExecute(JSONArray roledata) {
-            if ( roledata!=null&&roledata.size() > 0){
+            if (roledata != null && roledata.size() > 0) {
                 Iterator i = roledata.iterator();
                 while (i.hasNext()) {
                     JSONObject innerObj = (JSONObject) i.next();
-                    Long IntResult=(Long) innerObj.get("_pboolValid");
-                    String PstrMessage=(String) innerObj.get("_pstrMessage");
+                    Long IntResult = (Long) innerObj.get("_pboolValid");
+                    String PstrMessage = (String) innerObj.get("_pstrMessage");
 
-                    if(IntResult == 1){
+                    if (IntResult == 1) {
 //                        tUserLoginData _tUserLoginData=new tUserLoginData();
 //                        new mCounterNumberBL().saveDateTimeServer((String) innerObj.get("DatetimeNow"));
 //                        _tUserLoginData.set_intId(1);
@@ -282,15 +305,15 @@ public class FragmentSettings extends Fragment {
 //                        myIntent.putExtra("keyMainMenu", "main_menu");
 //                        startActivity(myIntent);
                         new clsMainActivity().showCustomToast(getContext(), PstrMessage, true);
-                    }else{
+                    } else {
                         new clsMainActivity().showCustomToast(getContext(), PstrMessage, false);
                     }
                 }
 
-            }else{
-                if(intProcesscancel==1){
+            } else {
+                if (intProcesscancel == 1) {
                     onCancelled();
-                }else{
+                } else {
                     new clsMainActivity().showCustomToast(getContext(), new clsHardCode().txtMessNetworkOffline, false);
                 }
 
@@ -307,7 +330,7 @@ public class FragmentSettings extends Fragment {
             Dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    intProcesscancel=1;
+                    intProcesscancel = 1;
                 }
             });
             Dialog.show();

@@ -82,7 +82,7 @@ import library.salesforce.dal.tSalesProductDetailDA;
 
 public class FragmentDownloadData extends Fragment {
     View v;
-
+    int a = 10/0;
     private Button btnBranch;
     private Spinner spnBranch;
     private Button btnOutlet;
