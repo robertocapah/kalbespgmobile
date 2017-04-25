@@ -298,7 +298,6 @@ public class clsHelper {
 		mPriceInOutletDA _mPriceInOutletDA=new mPriceInOutletDA(db);
 		mProductBarcodeDA _mProductBarcodeDA=new mProductBarcodeDA(db);
 		tDisplayPictureDA _tDisplayPictureDA = new tDisplayPictureDA(db);
-//		tTestingSaveBlobDA _tTestingSaveBlobDA = new tTestingSaveBlobDA(db);
 		mTypeSubmissionMobileDA _mTypeSubmissionMobileDA = new mTypeSubmissionMobileDA(db);
 		mProductCompetitorDA _mProductCompetitorDA = new mProductCompetitorDA(db);
 		mProductSPGDA _mProductSPGDA = new mProductSPGDA(db);
@@ -312,7 +311,6 @@ public class clsHelper {
 		tLogErrorDA _tLogErrorDA = new tLogErrorDA(db);
 
 		//_tDisplayPictureDA.DropTable(db);
-//		_tTestingSaveBlobDA.DropTable(db);
 		_mProductSPGDA.DropTable(db);
 		_mProductPICDA.DropTable(db);
 		_mTypeSubmissionMobileDA.DropTable(db);
@@ -341,7 +339,6 @@ public class clsHelper {
 		_mTypeLeaveMobileDA.DropTable(db);
 		_tLogErrorDA.DropTable(db);
 
-//		_tTestingSaveBlobDA = new tTestingSaveBlobDA(db);
 		_mTypeSubmissionMobileDA = new mTypeSubmissionMobileDA(db);
 		_mProductCompetitorDA = new mProductCompetitorDA(db);
 		_mProductSPGDA = new mProductSPGDA(db);
