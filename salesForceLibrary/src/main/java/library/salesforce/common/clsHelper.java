@@ -137,44 +137,45 @@ public class clsHelper {
 	public String PushDataWithFile(String urlToRead,String DataJson,Integer intTimeOut,HashMap<String,byte[]> ListOfDataFile){
 		String charset = "UTF-8";
 
-        String requestURL = urlToRead;
-        String Result="";
-        clsHelper _clsClsHelper = new clsHelper();
+		String requestURL = urlToRead;
+		String Result="";
+		clsHelper _clsClsHelper = new clsHelper();
+		clsHardCode _clsHardCode = new clsHardCode();
 
-        File folder = new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/SPG.MOBILE/tempdata");
-        folder.mkdir();
+		File folder = new File(_clsHardCode.txtPathTempData);
+		folder.mkdir();
 
-        try {
-            MultipartUtility multipart = new MultipartUtility(requestURL, charset,intTimeOut);
+		try {
+			MultipartUtility multipart = new MultipartUtility(requestURL, charset,intTimeOut);
 
-            //multipart.addHeaderField("User-Agent", "CodeJava");
-            //multipart.addHeaderField("DataHeader", DataJson);
+			//multipart.addHeaderField("User-Agent", "CodeJava");
+			//multipart.addHeaderField("DataHeader", DataJson);
 
-            multipart.addFormField("dataField",DataJson);
-            //multipart.addFormField("keywords", "Java,upload,Spring");
+			multipart.addFormField("dataField",DataJson);
+			//multipart.addFormField("keywords", "Java,upload,Spring");
 
 			for(Entry<String, byte[]> entry : ListOfDataFile.entrySet()) {
-                String key = entry.getKey();
+				String key = entry.getKey();
 //                String value = entry.getValue();
 
-                byte [] array = entry.getValue();
-                File file = File.createTempFile("image-", ".jpg", new File(Environment.getExternalStorageDirectory().toString() + "/Android/data/SPG.MOBILE/tempdata"));
-                FileOutputStream out = new FileOutputStream( file );
-                out.write( array );
-                out.close();
+				byte [] array = entry.getValue();
+				File file = File.createTempFile("image-", ".jpg", new File(_clsHardCode.txtPathTempData));
+				FileOutputStream out = new FileOutputStream( file );
+				out.write( array );
+				out.close();
 
-                multipart.addFilePart(key, new File(file.getAbsolutePath()));
-            }
-            List<String> response = multipart.finish();
-            //System.out.println("SERVER REPLIED:");
+				multipart.addFilePart(key, new File(file.getAbsolutePath()));
+			}
+			List<String> response = multipart.finish();
+			//System.out.println("SERVER REPLIED:");
 
-            for (String line : response) {
-            	Result+=line;
-                System.out.println(line);
-            }
-        } catch (IOException ex) {
-            System.err.println(ex);
-        }
+			for (String line : response) {
+				Result+=line;
+				System.out.println(line);
+			}
+		} catch (IOException ex) {
+			System.err.println(ex);
+		}
 
 		if (folder.isDirectory())
 		{

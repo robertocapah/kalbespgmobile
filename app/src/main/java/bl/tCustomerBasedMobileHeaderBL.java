@@ -210,6 +210,12 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
         return count;
     }
 
+    public int getCountAllCustomerBasedAbsenByStatusSave(String code) {
+        SQLiteDatabase _db = getDb();
+        int count = new tCustomerBasedMobileHeaderDA(_db).countCustomerBaseHomeAbsenByStatusSave(_db, code);
+        return count;
+    }
+
     public int getCountAllCustomerBasedByStatus(String status) {
         SQLiteDatabase _db = getDb();
         int count = new tCustomerBasedMobileHeaderDA(_db).countCustomerBaseHomeByStatus(_db, status);

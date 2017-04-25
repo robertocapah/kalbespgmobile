@@ -37,7 +37,7 @@ import library.salesforce.common.tUserLoginData;
 public class FragmentInformation extends Fragment implements View.OnClickListener {
 
     View v;
-    TextView tvTotalReso, tvTotalActivity, tvTotalCustomerBase, tvUsername, tvBranchOutlet, tvEmail, tv_reso1, tv_reso2, tv_act1, tv_act2, tv_cb1, tv_cb2;
+    TextView tvTotalReso, tvTotalActivity, tvTotalCustomerBase, tvUsername, tvBranchOutlet, tvEmail, tv_reso0, tv_reso1, tv_reso2, tv_act0, tv_act1, tv_act2, tv_cb0, tv_cb1, tv_cb2;
 
     @Nullable
     @Override
@@ -53,10 +53,13 @@ public class FragmentInformation extends Fragment implements View.OnClickListene
         tvUsername = (TextView) v.findViewById(R.id.tvUsername);
         tvBranchOutlet = (TextView) v.findViewById(R.id.tvBranchOutlet);
         tvEmail = (TextView) v.findViewById(R.id.tvEmail);
+        tv_reso0 = (TextView) v.findViewById(R.id.tv_reso0);
         tv_reso1 = (TextView) v.findViewById(R.id.tv_reso1);
         tv_reso2 = (TextView) v.findViewById(R.id.tv_reso2);
+        tv_act0 = (TextView) v.findViewById(R.id.tv_act0);
         tv_act1 = (TextView) v.findViewById(R.id.tv_act1);
         tv_act2 = (TextView) v.findViewById(R.id.tv_act2);
+        tv_cb0 = (TextView) v.findViewById(R.id.tv_cb0);
         tv_cb1 = (TextView) v.findViewById(R.id.tv_cb1);
         tv_cb2 = (TextView) v.findViewById(R.id.tv_cb2);
 
@@ -71,6 +74,7 @@ public class FragmentInformation extends Fragment implements View.OnClickListene
         List<tSalesProductHeaderData> dt_reso_push = null;
         List<tActivityData> dt_act_unpush = null;
         List<tActivityData> dt_act_push = null;
+        int dt_cb_save = 0;
         int dt_cb_unpush = 0;
         int dt_cb_push = 0;
 
@@ -89,6 +93,7 @@ public class FragmentInformation extends Fragment implements View.OnClickListene
             dt_act_push = new tActivityBL().getAllDataByIntSycAndOutlet("1", dtAbsen.get_txtOutletCode());
             dt_cb_unpush = new tCustomerBasedMobileHeaderBL().getCountAllCustomerBasedAbsenByStatus("0", dtAbsen.get_txtOutletCode());
             dt_cb_push = new tCustomerBasedMobileHeaderBL().getCountAllCustomerBasedAbsenByStatus("1", dtAbsen.get_txtOutletCode());
+            dt_cb_save = new tCustomerBasedMobileHeaderBL().getCountAllCustomerBasedAbsenByStatusSave(dtAbsen.get_txtOutletCode());
 
             tvTotalReso.setText(dtReso != null ? String.valueOf(dtReso.size()) : "0");
             tvTotalActivity.setText(dtActivity != null ? String.valueOf(dtActivity.size()) : "0");
@@ -109,6 +114,11 @@ public class FragmentInformation extends Fragment implements View.OnClickListene
             tv_cb1.setText(String.valueOf(dt_cb_unpush));
             tv_cb2.setText(String.valueOf(dt_cb_push));
 
+            tv_reso0.setText("0");
+            tv_act0.setText("0");
+            tv_cb0.setText(String.valueOf(dt_cb_save));
+
+
         } else {
             tvBranchOutlet.setText("Inactive");
             dtReso = new tSalesProductHeaderBL().getAllSalesProductHeader();
@@ -124,10 +134,13 @@ public class FragmentInformation extends Fragment implements View.OnClickListene
             tvTotalReso.setText("0");
             tvTotalActivity.setText("0");
             tvTotalCustomerBase.setText("0");
+            tv_reso0.setText("0");
             tv_reso1.setText("0");
             tv_reso2.setText("0");
+            tv_act0.setText("0");
             tv_act1.setText("0");
             tv_act2.setText("0");
+            tv_cb0.setText("0");
             tv_cb1.setText("0");
             tv_cb2.setText("0");
         }

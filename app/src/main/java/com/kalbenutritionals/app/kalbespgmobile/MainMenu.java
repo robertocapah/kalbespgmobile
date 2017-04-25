@@ -48,6 +48,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import bl.clsHelperBL;
+import bl.clsMainBL;
 import bl.mMenuBL;
 import bl.tAbsenUserBL;
 import bl.tDisplayPictureBL;
@@ -323,9 +324,11 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 //        List<tNotificationData> ListData=new tNotificationBL().getAllDataWillAlert("2");
 //        view.setText("1");
 
+        String linkAPI = new clsMainBL().getLinkAPI();
         SubMenu subMenuVersion = header.addSubMenu(R.id.groupVersion, 0, 3, "Version");
         try {
             subMenuVersion.add(getPackageManager().getPackageInfo(getPackageName(), 0).versionName + " \u00a9 KN-IT").setIcon(R.drawable.ic_android).setEnabled(false);
+            subMenuVersion.add(linkAPI).setIcon(R.drawable.ic_action_link).setEnabled(false);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

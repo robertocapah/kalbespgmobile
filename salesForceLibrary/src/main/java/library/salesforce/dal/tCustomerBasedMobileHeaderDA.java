@@ -409,6 +409,30 @@ public class tCustomerBasedMobileHeaderDA {
         return count;
     }
 
+    public int countCustomerBaseHomeAbsenByStatusSave(SQLiteDatabase db, String code) {
+        List<tCustomerBasedMobileHeaderData> contactList = new ArrayList<tCustomerBasedMobileHeaderData>();
+        // Select All Query
+        tCustomerBasedMobileHeaderData dt = new tCustomerBasedMobileHeaderData();
+
+        String selectQuery = "select a.intTrCustomerIdDetail, b.txtProductDetailCode,count(1) from tCustomerBasedMobileDetailProduct a left join mEmployeeSalesProduct b on a.txtProductBrandCode = b.txtBrandDetailGramCode where a.intTrCustomerIdDetail in \n" +
+                "(select d.intTrCustomerIdDetail from tCustomerBasedMobileHeader c left join tCustomerBasedMobileDetail d on c.intTrCustomerId = d.intTrCustomerId where txtSumberData='" + code + "' and c.bitActive='1' and c.intSubmit='0' and c.intSync='0') \n" +
+                "group by a.intTrCustomerIdDetail, b.txtProductDetailCode";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        int count = 0;
+
+        if (cursor.moveToFirst()) {
+            do {
+                count++;
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        // return contact list
+        return count;
+    }
+
     public List<tCustomerBasedMobileHeaderData> getAllDataByOutletCode(SQLiteDatabase db, String code) {
         List<tCustomerBasedMobileHeaderData> contactList = new ArrayList<tCustomerBasedMobileHeaderData>();
         // Select All Query
