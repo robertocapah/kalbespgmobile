@@ -46,6 +46,7 @@ import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 import library.salesforce.common.AppAdapter;
+import library.salesforce.common.AppAdapterViewCusBase;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.mTypeSubmissionMobile;
 import library.salesforce.common.tAbsenUserData;
@@ -58,7 +59,7 @@ import static android.R.attr.name;
 public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewListener {
 
     private List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
-    private AppAdapter mAdapter;
+    private AppAdapterViewCusBase mAdapter;
 
    // private SwipeMenuListView mListView2;
 
@@ -414,7 +415,7 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
         tAbsenUserData dtActive = new tAbsenUserBL().getDataCheckInActive();
 
         clsSwipeList swplist;
-        dt = new tCustomerBasedMobileHeaderBL().getAllCustomerBasedMobileHeaderByOutletCode(dtActive.get_txtOutletCode());
+        dt = new tCustomerBasedMobileHeaderBL().getAllCustomerBasedMobileHeaderByOutletCodeForView(dtActive.get_txtOutletCode());
 
         swipeList.clear();
 
@@ -431,14 +432,15 @@ public class FragmentViewCustomerBaseSPG extends Fragment implements IXListViewL
             }
             swplist = new clsSwipeList();
             swplist.set_txtTitle("SPG Id : " + dt.get(i).get_txtSubmissionId());
-            swplist.set_txtDescription("Name : " + dt.get(i).get_txtNamaDepan() + "\n" + status);
+            swplist.set_txtDescription("Name : " + dt.get(i).get_txtNamaDepan());
+            swplist.set_txtDescription2(status);
             swipeList.add(swplist);
         }
 
         clsMainActivity clsMain = new clsMainActivity();
         mListView2 = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.SwipelistView);
 
-        mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
+        mAdapter = clsMain.setListViewCusBase(getActivity().getApplicationContext(), swipeList);
         mListView2.setAdapter(mAdapter);
         mListView2.setPullRefreshEnable(true);
         mListView2.setPullLoadEnable(true);

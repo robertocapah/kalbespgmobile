@@ -60,6 +60,7 @@ import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.bean.SwipeMenuIt
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnSwipeListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.SwipeMenuCreator;
 import library.salesforce.common.AppAdapter;
+import library.salesforce.common.AppAdapterViewCusBase;
 import library.salesforce.common.clsHelper;
 import library.salesforce.common.clsRowItem;
 import library.salesforce.common.clsSwipeList;
@@ -444,6 +445,25 @@ public class clsMainActivity extends Activity {
         }
 
         mAdapter = new AppAdapter(_ctx, mAppList);
+
+        return mAdapter;
+
+    }
+
+
+    public AppAdapterViewCusBase setListViewCusBase(Context _ctx, final List<clsSwipeList> swipeList) {
+        final AppAdapterViewCusBase mAdapter;
+        PullToRefreshSwipeMenuListView mListView;
+        Handler mHandler;
+
+        List<clsSwipeList> mAppList = new ArrayList<clsSwipeList>();
+
+        for (int i = 0; i < swipeList.size(); i++) {
+            clsSwipeList getswipeList = swipeList.get(i);
+            mAppList.add(getswipeList);
+        }
+
+        mAdapter = new AppAdapterViewCusBase(_ctx, mAppList);
 
         return mAdapter;
 

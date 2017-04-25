@@ -48,7 +48,7 @@ import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.I
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.SwipeMenuCreator;
 import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
-import library.salesforce.common.AppAdapter;
+import library.salesforce.common.AppAdapterViewCusBase;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tActivityData;
@@ -58,7 +58,7 @@ import static com.kalbenutritionals.app.kalbespgmobile.R.id.textView9;
 public class FragmentViewActvitySPG extends Fragment implements IXListViewListener {
 
     private List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
-    private AppAdapter mAdapter;
+    private AppAdapterViewCusBase mAdapter;
 
     private PullToRefreshSwipeMenuListView mListView2;
 
@@ -293,18 +293,19 @@ public class FragmentViewActvitySPG extends Fragment implements IXListViewListen
             String status = dt.get(i).get_intSubmit().equals("1") && dt.get(i).get_intIdSyn().equals("1") ? "Sync" : "Submit";
             swplist = new clsSwipeList();
             swplist.set_txtTitle("Type : " + dt.get(i).get_intFlag());
-            String desc = dt.get(i).get_txtDesc() + "\n" + status;
+            String desc = dt.get(i).get_txtDesc();
             if(desc.length()>20){
                 desc = dt.get(i).get_txtDesc().substring(0,20) + "..." + "\n" + status;
             }
             swplist.set_txtDescription("Description : " + desc);
+            swplist.set_txtDescription2(status);
             swipeList.add(swplist);
         }
 
         clsMainActivity clsMain = new clsMainActivity();
         mListView2 = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.SwipelistView);
 
-        mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
+        mAdapter = clsMain.setListViewCusBase(getActivity().getApplicationContext(), swipeList);
         mListView2.setAdapter(mAdapter);
         mListView2.setPullRefreshEnable(true);
         mListView2.setPullLoadEnable(true);

@@ -73,6 +73,17 @@ public class tCustomerBasedMobileHeaderBL extends clsMainBL {
         return dt;
     }
 
+    public List<tCustomerBasedMobileHeaderData> getAllCustomerBasedMobileHeaderByOutletCodeForView(String code) {
+        SQLiteDatabase _db = getDb();
+        List<tCustomerBasedMobileHeaderData> dt;
+        tCustomerBasedMobileHeaderDA _tCustomerBasedMobileHeaderDA = new tCustomerBasedMobileHeaderDA(_db);
+        dt = _tCustomerBasedMobileHeaderDA.getAllDataByOutletCodeForView(_db, code);
+        if (dt == null) {
+            dt = new ArrayList<>(0);
+        }
+        return dt;
+    }
+
     public List<tCustomerBasedMobileHeaderData> getAllCustomerBasedMobileHeaderByOutletCodeUnsubmit(String code) {
         SQLiteDatabase _db = getDb();
         List<tCustomerBasedMobileHeaderData> dt;

@@ -37,7 +37,7 @@ import edu.swu.pulltorefreshswipemenulistview.library.pulltorefresh.interfaces.I
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.OnMenuItemClickListener;
 import edu.swu.pulltorefreshswipemenulistview.library.swipemenu.interfaces.SwipeMenuCreator;
 import edu.swu.pulltorefreshswipemenulistview.library.util.RefreshTime;
-import library.salesforce.common.AppAdapter;
+import library.salesforce.common.AppAdapterViewCusBase;
 import library.salesforce.common.clsSwipeList;
 import library.salesforce.common.tAbsenUserData;
 import library.salesforce.common.tSalesProductDetailData;
@@ -48,7 +48,7 @@ import library.salesforce.common.tSalesProductHeaderData;
  */
 public class FragmentViewResoSPG extends Fragment implements IXListViewListener {
     private static List<clsSwipeList> swipeList = new ArrayList<clsSwipeList>();
-    private AppAdapter mAdapter;
+    private AppAdapterViewCusBase mAdapter;
 
     private PullToRefreshSwipeMenuListView mListView2;
 
@@ -244,11 +244,12 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
         if(dt!=null) {
             for (int i = 0; i < dt.size(); i++) {
                 swplist = new clsSwipeList();
-                swplist.set_txtTitle(dt.get(i).get_txtNoSo());
+                swplist.set_txtTitle("No So : " + dt.get(i).get_txtNoSo());
+                swplist.set_txtDescription("Description : " + dt.get(i).get_txtKeterangan());
                 if (dt.get(i).get_intSubmit().equals("1")&&dt.get(i).get_intSync().equals("0")){
-                    swplist.set_txtDescription("Submit");
+                    swplist.set_txtDescription2("Submit");
                 } else if (dt.get(i).get_intSubmit().equals("1")&&dt.get(i).get_intSync().equals("1")){
-                    swplist.set_txtDescription("Sync");
+                    swplist.set_txtDescription2("Sync");
                 }
 
                 swipeList.add(swplist);
@@ -258,7 +259,7 @@ public class FragmentViewResoSPG extends Fragment implements IXListViewListener 
         clsMainActivity clsMain = new clsMainActivity();
 
         mListView2 = (PullToRefreshSwipeMenuListView) v.findViewById(R.id.SwipelistView);
-        mAdapter = clsMain.setList(getActivity().getApplicationContext(), swipeList);
+        mAdapter = clsMain.setListViewCusBase(getActivity().getApplicationContext(), swipeList);
         mListView2.setAdapter(mAdapter);
         mListView2.setPullRefreshEnable(true);
         mListView2.setPullLoadEnable(true);
