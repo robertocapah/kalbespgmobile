@@ -499,7 +499,7 @@ public class Login extends clsMainActivity {
                         _tUserLoginData.set_txtOutletName((String) innerObj.get("TxtOutletName"));
                         _tUserLoginData.set_txtBranchCode((String) innerObj.get("TxtBranchCode"));
                         _tUserLoginData.set_txtSubmissionID((String) innerObj.get("TxtSubmissonId"));
-                        _tUserLoginData.set_txtCheckLocation((String) innerObj.get("TDeviceInfoUser_mobile"));
+                        _tUserLoginData.set_txtCheckLocation((String) innerObj.get("IntRadius"));
 
                         String TxtSubmissonId = (String) innerObj.get("TxtSubmissonId");
                         if(TxtSubmissonId.equals("")||TxtSubmissonId==null){

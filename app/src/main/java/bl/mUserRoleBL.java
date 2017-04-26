@@ -64,7 +64,7 @@ public class mUserRoleBL extends clsMainBL{
 	public List<mUserRoleData> getRoleAndOutlet(String username, String versionApp, final Context context) throws ParseException{
 		List<mUserRoleData> Listdata=new ArrayList<mUserRoleData>();
 		linkAPI dtlinkAPI=new linkAPI();
-		String txtMethod="GetAllUserRoleByUserNameSalesInsentivePostData";
+		String txtMethod="GetAllUserRoleByUserNameSalesInsentivePostDataFPRSNew";
 		JSONObject resJson = new JSONObject();
 		resJson.put("username", username);
 		dtlinkAPI.set_txtMethod(txtMethod);

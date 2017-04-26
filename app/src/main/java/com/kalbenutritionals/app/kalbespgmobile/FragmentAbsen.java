@@ -646,8 +646,13 @@ public class FragmentAbsen extends Fragment implements ConnectionCallbacks, OnCo
                                                 float distance = locationA.distanceTo(locationB);
 
                                                 tUserLoginData checkLocation = new tUserLoginBL().getUserLogin();
-
-                                                if ((int) Math.ceil(distance) > 100 && checkLocation.get_txtCheckLocation().equals("1")) {
+                                                boolean dValidDistance = false;
+                                                if(checkLocation.get_txtCheckLocation().equals("0")){
+                                                    dValidDistance=true;
+                                                }else if(dValidDistance==false && (int) Math.ceil(distance) <= Integer.valueOf(checkLocation.get_txtCheckLocation()) ){
+                                                    dValidDistance=true;
+                                                }
+                                                if (dValidDistance==false) {
                                                     _clsMainActivity.showCustomToast(getContext(), "Failed checkin: Your location too far from outlet", false);
                                                 } else {
                                                     nameBranch = spnBranch.getSelectedItem().toString();
